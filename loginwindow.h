@@ -15,6 +15,11 @@ public:
     LoginWindow(QWidget *parent = nullptr);
     ~LoginWindow();
 
+private slots:
+    void googleLogin();
+    void vkLogin();
+    void quitApp();
+
 private:
     Ui::LoginWindow *ui;
 };

@@ -13,3 +13,18 @@ LoginWindow::~LoginWindow()
     delete ui;
 }
 
+void LoginWindow::googleLogin()
+{
+
+}
+
+void LoginWindow::vkLogin()
+{
+
+}
+
+void LoginWindow::quitApp()
+{
+    QCoreApplication::quit();
+}
+
