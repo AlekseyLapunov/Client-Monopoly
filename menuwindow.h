@@ -1,13 +1,13 @@
 #ifndef MENUWINDOW_H
 #define MENUWINDOW_H
 
-#include <QWidget>
+#include <QMainWindow>
 
 namespace Ui {
 class MenuWindow;
 }
 
-class MenuWindow : public QWidget
+class MenuWindow : public QMainWindow
 {
     Q_OBJECT
 
