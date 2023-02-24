@@ -31,12 +31,13 @@
      <widget class="QLabel" name="lChosenLobby">
       <property name="font">
        <font>
-        <family>Candara</family>
+        <family>Cambria</family>
+        <pointsize>12</pointsize>
         <bold>true</bold>
        </font>
       </property>
       <property name="text">
-       <string>TextLabel</string>
+       <string>Lobby00</string>
       </property>
      </widget>
     </item>
@@ -44,12 +45,13 @@
      <widget class="QPushButton" name="bConnect">
       <property name="font">
        <font>
-        <family>Candara</family>
-        <bold>true</bold>
+        <family>Cambria</family>
+        <pointsize>11</pointsize>
+        <bold>false</bold>
        </font>
       </property>
       <property name="text">
-       <string>PushButton</string>
+       <string>Подключиться к лобби</string>
       </property>
      </widget>
     </item>
@@ -57,11 +59,13 @@
      <widget class="QLabel" name="lNickname">
       <property name="font">
        <font>
-        <family>Candara</family>
+        <family>Cambria</family>
+        <pointsize>12</pointsize>
+        <bold>true</bold>
        </font>
       </property>
       <property name="text">
-       <string>TextLabel</string>
+       <string>Nickname</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -72,11 +76,13 @@
      <widget class="QLabel" name="lRpCount">
       <property name="font">
        <font>
-        <family>Candara</family>
+        <family>Cambria</family>
+        <pointsize>12</pointsize>
+        <bold>true</bold>
        </font>
       </property>
       <property name="text">
-       <string>TextLabel</string>
+       <string>0 RP</string>
       </property>
      </widget>
     </item>
@@ -84,12 +90,13 @@
      <widget class="QPushButton" name="bRankedSearch">
       <property name="font">
        <font>
-        <family>Candara</family>
-        <bold>true</bold>
+        <family>Cambria</family>
+        <pointsize>11</pointsize>
+        <bold>false</bold>
        </font>
       </property>
       <property name="text">
-       <string>PushButton</string>
+       <string>Найти рейтинговую игру</string>
       </property>
      </widget>
     </item>
@@ -97,12 +104,13 @@
      <widget class="QPushButton" name="bCreateLobby">
       <property name="font">
        <font>
-        <family>Candara</family>
-        <bold>true</bold>
+        <family>Cambria</family>
+        <pointsize>11</pointsize>
+        <bold>false</bold>
        </font>
       </property>
       <property name="text">
-       <string>PushButton</string>
+       <string>Создать лобби</string>
       </property>
      </widget>
     </item>
@@ -125,11 +133,11 @@
       </property>
       <property name="font">
        <font>
-        <family>Candara</family>
+        <family>Cambria</family>
        </font>
       </property>
       <property name="maxLength">
-       <number>15</number>
+       <number>20</number>
       </property>
       <property name="placeholderText">
        <string>Введите название лобби...</string>
@@ -151,29 +159,80 @@
     <property name="title">
      <string>Меню</string>
     </property>
-    <addaction name="action"/>
-    <addaction name="action_2"/>
+    <addaction name="aChangeAcc"/>
+    <addaction name="separator"/>
+    <addaction name="aQuitApp"/>
    </widget>
-   <widget class="QMenu" name="menu_2">
+   <widget class="QMenu" name="settings">
     <property name="title">
      <string>Настройки</string>
     </property>
+    <addaction name="aNickname"/>
+    <addaction name="aDiceIf3D"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>Справка</string>
+    </property>
+    <addaction name="aAbout"/>
    </widget>
    <addaction name="menu"/>
+   <addaction name="settings"/>
    <addaction name="menu_2"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="action">
+  <action name="aChangeAcc">
    <property name="text">
-    <string>Выйти из аккаунта</string>
+    <string>Сменить аккаунт</string>
    </property>
   </action>
-  <action name="action_2">
+  <action name="aQuitApp">
    <property name="text">
     <string>Выйти из приложения</string>
    </property>
   </action>
+  <action name="aDiceIf3D">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Игровые кубики в 3D</string>
+   </property>
+  </action>
+  <action name="aNickname">
+   <property name="text">
+    <string>Указать псевдоним</string>
+   </property>
+  </action>
+  <action name="aAbout">
+   <property name="text">
+    <string>О приложении</string>
+   </property>
+  </action>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>aQuitApp</sender>
+   <signal>triggered()</signal>
+   <receiver>MenuWindow</receiver>
+   <slot>quitApp()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>quitApp()</slot>
+ </slots>
 </ui>

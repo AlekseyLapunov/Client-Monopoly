@@ -13,33 +13,27 @@ LoginWindow::~LoginWindow()
     delete ui;
 }
 
-void LoginWindow::sharePointers(ServerCommunicator *pServer, UserMetaInfo *pUser)
-{
-    this->pServer = pServer;
-    this->pUser = pUser;
-}
-
 void LoginWindow::googleLogin()
 {
-    if(!pServer->doGoogleLogin())
+    if(!pServer->get()->doGoogleLogin())
     {
         // Error logining through Google
     }
     else
     {
-        openMenuWindow();
+        switchToMenuWindow();
     }
 }
 
 void LoginWindow::vkLogin()
 {
-    if(!pServer->doVkLogin())
+    if(!pServer->get()->doVkLogin())
     {
         // Error logining through Vk
     }
     else
     {
-        openMenuWindow();
+        switchToMenuWindow();
     }
 }
 
@@ -48,8 +42,9 @@ void LoginWindow::quitApp()
     QCoreApplication::quit();
 }
 
-void LoginWindow::openMenuWindow()
+void LoginWindow::switchToMenuWindow()
 {
-    //this->close();
+    this->hide();
+    menuWindow->show();
 }
 

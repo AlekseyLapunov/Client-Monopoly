@@ -1,17 +1,15 @@
 #ifndef LOGINWINDOW_H
 #define LOGINWINDOW_H
 
-#include "helpers/servercommunicator.h"
-#include "helpers/usermetainfo.h"
-#include "userinterface/menuwindow.h"
+#include "helpers/basewin.h"
+#include "menuwindow.h"
 
 #include <QWidget>
+#include <QCoreApplication>
 
-QT_BEGIN_NAMESPACE
 namespace Ui { class LoginWindow; }
-QT_END_NAMESPACE
 
-class LoginWindow : public QWidget
+class LoginWindow : public QWidget, public BaseWin
 {
     Q_OBJECT
 
@@ -19,20 +17,17 @@ public:
     LoginWindow(QWidget *parent = nullptr);
     ~LoginWindow();
 
-    void sharePointers(ServerCommunicator *pServer, UserMetaInfo *pUser);
-
 private slots:
     void googleLogin();
     void vkLogin();
     void quitApp();
 
 private:
+    void switchToMenuWindow();
+
+private:
     Ui::LoginWindow *ui;
-
-    UserMetaInfo *pUser = nullptr;
-    ServerCommunicator *pServer = nullptr;
-
-    void openMenuWindow();
+    unique_ptr<MenuWindow> menuWindow {new MenuWindow()};
 
 };
 #endif // LOGINWINDOW_H
