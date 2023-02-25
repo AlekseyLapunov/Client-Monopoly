@@ -1,11 +1,18 @@
 #include "userinterface/loginwindow.h"
 #include "ui_loginwindow.h"
 
-LoginWindow::LoginWindow(QWidget *parent)
+LoginWindow::LoginWindow(unique_ptr<ServerCommunicator> *newServerPtr,
+                         unique_ptr<UserMetaInfo> *newMetaInfoPtr,
+                         QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::LoginWindow)
 {
+    setupPointers(*newServerPtr, *newMetaInfoPtr);
+
     ui->setupUi(this);
+
+    connect(menuWindow.get(), &MenuWindow::goToLoginWindow,
+            this, &LoginWindow::show);
 }
 
 LoginWindow::~LoginWindow()
@@ -15,26 +22,12 @@ LoginWindow::~LoginWindow()
 
 void LoginWindow::googleLogin()
 {
-    if(!pServer->get()->doGoogleLogin())
-    {
-        // Error logining through Google
-    }
-    else
-    {
-        switchToMenuWindow();
-    }
+    baseLogin(LoginWindow::google);
 }
 
 void LoginWindow::vkLogin()
 {
-    if(!pServer->get()->doVkLogin())
-    {
-        // Error logining through Vk
-    }
-    else
-    {
-        switchToMenuWindow();
-    }
+    baseLogin(LoginWindow::vk);
 }
 
 void LoginWindow::quitApp()
@@ -42,9 +35,28 @@ void LoginWindow::quitApp()
     QCoreApplication::quit();
 }
 
+void LoginWindow::baseLogin(serviceFlag flag)
+{
+    try
+    {
+        pUserMetaInfo()->get()->setHostInfo
+            (
+                    flag == LoginWindow::google ? pServer()->get()->doGoogleLogin()
+                                                : pServer()->get()->doVkLogin()
+            );
+    }
+    catch(const std::exception &e)
+    {
+        QMessageBox::critical(this, this->windowTitle(), tr("Не удалось войти: %1").arg(e.what()));
+        return;
+    }
+    switchToMenuWindow();
+}
+
 void LoginWindow::switchToMenuWindow()
 {
     this->hide();
-    menuWindow->show();
+    menuWindow.get()->windowDataRefresh();
+    menuWindow.get()->show();
 }
 

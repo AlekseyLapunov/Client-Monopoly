@@ -15,8 +15,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    unique_ptr<LoginWindow> loginWindow(new LoginWindow());
-    loginWindow->sharePointers(server, userMeta);
+    unique_ptr<LoginWindow> loginWindow(new LoginWindow(&server, &userMeta));
     loginWindow->show();
 
     return a.exec();

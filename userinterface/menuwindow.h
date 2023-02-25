@@ -17,11 +17,19 @@ class MenuWindow : public QMainWindow, public BaseWin
     Q_OBJECT
 
 public:
-    explicit MenuWindow(QWidget *parent = nullptr);
+    explicit MenuWindow(unique_ptr<ServerCommunicator> *newServerPtr,
+                        unique_ptr<UserMetaInfo> *newMetaInfoPtr,
+                        QWidget *parent = nullptr);
     ~MenuWindow();
+
+    void windowDataRefresh();
+
+signals:
+    void goToLoginWindow();
 
 private slots:
     void quitApp();
+    void changeAcc();
 
 private:
     Ui::MenuWindow *ui;

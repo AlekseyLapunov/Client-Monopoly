@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Главное меню</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -231,8 +231,25 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>aChangeAcc</sender>
+   <signal>triggered()</signal>
+   <receiver>MenuWindow</receiver>
+   <slot>changeAcc()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>quitApp()</slot>
+  <slot>changeAcc()</slot>
  </slots>
 </ui>

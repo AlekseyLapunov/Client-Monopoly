@@ -3,21 +3,21 @@
 
 #include <QString>
 
+#include "helperstructs.h"
+
 class UserMetaInfo
 {
 public:
     UserMetaInfo();
 
-
-    QString name() const;
-    void setName(const QString &newName);
-
-    int rpCount() const;
-    void setRpCount(int newRpCount);
+    HostUserData getHostInfo();
+    void setHostInfo(HostUserData newHostInfo);
 
 private:
-    QString m_name;
-    int m_rpCount;
+    void resetHostInfo();
+
+private:
+    HostUserData m_hostInfo;
 
 };
 

@@ -1,20 +1,26 @@
 #ifndef LOGINWINDOW_H
 #define LOGINWINDOW_H
 
-#include "helpers/basewin.h"
-#include "menuwindow.h"
-
 #include <QWidget>
 #include <QCoreApplication>
 
+#include "helpers/basewin.h"
+#include "menuwindow.h"
+
+using std::function;
+
 namespace Ui { class LoginWindow; }
+
+typedef short int serviceFlag;
 
 class LoginWindow : public QWidget, public BaseWin
 {
     Q_OBJECT
 
 public:
-    LoginWindow(QWidget *parent = nullptr);
+    LoginWindow(unique_ptr<ServerCommunicator> *newServerPtr,
+                unique_ptr<UserMetaInfo> *newMetaInfoPtr,
+                QWidget *parent = nullptr);
     ~LoginWindow();
 
 private slots:
@@ -23,11 +29,14 @@ private slots:
     void quitApp();
 
 private:
+    void baseLogin(serviceFlag flag);
     void switchToMenuWindow();
 
 private:
     Ui::LoginWindow *ui;
-    unique_ptr<MenuWindow> menuWindow {new MenuWindow()};
+    unique_ptr<MenuWindow> menuWindow {new MenuWindow(pServer(), pUserMetaInfo())};
+
+    enum ServiceFlags { google, vk };
 
 };
 #endif // LOGINWINDOW_H

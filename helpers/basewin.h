@@ -18,14 +18,26 @@ public:
     BaseWin() {}
     ~BaseWin() {}
 
-    void sharePointers(unique_ptr<ServerCommunicator> &newServerPtr,
-                       unique_ptr<UserMetaInfo> &newMetaInfoPtr)
-    {
-        this->pServer = &newServerPtr;
-        this->pUserMetaInfo = &newMetaInfoPtr;
-    }
+    virtual void windowDataRefresh() {}
 
 protected:
+    void setupPointers(unique_ptr<ServerCommunicator> &newServerPtr,
+                       unique_ptr<UserMetaInfo> &newMetaInfoPtr)
+    {
+        this->m_pServer = &newServerPtr;
+        this->m_pUserMetaInfo = &newMetaInfoPtr;
+    }
+
+    unique_ptr<ServerCommunicator>* pServer()
+    {
+        return m_pServer;
+    }
+
+    unique_ptr<UserMetaInfo>* pUserMetaInfo()
+    {
+        return m_pUserMetaInfo;
+    }
+
     QMessageBox* makeDialogBox(QMessageBox::Icon icon,
                               const QString &boxName,
                               const QString &boxBodyText,
@@ -39,9 +51,9 @@ protected:
         return qmb;
     }
 
-protected:
-    unique_ptr<ServerCommunicator> *pServer;
-    unique_ptr<UserMetaInfo> *pUserMetaInfo;
+private:
+    unique_ptr<ServerCommunicator> *m_pServer;
+    unique_ptr<UserMetaInfo> *m_pUserMetaInfo;
 
 };
 

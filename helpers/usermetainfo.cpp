@@ -2,25 +2,24 @@
 
 UserMetaInfo::UserMetaInfo()
 {
-
+    resetHostInfo();
 }
 
-QString UserMetaInfo::name() const
+HostUserData UserMetaInfo::getHostInfo()
 {
-    return m_name;
+    return m_hostInfo;
 }
 
-void UserMetaInfo::setName(const QString &newName)
+void UserMetaInfo::setHostInfo(HostUserData newHostInfo)
 {
-    m_name = newName;
+    this->m_hostInfo.uniqueUserId = newHostInfo.uniqueUserId;
+    this->m_hostInfo.userName = newHostInfo.userName;
+    this->m_hostInfo.userRpCount = newHostInfo.userRpCount;
 }
 
-int UserMetaInfo::rpCount() const
+void UserMetaInfo::resetHostInfo()
 {
-    return m_rpCount;
-}
-
-void UserMetaInfo::setRpCount(int newRpCount)
-{
-    m_rpCount = newRpCount;
+    m_hostInfo.uniqueUserId = -1;
+    m_hostInfo.userName = "Nickname";
+    m_hostInfo.userRpCount = -1;
 }
