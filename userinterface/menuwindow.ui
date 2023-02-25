@@ -247,9 +247,26 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>aDiceIf3D</sender>
+   <signal>changed()</signal>
+   <receiver>MenuWindow</receiver>
+   <slot>apply3dDiceState()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>quitApp()</slot>
   <slot>changeAcc()</slot>
+  <slot>apply3dDiceState()</slot>
  </slots>
 </ui>

@@ -30,6 +30,11 @@ signals:
 private slots:
     void quitApp();
     void changeAcc();
+    void apply3dDiceState();
+
+private:
+    void setupLobbiesFilter();
+    void setupHostShortInfo();
 
 private:
     Ui::MenuWindow *ui;

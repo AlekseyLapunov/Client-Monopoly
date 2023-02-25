@@ -63,6 +63,7 @@ struct HostUserData
     int uniqueUserId;
     QString userName;
     int userRpCount;
+    bool uses3dDices;
 };
 
 #endif // HELPERSTRUCTS_H

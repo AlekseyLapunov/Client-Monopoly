@@ -34,7 +34,8 @@ private:
 
 private:
     Ui::LoginWindow *ui;
-    unique_ptr<MenuWindow> menuWindow {new MenuWindow(pServer(), pUserMetaInfo())};
+
+    unique_ptr<MenuWindow> pMenuWindow;
 
     enum ServiceFlags { google, vk };
 

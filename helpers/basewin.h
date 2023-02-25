@@ -11,6 +11,8 @@
 
 using std::unique_ptr;
 
+typedef short int dialogBoxRole;
+
 class BaseWin
 {
 
@@ -38,12 +40,40 @@ protected:
         return m_pUserMetaInfo;
     }
 
-    QMessageBox* makeDialogBox(QMessageBox::Icon icon,
+    int makeDialog(dialogBoxRole role)
+    {
+        unique_ptr<QMessageBox> qmb;
+        switch (role)
+        {
+        case quitApp:
+            qmb = dialogBoxConstructor(QMessageBox::Question,
+                                       "Выход из приложения",
+                                       "Вы уверены, что хотите выйти из приложения?",
+                                       {"Да", "Нет"});
+            break;
+        case changeAcc:
+            qmb = dialogBoxConstructor(QMessageBox::Question,
+                                       "Смена аккаунта",
+                                       "Вы уверены, что хотите сменить аккаунт?",
+                                       {"Да", "Нет"});
+            break;
+        default:
+            break;
+        }
+        return qmb->exec();
+    }
+
+protected:
+    enum dialogBoxVariations { quitApp, changeAcc };
+
+private:
+
+    unique_ptr<QMessageBox> dialogBoxConstructor(QMessageBox::Icon icon,
                               const QString &boxName,
                               const QString &boxBodyText,
                               const QStringList buttonsText)
     {
-        QMessageBox* qmb = new QMessageBox(icon, boxName, boxBodyText);
+        unique_ptr<QMessageBox> qmb (new QMessageBox(icon, boxName, boxBodyText));
         for(auto buttonName : buttonsText)
         {
             qmb->addButton(buttonName, QMessageBox::HelpRole);

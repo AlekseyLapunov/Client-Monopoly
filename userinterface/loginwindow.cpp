@@ -11,7 +11,9 @@ LoginWindow::LoginWindow(unique_ptr<ServerCommunicator> *newServerPtr,
 
     ui->setupUi(this);
 
-    connect(menuWindow.get(), &MenuWindow::goToLoginWindow,
+    pMenuWindow = unique_ptr<MenuWindow>(new MenuWindow(pServer(), pUserMetaInfo()));
+
+    connect(pMenuWindow.get(), &MenuWindow::goToLoginWindow,
             this, &LoginWindow::show);
 }
 
@@ -56,7 +58,7 @@ void LoginWindow::baseLogin(serviceFlag flag)
 void LoginWindow::switchToMenuWindow()
 {
     this->hide();
-    menuWindow.get()->windowDataRefresh();
-    menuWindow.get()->show();
+    pMenuWindow.get()->windowDataRefresh();
+    pMenuWindow.get()->show();
 }
 

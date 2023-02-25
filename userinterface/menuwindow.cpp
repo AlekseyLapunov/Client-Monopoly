@@ -19,28 +19,43 @@ MenuWindow::~MenuWindow()
 
 void MenuWindow::windowDataRefresh()
 {
-    QRegularExpression lobbyFilterRegExp("/^[a-zA-Z0-9]+ ?[a-zA-Z0-9]*$/");
-    QRegularExpressionValidator *lobbyFilterValidator = new QRegularExpressionValidator(lobbyFilterRegExp, this);
-    ui->leLobbyFilter->setValidator(lobbyFilterValidator);
-
-    ui->lNickname->setText(pUserMetaInfo()->get()->getHostInfo().userName);
-    ui->lRpCount->setText(QString::number(pUserMetaInfo()->get()->getHostInfo().userRpCount));
+    this->setupLobbiesFilter();
+    this->setupHostShortInfo();
+    this->apply3dDiceState();
 }
 
 void MenuWindow::quitApp()
 {
-    QMessageBox* quitingAppDialog = makeDialogBox(QMessageBox::Question,
-                                                  "Выход из приложения",
-                                                  "Вы уверены, что хотите выйти из приложения?",
-                                                  {"Да", "Нет"});
-    int answer = quitingAppDialog->exec();
-    delete quitingAppDialog;
-    if(answer == 0)
+    if(makeDialog(BaseWin::quitApp) == 0)
         QCoreApplication::quit();
 }
 
 void MenuWindow::changeAcc()
 {
-    this->hide();
-    emit goToLoginWindow();
+    if(makeDialog(BaseWin::changeAcc) == 0)
+    {
+        this->hide();
+        emit goToLoginWindow();
+    }
+}
+
+void MenuWindow::apply3dDiceState()
+{
+    HostUserData tempHostUserData = pUserMetaInfo()->get()->getHostInfo();
+    tempHostUserData.uses3dDices = ui->aDiceIf3D->isChecked();
+    pUserMetaInfo()->get()->setHostInfo(tempHostUserData);
+}
+
+void MenuWindow::setupLobbiesFilter()
+{
+    QRegularExpression lobbyFilterRegExp("^[a-zA-Zа-яА-Я0-9]+ ?[a-zA-Zа-яА-Я0-9]*$");
+    QRegularExpressionValidator *lobbyFilterValidator = new QRegularExpressionValidator(lobbyFilterRegExp, this);
+    ui->leLobbyFilter->setValidator(lobbyFilterValidator);
+    ui->leLobbyFilter->clear();
+}
+
+void MenuWindow::setupHostShortInfo()
+{
+    ui->lNickname->setText(pUserMetaInfo()->get()->getHostInfo().userName);
+    ui->lRpCount->setText(QString::number(pUserMetaInfo()->get()->getHostInfo().userRpCount));
 }
