@@ -7,6 +7,9 @@ LoginWindow::LoginWindow(unique_ptr<ServerCommunicator> *newServerPtr,
     : QWidget(parent)
     , ui(new Ui::LoginWindow)
 {
+    if(!*newServerPtr || !*newMetaInfoPtr)
+        throw std::runtime_error("LoginWindow: helpers pointers are nullptr");
+
     setupPointers(*newServerPtr, *newMetaInfoPtr);
 
     ui->setupUi(this);

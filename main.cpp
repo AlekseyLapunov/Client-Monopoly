@@ -1,6 +1,8 @@
 #include <memory>
+#include <exception>
 
 #include <QApplication>
+#include <QDebug>
 
 #include "userinterface/loginwindow.h"
 #include "helpers/servercommunicator.h"

@@ -7,6 +7,9 @@ MenuWindow::MenuWindow(unique_ptr<ServerCommunicator> *newServerPtr,
     QMainWindow(parent),
     ui(new Ui::MenuWindow)
 {
+    if(!*newServerPtr || !*newMetaInfoPtr)
+        throw std::runtime_error("MenuWindow: helpers pointers are nullptr");
+
     setupPointers(*newServerPtr, *newMetaInfoPtr);
 
     ui->setupUi(this);
@@ -19,9 +22,11 @@ MenuWindow::~MenuWindow()
 
 void MenuWindow::windowDataRefresh()
 {
+    this->setButtonsState(false);
     this->setupLobbiesFilter();
     this->setupHostShortInfo();
     this->apply3dDiceState();
+    this->setButtonsState(true);
 }
 
 void MenuWindow::quitApp()
@@ -57,5 +62,12 @@ void MenuWindow::setupLobbiesFilter()
 void MenuWindow::setupHostShortInfo()
 {
     ui->lNickname->setText(pUserMetaInfo()->get()->getHostInfo().userName);
-    ui->lRpCount->setText(QString::number(pUserMetaInfo()->get()->getHostInfo().userRpCount));
+    ui->lRpCount->setText("| " + QString::number(pUserMetaInfo()->get()->getHostInfo().userRpCount) + " RP");
+}
+
+void MenuWindow::setButtonsState(bool areToBeAccessible)
+{
+    ui->bConnect->setEnabled(areToBeAccessible);
+    ui->bCreateLobby->setEnabled(areToBeAccessible);
+    ui->bRankedSearch->setEnabled(areToBeAccessible);
 }

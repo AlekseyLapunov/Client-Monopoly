@@ -35,6 +35,7 @@ private slots:
 private:
     void setupLobbiesFilter();
     void setupHostShortInfo();
+    void setButtonsState(bool areToBeAccessible);
 
 private:
     Ui::MenuWindow *ui;

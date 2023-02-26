@@ -18,7 +18,7 @@ HostUserData ServerCommunicator::doVkLogin()
     {
         throw std::runtime_error("VK auth fail");
     }
-    return {11, "Алексей Коритса", 1111};
+    return {11, "Алексей Коритса", 1111, true};
 }
 
 HostUserData ServerCommunicator::doGoogleLogin()
@@ -29,7 +29,7 @@ HostUserData ServerCommunicator::doGoogleLogin()
     {
         throw std::runtime_error("Google auth fail");
     }
-    return {15, "Aleksey Koritsa", 1212};
+    return {15, "Aleksey Koritsa", 1212, true};
 }
 
 vector<LobbyShortInfo> &ServerCommunicator::getLobbiesShortInfo()
