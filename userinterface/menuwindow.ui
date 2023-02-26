@@ -28,7 +28,7 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="5" column="0">
-     <widget class="QLabel" name="lChosenLobby">
+     <widget class="QLabel" name="lLobbiesCount">
       <property name="font">
        <font>
         <family>Cambria</family>
@@ -115,7 +115,35 @@
      </widget>
     </item>
     <item row="2" column="0" colspan="3">
-     <widget class="QTableWidget" name="tableWidget"/>
+     <widget class="QTableWidget" name="tLobbies">
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+      <property name="showDropIndicator" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="dragDropOverwriteMode">
+       <bool>false</bool>
+      </property>
+      <property name="alternatingRowColors">
+       <bool>true</bool>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SingleSelection</enum>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
+      <property name="sortingEnabled">
+       <bool>true</bool>
+      </property>
+      <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+     </widget>
     </item>
     <item row="0" column="0">
      <widget class="QLineEdit" name="leLobbyFilter">
@@ -263,10 +291,43 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>tLobbies</sender>
+   <signal>itemClicked(QTableWidgetItem*)</signal>
+   <receiver>MenuWindow</receiver>
+   <slot>lobbyClicked(QTableWidgetItem*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>256</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tLobbies</sender>
+   <signal>itemActivated(QTableWidgetItem*)</signal>
+   <receiver>MenuWindow</receiver>
+   <slot>lobbyClicked(QTableWidgetItem*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>256</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>quitApp()</slot>
   <slot>changeAcc()</slot>
   <slot>apply3dDiceState()</slot>
+  <slot>lobbyClicked(QTableWidgetItem*)</slot>
  </slots>
 </ui>

@@ -4,6 +4,13 @@
 #include <vector>
 
 #include <QString>
+#include <QStringList>
+
+#define LOBBIES_TABLE_COLS 4
+#define LOBBY_NAME_COL 0
+#define IS_PASSWORDED_COL 1
+#define PLAYERS_COUNT_COL 2
+#define UNIQUE_ID_COL 3
 
 using std::vector;
 
@@ -13,11 +20,16 @@ typedef short int mapPatternFlag;
 // Lobbies short information inside MenuWindow's center table
 struct LobbyShortInfo
 {
+    int uniqueId;
     QString lobbyName;
     bool isPassworded;
     short int curPlayersCount;
     short int maxPlayersCount;
 };
+
+static const QStringList lobbyTableLabels {"Название",
+                                           "Пароль",
+                                           "Игроки"};
 
 // Detailed lobby system info
 struct LobbySystemInfo : public LobbyShortInfo

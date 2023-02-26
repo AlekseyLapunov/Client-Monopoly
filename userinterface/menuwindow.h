@@ -2,6 +2,7 @@
 #define MENUWINDOW_H
 
 #include <QMainWindow>
+#include <QTableWidget>
 #include <QRegularExpression>
 #include <QRegularExpressionValidator>
 #include <QMessageBox>
@@ -31,11 +32,15 @@ private slots:
     void quitApp();
     void changeAcc();
     void apply3dDiceState();
+    void lobbyClicked(QTableWidgetItem *itemClicked);
 
 private:
+    void setupLobbiesTable();
     void setupLobbiesFilter();
     void setupHostShortInfo();
     void setButtonsState(bool areToBeAccessible);
+    void tableClear(QTableWidget &table);
+    void tableSetupRowsCols(QTableWidget &table, const vector<LobbyShortInfo> &contentVec);
 
 private:
     Ui::MenuWindow *ui;
