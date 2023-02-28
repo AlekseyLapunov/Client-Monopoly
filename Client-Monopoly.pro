@@ -13,7 +13,8 @@ SOURCES += \
     main.cpp \
     helpers/servercommunicator.cpp \
     userinterface/loginwindow.cpp \
-    userinterface/menuwindow.cpp
+    userinterface/menuwindow.cpp \
+    userinterface/subinterfaces/lobbiessubdialog.cpp
 
 HEADERS += \
     helpers/basewin.h \
@@ -21,11 +22,13 @@ HEADERS += \
     helpers/usermetainfo.h \
     userinterface/loginwindow.h \
     helpers/servercommunicator.h \
-    userinterface/menuwindow.h
+    userinterface/menuwindow.h \
+    userinterface/subinterfaces/lobbiessubdialog.h
 
 FORMS += \
     userinterface/loginwindow.ui \
-    userinterface/menuwindow.ui
+    userinterface/menuwindow.ui \
+    userinterface/subinterfaces/lobbiessubdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

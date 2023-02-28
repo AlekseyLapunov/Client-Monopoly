@@ -7,6 +7,7 @@
 #include <QRegularExpressionValidator>
 #include <QMessageBox>
 
+#include "subinterfaces/lobbiessubdialog.h"
 #include "helpers/basewin.h"
 
 namespace Ui {
@@ -33,17 +34,24 @@ private slots:
     void changeAcc();
     void apply3dDiceState();
     void lobbyClicked(QTableWidgetItem *itemClicked);
+    void applyLobbyFilter(QString textChanged);
+    void joinToLobby(QTableWidgetItem *itemActivated);
+    void joinToLobby();
+    void joinIdDialog();
 
 private:
     void setupLobbiesTable();
     void setupLobbiesFilter();
-    void setupHostShortInfo();
-    void setButtonsState(bool areToBeAccessible);
+    void displayHostShortInfo();
+    void setButtonsState(bool makeEnabled);
     void tableClear(QTableWidget &table);
-    void tableSetupRowsCols(QTableWidget &table, const vector<LobbyShortInfo> &contentVec);
+    void tableSetupFill(QTableWidget &table, const vector<LobbyShortInfo> &contentVec, const QString &filter = "");
+    void joinById(int uniqueId);
 
 private:
     Ui::MenuWindow *ui;
+    unique_ptr<LobbiesSubDialog> pSubDialog;
+    int curUniqueId;
 };
 
 #endif // MENUWINDOW_H

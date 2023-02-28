@@ -46,8 +46,8 @@ void LoginWindow::baseLogin(serviceFlag flag)
     {
         pUserMetaInfo()->get()->setHostInfo
             (
-                    flag == LoginWindow::google ? pServer()->get()->doGoogleLogin()
-                                                : pServer()->get()->doVkLogin()
+                flag == LoginWindow::google ? pServer()->get()->doGoogleLogin()
+                                            : pServer()->get()->doVkLogin()
             );
     }
     catch(const std::exception &e)

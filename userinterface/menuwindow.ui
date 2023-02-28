@@ -27,20 +27,6 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="5" column="0">
-     <widget class="QLabel" name="lLobbiesCount">
-      <property name="font">
-       <font>
-        <family>Cambria</family>
-        <pointsize>12</pointsize>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Lobby00</string>
-      </property>
-     </widget>
-    </item>
     <item row="6" column="0">
      <widget class="QPushButton" name="bConnect">
       <property name="font">
@@ -172,6 +158,20 @@
       </property>
      </widget>
     </item>
+    <item row="5" column="0" colspan="2">
+     <widget class="QLabel" name="lLobbiesCount">
+      <property name="font">
+       <font>
+        <family>Cambria</family>
+        <pointsize>12</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Lobby00</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -187,6 +187,7 @@
     <property name="title">
      <string>Меню</string>
     </property>
+    <addaction name="aJoinById"/>
     <addaction name="aChangeAcc"/>
     <addaction name="separator"/>
     <addaction name="aQuitApp"/>
@@ -238,6 +239,11 @@
   <action name="aAbout">
    <property name="text">
     <string>О приложении</string>
+   </property>
+  </action>
+  <action name="aJoinById">
+   <property name="text">
+    <string>Подключение по ID</string>
    </property>
   </action>
  </widget>
@@ -308,14 +314,62 @@
    </hints>
   </connection>
   <connection>
+   <sender>leLobbyFilter</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>MenuWindow</receiver>
+   <slot>applyLobbyFilter(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>108</x>
+     <y>40</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>aJoinById</sender>
+   <signal>triggered()</signal>
+   <receiver>MenuWindow</receiver>
+   <slot>joinIdDialog()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
    <sender>tLobbies</sender>
    <signal>itemActivated(QTableWidgetItem*)</signal>
    <receiver>MenuWindow</receiver>
-   <slot>lobbyClicked(QTableWidgetItem*)</slot>
+   <slot>joinToLobby(QTableWidgetItem*)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>313</x>
      <y>256</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bConnect</sender>
+   <signal>clicked()</signal>
+   <receiver>MenuWindow</receiver>
+   <slot>joinToLobby()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>108</x>
+     <y>498</y>
     </hint>
     <hint type="destinationlabel">
      <x>313</x>
@@ -329,5 +383,9 @@
   <slot>changeAcc()</slot>
   <slot>apply3dDiceState()</slot>
   <slot>lobbyClicked(QTableWidgetItem*)</slot>
+  <slot>applyLobbyFilter(QString)</slot>
+  <slot>joinToLobby(QTableWidgetItem*)</slot>
+  <slot>joinIdDialog()</slot>
+  <slot>joinToLobby()</slot>
  </slots>
 </ui>

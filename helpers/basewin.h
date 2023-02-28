@@ -40,7 +40,7 @@ protected:
         return m_pUserMetaInfo;
     }
 
-    int makeDialog(dialogBoxRole role)
+    int makeDialog(dialogBoxRole role, const QString &carrier = "")
     {
         unique_ptr<QMessageBox> qmb;
         switch (role)
@@ -57,6 +57,12 @@ protected:
                                        "Вы уверены, что хотите сменить аккаунт?",
                                        {"Да", "Нет"});
             break;
+        case joinLobby:
+            qmb = dialogBoxConstructor(QMessageBox::Question,
+                                       "Подключение",
+                                       "Подключиться к лобби \"" + carrier + "\"?",
+                                       {"Да", "Нет"});
+            break;
         default:
             break;
         }
@@ -64,7 +70,7 @@ protected:
     }
 
 protected:
-    enum dialogBoxVariations { quitApp, changeAcc };
+    enum dialogBoxVariations { quitApp, changeAcc, joinLobby };
 
 private:
 

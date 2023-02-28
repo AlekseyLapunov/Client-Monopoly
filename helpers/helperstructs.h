@@ -11,11 +11,17 @@
 #define IS_PASSWORDED_COL 1
 #define PLAYERS_COUNT_COL 2
 #define UNIQUE_ID_COL 3
+#define NICKNAME_MAX_LENGTH 20
+#define LOBBY_PASSWORD_MAX_LENGTH 10
+#define UNIQUE_ID_MAX_LENGTH 9
 
 using std::vector;
 
 typedef short int quantityFlag;
 typedef short int mapPatternFlag;
+
+static const QString lobbyRegExpString = "^[a-zA-Zа-яА-ЯёЁ0-9]+ ?[a-zA-Zа-яА-ЯёЁ0-9]*$";
+static const QString uniqueIdRegExpString = "^[0-9]*$";
 
 // Lobbies short information inside MenuWindow's center table
 struct LobbyShortInfo
