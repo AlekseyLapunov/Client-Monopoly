@@ -16,11 +16,12 @@
 #define UNIQUE_ID_MAX_LENGTH 9
 
 using std::vector;
+using std::count_if;
 
 typedef short int quantityFlag;
 typedef short int mapPatternFlag;
 
-static const QString lobbyRegExpString = "^[a-zA-Zа-яА-ЯёЁ0-9]+ ?[a-zA-Zа-яА-ЯёЁ0-9]*$";
+static const QString lobbyRegExpString = "^[a-zA-Zа-яА-ЯёЁ0-9]+?( ?[a-zA-Zа-яА-ЯёЁ0-9])*$";
 static const QString uniqueIdRegExpString = "^[0-9]*$";
 
 // Lobbies short information inside MenuWindow's center table
@@ -56,15 +57,15 @@ struct UserShortInfo
 struct GameSettingsInfo
 {
     enum fieldsQuantity { none = -1, random, few, mid, many };
-    enum mapPattern { crossroads, angles };
+    enum mapPattern { rand, crossroads, angles };
 
-    quantityFlag sabotageDistrib;
-    quantityFlag vacationDistrib;
+    quantityFlag sabotageDistrib = fieldsQuantity::mid;
+    quantityFlag vacationDistrib = fieldsQuantity::few;
 
-    mapPatternFlag mapPattern;
+    mapPatternFlag mapPattern = mapPattern::rand;
 
-    long int moneyRightBorder;
-    short int turnsRightBorder;
+    long int moneyRightBorder = 1000000;
+    short int turnsRightBorder = 72;
 };
 
 // Full lobby info inside LobbyWindow

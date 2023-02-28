@@ -7,8 +7,6 @@
 #include "helpers/basewin.h"
 #include "menuwindow.h"
 
-using std::function;
-
 namespace Ui { class LoginWindow; }
 
 typedef short int serviceFlag;

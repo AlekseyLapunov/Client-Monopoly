@@ -22,6 +22,8 @@ public:
 
     // Lobbies
     vector<LobbyShortInfo>& getLobbiesShortInfo();
+    LobbyFullInfo tryJoinById(int uniqueId);
+    LobbyFullInfo tryJoinById(int uniqueId, QString &enteredPassword);
 
 private:
     QString m_httpHost = "";

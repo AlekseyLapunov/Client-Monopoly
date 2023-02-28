@@ -4,6 +4,7 @@
 #include <memory>
 
 #include <QDialog>
+#include <QMessageBox>
 #include <QRegularExpression>
 #include <QRegularExpressionValidator>
 
@@ -35,7 +36,8 @@ private slots:
 
 private:
     void setRegExps(const short regExpFlag);
-    void writeWidgetTexts(const QString &bApplyString,
+    void writeWidgetTexts(const QString &windowTitle,
+                          const QString &bApplyString,
                           const QString &bRejectString,
                           const QString &lInfoString,
                           const QString &leInputString);

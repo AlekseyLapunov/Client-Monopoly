@@ -24,22 +24,22 @@ void LobbiesSubDialog::selfConfig(const short configFlag, const QString &carrier
         this->setRegExps(lobbyRegExp);
         ui->leInput->setEchoMode(QLineEdit::Normal);
         ui->leInput->setMaxLength(NICKNAME_MAX_LENGTH);
-        writeWidgetTexts("Сменить псевдоним", "Отмена", "Введите новый псевдоним:", "Псевдоним");
+        writeWidgetTexts("Сменить псевдоним", "Применить", "Отмена", "Введите новый псевдоним:", "Псевдоним");
         break;
     case joinById:
         this->setRegExps(uniqueIdRegExp);
         ui->leInput->setEchoMode(QLineEdit::Normal);
         ui->leInput->setMaxLength(UNIQUE_ID_MAX_LENGTH);
-        writeWidgetTexts("Подключиться", "Отмена", "Введите ID комнаты:", "ID");
+        writeWidgetTexts("Подключение по ID", "Подключиться", "Отмена", "Введите ID комнаты:", "ID");
         break;
     case lobbyPasswordEnter:
         this->setRegExps(lobbyRegExp);
         ui->leInput->setEchoMode(QLineEdit::Password);
         ui->leInput->setMaxLength(LOBBY_PASSWORD_MAX_LENGTH);
-        writeWidgetTexts("Подключиться", "Отмена", "Введите пароль комнаты \"" + carrier + "\": ", "Пароль");
+        writeWidgetTexts("Ввод пароля к лобби", "Подключиться", "Отмена", "Введите пароль комнаты \"" + carrier + "\": ", "Пароль");
         break;
     default:
-        this->close();
+        QDialog::reject();
     }
 }
 
@@ -56,7 +56,7 @@ void LobbiesSubDialog::setRegExps(const short regExpFlag)
         pRegExp = new QRegularExpression(uniqueIdRegExpString);
         break;
     default:
-        return;
+        QDialog::reject();
     }
 
     if(pRegExp == nullptr)
@@ -69,11 +69,13 @@ void LobbiesSubDialog::setRegExps(const short regExpFlag)
 
 }
 
-void LobbiesSubDialog::writeWidgetTexts(const QString &bApplyString,
+void LobbiesSubDialog::writeWidgetTexts(const QString &windowTitle,
+                                        const QString &bApplyString,
                                         const QString &bRejectString,
                                         const QString &lInfoString,
                                         const QString &leInputString)
 {
+    this->setWindowTitle(windowTitle);
     ui->bApply->setText(bApplyString);
     ui->bReject->setText(bRejectString);
     ui->lInfoText->setText(lInfoString);
@@ -87,6 +89,12 @@ int LobbiesSubDialog::uniqueIdValue() const
 
 void LobbiesSubDialog::accept()
 {
+    if(ui->leInput->text().isEmpty())
+    {
+        QMessageBox qmb(QMessageBox::Warning, "Ошибка", "Ничего не введено");
+        qmb.exec();
+        return;
+    }
     switch (m_interactionMode)
     {
     case changeNickname:
@@ -99,9 +107,9 @@ void LobbiesSubDialog::accept()
         m_lobbyPasswordValue = ui->leInput->text();
         break;
     default:
-        this->reject();
+        QDialog::reject();
     }
-    this->close();
+    QDialog::accept();
 }
 
 QString LobbiesSubDialog::nicknameValue() const

@@ -80,26 +80,31 @@ void MenuWindow::joinToLobby(QTableWidgetItem *itemActivated)
     this->lobbyClicked(ui->tLobbies->selectedItems().at(0));
     int answer = makeDialog(BaseWin::joinLobby, ui->tLobbies->item(ui->tLobbies->row(itemActivated), LOBBY_NAME_COL)->text());
 
-    if(answer == 0 && curUniqueId > 0)
+    if(answer == 0 && curUniqueId >= 0)
         joinById(curUniqueId);
 }
 
 void MenuWindow::joinToLobby()
 {
-    this->lobbyClicked(ui->tLobbies->selectedItems().at(0));
-    if(curUniqueId > 0)
+    QList<QTableWidgetItem*> selected = ui->tLobbies->selectedItems();
+    if(selected.isEmpty())
+    {
+        QMessageBox qmb(QMessageBox::Warning, "Ошибка", "Лобби не выбрано");
+        qmb.exec();
+        return;
+    }
+    this->lobbyClicked(selected.at(0));
+    if(curUniqueId >= 0)
         joinById(curUniqueId);
 }
 
 void MenuWindow::joinIdDialog()
 {
     pSubDialog.get()->selfConfig(LobbiesSubDialog::joinById);
-    if(pSubDialog.get()->exec() == 0)
+    if(pSubDialog.get()->exec() == QDialog::Accepted)
     {
         int enteredId = pSubDialog.get()->uniqueIdValue();
-        // !!! STUB !!!
-        QMessageBox qmb(QMessageBox::Information, "", "Got " + QString::number(enteredId));
-        qmb.exec();
+        joinById(enteredId);
     }
 }
 
@@ -114,10 +119,10 @@ void MenuWindow::setupLobbiesTable()
     ui->lLobbiesCount->setText("Всего лобби: "
                                + QString::number(pLobbiesVec->size())
                                + ". Открытых комнат: "
-                               + QString::number(std::count_if(pLobbiesVec->begin(),
-                                                               pLobbiesVec->end(),
-                                                               [](const LobbyShortInfo &lobby)
-                                                                {return !lobby.isPassworded;})));
+                               + QString::number(count_if(pLobbiesVec->begin(),
+                                                          pLobbiesVec->end(),
+                                                          [](const LobbyShortInfo &lobby)
+                                                          {return !lobby.isPassworded;})));
 }
 
 void MenuWindow::setupLobbiesFilter()
@@ -152,10 +157,10 @@ void MenuWindow::tableClear(QTableWidget &table)
 void MenuWindow::tableSetupFill(QTableWidget &table, const vector<LobbyShortInfo> &contentVec, const QString &filter)
 {
     const short int tCols = LOBBIES_TABLE_COLS;
-    const int tRows = std::count_if(contentVec.begin(),
-                                    contentVec.end(),
-                                    [filter](const LobbyShortInfo &lobby)
-                                    {return lobby.lobbyName.toLower().contains(filter.toLower()) ? true : false;});
+    const int tRows = count_if(contentVec.begin(),
+                               contentVec.end(),
+                               [filter](const LobbyShortInfo &lobby)
+                               {return lobby.lobbyName.toLower().contains(filter.toLower());});
 
     table.setColumnCount(tCols);
     table.setRowCount(tRows);
@@ -176,11 +181,11 @@ void MenuWindow::tableSetupFill(QTableWidget &table, const vector<LobbyShortInfo
         const QString playersCount = QString::number(lsiItem.curPlayersCount) + " / "
                 + QString::number(lsiItem.maxPlayersCount);
         QTableWidgetItem* items[] = {
-                                            new QTableWidgetItem(lobbyName),
-                                            new QTableWidgetItem(isPassworded),
-                                            new QTableWidgetItem(playersCount),
-                                            new QTableWidgetItem(QString::number(uniqueId))
-                                         };
+                                        new QTableWidgetItem(lobbyName),
+                                        new QTableWidgetItem(isPassworded),
+                                        new QTableWidgetItem(playersCount),
+                                        new QTableWidgetItem(QString::number(uniqueId))
+                                    };
         for(auto i : items)
             i->setTextAlignment(Qt::AlignCenter);
 
@@ -196,7 +201,40 @@ void MenuWindow::tableSetupFill(QTableWidget &table, const vector<LobbyShortInfo
 
 void MenuWindow::joinById(int uniqueId)
 {
-    // !!! STUB !!!
-    QMessageBox qmb(QMessageBox::Information, "loshad", "Joined lobby " + QString::number(uniqueId));
-    qmb.exec();
+    bool isPassworded = false;
+    QString lobbyName = "";
+    for(auto lsi : pServer()->get()->getLobbiesShortInfo())
+    {
+        if(lsi.uniqueId == uniqueId)
+        {
+            isPassworded = lsi.isPassworded;
+            lobbyName = lsi.lobbyName;
+        }
+    }
+    if(lobbyName.isEmpty())
+        return;
+    try
+    {
+        if(!isPassworded)
+        {
+            pServer()->get()->tryJoinById(uniqueId);
+        }
+        else
+        {
+            pSubDialog.get()->selfConfig(LobbiesSubDialog::lobbyPasswordEnter, lobbyName);
+            if(pSubDialog.get()->exec() == QDialog::Accepted)
+            {
+                QString enteredPassword = pSubDialog.get()->lobbyPasswordValue();
+                pServer()->get()->tryJoinById(uniqueId, enteredPassword);
+            } else return;
+        }
+        // !!! STUB !!!
+        QMessageBox qmb(QMessageBox::Information, "!!! STUB !!!", "Joined lobby " + QString::number(uniqueId));
+        qmb.exec();
+    }
+    catch (const std::exception &e)
+    {
+        QMessageBox qmb(QMessageBox::Warning, "Ошибка", e.what());
+        qmb.exec();
+    }
 }

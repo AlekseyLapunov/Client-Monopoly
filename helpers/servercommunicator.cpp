@@ -57,6 +57,18 @@ vector<LobbyShortInfo> &ServerCommunicator::getLobbiesShortInfo()
     return lobbiesShortInfoVec;
 }
 
+LobbyFullInfo ServerCommunicator::tryJoinById(int uniqueId)
+{
+    // Make request
+    throw std::runtime_error("Лобби не найдено");
+}
+
+LobbyFullInfo ServerCommunicator::tryJoinById(int uniqueId, QString &enteredPassword)
+{
+    // Make request
+    throw std::runtime_error("Лобби не найдено");
+}
+
 
 
 
