@@ -8,7 +8,7 @@ LoginWindow::LoginWindow(unique_ptr<ServerCommunicator> *newServerPtr,
     , ui(new Ui::LoginWindow)
 {
     if(!*newServerPtr || !*newMetaInfoPtr)
-        throw std::runtime_error("LoginWindow: helpers pointers are nullptr");
+        throw std::runtime_error(loginWindowClassName + errorPtrLink);
 
     setupPointers(*newServerPtr, *newMetaInfoPtr);
 
@@ -52,7 +52,7 @@ void LoginWindow::baseLogin(serviceFlag flag)
     }
     catch(const std::exception &e)
     {
-        QMessageBox::critical(this, this->windowTitle(), tr("Не удалось войти: %1").arg(e.what()));
+        this->execErrorBox(e.what());
         return;
     }
     switchToMenuWindow();

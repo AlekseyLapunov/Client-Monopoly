@@ -40,6 +40,7 @@ private slots:
     void joinToLobby(QTableWidgetItem *itemActivated);
     void joinToLobby();
     void joinIdDialog();
+    void showAbout();
 
 private:
     void setupLobbiesTable();
@@ -48,6 +49,7 @@ private:
     void setButtonsState(const bool makeEnabled);
     void tableClear(QTableWidget &table);
     void tableSetupFill(QTableWidget &table, const vector<LobbyShortInfo> &contentVec, const QString &filter = "");
+    void switchJoinByItem(const QTableWidgetItem &item);
 
     enum DialogCodes { NoPassword, PassRejected, PassEntered };
     dialogCode checkIfPassworded(const QTableWidgetItem &item);
@@ -55,14 +57,7 @@ private:
 private:
     Ui::MenuWindow *ui;
     unique_ptr<LobbiesSubDialog> pSubDialog;
-    int curUniqueId;
-
-    const QString passColumnYes = "Есть";
-    const QString passColumnNo = "Нет";
-    const QString playersColumnSlash = " / ";
-    const QString statusBarSubMessage = " | ID для подключения: ";
-    const QString lobbiesInTotal = "Всего лобби: ";
-    const QString lobbiesNotPassworded = ". Открытых комнат: ";
+    int curUniqueId = -1;
 };
 
 #endif // MENUWINDOW_H

@@ -16,7 +16,7 @@ HostUserData ServerCommunicator::doVkLogin()
     bool stubFailure = false;
     if(stubFailure)
     {
-        throw std::runtime_error("VK auth fail");
+        throw std::runtime_error(serverCommClassName + vkAuthFail);
     }
     return {11, "VK STUB", 1111, true};
 }
@@ -27,7 +27,7 @@ HostUserData ServerCommunicator::doGoogleLogin()
     bool stubFailure = false;
     if(stubFailure)
     {
-        throw std::runtime_error("Google auth fail");
+        throw std::runtime_error(serverCommClassName + googleAuthFail);
     }
     return {15, "GOOGLE STUB", 1212, true};
 }
@@ -60,13 +60,13 @@ vector<LobbyShortInfo> &ServerCommunicator::getLobbiesShortInfo()
 LobbyFullInfo ServerCommunicator::tryJoinById(const int uniqueId)
 {
     // Make request
-    throw std::runtime_error("Лобби не найдено");
+    throw std::runtime_error(serverCommClassName + lobbyNotFound);
 }
 
 LobbyFullInfo ServerCommunicator::tryJoinById(const int uniqueId, const QString &enteredPassword)
 {
     // Make request
-    throw std::runtime_error("Лобби не найдено");
+    throw std::runtime_error(serverCommClassName + lobbyNotFound);
 }
 
 

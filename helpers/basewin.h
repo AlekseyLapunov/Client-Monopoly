@@ -8,6 +8,7 @@
 
 #include "servercommunicator.h"
 #include "usermetainfo.h"
+#include "sourcestrings.h"
 
 using std::unique_ptr;
 
@@ -69,11 +70,16 @@ protected:
         return qmb->exec();
     }
 
+    void execErrorBox(QString body)
+    {
+        QMessageBox qmb(QMessageBox::Warning, errorTitle, body);
+        qmb.exec();
+    }
+
 protected:
     enum DialogBoxVariations { quitApp, changeAcc, joinLobby };
 
 private:
-
     unique_ptr<QMessageBox> dialogBoxConstructor(QMessageBox::Icon icon,
                               const QString &boxName,
                               const QString &boxBodyText,

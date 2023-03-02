@@ -9,6 +9,7 @@
 #include <QRegularExpressionValidator>
 
 #include "helpers/helperstructs.h"
+#include "helpers/basewin.h"
 
 using std::unique_ptr;
 
@@ -16,7 +17,7 @@ namespace Ui {
 class LobbiesSubDialog;
 }
 
-class LobbiesSubDialog : public QDialog
+class LobbiesSubDialog : public QDialog, public BaseWin
 {
     Q_OBJECT
 

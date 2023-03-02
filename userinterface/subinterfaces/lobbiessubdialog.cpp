@@ -60,9 +60,6 @@ void LobbiesSubDialog::setRegExps(const short regExpFlag)
         QDialog::reject();
     }
 
-    if(pRegExp == nullptr)
-        throw std::runtime_error("LobbiesSubDialog: pRegExp was nullptr");
-
     QRegularExpressionValidator* pLobbyFilterValidator;
 
     pLobbyFilterValidator =  new QRegularExpressionValidator(*pRegExp, this);
@@ -92,8 +89,7 @@ void LobbiesSubDialog::accept()
 {
     if(ui->leInput->text().isEmpty())
     {
-        QMessageBox qmb(QMessageBox::Warning, "Ошибка", "Ничего не введено");
-        qmb.exec();
+        this->execErrorBox(nothingEntered);
         return;
     }
     switch (m_interactionMode)

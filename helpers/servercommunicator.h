@@ -7,6 +7,7 @@
 #include <QString>
 
 #include "helperstructs.h"
+#include "sourcestrings.h"
 
 using std::vector;
 

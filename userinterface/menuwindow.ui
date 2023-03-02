@@ -180,7 +180,7 @@
      <x>0</x>
      <y>0</y>
      <width>627</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -377,6 +377,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>aAbout</sender>
+   <signal>triggered()</signal>
+   <receiver>MenuWindow</receiver>
+   <slot>showAbout()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>quitApp()</slot>
@@ -387,5 +403,6 @@
   <slot>joinToLobby(QTableWidgetItem*)</slot>
   <slot>joinIdDialog()</slot>
   <slot>joinToLobby()</slot>
+  <slot>showAbout()</slot>
  </slots>
 </ui>
