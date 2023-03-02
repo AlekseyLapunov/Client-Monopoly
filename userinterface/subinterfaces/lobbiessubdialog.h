@@ -24,7 +24,7 @@ public:
     explicit LobbiesSubDialog(QDialog *parent = nullptr);
     ~LobbiesSubDialog();
 
-    enum configFlags { changeNickname, joinById, lobbyPasswordEnter };
+    enum ConfigFlags { changeNickname, joinById, lobbyPasswordEnter };
     void selfConfig(const short configFlag, const QString &carrier = "");
 
     QString lobbyPasswordValue() const;
@@ -35,7 +35,9 @@ private slots:
     void accept() override;
 
 private:
+    enum RegExpFlags { lobbyRegExp, uniqueIdRegExp };
     void setRegExps(const short regExpFlag);
+
     void writeWidgetTexts(const QString &windowTitle,
                           const QString &bApplyString,
                           const QString &bRejectString,
@@ -50,8 +52,6 @@ private:
     int m_uniqueIdValue;
 
     Ui::LobbiesSubDialog *ui;
-
-    enum regExpFlags { lobbyRegExp, uniqueIdRegExp };
 };
 
 #endif // LOBBIESSUBDIALOG_H

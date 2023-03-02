@@ -11,7 +11,7 @@
 
 using std::unique_ptr;
 
-typedef short int dialogBoxRole;
+typedef short dialogBoxRole;
 
 class BaseWin
 {
@@ -70,7 +70,7 @@ protected:
     }
 
 protected:
-    enum dialogBoxVariations { quitApp, changeAcc, joinLobby };
+    enum DialogBoxVariations { quitApp, changeAcc, joinLobby };
 
 private:
 

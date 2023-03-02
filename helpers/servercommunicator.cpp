@@ -49,7 +49,7 @@ vector<LobbyShortInfo> &ServerCommunicator::getLobbiesShortInfo()
                 {7, "Кукуруза", true, 2, 2},
                 {8, "123456789", false, 2, 3},
                 {9, "professionals", true, 3, 5},
-               };
+              };
 
     for(int i = 0; i < 10; i++)
         lobbiesShortInfoVec.push_back(stubLobbiesShortInfo[i]);
@@ -57,13 +57,13 @@ vector<LobbyShortInfo> &ServerCommunicator::getLobbiesShortInfo()
     return lobbiesShortInfoVec;
 }
 
-LobbyFullInfo ServerCommunicator::tryJoinById(int uniqueId)
+LobbyFullInfo ServerCommunicator::tryJoinById(const int uniqueId)
 {
     // Make request
     throw std::runtime_error("Лобби не найдено");
 }
 
-LobbyFullInfo ServerCommunicator::tryJoinById(int uniqueId, QString &enteredPassword)
+LobbyFullInfo ServerCommunicator::tryJoinById(const int uniqueId, const QString &enteredPassword)
 {
     // Make request
     throw std::runtime_error("Лобби не найдено");

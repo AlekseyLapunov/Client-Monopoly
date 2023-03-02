@@ -9,7 +9,7 @@
 
 namespace Ui { class LoginWindow; }
 
-typedef short int serviceFlag;
+typedef short serviceFlag;
 
 class LoginWindow : public QWidget, public BaseWin
 {
@@ -27,6 +27,7 @@ private slots:
     void quitApp();
 
 private:
+    enum ServiceFlags { google, vk };
     void baseLogin(serviceFlag flag);
     void switchToMenuWindow();
 
@@ -34,8 +35,6 @@ private:
     Ui::LoginWindow *ui;
 
     unique_ptr<MenuWindow> pMenuWindow;
-
-    enum ServiceFlags { google, vk };
 
 };
 #endif // LOGINWINDOW_H

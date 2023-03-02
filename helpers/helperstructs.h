@@ -18,8 +18,8 @@
 using std::vector;
 using std::count_if;
 
-typedef short int quantityFlag;
-typedef short int mapPatternFlag;
+typedef short quantityFlag;
+typedef short mapPatternFlag;
 
 static const QString lobbyRegExpString = "^[a-zA-Zа-яА-ЯёЁ0-9]+?( ?[a-zA-Zа-яА-ЯёЁ0-9])*$";
 static const QString uniqueIdRegExpString = "^[0-9]*$";
@@ -30,8 +30,8 @@ struct LobbyShortInfo
     int uniqueId;
     QString lobbyName;
     bool isPassworded;
-    short int curPlayersCount;
-    short int maxPlayersCount;
+    short curPlayersCount;
+    short maxPlayersCount;
 };
 
 static const QStringList lobbyTableLabels {"Название",
@@ -65,7 +65,7 @@ struct GameSettingsInfo
     mapPatternFlag mapPattern = mapPattern::rand;
 
     long int moneyRightBorder = 1000000;
-    short int turnsRightBorder = 72;
+    short turnsRightBorder = 72;
 };
 
 // Full lobby info inside LobbyWindow

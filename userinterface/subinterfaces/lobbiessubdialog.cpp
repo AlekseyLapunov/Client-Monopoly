@@ -56,6 +56,7 @@ void LobbiesSubDialog::setRegExps(const short regExpFlag)
         pRegExp = new QRegularExpression(uniqueIdRegExpString);
         break;
     default:
+        pRegExp = nullptr;
         QDialog::reject();
     }
 

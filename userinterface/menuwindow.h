@@ -10,6 +10,8 @@
 #include "subinterfaces/lobbiessubdialog.h"
 #include "helpers/basewin.h"
 
+typedef short dialogCode;
+
 namespace Ui {
 class MenuWindow;
 }
@@ -43,15 +45,24 @@ private:
     void setupLobbiesTable();
     void setupLobbiesFilter();
     void displayHostShortInfo();
-    void setButtonsState(bool makeEnabled);
+    void setButtonsState(const bool makeEnabled);
     void tableClear(QTableWidget &table);
     void tableSetupFill(QTableWidget &table, const vector<LobbyShortInfo> &contentVec, const QString &filter = "");
-    void joinById(int uniqueId);
+
+    enum DialogCodes { NoPassword, PassRejected, PassEntered };
+    dialogCode checkIfPassworded(const QTableWidgetItem &item);
 
 private:
     Ui::MenuWindow *ui;
     unique_ptr<LobbiesSubDialog> pSubDialog;
     int curUniqueId;
+
+    const QString passColumnYes = "Есть";
+    const QString passColumnNo = "Нет";
+    const QString playersColumnSlash = " / ";
+    const QString statusBarSubMessage = " | ID для подключения: ";
+    const QString lobbiesInTotal = "Всего лобби: ";
+    const QString lobbiesNotPassworded = ". Открытых комнат: ";
 };
 
 #endif // MENUWINDOW_H
