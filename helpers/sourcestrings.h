@@ -7,6 +7,10 @@
 
 using std::string;
 
+// Regular expression QStrings
+static const QString lobbyRegExpString = "^[a-zA-Zа-яА-ЯёЁ0-9]+?( ?[a-zA-Zа-яА-ЯёЁ0-9])*$";
+static const QString uniqueIdRegExpString = "^[0-9]*$";
+
 // Classes Names for the exception thrower specifying
 static const string loginWindowClassName = "LoginWindow: ";
 static const string menuWindowClassName = "MenuWindow: ";
@@ -35,6 +39,9 @@ static const QString aboutBody = "Приложение \"Игра Монопол
                                  "Клиентское приложение: Лапунов А.Ю.\n"
                                  "Серверное приложение: Звягин С.А.\n"
                                  "Руководитель ВКР: ст. преподаватель каф. ВТ Васильев В.С.";
+static const QStringList lobbyTableLabels {"Название",
+                                           "Пароль",
+                                           "Игроки"};
 
 // runtime_error
 static const string errorPtrLink = "Проблема при передаче указателей";

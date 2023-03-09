@@ -18,11 +18,9 @@
 using std::vector;
 using std::count_if;
 
-typedef short quantityFlag;
-typedef short mapPatternFlag;
-
-static const QString lobbyRegExpString = "^[a-zA-Zа-яА-ЯёЁ0-9]+?( ?[a-zA-Zа-яА-ЯёЁ0-9])*$";
-static const QString uniqueIdRegExpString = "^[0-9]*$";
+typedef short seconds;
+typedef long money;
+typedef short turns;
 
 // Lobbies short information inside MenuWindow's center table
 struct LobbyShortInfo
@@ -34,13 +32,14 @@ struct LobbyShortInfo
     short maxPlayersCount;
 };
 
-static const QStringList lobbyTableLabels {"Название",
-                                           "Пароль",
-                                           "Игроки"};
-
 // Detailed lobby system info
-struct LobbySystemInfo : public LobbyShortInfo
+struct LobbySystemInfo
 {
+    int uniqueId;
+    QString lobbyName;
+    bool isPassworded;
+    short curPlayersCount;
+    short maxPlayersCount;
     QString ownerName;
     bool isPrivate;
 };
@@ -56,16 +55,9 @@ struct UserShortInfo
 // Game settings information inside LobbyWindow's section
 struct GameSettingsInfo
 {
-    enum fieldsQuantity { none = -1, random, few, mid, many };
-    enum mapPattern { rand, crossroads, angles };
-
-    quantityFlag sabotageDistrib = fieldsQuantity::mid;
-    quantityFlag vacationDistrib = fieldsQuantity::few;
-
-    mapPatternFlag mapPattern = mapPattern::rand;
-
-    long int moneyRightBorder = 1000000;
-    short turnsRightBorder = 72;
+    seconds turnTime;
+    money moneyRightBorder;
+    turns turnsRightBorder;
 };
 
 // Full lobby info inside LobbyWindow

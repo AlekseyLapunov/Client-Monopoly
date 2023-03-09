@@ -39,7 +39,7 @@ vector<LobbyShortInfo> &ServerCommunicator::getLobbiesShortInfo()
     // !!! STUB !!!
     LobbyShortInfo stubLobbiesShortInfo[]
             = {
-                {0, "Моё лобби", true, 4, 6},
+                {0, "A STUB LOBBY", false, 4, 6},
                 {1, "Poison", false, 1, 6},
                 {2, "horseeeee", true, 3, 5},
                 {3, "Лабби1234", true, 2, 4},
@@ -60,7 +60,23 @@ vector<LobbyShortInfo> &ServerCommunicator::getLobbiesShortInfo()
 LobbyFullInfo ServerCommunicator::tryJoinById(const int uniqueId)
 {
     // Make request
-    throw std::runtime_error(serverCommClassName + lobbyNotFound);
+
+    // !!! STUB !!!
+    if(uniqueId != 0)
+        throw std::runtime_error(serverCommClassName + lobbyNotFound);
+
+    return
+    {
+        // LobbySystemInfo
+        { 0, "A STUB LOBBY", false, 4, 6, "monk", false },
+        // GameSettingsInfo
+        { 8, 1000000000, 72 },
+        // vector<UserShortInfo>
+        { {"monk", 800, true},
+          {"Kisl Jsji", 2400, true},
+          {"Роман Заглушевич", 11111, false},
+          {"ME STUB", 1200, false} }
+    };
 }
 
 LobbyFullInfo ServerCommunicator::tryJoinById(const int uniqueId, const QString &enteredPassword)
