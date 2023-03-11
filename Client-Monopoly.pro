@@ -10,7 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     helpers/usermetainfo.cpp \
-    lobbywindow.cpp \
+    userinterface/lobbywindow.cpp \
     main.cpp \
     helpers/servercommunicator.cpp \
     userinterface/loginwindow.cpp \
@@ -22,14 +22,14 @@ HEADERS += \
     helpers/helperstructs.h \
     helpers/sourcestrings.h \
     helpers/usermetainfo.h \
-    lobbywindow.h \
+    userinterface/lobbywindow.h \
     userinterface/loginwindow.h \
     helpers/servercommunicator.h \
     userinterface/menuwindow.h \
     userinterface/subinterfaces/lobbiessubdialog.h
 
 FORMS += \
-    lobbywindow.ui \
+    userinterface/lobbywindow.ui \
     userinterface/loginwindow.ui \
     userinterface/menuwindow.ui \
     userinterface/subinterfaces/lobbiessubdialog.ui
