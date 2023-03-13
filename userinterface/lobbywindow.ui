@@ -25,7 +25,7 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
+  <widget class="QWidget" name="glBaseGrid">
    <layout class="QGridLayout" name="gridLayout">
     <item row="3" column="0">
      <widget class="QLabel" name="lUsersInLobby">
@@ -37,9 +37,12 @@
       </property>
       <property name="font">
        <font>
-        <family>Cambria</family>
-        <pointsize>12</pointsize>
-        <bold>true</bold>
+        <family>Bookman Old Style</family>
+        <pointsize>11</pointsize>
+        <bold>false</bold>
+        <underline>true</underline>
+        <strikeout>false</strikeout>
+        <kerning>true</kerning>
        </font>
       </property>
       <property name="text">
@@ -51,13 +54,34 @@
      </widget>
     </item>
     <item row="1" column="0">
-     <layout class="QGridLayout" name="gridLayout_3">
+     <layout class="QGridLayout" name="glLeftSettings">
+      <item row="1" column="0">
+       <widget class="QLabel" name="lLobbyNameConst">
+        <property name="font">
+         <font>
+          <family>Bookman Old Style</family>
+          <underline>true</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>Название</string>
+        </property>
+       </widget>
+      </item>
       <item row="1" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <layout class="QHBoxLayout" name="hlRow1">
         <item>
-         <widget class="QLineEdit" name="lineEdit">
+         <widget class="QLineEdit" name="leLobbyName">
+          <property name="font">
+           <font>
+            <family>Bookman Old Style</family>
+           </font>
+          </property>
           <property name="maxLength">
            <number>15</number>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -76,98 +100,50 @@
         </item>
        </layout>
       </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
+      <item row="0" column="0">
+       <widget class="QLabel" name="lLobbyName">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>Bookman Old Style</family>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
         <property name="text">
-         <string>Название</string>
+         <string>LobbyName</string>
         </property>
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QLabel" name="label_11">
+       <widget class="QLabel" name="lPasswordConst">
+        <property name="font">
+         <font>
+          <family>Bookman Old Style</family>
+          <underline>true</underline>
+         </font>
+        </property>
         <property name="text">
-         <string>Закрытое</string>
+         <string>Пароль</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <item row="3" column="1">
+       <layout class="QHBoxLayout" name="hlRow3">
         <item>
-         <widget class="QCheckBox" name="checkBox">
-          <property name="text">
-           <string/>
+         <widget class="QSpinBox" name="sbMaxPlayers">
+          <property name="font">
+           <font>
+            <family>Bookman Old Style</family>
+           </font>
           </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_9">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+          <property name="readOnly">
+           <bool>true</bool>
           </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="label_7">
-        <property name="text">
-         <string>Максимум игроков</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <spacer name="horizontalSpacer_3">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="bSetLobbySettings">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Редактировать настройки</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_4">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-      <item row="4" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout_7">
-        <item>
-         <widget class="QSpinBox" name="spinBox_2">
           <property name="minimum">
            <number>2</number>
           </property>
@@ -194,25 +170,27 @@
         </item>
        </layout>
       </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="lLobbyName">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>LobbyName</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout_6">
+      <item row="2" column="1">
+       <layout class="QHBoxLayout" name="hlRow2">
         <item>
-         <widget class="QLineEdit" name="lineEdit_2">
+         <widget class="QLineEdit" name="lePassword">
+          <property name="font">
+           <font>
+            <family>Bookman Old Style</family>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
           <property name="maxLength">
            <number>5</number>
+          </property>
+          <property name="echoMode">
+           <enum>QLineEdit::Password</enum>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -232,11 +210,67 @@
        </layout>
       </item>
       <item row="3" column="0">
-       <widget class="QLabel" name="label_6">
+       <widget class="QLabel" name="lMaxPlayersConst">
+        <property name="font">
+         <font>
+          <family>Bookman Old Style</family>
+          <underline>true</underline>
+         </font>
+        </property>
         <property name="text">
-         <string>Пароль</string>
+         <string>Максимум игроков</string>
         </property>
        </widget>
+      </item>
+      <item row="0" column="1">
+       <layout class="QHBoxLayout" name="hlRow0">
+        <item>
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="bSetLobbySettings">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Bookman Old Style</family>
+            <pointsize>10</pointsize>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Редактировать настройки</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </item>
      </layout>
     </item>
@@ -261,28 +295,60 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <widget class="QPushButton" name="pushButton_5">
+         <widget class="QPushButton" name="bStartGame">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Bookman Old Style</family>
+            <pointsize>12</pointsize>
+            <bold>false</bold>
+           </font>
+          </property>
           <property name="text">
-           <string>PushButton</string>
+           <string>Запустить игру</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_4">
+         <widget class="QPushButton" name="bToggleLobbyVision">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Bookman Old Style</family>
+            <pointsize>10</pointsize>
+            <bold>false</bold>
+           </font>
+          </property>
           <property name="text">
-           <string>PushButton</string>
+           <string>Переключить видимость лобби</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_3">
-          <property name="text">
-           <string>PushButton</string>
+         <widget class="QPushButton" name="bToggleReady">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>30</height>
+           </size>
           </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pushButton_2">
+          <property name="font">
+           <font>
+            <family>Bookman Old Style</family>
+            <pointsize>12</pointsize>
+            <bold>false</bold>
+           </font>
+          </property>
           <property name="text">
            <string>Переключить готовность</string>
           </property>
@@ -290,6 +356,19 @@
         </item>
         <item>
          <widget class="QPushButton" name="bLeaveLobby">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Bookman Old Style</family>
+            <pointsize>12</pointsize>
+            <bold>false</bold>
+           </font>
+          </property>
           <property name="text">
            <string>Выйти из лобби</string>
           </property>
@@ -323,6 +402,14 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="font">
+       <font>
+        <family>Bookman Old Style</family>
+        <pointsize>11</pointsize>
+        <bold>false</bold>
+        <underline>true</underline>
+       </font>
+      </property>
       <property name="text">
        <string>Настройки лобби</string>
       </property>
@@ -349,6 +436,16 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="font">
+       <font>
+        <family>Bookman Old Style</family>
+        <pointsize>11</pointsize>
+        <italic>false</italic>
+        <bold>false</bold>
+        <underline>true</underline>
+        <strikeout>false</strikeout>
+       </font>
+      </property>
       <property name="text">
        <string>Настройки игры</string>
       </property>
@@ -368,12 +465,223 @@
         <height>250</height>
        </size>
       </property>
+      <property name="font">
+       <font>
+        <family>Bookman Old Style</family>
+       </font>
+      </property>
      </widget>
     </item>
     <item row="1" column="1">
-     <layout class="QGridLayout" name="gridLayout_4">
+     <layout class="QGridLayout" name="glRightSettings">
+      <item row="2" column="0">
+       <widget class="QLabel" name="lMaxBalanceConst">
+        <property name="font">
+         <font>
+          <family>Bookman Old Style</family>
+          <underline>true</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>Макс. баланс</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <layout class="QHBoxLayout" name="hlRow2_2">
+        <item>
+         <widget class="QComboBox" name="cbMaxBalance">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <item>
+           <property name="text">
+            <string>100 миллионов</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>250 миллионов</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>500 миллионов</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>750 миллионов</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>1 миллиард</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Своё значение</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Неограниченно</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_10">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="lSpacerConst">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <layout class="QHBoxLayout" name="hlRow3_2">
+        <item>
+         <widget class="QSpinBox" name="sbTurnTime">
+          <property name="suffix">
+           <string> секунд</string>
+          </property>
+          <property name="prefix">
+           <string/>
+          </property>
+          <property name="minimum">
+           <number>8</number>
+          </property>
+          <property name="maximum">
+           <number>15</number>
+          </property>
+          <property name="value">
+           <number>10</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_12">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item row="1" column="1">
+       <layout class="QHBoxLayout" name="hlRow1_2">
+        <item>
+         <widget class="QComboBox" name="cbMaxTurns">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>60</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Bookman Old Style</family>
+           </font>
+          </property>
+          <property name="currentIndex">
+           <number>2</number>
+          </property>
+          <item>
+           <property name="text">
+            <string>24</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>48</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>72</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Своё значение</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Неограниченно</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_8">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="lMaxTurnsConst">
+        <property name="font">
+         <font>
+          <family>Bookman Old Style</family>
+          <underline>true</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>Макс. ходов</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <layout class="QHBoxLayout" name="hlRow0_2">
         <item>
          <spacer name="horizontalSpacer_5">
           <property name="orientation">
@@ -395,6 +703,13 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="font">
+           <font>
+            <family>Bookman Old Style</family>
+            <pointsize>10</pointsize>
+            <bold>false</bold>
+           </font>
+          </property>
           <property name="text">
            <string>Редактировать настройки</string>
           </property>
@@ -415,76 +730,18 @@
         </item>
        </layout>
       </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_8">
-        <property name="text">
-         <string>Макс. баланс</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>Макс. ходов</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="lineEdit_5">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QLabel" name="label_10">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="label_4">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
       <item row="3" column="0">
-       <widget class="QLabel" name="label_9">
+       <widget class="QLabel" name="lTurnTimeConst">
+        <property name="font">
+         <font>
+          <family>Bookman Old Style</family>
+          <underline>true</underline>
+         </font>
+        </property>
         <property name="text">
          <string>Время на ход</string>
         </property>
        </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="lineEdit_6">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QSpinBox" name="spinBox"/>
       </item>
      </layout>
     </item>
@@ -496,30 +753,194 @@
      <x>0</x>
      <y>0</y>
      <width>788</width>
-     <height>25</height>
+     <height>19</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Bookman Old Style</family>
+    </font>
+   </property>
    <widget class="QMenu" name="menu">
+    <property name="font">
+     <font>
+      <family>Bookman Old Style</family>
+     </font>
+    </property>
     <property name="title">
      <string>Меню</string>
     </property>
-    <addaction name="action"/>
-    <addaction name="action_2"/>
+    <addaction name="aLeaveLobby"/>
+    <addaction name="aQuitApp"/>
    </widget>
    <addaction name="menu"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
-  <action name="action">
+  <widget class="QStatusBar" name="statusbar">
+   <property name="font">
+    <font>
+     <family>Bookman Old Style</family>
+    </font>
+   </property>
+  </widget>
+  <action name="aLeaveLobby">
    <property name="text">
     <string>Выйти из лобби</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Bookman Old Style</family>
+    </font>
+   </property>
   </action>
-  <action name="action_2">
+  <action name="aQuitApp">
    <property name="text">
     <string>Выйти из приложения</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Bookman Old Style</family>
+    </font>
    </property>
   </action>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>bSetGameSettings</sender>
+   <signal>clicked()</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>setGameSettings()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>629</x>
+     <y>64</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>393</x>
+     <y>303</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bSetLobbySettings</sender>
+   <signal>clicked()</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>setLobbySettings()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>257</x>
+     <y>64</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>393</x>
+     <y>303</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bStartGame</sender>
+   <signal>clicked()</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>startGame()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>585</x>
+     <y>363</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>393</x>
+     <y>303</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bToggleLobbyVision</sender>
+   <signal>clicked()</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>toggleLobbyVision()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>585</x>
+     <y>420</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>393</x>
+     <y>303</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bToggleReady</sender>
+   <signal>clicked()</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>toggleReadyStatus()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>585</x>
+     <y>477</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>393</x>
+     <y>303</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bLeaveLobby</sender>
+   <signal>clicked()</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>leaveLobby()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>585</x>
+     <y>534</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>393</x>
+     <y>303</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>aLeaveLobby</sender>
+   <signal>triggered()</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>leaveLobby()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>393</x>
+     <y>303</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>aQuitApp</sender>
+   <signal>triggered()</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>quitApp()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>393</x>
+     <y>303</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>toggleLobbyVision()</slot>
+  <slot>startGame()</slot>
+  <slot>setLobbySettings()</slot>
+  <slot>setGameSettings()</slot>
+  <slot>leaveLobby()</slot>
+  <slot>toggleReadyStatus()</slot>
+  <slot>quitApp()</slot>
+ </slots>
 </ui>

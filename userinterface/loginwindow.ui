@@ -36,8 +36,8 @@
      </property>
      <property name="font">
       <font>
-       <family>Candara</family>
-       <pointsize>14</pointsize>
+       <family>Bookman Old Style</family>
+       <pointsize>12</pointsize>
        <bold>true</bold>
       </font>
      </property>
@@ -68,8 +68,8 @@
      </property>
      <property name="font">
       <font>
-       <family>Candara</family>
-       <bold>true</bold>
+       <family>Bookman Old Style</family>
+       <bold>false</bold>
       </font>
      </property>
      <property name="text">
@@ -81,8 +81,8 @@
     <widget class="QPushButton" name="bVkLogin">
      <property name="font">
       <font>
-       <family>Candara</family>
-       <bold>true</bold>
+       <family>Bookman Old Style</family>
+       <bold>false</bold>
       </font>
      </property>
      <property name="text">
@@ -94,9 +94,9 @@
     <widget class="QPushButton" name="bQuitApp">
      <property name="font">
       <font>
-       <family>Candara</family>
+       <family>Bookman Old Style</family>
        <italic>false</italic>
-       <bold>true</bold>
+       <bold>false</bold>
        <strikeout>false</strikeout>
        <kerning>true</kerning>
       </font>
