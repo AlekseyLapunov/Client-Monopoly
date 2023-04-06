@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include <QString>
+#include <QStringList>
 
 using std::string;
 
@@ -43,10 +44,35 @@ static const QStringList lobbyTableLabels {"Название",
                                            "Пароль",
                                            "Игроки"};
 
+// Sub-dialog strings
+/// Changing nickname
+static const QStringList subDialogChangeNickname = {"Сменить псевдоним", "Применить",
+                                                    "Отмена", "Введите новый псевдоним:",
+                                                    "Псевдоним"};
+/// Joining by ID
+static const QStringList subDialogJoinById = {"Подключение по ID", "Подключиться",
+                                              "Отмена", "Введите ID комнаты:", "ID"};
+/// Joining with password
+static const QStringList subDialogPasswordedJoin = {"Ввод пароля к лобби", "Подключиться",
+                                                    "Отмена", "Введите пароль комнаты \"",
+                                                    "Пароль"};
+enum sdMode {sdNickname, sdDirectJoin, sdPasswordJoin};
+enum sdElems {sdWinTitle, sdApplyB, sdRejectB, sdInfoString, sdInputString};
+static const QStringList sdStrings[] = {subDialogChangeNickname, subDialogJoinById, subDialogPasswordedJoin};
+
 // runtime_error
 static const string errorPtrLink = "Проблема при передаче указателей";
 static const string lobbyNotFound = "Лобби не найдено";
 static const string googleAuthFail = "Не удалось войти\nчерез Google аккаунт";
 static const string vkAuthFail = "Не удалось войти\nчерез VK аккаунт";
 
+
 #endif // SOURCESTRINGS_H
+
+
+
+
+
+
+
+

@@ -24,19 +24,25 @@ void LobbiesSubDialog::selfConfig(const short configFlag, const QString &carrier
         this->setRegExps(lobbyRegExp);
         ui->leInput->setEchoMode(QLineEdit::Normal);
         ui->leInput->setMaxLength(NICKNAME_MAX_LENGTH);
-        writeWidgetTexts("Сменить псевдоним", "Применить", "Отмена", "Введите новый псевдоним:", "Псевдоним");
+        writeWidgetTexts(sdStrings[sdNickname][sdWinTitle], sdStrings[sdNickname][sdApplyB],
+                         sdStrings[sdNickname][sdRejectB], sdStrings[sdNickname][sdInfoString],
+                         sdStrings[sdNickname][sdInputString]);
         break;
     case joinById:
         this->setRegExps(uniqueIdRegExp);
         ui->leInput->setEchoMode(QLineEdit::Normal);
         ui->leInput->setMaxLength(UNIQUE_ID_MAX_LENGTH);
-        writeWidgetTexts("Подключение по ID", "Подключиться", "Отмена", "Введите ID комнаты:", "ID");
+        writeWidgetTexts(sdStrings[sdDirectJoin][sdWinTitle], sdStrings[sdDirectJoin][sdApplyB],
+                         sdStrings[sdDirectJoin][sdRejectB], sdStrings[sdDirectJoin][sdInfoString],
+                         sdStrings[sdDirectJoin][sdInputString]);
         break;
     case lobbyPasswordEnter:
         this->setRegExps(lobbyRegExp);
         ui->leInput->setEchoMode(QLineEdit::Password);
         ui->leInput->setMaxLength(LOBBY_PASSWORD_MAX_LENGTH);
-        writeWidgetTexts("Ввод пароля к лобби", "Подключиться", "Отмена", "Введите пароль комнаты \"" + carrier + "\": ", "Пароль");
+        writeWidgetTexts(sdStrings[sdPasswordJoin][sdWinTitle], sdStrings[sdPasswordJoin][sdApplyB],
+                         sdStrings[sdPasswordJoin][sdRejectB], sdStrings[sdPasswordJoin][sdInfoString] + carrier + "\":",
+                         sdStrings[sdPasswordJoin][sdInputString]);
         break;
     default:
         QDialog::reject();

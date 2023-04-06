@@ -8,6 +8,7 @@
 #include <QRegularExpression>
 #include <QRegularExpressionValidator>
 
+#include "helpers/sourcestrings.h"
 #include "helpers/helperstructs.h"
 #include "helpers/basewin.h"
 

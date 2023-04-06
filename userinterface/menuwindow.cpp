@@ -103,8 +103,16 @@ void MenuWindow::joinIdDialog()
     pSubDialog.get()->selfConfig(LobbiesSubDialog::joinById);
     if(pSubDialog.get()->exec() == QDialog::Accepted)
     {
-        // !!! STUB !!!
-        pServer()->get()->tryJoinById(pSubDialog.get()->uniqueIdValue());
+        // !!! STUB !!! NEED TO CHECK IF PASSWORDED!
+        try
+        {
+            pServer()->get()->tryJoinById(pSubDialog.get()->uniqueIdValue());
+        }
+        catch (std::exception &e)
+        {
+            this->execErrorBox(e.what());
+            return;
+        }
     }
 }
 
@@ -142,7 +150,7 @@ void MenuWindow::setupLobbiesFilter()
 void MenuWindow::displayHostShortInfo()
 {
     ui->lNickname->setText(pUserMetaInfo()->get()->getHostInfo().userName);
-    ui->lRpCount->setText("| " + QString::number(pUserMetaInfo()->get()->getHostInfo().userRpCount) + " RP");
+    ui->lRpCount->setText(QString::number(pUserMetaInfo()->get()->getHostInfo().userRpCount) + " RP");
 }
 
 void MenuWindow::setButtonsState(const bool makeEnabled)
