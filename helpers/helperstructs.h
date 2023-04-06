@@ -40,6 +40,7 @@ struct LobbySystemInfo
     bool isPassworded;
     short curPlayersCount;
     short maxPlayersCount;
+    int ownerUniqueId;
     QString ownerName;
     bool isPrivate;
 };

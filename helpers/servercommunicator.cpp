@@ -68,7 +68,7 @@ LobbyFullInfo ServerCommunicator::tryJoinById(const int uniqueId)
     return
     {
         // LobbySystemInfo
-        { 0, "A STUB LOBBY", false, 4, 6, "monk", false },
+        { 0, "A STUB LOBBY", false, 4, 6, 234, "monk", false },
         // GameSettingsInfo
         { 8, 1000000000, 72 },
         // vector<UserShortInfo>

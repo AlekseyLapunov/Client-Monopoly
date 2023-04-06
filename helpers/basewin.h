@@ -64,6 +64,12 @@ protected:
                                        "Подключиться к лобби \"" + carrier + "\"?",
                                        {"Да", "Нет"});
             break;
+        case leaveLobby:
+            qmb = dialogBoxConstructor(QMessageBox::Question,
+                                       "Выход из лобби",
+                                       "Вы уверены, что хотите покинуть лобби?",
+                                       {"Да", "Нет"});
+            break;
         default:
             break;
         }
@@ -77,7 +83,7 @@ protected:
     }
 
 protected:
-    enum DialogBoxVariations { quitApp, changeAcc, joinLobby };
+    enum DialogBoxVariations { quitApp, changeAcc, joinLobby, leaveLobby };
 
 private:
     unique_ptr<QMessageBox> dialogBoxConstructor(QMessageBox::Icon icon,

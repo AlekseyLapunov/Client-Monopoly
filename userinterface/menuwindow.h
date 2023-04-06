@@ -9,6 +9,7 @@
 
 #include "subinterfaces/lobbiessubdialog.h"
 #include "helpers/basewin.h"
+#include "lobbywindow.h"
 
 typedef short dialogCode;
 
@@ -46,10 +47,10 @@ private:
     void setupLobbiesTable();
     void setupLobbiesFilter();
     void displayHostShortInfo();
-    void setButtonsState(const bool makeEnabled);
     void tableClear(QTableWidget &table);
     void tableSetupFill(QTableWidget &table, const vector<LobbyShortInfo> &contentVec, const QString &filter = "");
     void switchJoinByItem(const QTableWidgetItem &item);
+    void showLobbyWindow(LobbyFullInfo& context);
 
     enum DialogCodes { NoPassword, PassRejected, PassEntered };
     dialogCode checkIfPassworded(const QTableWidgetItem &item);
@@ -57,6 +58,8 @@ private:
 private:
     Ui::MenuWindow *ui;
     unique_ptr<LobbiesSubDialog> pSubDialog;
+    unique_ptr<LobbyWindow> pLobbyWindow;
+
     int curUniqueId = -1;
 };
 

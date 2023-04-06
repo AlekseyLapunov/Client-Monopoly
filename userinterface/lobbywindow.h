@@ -15,8 +15,16 @@ class LobbyWindow : public QMainWindow, public BaseWin
     Q_OBJECT
 
 public:
-    explicit LobbyWindow(QWidget *parent = nullptr);
+    explicit LobbyWindow(unique_ptr<ServerCommunicator> *newServerPtr,
+                         unique_ptr<UserMetaInfo> *newMetaInfoPtr,
+                         QWidget *parent = nullptr);
     ~LobbyWindow();
+
+    void giveFirstContext(LobbyFullInfo &context);
+    void windowDataRefresh();
+
+signals:
+    void goToMenuWindow();
 
 private slots:
     void toggleLobbyVision();
@@ -27,9 +35,16 @@ private slots:
     void toggleReadyStatus();
     void quitApp();
 
+private:
+    void setUpByPrivileges(int uniqueHostId);
+    void setUpLobbySystem(LobbySystemInfo& lsiContext);
+    void setUpGameSettings(GameSettingsInfo& gsContext);
+    void setUpUsersInTable(vector<UserShortInfo>& usiContextVec);
 
 private:
     Ui::LobbyWindow *ui;
+
+    LobbyFullInfo m_context;
 };
 
 #endif // LOBBYWINDOW_H
