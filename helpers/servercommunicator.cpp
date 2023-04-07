@@ -68,14 +68,15 @@ LobbyFullInfo ServerCommunicator::tryJoinById(const int uniqueId)
     return
     {
         // LobbySystemInfo
-        { 0, "A STUB LOBBY", false, 4, 6, 234, "monk", false },
+        { 0, "A STUB LOBBY", false, 3, 6, 234, "monk", false },
         // GameSettingsInfo
-        { 8, 1000000000, 72 },
+        { 8, 1.000, false, 72, false },
         // vector<UserShortInfo>
-        { {"monk", 800, true},
+        {
+          {"monk", 800, true},
           {"Kisl Jsji", 2400, true},
           {"Роман Заглушевич", 11111, false},
-          {"ME STUB", 1200, false} }
+        }
     };
 }
 
@@ -83,6 +84,52 @@ LobbyFullInfo ServerCommunicator::tryJoinById(const int uniqueId, const QString 
 {
     // Make request
     throw std::runtime_error(serverCommClassName + lobbyNotFound);
+}
+
+LobbyFullInfo ServerCommunicator::tryCreateLobby(const int hostUserId)
+{
+    // !!! STUB !!!
+    // Need to check if user already has created lobby. If does - throw exception
+    if(false)
+        throw std::runtime_error(serverCommClassName + alreadyHasLobby);
+
+    return
+    {
+        // LobbySystemInfo
+        { 1, "MY STUB LOBBY", false, 1, 6, hostUserId, "HOST STUB", true },
+        // GameSettingsInfo
+        { 8, 0.100, false, 72, false },
+        // vector<UserShortInfo>
+        {}
+    };
+}
+
+LobbyFullInfo ServerCommunicator::tryRankedQueue(const int hostUserId)
+{
+    // !!! STUB !!!
+    // Need to check if user already in the queue
+    if(false)
+        throw std::runtime_error(serverCommClassName + rankedException);
+
+    return
+    {
+        // LobbySystemInfo
+        { -1, "RANKED STUB", false, 3, 4, -1, "HOST STUB", true },
+        // GameSettingsInfo
+        { 8, 2.000, true, 72, false },
+        // vector<UserShortInfo>
+        {
+          {"monk", 800, true},
+          {"Kisl Jsji", 2400, true},
+          {"Роман Заглушевич", 11111, false}
+        }
+    };
+
+}
+
+void ServerCommunicator::deleteLobbyRequest(const int lobbyUniqueId)
+{
+    // !!! STUB !!!
 }
 
 

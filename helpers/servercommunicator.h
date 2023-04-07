@@ -25,6 +25,9 @@ public:
     vector<LobbyShortInfo>& getLobbiesShortInfo();
     LobbyFullInfo tryJoinById(const int uniqueId);
     LobbyFullInfo tryJoinById(const int uniqueId, const QString &enteredPassword);
+    LobbyFullInfo tryCreateLobby(const int hostUserId);
+    LobbyFullInfo tryRankedQueue(const int hostUserId);
+    void deleteLobbyRequest(const int lobbyUniqueId);
 
 private:
     QString m_httpHost = "";

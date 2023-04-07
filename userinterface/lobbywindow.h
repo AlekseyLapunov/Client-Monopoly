@@ -36,7 +36,9 @@ private slots:
     void quitApp();
 
 private:
-    void setUpByPrivileges(int uniqueHostId);
+    void definePrivilege();
+    void setUpByPrivilege();
+    void setButtonsVisibility(bool areVisible);
     void setUpLobbySystem(LobbySystemInfo& lsiContext);
     void setUpGameSettings(GameSettingsInfo& gsContext);
     void setUpUsersInTable(vector<UserShortInfo>& usiContextVec);
@@ -45,6 +47,9 @@ private:
     Ui::LobbyWindow *ui;
 
     LobbyFullInfo m_context;
+
+    enum privelegeTypes { owner, guest, rankedGuest };
+    short m_privilegeType = guest;
 };
 
 #endif // LOBBYWINDOW_H

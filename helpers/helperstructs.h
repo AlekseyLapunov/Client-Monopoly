@@ -18,10 +18,6 @@
 using std::vector;
 using std::count_if;
 
-typedef short seconds;
-typedef long money;
-typedef short turns;
-
 // Lobbies short information inside MenuWindow's center table
 struct LobbyShortInfo
 {
@@ -56,9 +52,11 @@ struct UserShortInfo
 // Game settings information inside LobbyWindow's section
 struct GameSettingsInfo
 {
-    seconds turnTime;
-    money moneyRightBorder;
-    turns turnsRightBorder;
+    short turnTime;
+    float moneyRightBorder; // represents billions
+    bool isMaxMoneyInfinite;
+    short turnsRightBorder;
+    bool isMaxTurnsInfinite;
 };
 
 // Full lobby info inside LobbyWindow

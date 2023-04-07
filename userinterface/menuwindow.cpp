@@ -121,6 +121,34 @@ void MenuWindow::joinIdDialog()
     }
 }
 
+void MenuWindow::createLobby()
+{
+    try
+    {
+        m_firstContext = pServer()->get()->tryCreateLobby(pUserMetaInfo()->get()->getHostInfo().uniqueUserId);
+    }
+    catch (std::exception &e)
+    {
+        this->execErrorBox(e.what());
+        return;
+    }
+    showLobbyWindow(m_firstContext);
+}
+
+void MenuWindow::findRanked()
+{
+    try
+    {
+        m_firstContext = pServer()->get()->tryRankedQueue(pUserMetaInfo()->get()->getHostInfo().uniqueUserId);
+    }
+    catch (std::exception &e)
+    {
+        this->execErrorBox(e.what());
+        return;
+    }
+    showLobbyWindow(m_firstContext);
+}
+
 void MenuWindow::showAbout()
 {
     QMessageBox qmb(QMessageBox::Information, aboutTitle, aboutBody);
@@ -213,13 +241,12 @@ void MenuWindow::tableSetupFill(QTableWidget &table, const vector<LobbyShortInfo
 
 void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
 {
-    LobbyFullInfo firstContext;
     switch (this->checkIfPassworded(item))
     {
     case DialogCodes::PassEntered:
         try
         {
-            firstContext = pServer()->get()->tryJoinById(curUniqueId, pSubDialog.get()->lobbyPasswordValue());
+            m_firstContext = pServer()->get()->tryJoinById(curUniqueId, pSubDialog.get()->lobbyPasswordValue());
         }
         catch (std::exception &e)
         {
@@ -230,7 +257,7 @@ void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
     case DialogCodes::NoPassword:
         try
         {
-            firstContext = pServer()->get()->tryJoinById(curUniqueId);
+            m_firstContext = pServer()->get()->tryJoinById(curUniqueId);
         }
         catch (std::exception &e)
         {
@@ -241,7 +268,7 @@ void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
     default:
         return;
     }
-    showLobbyWindow(firstContext);
+    showLobbyWindow(m_firstContext);
 }
 
 void MenuWindow::showLobbyWindow(LobbyFullInfo& context)

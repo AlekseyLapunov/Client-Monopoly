@@ -41,6 +41,8 @@ private slots:
     void joinToLobby(QTableWidgetItem *itemActivated);
     void joinToLobby();
     void joinIdDialog();
+    void createLobby();
+    void findRanked();
     void showAbout();
 
 private:
@@ -59,6 +61,8 @@ private:
     Ui::MenuWindow *ui;
     unique_ptr<LobbiesSubDialog> pSubDialog;
     unique_ptr<LobbyWindow> pLobbyWindow;
+
+    LobbyFullInfo m_firstContext;
 
     int curUniqueId = -1;
 };

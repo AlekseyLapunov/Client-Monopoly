@@ -462,6 +462,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>bCreateLobby</sender>
+   <signal>clicked()</signal>
+   <receiver>MenuWindow</receiver>
+   <slot>createLobby()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>300</x>
+     <y>498</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bRankedSearch</sender>
+   <signal>clicked()</signal>
+   <receiver>MenuWindow</receiver>
+   <slot>findRanked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>517</x>
+     <y>498</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>quitApp()</slot>
@@ -473,5 +505,7 @@
   <slot>joinIdDialog()</slot>
   <slot>joinToLobby()</slot>
   <slot>showAbout()</slot>
+  <slot>createLobby()</slot>
+  <slot>findRanked()</slot>
  </slots>
 </ui>

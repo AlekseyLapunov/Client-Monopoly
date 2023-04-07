@@ -39,12 +39,19 @@ static const QString aboutBody = "Приложение \"Игра Монопол
                                  "в рамках выпускной квалификационной работы.\n"
                                  "Клиентское приложение: Лапунов А.Ю.\n"
                                  "Серверное приложение: Звягин С.А.\n"
-                                 "Руководитель ВКР: ст. преподаватель каф. ВТ Васильев В.С.";
+                                 "Руководитель ВКР: ст. преподаватель каф. ВТ ИКИТ СФУ Васильев В.С.";
 static const QStringList lobbyTableLabels {"Название",
                                            "Пароль",
                                            "Игроки"};
 
+// LobbyWindow
+static const QString passwordPlaceholder = "*****";
+static const QString deleteLobbyText = "Удалить лобби";
+static const QString rankedLobbyText = "Рейтинговое лобби";
+
 // Sub-dialog strings
+enum sdMode {sdNickname, sdDirectJoin, sdPasswordJoin};
+enum sdElems {sdWinTitle, sdApplyB, sdRejectB, sdInfoString, sdInputString};
 /// Changing nickname
 static const QStringList subDialogChangeNickname = {"Сменить псевдоним", "Применить",
                                                     "Отмена", "Введите новый псевдоним:",
@@ -56,8 +63,6 @@ static const QStringList subDialogJoinById = {"Подключение по ID", 
 static const QStringList subDialogPasswordedJoin = {"Ввод пароля к лобби", "Подключиться",
                                                     "Отмена", "Введите пароль комнаты \"",
                                                     "Пароль"};
-enum sdMode {sdNickname, sdDirectJoin, sdPasswordJoin};
-enum sdElems {sdWinTitle, sdApplyB, sdRejectB, sdInfoString, sdInputString};
 static const QStringList sdStrings[] = {subDialogChangeNickname, subDialogJoinById, subDialogPasswordedJoin};
 
 // runtime_error
@@ -65,6 +70,8 @@ static const string errorPtrLink = "Проблема при передаче у�
 static const string lobbyNotFound = "Лобби не найдено";
 static const string googleAuthFail = "Не удалось войти\nчерез Google аккаунт";
 static const string vkAuthFail = "Не удалось войти\nчерез VK аккаунт";
+static const string alreadyHasLobby = "Лобби уже существует";
+static const string rankedException = "Вы уже находитесь в очереди";
 
 
 #endif // SOURCESTRINGS_H
