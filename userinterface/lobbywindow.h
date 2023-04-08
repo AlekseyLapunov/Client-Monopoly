@@ -23,6 +23,7 @@ public:
 
     void giveFirstContext(LobbyFullInfo &context);
     void windowDataRefresh();
+    void showAndRefresh();
 
 signals:
     void goToMenuWindow();

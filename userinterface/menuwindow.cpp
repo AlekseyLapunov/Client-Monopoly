@@ -21,7 +21,7 @@ MenuWindow::MenuWindow(unique_ptr<ServerCommunicator> *newServerPtr,
     pLobbyWindow = unique_ptr<LobbyWindow>(new LobbyWindow(pServer(), pUserMetaInfo()));
 
     connect(pLobbyWindow.get(), &LobbyWindow::goToMenuWindow,
-            this, &MenuWindow::show);
+            this, &MenuWindow::showAndRefresh);
 }
 
 MenuWindow::~MenuWindow()
@@ -31,6 +31,8 @@ MenuWindow::~MenuWindow()
 
 void MenuWindow::windowDataRefresh()
 {
+    pUserMetaInfo()->get()->setHostInfo(pServer()->get()->getCurrentHostInfo());
+    ui->setupUi(this);
     this->setDisabled(true);
     this->setupLobbiesTable();
     this->displayHostShortInfo();
@@ -111,7 +113,7 @@ void MenuWindow::joinIdDialog()
         // !!! STUB !!! NEED TO CHECK IF PASSWORDED!
         try
         {
-            pServer()->get()->tryJoinById(pSubDialog.get()->uniqueIdValue());
+            m_firstContext = pServer()->get()->tryJoinById(pSubDialog.get()->uniqueIdValue());
         }
         catch (std::exception &e)
         {
@@ -119,6 +121,7 @@ void MenuWindow::joinIdDialog()
             return;
         }
     }
+    showLobbyWindow();
 }
 
 void MenuWindow::createLobby()
@@ -132,7 +135,7 @@ void MenuWindow::createLobby()
         this->execErrorBox(e.what());
         return;
     }
-    showLobbyWindow(m_firstContext);
+    showLobbyWindow();
 }
 
 void MenuWindow::findRanked()
@@ -146,7 +149,7 @@ void MenuWindow::findRanked()
         this->execErrorBox(e.what());
         return;
     }
-    showLobbyWindow(m_firstContext);
+    showLobbyWindow();
 }
 
 void MenuWindow::showAbout()
@@ -170,6 +173,12 @@ void MenuWindow::chooseNickname()
             return;
         }
     }
+}
+
+void MenuWindow::showAndRefresh()
+{
+    this->windowDataRefresh();
+    this->show();
 }
 
 void MenuWindow::setupLobbiesTable()
@@ -285,15 +294,14 @@ void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
     default:
         return;
     }
-    showLobbyWindow(m_firstContext);
+    showLobbyWindow();
 }
 
-void MenuWindow::showLobbyWindow(LobbyFullInfo& context)
+void MenuWindow::showLobbyWindow()
 {
     this->hide();
-    pLobbyWindow.get()->giveFirstContext(context);
-    pLobbyWindow.get()->windowDataRefresh();
-    pLobbyWindow.get()->show();
+    pLobbyWindow.get()->giveFirstContext(m_firstContext);
+    pLobbyWindow.get()->showAndRefresh();
 }
 
 dialogCode MenuWindow::checkIfPassworded(const QTableWidgetItem &item)

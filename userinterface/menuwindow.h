@@ -28,6 +28,7 @@ public:
     ~MenuWindow();
 
     void windowDataRefresh();
+    void showAndRefresh();
 
 signals:
     void goToLoginWindow();
@@ -53,7 +54,7 @@ private:
     void tableClear(QTableWidget &table);
     void tableSetupFill(QTableWidget &table, const vector<LobbyShortInfo> &contentVec, const QString &filter = "");
     void switchJoinByItem(const QTableWidgetItem &item);
-    void showLobbyWindow(LobbyFullInfo& context);
+    void showLobbyWindow();
 
     enum DialogCodes { NoPassword, PassRejected, PassEntered };
     dialogCode checkIfPassworded(const QTableWidgetItem &item);

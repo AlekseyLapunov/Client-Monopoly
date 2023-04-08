@@ -16,7 +16,9 @@ HostUserData ServerCommunicator::doVkLogin()
     if(false)
         throw std::runtime_error(serverCommClassName + vkAuthFail);
 
-    return {11, "VK STUB", 1111, USING_3D_DICES};
+    m_temporaryHostData = {11, "VK STUB", 1111, USING_3D_DICES};
+
+    return m_temporaryHostData;
 }
 
 HostUserData ServerCommunicator::doGoogleLogin()
@@ -25,7 +27,16 @@ HostUserData ServerCommunicator::doGoogleLogin()
     if(false)
         throw std::runtime_error(serverCommClassName + googleAuthFail);
 
-    return {15, "GOOGLE STUB", 1212, USING_3D_DICES};
+    m_temporaryHostData = {15, "GOOGLE STUB", 1212, USING_3D_DICES};
+
+    return m_temporaryHostData;
+}
+
+HostUserData ServerCommunicator::getCurrentHostInfo()
+{
+    // !!! STUB !!!
+    // Need to request Host Data from server data base
+    return m_temporaryHostData;
 }
 
 vector<LobbyShortInfo> &ServerCommunicator::getLobbiesShortInfo()

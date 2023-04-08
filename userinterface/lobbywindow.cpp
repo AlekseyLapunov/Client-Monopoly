@@ -23,12 +23,13 @@ LobbyWindow::~LobbyWindow()
 void LobbyWindow::giveFirstContext(LobbyFullInfo &context)
 {
     HostUserData hostUser = pUserMetaInfo()->get()->getHostInfo();
-    context.usersInTable.push_back({hostUser.userName, hostUser.userRpCount, false});
+    context.usersInTable.push_back({hostUser.userName, hostUser.userRpCount, false, hostUser.uniqueUserId});
     m_context = context;
 }
 
 void LobbyWindow::windowDataRefresh()
 {
+    pUserMetaInfo()->get()->setHostInfo(pServer()->get()->getCurrentHostInfo());
     ui->setupUi(this);
     this->setDisabled(true);
     setUpLobbySystem(m_context.lobbySystem);
@@ -61,7 +62,7 @@ void LobbyWindow::setUpByPrivilege()
     {
     case RankedGuest:
         setButtonsVisibility(false);
-        this->ui->lLobbyName->setText(rankedLobbyText);
+        this->ui->lLobbyUniqueId->setText(rankedLobbyText);
         this->ui->lPasswordConst->setVisible(false);
         this->ui->lePassword->setVisible(false);
         this->ui->lLobbyNameConst->setVisible(false);
@@ -94,7 +95,7 @@ void LobbyWindow::setButtonsVisibility(bool areVisible)
 
 void LobbyWindow::setUpLobbySystem(LobbySystemInfo& lsiContext)
 {
-    this->ui->lLobbyName->setText(lsiContext.lobbyName);
+    this->ui->lLobbyUniqueId->setText("ID " + QString::number(lsiContext.uniqueId));
     this->ui->leLobbyName->setText(lsiContext.lobbyName);
     this->ui->leLobbyName->setReadOnly(true);
     if(lsiContext.isPassworded == true)
@@ -228,4 +229,10 @@ void LobbyWindow::quitApp()
             pServer()->get()->deleteLobbyRequest(m_context.lobbySystem.uniqueId);
         QCoreApplication::quit();
     }
+}
+
+void LobbyWindow::showAndRefresh()
+{
+    this->windowDataRefresh();
+    this->show();
 }

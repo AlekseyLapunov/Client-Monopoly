@@ -61,7 +61,6 @@ void LoginWindow::baseLogin(serviceFlag flag)
 void LoginWindow::switchToMenuWindow()
 {
     this->hide();
-    pMenuWindow.get()->windowDataRefresh();
-    pMenuWindow.get()->show();
+    pMenuWindow.get()->showAndRefresh();
 }
 

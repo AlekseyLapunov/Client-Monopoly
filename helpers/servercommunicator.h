@@ -19,6 +19,9 @@ public:
     HostUserData doVkLogin();
     HostUserData doGoogleLogin();
 
+    // Host info
+    HostUserData getCurrentHostInfo();
+
     // Lobbies
     vector<LobbyShortInfo>& getLobbiesShortInfo();
     LobbyFullInfo tryJoinById(const int lobbyUniqueId);
@@ -36,6 +39,7 @@ private:
     QString m_httpHost = "";
     int m_port = 0;
 
+    HostUserData m_temporaryHostData;
     vector<LobbyShortInfo> lobbiesShortInfoVec;
 
 };
