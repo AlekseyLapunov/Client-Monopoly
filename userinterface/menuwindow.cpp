@@ -40,13 +40,13 @@ void MenuWindow::windowDataRefresh()
 
 void MenuWindow::quitApp()
 {
-    if(makeDialog(BaseWin::quitApp) == 0)
+    if(makeDialog(BaseWin::QuitApp) == 0)
         QCoreApplication::quit();
 }
 
 void MenuWindow::changeAcc()
 {
-    if(makeDialog(BaseWin::changeAcc) == 0)
+    if(makeDialog(BaseWin::ChangeAcc) == 0)
     {
         this->hide();
         emit goToLoginWindow();
@@ -82,7 +82,7 @@ void MenuWindow::joinToLobby(QTableWidgetItem *itemActivated)
 {
     QTableWidgetItem &lobbyItem = *ui->tLobbies->selectedItems().at(0);
     this->lobbyClicked(&lobbyItem);
-    int answer = makeDialog(BaseWin::joinLobby, ui->tLobbies->item(ui->tLobbies->row(itemActivated), LOBBY_NAME_COL)->text());
+    int answer = makeDialog(BaseWin::JoinLobby, ui->tLobbies->item(ui->tLobbies->row(itemActivated), LOBBY_NAME_COL)->text());
 
     if(answer != 0)
         return;
@@ -105,7 +105,7 @@ void MenuWindow::joinToLobby()
 
 void MenuWindow::joinIdDialog()
 {
-    pSubDialog.get()->selfConfig(LobbiesSubDialog::joinById);
+    pSubDialog.get()->selfConfig(LobbiesSubDialog::JoinById);
     if(pSubDialog.get()->exec() == QDialog::Accepted)
     {
         // !!! STUB !!! NEED TO CHECK IF PASSWORDED!
@@ -153,6 +153,23 @@ void MenuWindow::showAbout()
 {
     QMessageBox qmb(QMessageBox::Information, aboutTitle, aboutBody);
     qmb.exec();
+}
+
+void MenuWindow::chooseNickname()
+{
+    pSubDialog.get()->selfConfig(LobbiesSubDialog::ChangeNickname);
+    if(pSubDialog.get()->exec() == QDialog::Accepted)
+    {
+        try
+        {
+            pServer()->get()->tryChangeNickname(pSubDialog.get()->nicknameValue());
+        }
+        catch (std::exception &e)
+        {
+            this->execErrorBox(e.what());
+            return;
+        }
+    }
 }
 
 void MenuWindow::setupLobbiesTable()
@@ -283,7 +300,7 @@ dialogCode MenuWindow::checkIfPassworded(const QTableWidgetItem &item)
 {
     if(ui->tLobbies->item(item.row(), IS_PASSWORDED_COL)->text() == passColumnYes)
     {
-        pSubDialog.get()->selfConfig(LobbiesSubDialog::lobbyPasswordEnter,
+        pSubDialog.get()->selfConfig(LobbiesSubDialog::LobbyPasswordEnter,
                                      ui->tLobbies->item(item.row(), LOBBY_NAME_COL)->text());
         if(pSubDialog.get()->exec() == QDialog::Accepted)
         {

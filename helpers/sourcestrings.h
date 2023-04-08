@@ -55,8 +55,8 @@ static const QString userIsReady = "Да";
 static const QString userNotReady = "Нет";
 
 // Sub-dialog strings
-enum sdMode {sdNickname, sdDirectJoin, sdPasswordJoin};
-enum sdElems {sdWinTitle, sdApplyB, sdRejectB, sdInfoString, sdInputString};
+enum SdMode {SdNickname, SdDirectJoin, SdPasswordJoin};
+enum SdElems {SdWinTitle, SdApplyB, SdRejectB, SdInfoString, SdInputString};
 /// Changing nickname
 static const QStringList subDialogChangeNickname = {"Сменить псевдоним", "Применить",
                                                     "Отмена", "Введите новый псевдоним:",
@@ -77,7 +77,7 @@ static const string googleAuthFail = "Не удалось войти\nчерез
 static const string vkAuthFail = "Не удалось войти\nчерез VK аккаунт";
 static const string alreadyHasLobby = "Лобби уже существует";
 static const string rankedException = "Вы уже находитесь в очереди";
-
+static const string nicknameException = "Не удалось сменить псевдоним";
 
 #endif // SOURCESTRINGS_H
 

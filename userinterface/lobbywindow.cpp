@@ -43,15 +43,15 @@ void LobbyWindow::definePrivilege()
     int uniqueHostId = this->pUserMetaInfo()->get()->getHostInfo().uniqueUserId;
     // If lobby is ranked
     if(m_context.lobbySystem.uniqueId < 0)
-        m_privilegeType = rankedGuest;
+        m_privilegeType = RankedGuest;
     else
     // If host user is the lobby host
     if(m_context.lobbySystem.ownerUniqueId == uniqueHostId)
     {
-        m_privilegeType = owner;
+        m_privilegeType = Owner;
     }
     else
-        m_privilegeType = guest;
+        m_privilegeType = Guest;
 }
 
 void LobbyWindow::setUpByPrivilege()
@@ -59,7 +59,7 @@ void LobbyWindow::setUpByPrivilege()
     definePrivilege();
     switch (m_privilegeType)
     {
-    case rankedGuest:
+    case RankedGuest:
         setButtonsVisibility(false);
         this->ui->lLobbyName->setText(rankedLobbyText);
         this->ui->lPasswordConst->setVisible(false);
@@ -68,10 +68,10 @@ void LobbyWindow::setUpByPrivilege()
         this->ui->leLobbyName->setVisible(false);
         this->ui->bToggleReady->setVisible(false);
         break;
-    case guest:
+    case Guest:
         setButtonsVisibility(false);
         break;
-    case owner:
+    case Owner:
         setButtonsVisibility(true);
         this->ui->bLeaveLobby->setText(deleteLobbyText);
         this->ui->aLeaveLobby->setText(deleteLobbyText);
@@ -203,13 +203,13 @@ void LobbyWindow::applySettings()
 
 void LobbyWindow::leaveLobby()
 {
-    if(makeDialog(BaseWin::leaveLobby) == 0)
+    if(makeDialog(BaseWin::LeaveLobby) == 0)
     {
         this->hide();
         emit goToMenuWindow();
     }
     // Make delete lobby request if host user leaves
-    if(m_privilegeType == owner)
+    if(m_privilegeType == Owner)
         pServer()->get()->deleteLobbyRequest(m_context.lobbySystem.uniqueId);
 }
 
@@ -221,10 +221,10 @@ void LobbyWindow::toggleReadyStatus()
 
 void LobbyWindow::quitApp()
 {
-    if(makeDialog(BaseWin::quitApp) == 0)
+    if(makeDialog(BaseWin::QuitApp) == 0)
     {
         // Make delete lobby request if host user leaves
-        if(m_privilegeType == owner)
+        if(m_privilegeType == Owner)
             pServer()->get()->deleteLobbyRequest(m_context.lobbySystem.uniqueId);
         QCoreApplication::quit();
     }

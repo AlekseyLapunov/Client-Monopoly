@@ -27,12 +27,12 @@ LoginWindow::~LoginWindow()
 
 void LoginWindow::googleLogin()
 {
-    baseLogin(LoginWindow::google);
+    baseLogin(LoginWindow::Google);
 }
 
 void LoginWindow::vkLogin()
 {
-    baseLogin(LoginWindow::vk);
+    baseLogin(LoginWindow::Vk);
 }
 
 void LoginWindow::quitApp()
@@ -46,7 +46,7 @@ void LoginWindow::baseLogin(serviceFlag flag)
     {
         pUserMetaInfo()->get()->setHostInfo
             (
-                flag == LoginWindow::google ? pServer()->get()->doGoogleLogin()
+                flag == LoginWindow::Google ? pServer()->get()->doGoogleLogin()
                                             : pServer()->get()->doVkLogin()
             );
     }

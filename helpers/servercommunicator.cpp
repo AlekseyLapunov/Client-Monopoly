@@ -148,6 +148,13 @@ void ServerCommunicator::tryStartGame(const int lobbyUniqueId)
     // !!! STUB !!!
 }
 
+void ServerCommunicator::tryChangeNickname(const QString nickname)
+{
+    // !!! STUB !!!
+    if(true)
+        throw std::runtime_error(serverCommClassName + nicknameException);
+}
+
 
 
 

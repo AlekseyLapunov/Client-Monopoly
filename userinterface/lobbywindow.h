@@ -49,8 +49,8 @@ private:
 
     LobbyFullInfo m_context;
 
-    enum privelegeTypes { owner, guest, rankedGuest };
-    short m_privilegeType = guest;
+    enum PrivelegeTypes { Owner, Guest, RankedGuest };
+    short m_privilegeType = PrivelegeTypes::Guest;
 };
 
 #endif // LOBBYWINDOW_H

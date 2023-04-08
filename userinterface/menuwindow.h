@@ -44,6 +44,7 @@ private slots:
     void createLobby();
     void findRanked();
     void showAbout();
+    void chooseNickname();
 
 private:
     void setupLobbiesTable();

@@ -46,25 +46,25 @@ protected:
         unique_ptr<QMessageBox> qmb;
         switch (role)
         {
-        case quitApp:
+        case QuitApp:
             qmb = dialogBoxConstructor(QMessageBox::Question,
                                        "Выход из приложения",
                                        "Вы уверены, что хотите выйти из приложения?",
                                        {"Да", "Нет"});
             break;
-        case changeAcc:
+        case ChangeAcc:
             qmb = dialogBoxConstructor(QMessageBox::Question,
                                        "Смена аккаунта",
                                        "Вы уверены, что хотите сменить аккаунт?",
                                        {"Да", "Нет"});
             break;
-        case joinLobby:
+        case JoinLobby:
             qmb = dialogBoxConstructor(QMessageBox::Question,
                                        "Подключение",
                                        "Подключиться к лобби \"" + carrier + "\"?",
                                        {"Да", "Нет"});
             break;
-        case leaveLobby:
+        case LeaveLobby:
             qmb = dialogBoxConstructor(QMessageBox::Question,
                                        "Выход из лобби",
                                        "Вы уверены, что хотите покинуть лобби?",
@@ -83,7 +83,7 @@ protected:
     }
 
 protected:
-    enum DialogBoxVariations { quitApp, changeAcc, joinLobby, leaveLobby };
+    enum DialogBoxVariations { QuitApp, ChangeAcc, JoinLobby, LeaveLobby };
 
 private:
     unique_ptr<QMessageBox> dialogBoxConstructor(QMessageBox::Icon icon,

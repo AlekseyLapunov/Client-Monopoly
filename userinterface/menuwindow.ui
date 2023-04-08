@@ -494,6 +494,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>aNickname</sender>
+   <signal>triggered()</signal>
+   <receiver>MenuWindow</receiver>
+   <slot>chooseNickname()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>quitApp()</slot>
@@ -507,5 +523,6 @@
   <slot>showAbout()</slot>
   <slot>createLobby()</slot>
   <slot>findRanked()</slot>
+  <slot>chooseNickname()</slot>
  </slots>
 </ui>

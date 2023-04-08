@@ -27,7 +27,7 @@ private slots:
     void quitApp();
 
 private:
-    enum ServiceFlags { google, vk };
+    enum ServiceFlags { Google, Vk };
     void baseLogin(serviceFlag flag);
     void switchToMenuWindow();
 
