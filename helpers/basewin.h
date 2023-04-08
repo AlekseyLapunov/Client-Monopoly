@@ -8,7 +8,8 @@
 
 #include "servercommunicator.h"
 #include "usermetainfo.h"
-#include "sourcestrings.h"
+#include "helpers/common/sourcestrings.h"
+#include "helpers/common/sourcestructs.h"
 
 using std::unique_ptr;
 

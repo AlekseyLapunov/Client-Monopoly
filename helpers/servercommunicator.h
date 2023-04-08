@@ -6,8 +6,8 @@
 
 #include <QString>
 
-#include "helperstructs.h"
-#include "sourcestrings.h"
+#include "common/sourcestructs.h"
+#include "common/sourcestrings.h"
 
 class ServerCommunicator
 {

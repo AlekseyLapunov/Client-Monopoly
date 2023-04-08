@@ -3,7 +3,7 @@
 
 #include <QString>
 
-#include "helperstructs.h"
+#include "common/sourcestructs.h"
 
 class UserMetaInfo
 {

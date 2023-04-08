@@ -1,5 +1,5 @@
-#ifndef HELPERSTRUCTS_H
-#define HELPERSTRUCTS_H
+#ifndef SOURCESTRUCTS_H
+#define SOURCESTRUCTS_H
 
 #include <vector>
 
@@ -97,4 +97,4 @@ struct HostUserData
     bool uses3dDices;
 };
 
-#endif // HELPERSTRUCTS_H
+#endif // SOURCESTRUCTS_H

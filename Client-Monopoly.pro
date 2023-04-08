@@ -19,8 +19,8 @@ SOURCES += \
 
 HEADERS += \
     helpers/basewin.h \
-    helpers/helperstructs.h \
-    helpers/sourcestrings.h \
+    helpers/common/sourcestrings.h \
+    helpers/common/sourcestructs.h \
     helpers/usermetainfo.h \
     userinterface/lobbywindow.h \
     userinterface/loginwindow.h \
