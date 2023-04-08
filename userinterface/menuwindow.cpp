@@ -62,13 +62,13 @@ void MenuWindow::apply3dDiceState()
 
 void MenuWindow::lobbyClicked(QTableWidgetItem *itemClicked)
 {
-    curUniqueId = ui->tLobbies->item(ui->tLobbies->row(itemClicked), UNIQUE_ID_COL)->text().toInt();
+    curLobbyUniqueId = ui->tLobbies->item(ui->tLobbies->row(itemClicked), UNIQUE_ID_COL)->text().toInt();
     ui->statusbar->showMessage
                 (
                     ui->tLobbies->item(ui->tLobbies->row(itemClicked),
                                        LOBBY_NAME_COL)->text() +
                                        statusBarSubMessage +
-                                       QString::number(curUniqueId), 0
+                                       QString::number(curLobbyUniqueId), 0
                 );
 }
 
@@ -246,7 +246,7 @@ void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
     case DialogCodes::PassEntered:
         try
         {
-            m_firstContext = pServer()->get()->tryJoinById(curUniqueId, pSubDialog.get()->lobbyPasswordValue());
+            m_firstContext = pServer()->get()->tryJoinById(curLobbyUniqueId, pSubDialog.get()->lobbyPasswordValue());
         }
         catch (std::exception &e)
         {
@@ -257,7 +257,7 @@ void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
     case DialogCodes::NoPassword:
         try
         {
-            m_firstContext = pServer()->get()->tryJoinById(curUniqueId);
+            m_firstContext = pServer()->get()->tryJoinById(curLobbyUniqueId);
         }
         catch (std::exception &e)
         {

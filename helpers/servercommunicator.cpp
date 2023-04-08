@@ -13,23 +13,19 @@ ServerCommunicator::~ServerCommunicator()
 HostUserData ServerCommunicator::doVkLogin()
 {
     // !!! STUB !!!
-    bool stubFailure = false;
-    if(stubFailure)
-    {
+    if(false)
         throw std::runtime_error(serverCommClassName + vkAuthFail);
-    }
-    return {11, "VK STUB", 1111, true};
+
+    return {11, "VK STUB", 1111, USING_3D_DICES};
 }
 
 HostUserData ServerCommunicator::doGoogleLogin()
 {
     // !!! STUB !!!
-    bool stubFailure = false;
-    if(stubFailure)
-    {
+    if(false)
         throw std::runtime_error(serverCommClassName + googleAuthFail);
-    }
-    return {15, "GOOGLE STUB", 1212, true};
+
+    return {15, "GOOGLE STUB", 1212, USING_3D_DICES};
 }
 
 vector<LobbyShortInfo> &ServerCommunicator::getLobbiesShortInfo()
@@ -39,16 +35,16 @@ vector<LobbyShortInfo> &ServerCommunicator::getLobbiesShortInfo()
     // !!! STUB !!!
     LobbyShortInfo stubLobbiesShortInfo[]
             = {
-                {0, "A STUB LOBBY", false, 4, 6},
-                {1, "Poison", false, 1, 6},
-                {2, "horseeeee", true, 3, 5},
-                {3, "Лабби1234", true, 2, 4},
-                {4, "JoinMePls", false, 1, 2},
-                {5, "SartaSMV", true, 1, 3},
-                {6, "Uncut", false, 6, 6},
-                {7, "Кукуруза", true, 2, 2},
-                {8, "123456789", false, 2, 3},
-                {9, "professionals", true, 3, 5},
+                {0, "A STUB LOBBY", NO_PASSWORD, 4, 6},
+                {1, "Poison", NO_PASSWORD, 1, 6},
+                {2, "horseeeee", HAS_PASSWORD, 3, 5},
+                {3, "Лабби1234", HAS_PASSWORD, 2, 4},
+                {4, "JoinMePls", NO_PASSWORD, 1, 2},
+                {5, "SartaSMV", HAS_PASSWORD, 1, 3},
+                {6, "Uncut", NO_PASSWORD, 6, 6},
+                {7, "Кукуруза", HAS_PASSWORD, 2, 2},
+                {8, "123456789", NO_PASSWORD, 2, 3},
+                {9, "professionals", HAS_PASSWORD, 3, 5},
               };
 
     for(int i = 0; i < 10; i++)
@@ -57,30 +53,30 @@ vector<LobbyShortInfo> &ServerCommunicator::getLobbiesShortInfo()
     return lobbiesShortInfoVec;
 }
 
-LobbyFullInfo ServerCommunicator::tryJoinById(const int uniqueId)
+LobbyFullInfo ServerCommunicator::tryJoinById(const int lobbyUniqueId)
 {
     // Make request
 
     // !!! STUB !!!
-    if(uniqueId != 0)
+    if(lobbyUniqueId != 0)
         throw std::runtime_error(serverCommClassName + lobbyNotFound);
 
     return
     {
         // LobbySystemInfo
-        { 0, "A STUB LOBBY", false, 3, 6, 234, "monk", false },
+        { 0, "A STUB LOBBY", NO_PASSWORD, 3, 6, 23, NOT_PRIVATE },
         // GameSettingsInfo
-        { 8, 1.000, false, 72, false },
+        { 8, 1.000, IS_INFINITE, 72, NOT_INFINITE },
         // vector<UserShortInfo>
         {
-          {"monk", 800, IS_READY},
-          {"Kisl Jsji", 2400, IS_READY},
-          {"Роман Заглушевич", 11111, NOT_READY},
+          {"monk", 800, IS_READY, 23},
+          {"Kisl Jsji", 2400, IS_READY, 67},
+          {"Роман Заглушевич", 11111, NOT_READY, 63},
         }
     };
 }
 
-LobbyFullInfo ServerCommunicator::tryJoinById(const int uniqueId, const QString &enteredPassword)
+LobbyFullInfo ServerCommunicator::tryJoinById(const int lobbyUniqueId, const QString &enteredPassword)
 {
     // Make request
     throw std::runtime_error(serverCommClassName + lobbyNotFound);
@@ -96,9 +92,9 @@ LobbyFullInfo ServerCommunicator::tryCreateLobby(const int hostUserId)
     return
     {
         // LobbySystemInfo
-        { 1, "MY STUB LOBBY", false, 1, 6, hostUserId, "HOST STUB", true },
+        { 1, "MY STUB LOBBY", NO_PASSWORD, 1, 6, hostUserId, IS_PRIVATE },
         // GameSettingsInfo
-        { 8, 0.100, false, 72, false },
+        { 8, 0.100, NOT_INFINITE, 72, NOT_INFINITE },
         // vector<UserShortInfo>
         {}
     };
@@ -114,20 +110,40 @@ LobbyFullInfo ServerCommunicator::tryRankedQueue(const int hostUserId)
     return
     {
         // LobbySystemInfo
-        { -1, "RANKED STUB", NO_PASSWORD, 3, 4, -1, "HOST STUB", IS_PRIVATE },
+        { -1, "RANKED STUB", NO_PASSWORD, 3, 4, -1, IS_PRIVATE },
         // GameSettingsInfo
         { 8, 2.000, IS_INFINITE, 72, NOT_INFINITE },
         // vector<UserShortInfo>
         {
-          {"monk", 800, IS_READY},
-          {"Kisl Jsji", 2400, true},
-          {"Роман Заглушевич", 11111, false}
+          {"monk", 800, IS_READY, 23},
+          {"Kisl Jsji", 2400, IS_READY, 67},
+          {"Роман Заглушевич", 11111, NOT_READY, 63}
         }
     };
 
 }
 
 void ServerCommunicator::deleteLobbyRequest(const int lobbyUniqueId)
+{
+    // !!! STUB !!!
+}
+
+void ServerCommunicator::tryToggleReady(const int lobbyUniqueId)
+{
+    // !!! STUB !!!
+}
+
+void ServerCommunicator::tryToggleLobbyVision(const int lobbyUniqueId)
+{
+    // !!! STUB !!!
+}
+
+void ServerCommunicator::tryLobbySettingsApply(const int lobbyUniqueId)
+{
+    // !!! STUB !!!
+}
+
+void ServerCommunicator::tryStartGame(const int lobbyUniqueId)
 {
     // !!! STUB !!!
 }

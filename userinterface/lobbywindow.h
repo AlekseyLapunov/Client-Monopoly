@@ -30,8 +30,7 @@ signals:
 private slots:
     void toggleLobbyVision();
     void startGame();
-    void setLobbySettings();
-    void setGameSettings();
+    void applySettings();
     void leaveLobby();
     void toggleReadyStatus();
     void quitApp();

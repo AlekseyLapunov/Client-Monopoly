@@ -83,8 +83,7 @@ void LobbyWindow::setUpByPrivilege()
 
 void LobbyWindow::setButtonsVisibility(bool areVisible)
 {
-    this->ui->bSetGameSettings->setVisible(areVisible);
-    this->ui->bSetLobbySettings->setVisible(areVisible);
+    this->ui->bApplySettings->setVisible(areVisible);
     this->ui->bStartGame->setVisible(areVisible);
     this->ui->bToggleLobbyVision->setVisible(areVisible);
 
@@ -111,12 +110,21 @@ void LobbyWindow::setUpGameSettings(GameSettingsInfo& gsContext)
 {
     this->ui->sbTurnTime->setValue(gsContext.turnTime);
     this->ui->sbTurnTime->setReadOnly(true);
+
     this->ui->sbMaxTurns->setValue(gsContext.turnsRightBorder);
     this->ui->sbMaxTurns->setReadOnly(true);
+
     this->ui->dsbMaxBalance->setValue(gsContext.moneyRightBorder);
     this->ui->dsbMaxBalance->setReadOnly(true);
-    this->ui->chbIsTurnsInfinite->setCheckable(false);
-    this->ui->chbIsBalanceInfinite->setCheckable(false);
+
+    this->ui->chbIsTurnsInfinite->setChecked(gsContext.isMaxTurnsInfinite);
+    this->ui->sbTurnTime->setDisabled(gsContext.isMaxTurnsInfinite);
+
+    this->ui->chbIsBalanceInfinite->setChecked(gsContext.isMaxMoneyInfinite);
+    this->ui->dsbMaxBalance->setDisabled(gsContext.isMaxMoneyInfinite);
+
+    this->ui->chbIsTurnsInfinite->setDisabled(true);
+    this->ui->chbIsBalanceInfinite->setDisabled(true);
 }
 
 void LobbyWindow::setUpUsersInTable(QTableWidget& table, std::vector<UserShortInfo>& usiContextVec)
@@ -144,11 +152,17 @@ void LobbyWindow::setUpUsersInTable(QTableWidget& table, std::vector<UserShortIn
                                         new QTableWidgetItem(playerIsReady),
                                     };
 
-        for(auto &i : items)
-            i->setTextAlignment(Qt::AlignCenter);
-
         items[READY_COL]->setData(Qt::BackgroundRole, usiItem.isReady ? QColorConstants::Svg::lightgreen
                                                                       : QColorConstants::Svg::lightgrey);
+
+        for(auto &i : items)
+        {
+            i->setTextAlignment(Qt::AlignCenter);
+            if(usiItem.uniqueId == m_context.lobbySystem.ownerUniqueId)
+            i->setBackground(QColorConstants::Svg::lightyellow);
+                else
+            i->setBackground(Qt::NoBrush);
+        }
 
         for(short int col = 0; col < tCols; col++)
         {
@@ -173,22 +187,18 @@ void LobbyWindow::tableClear(QTableWidget &table)
 
 void LobbyWindow::toggleLobbyVision()
 {
-
+    pServer()->get()->tryToggleLobbyVision(m_context.lobbySystem.uniqueId);
 }
 
 void LobbyWindow::startGame()
 {
-
+    pServer()->get()->tryStartGame(m_context.lobbySystem.uniqueId);
 }
 
-void LobbyWindow::setLobbySettings()
+void LobbyWindow::applySettings()
 {
-
-}
-
-void LobbyWindow::setGameSettings()
-{
-
+    // After a completion
+    pServer()->get()->tryLobbySettingsApply(m_context.lobbySystem.uniqueId);
 }
 
 void LobbyWindow::leaveLobby()
@@ -206,6 +216,7 @@ void LobbyWindow::leaveLobby()
 void LobbyWindow::toggleReadyStatus()
 {
 
+    pServer()->get()->tryToggleReady(m_context.lobbySystem.uniqueId);
 }
 
 void LobbyWindow::quitApp()

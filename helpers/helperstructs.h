@@ -33,6 +33,8 @@
 #define NOT_PRIVATE             false
 #define IS_INFINITE             true
 #define NOT_INFINITE            false
+#define USING_3D_DICES          true
+#define NOT_USING_3D_DICES      false
 
 using std::vector;
 using std::count_if;
@@ -56,7 +58,6 @@ struct LobbySystemInfo
     short curPlayersCount;
     short maxPlayersCount;
     int ownerUniqueId;
-    QString ownerName;
     bool isPrivate;
 };
 
@@ -66,6 +67,7 @@ struct UserShortInfo
     QString nickname;
     int rpCount;
     bool isReady;
+    int uniqueId;
 };
 
 // Game settings information inside LobbyWindow's section

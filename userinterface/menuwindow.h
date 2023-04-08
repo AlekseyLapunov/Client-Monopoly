@@ -64,7 +64,7 @@ private:
 
     LobbyFullInfo m_firstContext;
 
-    int curUniqueId = -1;
+    int curLobbyUniqueId = -1;
 };
 
 #endif // MENUWINDOW_H

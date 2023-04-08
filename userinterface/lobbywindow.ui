@@ -152,6 +152,9 @@
        <layout class="QHBoxLayout" name="hlRow2_2">
         <item>
          <widget class="QDoubleSpinBox" name="dsbMaxBalance">
+          <property name="suffix">
+           <string> млрд.</string>
+          </property>
           <property name="decimals">
            <number>3</number>
           </property>
@@ -166,13 +169,6 @@
           </property>
           <property name="value">
            <double>0.200000000000000</double>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="lBillionsConst">
-          <property name="text">
-           <string>млрд.</string>
           </property>
          </widget>
         </item>
@@ -240,26 +236,6 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="bSetGameSettings">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="font">
-           <font>
-            <family>Bookman Old Style</family>
-            <pointsize>10</pointsize>
-            <bold>false</bold>
-           </font>
-          </property>
-          <property name="text">
-           <string>Редактировать настройки</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <spacer name="horizontalSpacer_6">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -324,7 +300,7 @@
        <bool>true</bool>
       </property>
       <property name="selectionMode">
-       <enum>QAbstractItemView::SingleSelection</enum>
+       <enum>QAbstractItemView::NoSelection</enum>
       </property>
       <property name="selectionBehavior">
        <enum>QAbstractItemView::SelectRows</enum>
@@ -519,7 +495,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="bSetLobbySettings">
+         <widget class="QPushButton" name="bApplySettings">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -534,7 +510,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Редактировать настройки</string>
+           <string>Применить изменения</string>
           </property>
          </widget>
         </item>
@@ -775,26 +751,10 @@
  <resources/>
  <connections>
   <connection>
-   <sender>bSetGameSettings</sender>
+   <sender>bApplySettings</sender>
    <signal>clicked()</signal>
    <receiver>LobbyWindow</receiver>
-   <slot>setGameSettings()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>629</x>
-     <y>64</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>393</x>
-     <y>303</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>bSetLobbySettings</sender>
-   <signal>clicked()</signal>
-   <receiver>LobbyWindow</receiver>
-   <slot>setLobbySettings()</slot>
+   <slot>applySettings()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>257</x>
@@ -906,10 +866,9 @@
  <slots>
   <slot>toggleLobbyVision()</slot>
   <slot>startGame()</slot>
-  <slot>setLobbySettings()</slot>
-  <slot>setGameSettings()</slot>
   <slot>leaveLobby()</slot>
   <slot>toggleReadyStatus()</slot>
   <slot>quitApp()</slot>
+  <slot>applySettings()</slot>
  </slots>
 </ui>

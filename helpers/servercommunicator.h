@@ -9,8 +9,6 @@
 #include "helperstructs.h"
 #include "sourcestrings.h"
 
-using std::vector;
-
 class ServerCommunicator
 {
 public:
@@ -23,11 +21,15 @@ public:
 
     // Lobbies
     vector<LobbyShortInfo>& getLobbiesShortInfo();
-    LobbyFullInfo tryJoinById(const int uniqueId);
-    LobbyFullInfo tryJoinById(const int uniqueId, const QString &enteredPassword);
+    LobbyFullInfo tryJoinById(const int lobbyUniqueId);
+    LobbyFullInfo tryJoinById(const int lobbyUniqueId, const QString &enteredPassword);
     LobbyFullInfo tryCreateLobby(const int hostUserId);
     LobbyFullInfo tryRankedQueue(const int hostUserId);
     void deleteLobbyRequest(const int lobbyUniqueId);
+    void tryToggleReady(const int lobbyUniqueId);
+    void tryToggleLobbyVision(const int lobbyUniqueId);
+    void tryLobbySettingsApply(const int lobbyUniqueId);
+    void tryStartGame(const int lobbyUniqueId);
 
 private:
     QString m_httpHost = "";
