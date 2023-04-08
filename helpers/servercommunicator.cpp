@@ -16,7 +16,7 @@ HostUserData ServerCommunicator::doVkLogin()
     if(false)
         throw std::runtime_error(serverCommClassName + vkAuthFail);
 
-    m_temporaryHostData = {11, "VK STUB", 1111, USING_3D_DICES};
+    m_temporaryHostData = {11, "VK STUB", 1110, USING_3D_DICES};
 
     return m_temporaryHostData;
 }
@@ -27,7 +27,7 @@ HostUserData ServerCommunicator::doGoogleLogin()
     if(false)
         throw std::runtime_error(serverCommClassName + googleAuthFail);
 
-    m_temporaryHostData = {15, "GOOGLE STUB", 1212, USING_3D_DICES};
+    m_temporaryHostData = {15, "GOOGLE STUB", 1200, USING_3D_DICES};
 
     return m_temporaryHostData;
 }
@@ -126,9 +126,9 @@ LobbyFullInfo ServerCommunicator::tryRankedQueue(const int hostUserId)
         { 8, 2.000, IS_INFINITE, 72, NOT_INFINITE },
         // vector<UserShortInfo>
         {
-          {"monk", 800, IS_READY, 23},
-          {"Kisl Jsji", 2400, IS_READY, 67},
-          {"Роман Заглушевич", 11111, NOT_READY, 63}
+          {"Максим Баландин", 1435, IS_READY, 92},
+          {"Nevada", 1400, IS_READY, 34},
+          {"PPCD", 1215, IS_READY, 77}
         }
     };
 
@@ -152,6 +152,8 @@ void ServerCommunicator::tryToggleLobbyVision(const int lobbyUniqueId)
 void ServerCommunicator::tryLobbySettingsApply(const int lobbyUniqueId)
 {
     // !!! STUB !!!
+    if(false)
+        throw std::runtime_error(serverCommClassName + applySettingsException);
 }
 
 void ServerCommunicator::tryStartGame(const int lobbyUniqueId)

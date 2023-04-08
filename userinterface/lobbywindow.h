@@ -44,6 +44,8 @@ private:
     void setUpGameSettings(GameSettingsInfo& gsContext);
     void setUpUsersInTable(QTableWidget &table, vector<UserShortInfo>& usiContextVec);
     void tableClear(QTableWidget &table);
+    QString countAverageRp();
+    QString findOwnerNickname(int ownerId);
 
 private:
     Ui::LobbyWindow *ui;

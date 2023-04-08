@@ -47,12 +47,15 @@ static const QStringList lobbyTableLabels {"Название",
 // LobbyWindow
 static const QString passwordPlaceholder = "*****";
 static const QString deleteLobbyText = "Удалить лобби";
-static const QString rankedLobbyText = "Рейтинговое лобби";
+static const QString rankedLobby = "Рейтинговое лобби";
+static const QString averageRp = "Среднее RP: ";
 static const QStringList usersTableLabels {"Псевдоним",
                                            "RP",
                                            "Готов"};
 static const QString userIsReady = "Да";
 static const QString userNotReady = "Нет";
+static const QString lobbyOfPlayer = "Лобби игрока ";
+static const QString myLobby = "Своё лобби ";
 
 // Sub-dialog strings
 enum SdMode {SdNickname, SdDirectJoin, SdPasswordJoin};
@@ -78,6 +81,7 @@ static const string vkAuthFail = "Не удалось войти\nчерез VK 
 static const string alreadyHasLobby = "Лобби уже существует";
 static const string rankedException = "Вы уже находитесь в очереди";
 static const string nicknameException = "Не удалось сменить псевдоним";
+static const string applySettingsException = "Не удалось применить настройки";
 
 #endif // SOURCESTRINGS_H
 

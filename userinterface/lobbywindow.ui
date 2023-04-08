@@ -369,6 +369,7 @@
          <font>
           <family>Bookman Old Style</family>
           <pointsize>9</pointsize>
+          <bold>true</bold>
          </font>
         </property>
         <property name="text">

@@ -57,25 +57,36 @@ void LobbyWindow::definePrivilege()
 
 void LobbyWindow::setUpByPrivilege()
 {
+    QFont font = this->ui->lLobbyUniqueId->font();
+    font.setPointSize(font.pointSize()*1.3);
     definePrivilege();
     switch (m_privilegeType)
     {
     case RankedGuest:
         setButtonsVisibility(false);
-        this->ui->lLobbyUniqueId->setText(rankedLobbyText);
+        this->ui->lLobbySettings->setText(rankedLobby);
+        this->ui->lLobbyUniqueId->setText(averageRp + countAverageRp());
+        this->ui->lLobbyUniqueId->setFont(font);
         this->ui->lPasswordConst->setVisible(false);
         this->ui->lePassword->setVisible(false);
         this->ui->lLobbyNameConst->setVisible(false);
         this->ui->leLobbyName->setVisible(false);
+        this->ui->lMaxPlayersConst->setVisible(false);
+        this->ui->sbMaxPlayers->setVisible(false);
         this->ui->bToggleReady->setVisible(false);
+        this->setWindowTitle(rankedLobby);
         break;
     case Guest:
-        setButtonsVisibility(false);
+        this->setButtonsVisibility(false);
+        this->setWindowTitle(lobbyOfPlayer + "\""
+                             + findOwnerNickname(m_context.lobbySystem.ownerUniqueId)
+                             + "\"");
         break;
     case Owner:
-        setButtonsVisibility(true);
+        this->setButtonsVisibility(true);
         this->ui->bLeaveLobby->setText(deleteLobbyText);
         this->ui->aLeaveLobby->setText(deleteLobbyText);
+        this->setWindowTitle(myLobby);
         break;
     default:
         break;
@@ -174,6 +185,9 @@ void LobbyWindow::setUpUsersInTable(QTableWidget& table, std::vector<UserShortIn
 
     table.horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
+    if(m_context.lobbySystem.uniqueId < 0)
+        table.hideColumn(READY_COL);
+
     if(usiContextVec.size() >= 4)
         table.verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
@@ -184,6 +198,27 @@ void LobbyWindow::tableClear(QTableWidget &table)
     table.clear();
     table.setColumnCount(0);
     table.setRowCount(0);
+}
+
+QString LobbyWindow::countAverageRp()
+{
+    QString averageRpOutput = "";
+    int sum = 0;
+    for(auto &i : m_context.usersInTable)
+    {
+        sum += i.rpCount;
+    }
+    averageRpOutput = QString::number(sum / m_context.usersInTable.size());
+    return averageRpOutput;
+}
+
+QString LobbyWindow::findOwnerNickname(int ownerId)
+{
+    QString ownerNicknameOutput = "";
+    for(auto &i : m_context.usersInTable)
+        if(i.uniqueId == ownerId)
+            ownerNicknameOutput = i.nickname;
+    return ownerNicknameOutput;
 }
 
 void LobbyWindow::toggleLobbyVision()
