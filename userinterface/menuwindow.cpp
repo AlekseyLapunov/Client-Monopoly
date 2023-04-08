@@ -57,9 +57,7 @@ void MenuWindow::changeAcc()
 
 void MenuWindow::apply3dDiceState()
 {
-    HostUserData tempHostUserData = pUserMetaInfo()->get()->getHostInfo();
-    tempHostUserData.uses3dDices = ui->aDiceIf3D->isChecked();
-    pUserMetaInfo()->get()->setHostInfo(tempHostUserData);
+    pUserMetaInfo()->get()->apply3dDiceChoise(this->ui->aDiceIf3D->isChecked());
 }
 
 void MenuWindow::lobbyClicked(QTableWidgetItem *itemClicked)

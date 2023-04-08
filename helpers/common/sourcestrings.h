@@ -82,7 +82,8 @@ static const string alreadyHasLobby = "Лобби уже существует";
 static const string rankedException = "Вы уже находитесь в очереди";
 static const string nicknameException = "Не удалось сменить псевдоним";
 static const string applySettingsException = "Не удалось применить настройки";
-
+static const string toggleReadyException = "Не удалось переключить готовность";
+static const string startGameException = "Не удалось запустить матч";
 #endif // SOURCESTRINGS_H
 
 

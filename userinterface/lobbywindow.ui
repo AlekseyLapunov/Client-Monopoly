@@ -52,102 +52,6 @@
     </item>
     <item row="1" column="1">
      <layout class="QGridLayout" name="glRightSettings">
-      <item row="2" column="0">
-       <widget class="QLabel" name="lMaxBalanceConst">
-        <property name="font">
-         <font>
-          <family>Bookman Old Style</family>
-          <underline>true</underline>
-         </font>
-        </property>
-        <property name="text">
-         <string>Макс. баланс</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="lMaxTurnsConst">
-        <property name="font">
-         <font>
-          <family>Bookman Old Style</family>
-          <underline>true</underline>
-         </font>
-        </property>
-        <property name="text">
-         <string>Макс. ходов</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <layout class="QHBoxLayout" name="hlRow1_2">
-        <item>
-         <widget class="QSpinBox" name="sbMaxTurns">
-          <property name="minimum">
-           <number>24</number>
-          </property>
-          <property name="maximum">
-           <number>128</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_8">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="chbIsTurnsInfinite">
-          <property name="text">
-           <string>Неограниченно</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="3" column="1">
-       <layout class="QHBoxLayout" name="hlRow3_2">
-        <item>
-         <widget class="QSpinBox" name="sbTurnTime">
-          <property name="suffix">
-           <string> секунд</string>
-          </property>
-          <property name="prefix">
-           <string/>
-          </property>
-          <property name="minimum">
-           <number>8</number>
-          </property>
-          <property name="maximum">
-           <number>15</number>
-          </property>
-          <property name="value">
-           <number>10</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_12">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
       <item row="2" column="1">
        <layout class="QHBoxLayout" name="hlRow2_2">
         <item>
@@ -194,6 +98,53 @@
         </item>
        </layout>
       </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="lMaxTurnsConst">
+        <property name="font">
+         <font>
+          <family>Bookman Old Style</family>
+          <underline>true</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>Макс. ходов</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <layout class="QHBoxLayout" name="hlRow1_2">
+        <item>
+         <widget class="QSpinBox" name="sbMaxTurns">
+          <property name="minimum">
+           <number>24</number>
+          </property>
+          <property name="maximum">
+           <number>128</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_8">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="chbAreTurnsInfinite">
+          <property name="text">
+           <string>Неограниченно</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
       <item row="3" column="0">
        <widget class="QLabel" name="lTurnTimeConst">
         <property name="font">
@@ -220,6 +171,42 @@
         </property>
        </widget>
       </item>
+      <item row="3" column="1">
+       <layout class="QHBoxLayout" name="hlRow3_2">
+        <item>
+         <widget class="QSpinBox" name="sbTurnTime">
+          <property name="suffix">
+           <string> секунд</string>
+          </property>
+          <property name="prefix">
+           <string/>
+          </property>
+          <property name="minimum">
+           <number>8</number>
+          </property>
+          <property name="maximum">
+           <number>15</number>
+          </property>
+          <property name="value">
+           <number>10</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_12">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
       <item row="0" column="1">
        <layout class="QHBoxLayout" name="hlRow0_2">
         <item>
@@ -236,6 +223,26 @@
          </spacer>
         </item>
         <item>
+         <widget class="QPushButton" name="bRestoreLastSettings">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Bookman Old Style</family>
+            <pointsize>10</pointsize>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Восстановить последние настройки</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer name="horizontalSpacer_6">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -249,6 +256,19 @@
          </spacer>
         </item>
        </layout>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="lMaxBalanceConst">
+        <property name="font">
+         <font>
+          <family>Bookman Old Style</family>
+          <underline>true</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>Макс. баланс</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -863,6 +883,182 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>leLobbyName</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>settingsChangesDetected()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>195</x>
+     <y>95</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>368</x>
+     <y>210</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lePassword</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>settingsChangesDetected()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>195</x>
+     <y>127</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>368</x>
+     <y>210</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbMaxPlayers</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>settingsChangesDetected()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>150</x>
+     <y>159</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>368</x>
+     <y>210</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbMaxTurns</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>settingsChangesDetected()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>454</x>
+     <y>93</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>368</x>
+     <y>210</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>dsbMaxBalance</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>settingsChangesDetected()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>476</x>
+     <y>126</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>368</x>
+     <y>210</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbTurnTime</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>settingsChangesDetected()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>471</x>
+     <y>159</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>368</x>
+     <y>210</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chbIsBalanceInfinite</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>settingsChangesDetected()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>669</x>
+     <y>125</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>368</x>
+     <y>210</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chbAreTurnsInfinite</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>settingsChangesDetected()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>669</x>
+     <y>92</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>368</x>
+     <y>210</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chbAreTurnsInfinite</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>toggleMaxTurnsAccessibility()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>669</x>
+     <y>92</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>368</x>
+     <y>210</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chbIsBalanceInfinite</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>toggleMaxBalanceAccessibility()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>669</x>
+     <y>125</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>368</x>
+     <y>210</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bRestoreLastSettings</sender>
+   <signal>clicked()</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>restoreLastSettings()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>578</x>
+     <y>64</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>368</x>
+     <y>210</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>toggleLobbyVision()</slot>
@@ -871,5 +1067,9 @@
   <slot>toggleReadyStatus()</slot>
   <slot>quitApp()</slot>
   <slot>applySettings()</slot>
+  <slot>settingsChangesDetected()</slot>
+  <slot>toggleMaxTurnsAccessibility()</slot>
+  <slot>toggleMaxBalanceAccessibility()</slot>
+  <slot>restoreLastSettings()</slot>
  </slots>
 </ui>

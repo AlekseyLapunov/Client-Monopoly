@@ -16,7 +16,7 @@ HostUserData ServerCommunicator::doVkLogin()
     if(false)
         throw std::runtime_error(serverCommClassName + vkAuthFail);
 
-    m_temporaryHostData = {11, "VK STUB", 1110, USING_3D_DICES};
+    m_temporaryHostData = {11, "VK STUB", 1110};
 
     return m_temporaryHostData;
 }
@@ -27,7 +27,7 @@ HostUserData ServerCommunicator::doGoogleLogin()
     if(false)
         throw std::runtime_error(serverCommClassName + googleAuthFail);
 
-    m_temporaryHostData = {15, "GOOGLE STUB", 1200, USING_3D_DICES};
+    m_temporaryHostData = {15, "GOOGLE STUB", 1200};
 
     return m_temporaryHostData;
 }
@@ -75,7 +75,7 @@ LobbyFullInfo ServerCommunicator::tryJoinById(const int lobbyUniqueId)
     return
     {
         // LobbySystemInfo
-        { 0, "A STUB LOBBY", NO_PASSWORD, 3, 6, 23, NOT_PRIVATE },
+        { 0, "A STUB LOBBY", "", 6, 23, NOT_PRIVATE },
         // GameSettingsInfo
         { 8, 1.000, IS_INFINITE, 72, NOT_INFINITE },
         // vector<UserShortInfo>
@@ -103,7 +103,7 @@ LobbyFullInfo ServerCommunicator::tryCreateLobby(const int hostUserId)
     return
     {
         // LobbySystemInfo
-        { 1, "MY STUB LOBBY", NO_PASSWORD, 1, 6, hostUserId, IS_PRIVATE },
+        { 1, "MY STUB LOBBY", "", 6, hostUserId, IS_PRIVATE },
         // GameSettingsInfo
         { 8, 0.100, NOT_INFINITE, 72, NOT_INFINITE },
         // vector<UserShortInfo>
@@ -121,7 +121,7 @@ LobbyFullInfo ServerCommunicator::tryRankedQueue(const int hostUserId)
     return
     {
         // LobbySystemInfo
-        { -1, "RANKED STUB", NO_PASSWORD, 3, 4, -1, IS_PRIVATE },
+        { -1, "RANKED STUB", "", 4, -1, IS_PRIVATE },
         // GameSettingsInfo
         { 8, 2.000, IS_INFINITE, 72, NOT_INFINITE },
         // vector<UserShortInfo>
@@ -142,6 +142,8 @@ void ServerCommunicator::deleteLobbyRequest(const int lobbyUniqueId)
 void ServerCommunicator::tryToggleReady(const int lobbyUniqueId)
 {
     // !!! STUB !!!
+    if(false)
+        throw std::runtime_error(serverCommClassName + toggleReadyException);
 }
 
 void ServerCommunicator::tryToggleLobbyVision(const int lobbyUniqueId)
@@ -149,7 +151,7 @@ void ServerCommunicator::tryToggleLobbyVision(const int lobbyUniqueId)
     // !!! STUB !!!
 }
 
-void ServerCommunicator::tryLobbySettingsApply(const int lobbyUniqueId)
+void ServerCommunicator::tryLobbySettingsApply(const int lobbyUniqueId, LobbySettingsCombined newSettings)
 {
     // !!! STUB !!!
     if(false)
@@ -159,9 +161,11 @@ void ServerCommunicator::tryLobbySettingsApply(const int lobbyUniqueId)
 void ServerCommunicator::tryStartGame(const int lobbyUniqueId)
 {
     // !!! STUB !!!
+    if(false)
+        throw std::runtime_error(serverCommClassName + startGameException);
 }
 
-void ServerCommunicator::tryChangeNickname(const QString nickname)
+void ServerCommunicator::tryChangeNickname(const QString newNickname)
 {
     // !!! STUB !!!
     if(true)

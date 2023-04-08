@@ -22,20 +22,24 @@ LobbyWindow::~LobbyWindow()
 
 void LobbyWindow::giveFirstContext(LobbyFullInfo &context)
 {
-    HostUserData hostUser = pUserMetaInfo()->get()->getHostInfo();
+    HostUserData hostUser = this->pUserMetaInfo()->get()->getHostInfo();
     context.usersInTable.push_back({hostUser.userName, hostUser.userRpCount, false, hostUser.uniqueUserId});
     m_context = context;
+    m_lastSettings = {context.lobbySystem, context.gameSettings};
 }
 
 void LobbyWindow::windowDataRefresh()
 {
-    pUserMetaInfo()->get()->setHostInfo(pServer()->get()->getCurrentHostInfo());
-    ui->setupUi(this);
+    ///if(!this->isEnabled()) return;
+
+    this->pUserMetaInfo()->get()->setHostInfo(pServer()->get()->getCurrentHostInfo());
+    ///m_context = this->pServer()->get()->getCurrentLobbyContext(m_context.lobbySystem.uniqueId);
+    this->ui->setupUi(this);
     this->setDisabled(true);
-    setUpLobbySystem(m_context.lobbySystem);
-    setUpGameSettings(m_context.gameSettings);
-    setUpUsersInTable(*this->ui->tUsers, m_context.usersInTable);
-    setUpByPrivilege();
+    this->setUpLobbySystem(m_context.lobbySystem);
+    this->setUpGameSettings(m_context.gameSettings);
+    this->setUpUsersInTable(*this->ui->tUsers, m_context.usersInTable);
+    this->setUpByPrivilege();
     this->setEnabled(true);
 }
 
@@ -84,6 +88,7 @@ void LobbyWindow::setUpByPrivilege()
         break;
     case Owner:
         this->setButtonsVisibility(true);
+        this->setSettingsInputsAccessibility(true);
         this->ui->bLeaveLobby->setText(deleteLobbyText);
         this->ui->aLeaveLobby->setText(deleteLobbyText);
         this->setWindowTitle(myLobby);
@@ -96,6 +101,7 @@ void LobbyWindow::setUpByPrivilege()
 void LobbyWindow::setButtonsVisibility(bool areVisible)
 {
     this->ui->bApplySettings->setVisible(areVisible);
+    this->ui->bRestoreLastSettings->setVisible(areVisible);
     this->ui->bStartGame->setVisible(areVisible);
     this->ui->bToggleLobbyVision->setVisible(areVisible);
 
@@ -104,16 +110,25 @@ void LobbyWindow::setButtonsVisibility(bool areVisible)
     this->ui->bLeaveLobby->setVisible(true);
 }
 
+void LobbyWindow::setSettingsInputsAccessibility(bool areAccessible)
+{
+    this->ui->leLobbyName->setReadOnly(!areAccessible);
+    this->ui->lePassword->setReadOnly(!areAccessible);
+    this->ui->sbMaxPlayers->setReadOnly(!areAccessible);
+    this->ui->sbMaxTurns->setReadOnly(!areAccessible);
+    this->ui->sbTurnTime->setReadOnly(!areAccessible);
+    this->ui->dsbMaxBalance->setReadOnly(!areAccessible);
+    this->ui->chbIsBalanceInfinite->setEnabled(areAccessible);
+    this->ui->chbAreTurnsInfinite->setEnabled(areAccessible);
+}
+
 void LobbyWindow::setUpLobbySystem(LobbySystemInfo& lsiContext)
 {
     this->ui->lLobbyUniqueId->setText("ID " + QString::number(lsiContext.uniqueId));
     this->ui->leLobbyName->setText(lsiContext.lobbyName);
     this->ui->leLobbyName->setReadOnly(true);
-    if(lsiContext.isPassworded == true)
-    {
-        this->ui->lePassword->setText(passwordPlaceholder);
-        this->ui->lePassword->setReadOnly(true);
-    }
+    this->ui->lePassword->setText(lsiContext.lobbyPassword);
+    this->ui->lePassword->setReadOnly(true);
     this->ui->sbMaxPlayers->setValue(lsiContext.maxPlayersCount);
     this->ui->sbMaxPlayers->setReadOnly(true);
 }
@@ -129,13 +144,13 @@ void LobbyWindow::setUpGameSettings(GameSettingsInfo& gsContext)
     this->ui->dsbMaxBalance->setValue(gsContext.moneyRightBorder);
     this->ui->dsbMaxBalance->setReadOnly(true);
 
-    this->ui->chbIsTurnsInfinite->setChecked(gsContext.isMaxTurnsInfinite);
-    this->ui->sbTurnTime->setDisabled(gsContext.isMaxTurnsInfinite);
+    this->ui->chbAreTurnsInfinite->setChecked(gsContext.areMaxTurnsInfinite);
+    this->ui->sbTurnTime->setDisabled(gsContext.areMaxTurnsInfinite);
 
     this->ui->chbIsBalanceInfinite->setChecked(gsContext.isMaxMoneyInfinite);
     this->ui->dsbMaxBalance->setDisabled(gsContext.isMaxMoneyInfinite);
 
-    this->ui->chbIsTurnsInfinite->setDisabled(true);
+    this->ui->chbAreTurnsInfinite->setDisabled(true);
     this->ui->chbIsBalanceInfinite->setDisabled(true);
 }
 
@@ -164,16 +179,14 @@ void LobbyWindow::setUpUsersInTable(QTableWidget& table, std::vector<UserShortIn
                                         new QTableWidgetItem(playerIsReady),
                                     };
 
-        items[READY_COL]->setData(Qt::BackgroundRole, usiItem.isReady ? QColorConstants::Svg::lightgreen
-                                                                      : QColorConstants::Svg::lightgrey);
+        if(usiItem.isReady)
+            items[READY_COL]->setBackground(QColorConstants::Svg::lightgreen);
 
         for(auto &i : items)
         {
             i->setTextAlignment(Qt::AlignCenter);
             if(usiItem.uniqueId == m_context.lobbySystem.ownerUniqueId)
-            i->setBackground(QColorConstants::Svg::lightyellow);
-                else
-            i->setBackground(Qt::NoBrush);
+                i->setBackground(QColorConstants::Svg::lightyellow);
         }
 
         for(short int col = 0; col < tCols; col++)
@@ -216,8 +229,13 @@ QString LobbyWindow::findOwnerNickname(int ownerId)
 {
     QString ownerNicknameOutput = "";
     for(auto &i : m_context.usersInTable)
+    {
         if(i.uniqueId == ownerId)
+        {
             ownerNicknameOutput = i.nickname;
+            break;
+        }
+    }
     return ownerNicknameOutput;
 }
 
@@ -228,13 +246,79 @@ void LobbyWindow::toggleLobbyVision()
 
 void LobbyWindow::startGame()
 {
-    pServer()->get()->tryStartGame(m_context.lobbySystem.uniqueId);
+    if(ui->bApplySettings->isEnabled())
+        if(makeDialog(BaseWin::StartGameSettingsNotApplied) != 0)
+            return;
+
+    this->windowDataRefresh();
+    if(!checkIfEveryoneReady())
+        if(makeDialog(BaseWin::StartGameNotReady) != 0)
+            return;
+
+    try
+    {
+        pServer()->get()->tryStartGame(m_context.lobbySystem.uniqueId);
+    }
+    catch (std::exception &e)
+    {
+        this->execErrorBox(e.what());
+        return;
+    }
 }
 
 void LobbyWindow::applySettings()
 {
-    // After a completion
-    pServer()->get()->tryLobbySettingsApply(m_context.lobbySystem.uniqueId);
+    try
+    {
+        LobbySettingsCombined tempSettings = makeSettingsObject();
+        pServer()->get()->tryLobbySettingsApply(m_context.lobbySystem.uniqueId, tempSettings);
+        this->ui->bApplySettings->setDisabled(true);
+        m_lastSettings = tempSettings;
+    }
+    catch (std::exception &e)
+    {
+        this->execErrorBox(e.what());
+        return;
+    }
+}
+
+LobbySettingsCombined LobbyWindow::makeSettingsObject()
+{
+    return  {
+                {m_context.lobbySystem.uniqueId,
+                 this->ui->leLobbyName->text(),
+                 this->ui->lePassword->text(),
+                 (short) this->ui->sbMaxPlayers->value(),
+                 m_context.lobbySystem.ownerUniqueId,
+                 m_context.lobbySystem.isPrivate},
+
+                {(short)this->ui->sbTurnTime->value(),
+                 (float)this->ui->dsbMaxBalance->value(),
+                 this->ui->chbIsBalanceInfinite->isChecked(),
+                 (short)this->ui->sbMaxTurns->value(),
+                 this->ui->chbAreTurnsInfinite->isChecked()}
+            };
+}
+
+void LobbyWindow::overwriteSettingsInputs(LobbySettingsCombined &overwriteBy)
+{
+    this->ui->leLobbyName->setText(overwriteBy.lobbySystem.lobbyName);
+    this->ui->lePassword->setText(overwriteBy.lobbySystem.lobbyPassword);
+    this->ui->sbMaxPlayers->setValue(overwriteBy.lobbySystem.maxPlayersCount);
+
+    this->ui->sbTurnTime->setValue(overwriteBy.gameSettings.turnTime);
+    this->ui->dsbMaxBalance->setValue(overwriteBy.gameSettings.moneyRightBorder);
+    this->ui->chbIsBalanceInfinite->setChecked(overwriteBy.gameSettings.isMaxMoneyInfinite);
+    this->ui->sbMaxTurns->setValue(overwriteBy.gameSettings.turnsRightBorder);
+    this->ui->chbAreTurnsInfinite->setChecked(overwriteBy.gameSettings.areMaxTurnsInfinite);
+}
+
+bool LobbyWindow::checkIfEveryoneReady()
+{
+    for(auto &i : m_context.usersInTable)
+        if(!i.isReady && (i.uniqueId != m_context.lobbySystem.ownerUniqueId))
+            return false;
+    return true;
 }
 
 void LobbyWindow::leaveLobby()
@@ -251,8 +335,27 @@ void LobbyWindow::leaveLobby()
 
 void LobbyWindow::toggleReadyStatus()
 {
-
-    pServer()->get()->tryToggleReady(m_context.lobbySystem.uniqueId);
+    int hostUniqueId = pUserMetaInfo()->get()->getHostInfo().uniqueUserId;
+    for(short i = 0; i < (short) m_context.usersInTable.size(); i++)
+    {
+        if(m_context.usersInTable.at(i).uniqueId == hostUniqueId)
+        {
+            m_context.usersInTable.at(i).isReady = !m_context.usersInTable.at(i).isReady;
+            break;
+        }
+    }
+    try
+    {
+        this->ui->bToggleReady->setDisabled(true);
+        pServer()->get()->tryToggleReady(m_context.lobbySystem.uniqueId);
+        this->setUpUsersInTable(*this->ui->tUsers, m_context.usersInTable);
+        this->ui->bToggleReady->setDisabled(false);
+    }
+    catch (std::exception &e)
+    {
+        this->execErrorBox(e.what());
+        return;
+    }
 }
 
 void LobbyWindow::quitApp()
@@ -266,8 +369,36 @@ void LobbyWindow::quitApp()
     }
 }
 
+void LobbyWindow::settingsChangesDetected()
+{
+    this->ui->bApplySettings->setEnabled(true);
+    this->ui->bRestoreLastSettings->setEnabled(true);
+}
+
+void LobbyWindow::toggleMaxBalanceAccessibility()
+{
+    this->ui->dsbMaxBalance->setDisabled(this->ui->chbIsBalanceInfinite->isChecked());
+}
+
+void LobbyWindow::toggleMaxTurnsAccessibility()
+{
+    this->ui->sbMaxTurns->setDisabled(this->ui->chbAreTurnsInfinite->isChecked());
+}
+
+void LobbyWindow::restoreLastSettings()
+{
+    if(makeDialog(BaseWin::RestoreSettings) == 0)
+    {
+        this->overwriteSettingsInputs(m_lastSettings);
+        this->applySettings();
+        this->ui->bRestoreLastSettings->setDisabled(true);
+    }
+}
+
 void LobbyWindow::showAndRefresh()
 {
     this->windowDataRefresh();
     this->show();
+    this->ui->bApplySettings->setEnabled(false);
+    this->ui->bRestoreLastSettings->setEnabled(false);
 }

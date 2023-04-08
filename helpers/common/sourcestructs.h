@@ -54,11 +54,27 @@ struct LobbySystemInfo
 {
     int uniqueId;
     QString lobbyName;
-    bool isPassworded;
-    short curPlayersCount;
+    QString lobbyPassword;
     short maxPlayersCount;
     int ownerUniqueId;
     bool isPrivate;
+
+    bool operator==(LobbySystemInfo& other)
+    {
+        if(this->uniqueId != other.uniqueId ||
+           this->lobbyName != other.lobbyName ||
+           this->lobbyPassword != other.lobbyPassword ||
+           this->maxPlayersCount != other.maxPlayersCount ||
+           this->ownerUniqueId != other.ownerUniqueId ||
+           this->isPrivate != other.isPrivate)
+            return false;
+        return true;
+    }
+
+    bool operator!=(LobbySystemInfo& other)
+    {
+        return !(*this == other);
+    }
 };
 
 // Users short information inside LobbyWindow's table of users
@@ -77,7 +93,23 @@ struct GameSettingsInfo
     float moneyRightBorder; // represents billions
     bool isMaxMoneyInfinite;
     short turnsRightBorder;
-    bool isMaxTurnsInfinite;
+    bool areMaxTurnsInfinite;
+
+    bool operator==(GameSettingsInfo& other)
+    {
+        if(this->turnTime != other.turnTime ||
+           this->moneyRightBorder != other.moneyRightBorder ||
+           this->isMaxMoneyInfinite != other.isMaxMoneyInfinite ||
+           this->turnsRightBorder != other.turnsRightBorder ||
+           this->areMaxTurnsInfinite != other.areMaxTurnsInfinite)
+            return false;
+        return true;
+    }
+
+    bool operator!=(GameSettingsInfo& other)
+    {
+        return !(*this == other);
+    }
 };
 
 // Full lobby info inside LobbyWindow
@@ -88,13 +120,31 @@ struct LobbyFullInfo
     vector<UserShortInfo> usersInTable;
 };
 
+// Settings in one place
+struct LobbySettingsCombined
+{
+    LobbySystemInfo lobbySystem;
+    GameSettingsInfo gameSettings;
+
+    bool operator==(LobbySettingsCombined other)
+    {
+        if(this->lobbySystem != other.lobbySystem || this->gameSettings != other.gameSettings)
+            return false;
+        return true;
+    }
+
+    bool operator!=(LobbySettingsCombined& other)
+    {
+        return !(*this == other);
+    }
+};
+
 // Host-user data
 struct HostUserData
 {
     int uniqueUserId;
     QString userName;
     int userRpCount;
-    bool uses3dDices;
 };
 
 #endif // SOURCESTRUCTS_H

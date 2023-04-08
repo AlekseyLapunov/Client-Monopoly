@@ -31,9 +31,9 @@ public:
     void deleteLobbyRequest(const int lobbyUniqueId);
     void tryToggleReady(const int lobbyUniqueId);
     void tryToggleLobbyVision(const int lobbyUniqueId);
-    void tryLobbySettingsApply(const int lobbyUniqueId);
+    void tryLobbySettingsApply(const int lobbyUniqueId, LobbySettingsCombined newSettings);
     void tryStartGame(const int lobbyUniqueId);
-    void tryChangeNickname(const QString nickname);
+    void tryChangeNickname(const QString newNickname);
 
 private:
     QString m_httpHost = "";

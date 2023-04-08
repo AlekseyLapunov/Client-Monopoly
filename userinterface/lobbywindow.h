@@ -35,22 +35,31 @@ private slots:
     void leaveLobby();
     void toggleReadyStatus();
     void quitApp();
+    void settingsChangesDetected();
+    void toggleMaxBalanceAccessibility();
+    void toggleMaxTurnsAccessibility();
+    void restoreLastSettings();
 
 private:
     void definePrivilege();
     void setUpByPrivilege();
     void setButtonsVisibility(bool areVisible);
+    void setSettingsInputsAccessibility(bool areAccessible);
     void setUpLobbySystem(LobbySystemInfo& lsiContext);
     void setUpGameSettings(GameSettingsInfo& gsContext);
     void setUpUsersInTable(QTableWidget &table, vector<UserShortInfo>& usiContextVec);
     void tableClear(QTableWidget &table);
     QString countAverageRp();
     QString findOwnerNickname(int ownerId);
+    LobbySettingsCombined makeSettingsObject();
+    void overwriteSettingsInputs(LobbySettingsCombined &overwriteBy);
+    bool checkIfEveryoneReady();
 
 private:
     Ui::LobbyWindow *ui;
 
     LobbyFullInfo m_context;
+    LobbySettingsCombined m_lastSettings;
 
     enum PrivelegeTypes { Owner, Guest, RankedGuest };
     short m_privilegeType = PrivelegeTypes::Guest;

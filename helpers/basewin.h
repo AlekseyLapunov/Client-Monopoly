@@ -71,6 +71,25 @@ protected:
                                        "Вы уверены, что хотите покинуть лобби?",
                                        {"Да", "Нет"});
             break;
+        case RestoreSettings:
+            qmb = dialogBoxConstructor(QMessageBox::Question,
+                                       "Восстановление настроек",
+                                       "Восстановить последние\nзаписанные настройки?",
+                                       {"Да", "Нет"});
+            break;
+        case StartGameNotReady:
+            qmb = dialogBoxConstructor(QMessageBox::Question,
+                                       "Запуск матча",
+                                       "Не все игроки готовы.\nЗапустить матч?",
+                                       {"Да", "Нет"});
+            break;
+        case StartGameSettingsNotApplied:
+            qmb = dialogBoxConstructor(QMessageBox::Question,
+                                       "Запуск матча",
+                                       "Замечены неприменённые настройки.\nЗапустить матч на последних\n"
+                                       "записанных настройках?",
+                                       {"Да", "Нет"});
+            break;
         default:
             break;
         }
@@ -84,7 +103,9 @@ protected:
     }
 
 protected:
-    enum DialogBoxVariations { QuitApp, ChangeAcc, JoinLobby, LeaveLobby };
+    enum DialogBoxVariations { QuitApp, ChangeAcc, JoinLobby,
+                               LeaveLobby, RestoreSettings, StartGameNotReady,
+                               StartGameSettingsNotApplied };
 
 private:
     unique_ptr<QMessageBox> dialogBoxConstructor(QMessageBox::Icon icon,

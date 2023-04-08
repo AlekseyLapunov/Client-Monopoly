@@ -17,6 +17,11 @@ void UserMetaInfo::setHostInfo(HostUserData newHostInfo)
     this->m_hostInfo.userRpCount = newHostInfo.userRpCount;
 }
 
+void UserMetaInfo::apply3dDiceChoise(bool isUsing3dDice)
+{
+    this->m_isUsing3dDice = isUsing3dDice;
+}
+
 void UserMetaInfo::resetHostInfo()
 {
     m_hostInfo.uniqueUserId = -1;
