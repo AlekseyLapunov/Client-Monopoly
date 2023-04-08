@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QCoreApplication>
+#include <QTableWidget>
 
 #include "helpers/basewin.h"
 
@@ -41,7 +42,8 @@ private:
     void setButtonsVisibility(bool areVisible);
     void setUpLobbySystem(LobbySystemInfo& lsiContext);
     void setUpGameSettings(GameSettingsInfo& gsContext);
-    void setUpUsersInTable(vector<UserShortInfo>& usiContextVec);
+    void setUpUsersInTable(QTableWidget &table, vector<UserShortInfo>& usiContextVec);
+    void tableClear(QTableWidget &table);
 
 private:
     Ui::LobbyWindow *ui;

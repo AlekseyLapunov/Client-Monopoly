@@ -48,6 +48,11 @@ static const QStringList lobbyTableLabels {"Название",
 static const QString passwordPlaceholder = "*****";
 static const QString deleteLobbyText = "Удалить лобби";
 static const QString rankedLobbyText = "Рейтинговое лобби";
+static const QStringList usersTableLabels {"Псевдоним",
+                                           "RP",
+                                           "Готов"};
+static const QString userIsReady = "Да";
+static const QString userNotReady = "Нет";
 
 // Sub-dialog strings
 enum sdMode {sdNickname, sdDirectJoin, sdPasswordJoin};

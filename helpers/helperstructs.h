@@ -6,14 +6,33 @@
 #include <QString>
 #include <QStringList>
 
-#define LOBBIES_TABLE_COLS 4
-#define LOBBY_NAME_COL 0
-#define IS_PASSWORDED_COL 1
-#define PLAYERS_COUNT_COL 2
-#define UNIQUE_ID_COL 3
-#define NICKNAME_MAX_LENGTH 20
-#define LOBBY_PASSWORD_MAX_LENGTH 10
-#define UNIQUE_ID_MAX_LENGTH 9
+// MenuWindow: parameters of table with lobbies
+#define LOBBIES_TABLE_COLS      4
+#define LOBBY_NAME_COL          0
+#define IS_PASSWORDED_COL       1
+#define PLAYERS_COUNT_COL       2
+#define UNIQUE_ID_COL           3
+
+// String lengths
+#define NICKNAME_MAX_LEN        20
+#define LOBBY_PASSWORD_MAX_LEN  10
+#define UNIQUE_ID_MAX_LEN       9
+
+// LobbyWindow: parameters of table with users
+#define USERS_TABLE_COLS        3
+#define NICKNAME_COL            0
+#define USER_RP_COL             1
+#define READY_COL               2
+
+// bools
+#define IS_READY                true
+#define NOT_READY               false
+#define HAS_PASSWORD            true
+#define NO_PASSWORD             false
+#define IS_PRIVATE              true
+#define NOT_PRIVATE             false
+#define IS_INFINITE             true
+#define NOT_INFINITE            false
 
 using std::vector;
 using std::count_if;

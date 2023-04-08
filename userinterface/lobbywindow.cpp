@@ -33,7 +33,7 @@ void LobbyWindow::windowDataRefresh()
     this->setDisabled(true);
     setUpLobbySystem(m_context.lobbySystem);
     setUpGameSettings(m_context.gameSettings);
-    setUpUsersInTable(m_context.usersInTable);
+    setUpUsersInTable(*this->ui->tUsers, m_context.usersInTable);
     setUpByPrivilege();
     this->setEnabled(true);
 }
@@ -119,9 +119,56 @@ void LobbyWindow::setUpGameSettings(GameSettingsInfo& gsContext)
     this->ui->chbIsBalanceInfinite->setCheckable(false);
 }
 
-void LobbyWindow::setUpUsersInTable(std::vector<UserShortInfo>& usiContextVec)
+void LobbyWindow::setUpUsersInTable(QTableWidget& table, std::vector<UserShortInfo>& usiContextVec)
 {
+    this->tableClear(table);
 
+    const short int tCols = USERS_TABLE_COLS;
+    const int tRows = usiContextVec.size();
+
+    table.setColumnCount(tCols);
+    table.setRowCount(tRows);
+
+    table.setHorizontalHeaderLabels(usersTableLabels);
+
+    int row = 0;
+    for(auto &usiItem : usiContextVec)
+    {
+        const QString nickname = usiItem.nickname;
+        const QString rpCountString = QString::number(usiItem.rpCount);
+        const QString playerIsReady = usiItem.isReady ? userIsReady : userNotReady;
+
+        QTableWidgetItem* items[] = {
+                                        new QTableWidgetItem(nickname),
+                                        new QTableWidgetItem(rpCountString),
+                                        new QTableWidgetItem(playerIsReady),
+                                    };
+
+        for(auto &i : items)
+            i->setTextAlignment(Qt::AlignCenter);
+
+        items[READY_COL]->setData(Qt::BackgroundRole, usiItem.isReady ? QColorConstants::Svg::lightgreen
+                                                                      : QColorConstants::Svg::lightgrey);
+
+        for(short int col = 0; col < tCols; col++)
+        {
+            table.setItem(row, col, items[col]);
+        }
+        row++;
+    }
+
+    table.horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    if(usiContextVec.size() >= 4)
+        table.verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+}
+
+void LobbyWindow::tableClear(QTableWidget &table)
+{
+    table.clearContents();
+    table.clear();
+    table.setColumnCount(0);
+    table.setRowCount(0);
 }
 
 void LobbyWindow::toggleLobbyVision()

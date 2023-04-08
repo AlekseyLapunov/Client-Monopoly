@@ -23,7 +23,7 @@ void LobbiesSubDialog::selfConfig(const short configFlag, const QString &carrier
     case changeNickname:
         this->setRegExps(lobbyRegExp);
         ui->leInput->setEchoMode(QLineEdit::Normal);
-        ui->leInput->setMaxLength(NICKNAME_MAX_LENGTH);
+        ui->leInput->setMaxLength(NICKNAME_MAX_LEN);
         writeWidgetTexts(sdStrings[sdNickname][sdWinTitle], sdStrings[sdNickname][sdApplyB],
                          sdStrings[sdNickname][sdRejectB], sdStrings[sdNickname][sdInfoString],
                          sdStrings[sdNickname][sdInputString]);
@@ -31,7 +31,7 @@ void LobbiesSubDialog::selfConfig(const short configFlag, const QString &carrier
     case joinById:
         this->setRegExps(uniqueIdRegExp);
         ui->leInput->setEchoMode(QLineEdit::Normal);
-        ui->leInput->setMaxLength(UNIQUE_ID_MAX_LENGTH);
+        ui->leInput->setMaxLength(UNIQUE_ID_MAX_LEN);
         writeWidgetTexts(sdStrings[sdDirectJoin][sdWinTitle], sdStrings[sdDirectJoin][sdApplyB],
                          sdStrings[sdDirectJoin][sdRejectB], sdStrings[sdDirectJoin][sdInfoString],
                          sdStrings[sdDirectJoin][sdInputString]);
@@ -39,7 +39,7 @@ void LobbiesSubDialog::selfConfig(const short configFlag, const QString &carrier
     case lobbyPasswordEnter:
         this->setRegExps(lobbyRegExp);
         ui->leInput->setEchoMode(QLineEdit::Password);
-        ui->leInput->setMaxLength(LOBBY_PASSWORD_MAX_LENGTH);
+        ui->leInput->setMaxLength(LOBBY_PASSWORD_MAX_LEN);
         writeWidgetTexts(sdStrings[sdPasswordJoin][sdWinTitle], sdStrings[sdPasswordJoin][sdApplyB],
                          sdStrings[sdPasswordJoin][sdRejectB], sdStrings[sdPasswordJoin][sdInfoString] + carrier + "\":",
                          sdStrings[sdPasswordJoin][sdInputString]);

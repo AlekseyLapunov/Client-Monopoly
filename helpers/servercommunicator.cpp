@@ -73,9 +73,9 @@ LobbyFullInfo ServerCommunicator::tryJoinById(const int uniqueId)
         { 8, 1.000, false, 72, false },
         // vector<UserShortInfo>
         {
-          {"monk", 800, true},
-          {"Kisl Jsji", 2400, true},
-          {"Роман Заглушевич", 11111, false},
+          {"monk", 800, IS_READY},
+          {"Kisl Jsji", 2400, IS_READY},
+          {"Роман Заглушевич", 11111, NOT_READY},
         }
     };
 }
@@ -114,12 +114,12 @@ LobbyFullInfo ServerCommunicator::tryRankedQueue(const int hostUserId)
     return
     {
         // LobbySystemInfo
-        { -1, "RANKED STUB", false, 3, 4, -1, "HOST STUB", true },
+        { -1, "RANKED STUB", NO_PASSWORD, 3, 4, -1, "HOST STUB", IS_PRIVATE },
         // GameSettingsInfo
-        { 8, 2.000, true, 72, false },
+        { 8, 2.000, IS_INFINITE, 72, NOT_INFINITE },
         // vector<UserShortInfo>
         {
-          {"monk", 800, true},
+          {"monk", 800, IS_READY},
           {"Kisl Jsji", 2400, true},
           {"Роман Заглушевич", 11111, false}
         }
