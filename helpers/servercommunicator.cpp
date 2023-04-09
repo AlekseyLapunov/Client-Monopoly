@@ -149,6 +149,8 @@ void ServerCommunicator::tryToggleReady(const int lobbyUniqueId)
 void ServerCommunicator::tryToggleLobbyVision(const int lobbyUniqueId)
 {
     // !!! STUB !!!
+    if(false)
+        throw std::runtime_error(serverCommClassName + toggleVisibilityException);
 }
 
 void ServerCommunicator::tryLobbySettingsApply(const int lobbyUniqueId, LobbySettingsCombined newSettings)

@@ -50,6 +50,40 @@
       </property>
      </widget>
     </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="lLobbySettings">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Bookman Old Style</family>
+        <pointsize>11</pointsize>
+        <bold>false</bold>
+        <underline>true</underline>
+       </font>
+      </property>
+      <property name="text">
+       <string>Настройки лобби</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0" colspan="2">
+     <widget class="Line" name="line">
+      <property name="lineWidth">
+       <number>0</number>
+      </property>
+      <property name="midLineWidth">
+       <number>2</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
     <item row="1" column="1">
      <layout class="QGridLayout" name="glRightSettings">
       <item row="2" column="1">
@@ -271,64 +305,6 @@
        </widget>
       </item>
      </layout>
-    </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="lLobbySettings">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>Bookman Old Style</family>
-        <pointsize>11</pointsize>
-        <bold>false</bold>
-        <underline>true</underline>
-       </font>
-      </property>
-      <property name="text">
-       <string>Настройки лобби</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QTableWidget" name="tUsers">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>250</height>
-       </size>
-      </property>
-      <property name="font">
-       <font>
-        <family>Bookman Old Style</family>
-        <pointsize>9</pointsize>
-       </font>
-      </property>
-      <property name="editTriggers">
-       <set>QAbstractItemView::NoEditTriggers</set>
-      </property>
-      <property name="alternatingRowColors">
-       <bool>true</bool>
-      </property>
-      <property name="selectionMode">
-       <enum>QAbstractItemView::NoSelection</enum>
-      </property>
-      <property name="selectionBehavior">
-       <enum>QAbstractItemView::SelectRows</enum>
-      </property>
-      <attribute name="verticalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-     </widget>
     </item>
     <item row="1" column="0">
      <layout class="QGridLayout" name="glLeftSettings">
@@ -552,16 +528,66 @@
       </item>
      </layout>
     </item>
-    <item row="2" column="0" colspan="2">
-     <widget class="Line" name="line">
-      <property name="lineWidth">
-       <number>0</number>
+    <item row="4" column="0">
+     <widget class="QTableWidget" name="tUsers">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
-      <property name="midLineWidth">
-       <number>2</number>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>250</height>
+       </size>
       </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+      <property name="font">
+       <font>
+        <family>Bookman Old Style</family>
+        <pointsize>9</pointsize>
+       </font>
+      </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+      <property name="alternatingRowColors">
+       <bool>true</bool>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::NoSelection</enum>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="lUsersInLobby">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>25</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Bookman Old Style</family>
+        <pointsize>11</pointsize>
+        <bold>false</bold>
+        <underline>true</underline>
+        <strikeout>false</strikeout>
+        <kerning>true</kerning>
+       </font>
+      </property>
+      <property name="text">
+       <string>Игроки в лобби</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </item>
@@ -621,7 +647,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Переключить видимость лобби</string>
+           <string>Видимость лобби: </string>
           </property>
          </widget>
         </item>
@@ -685,32 +711,6 @@
       </item>
      </layout>
     </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="lUsersInLobby">
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>25</height>
-       </size>
-      </property>
-      <property name="font">
-       <font>
-        <family>Bookman Old Style</family>
-        <pointsize>11</pointsize>
-        <bold>false</bold>
-        <underline>true</underline>
-        <strikeout>false</strikeout>
-        <kerning>true</kerning>
-       </font>
-      </property>
-      <property name="text">
-       <string>Игроки в лобби</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -739,7 +739,17 @@
     <addaction name="aLeaveLobby"/>
     <addaction name="aQuitApp"/>
    </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Настройки</string>
+    </property>
+    <addaction name="aExportToFile"/>
+    <addaction name="aImportFromFile"/>
+    <addaction name="separator"/>
+    <addaction name="aSetRankedSettings"/>
+   </widget>
    <addaction name="menu"/>
+   <addaction name="menuSettings"/>
   </widget>
   <widget class="QStatusBar" name="statusbar">
    <property name="font">
@@ -766,6 +776,26 @@
     <font>
      <family>Bookman Old Style</family>
     </font>
+   </property>
+  </action>
+  <action name="aExportToFile">
+   <property name="text">
+    <string>Экспорт настроек в файл</string>
+   </property>
+  </action>
+  <action name="aImportFromFile">
+   <property name="text">
+    <string>Импорт настроек из файла</string>
+   </property>
+  </action>
+  <action name="action_3">
+   <property name="text">
+    <string>Установить рейтинговые настройки</string>
+   </property>
+  </action>
+  <action name="aSetRankedSettings">
+   <property name="text">
+    <string>Установить рейтинговые настройки</string>
    </property>
   </action>
  </widget>

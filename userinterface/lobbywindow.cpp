@@ -84,14 +84,16 @@ void LobbyWindow::setUpByPrivilege()
         this->setButtonsVisibility(false);
         this->setWindowTitle(lobbyOfPlayer + "\""
                              + findOwnerNickname(m_context.lobbySystem.ownerUniqueId)
-                             + "\"");
+                             + "\"" + " (" + (m_context.lobbySystem.isPrivate ? lobbyHidden
+                                                                             : lobbyVisible) + ")");
         break;
     case Owner:
         this->setButtonsVisibility(true);
         this->setSettingsInputsAccessibility(true);
         this->ui->bLeaveLobby->setText(deleteLobbyText);
         this->ui->aLeaveLobby->setText(deleteLobbyText);
-        this->setWindowTitle(myLobby);
+        this->setWindowTitle(myLobby + " (" + (m_context.lobbySystem.isPrivate ? lobbyHidden
+                                                                               : lobbyVisible) + ")");
         break;
     default:
         break;
@@ -104,6 +106,8 @@ void LobbyWindow::setButtonsVisibility(bool areVisible)
     this->ui->bRestoreLastSettings->setVisible(areVisible);
     this->ui->bStartGame->setVisible(areVisible);
     this->ui->bToggleLobbyVision->setVisible(areVisible);
+    this->ui->bToggleLobbyVision->setText(lobbyVisibility + (m_context.lobbySystem.isPrivate ? lobbyHidden
+                                                                                             : lobbyVisible));
 
     // These should be always visible by default
     this->ui->bToggleReady->setVisible(true);
@@ -241,19 +245,42 @@ QString LobbyWindow::findOwnerNickname(int ownerId)
 
 void LobbyWindow::toggleLobbyVision()
 {
-    pServer()->get()->tryToggleLobbyVision(m_context.lobbySystem.uniqueId);
+    this->ui->bToggleLobbyVision->setDisabled(true);
+
+    try
+    {
+        pServer()->get()->tryToggleLobbyVision(m_context.lobbySystem.uniqueId);
+        m_context.lobbySystem.isPrivate = !m_context.lobbySystem.isPrivate;
+        this->setUpByPrivilege();
+    }
+    catch (std::exception &e)
+    {
+        this->execErrorBox(e.what());
+    }
+
+    this->ui->bToggleLobbyVision->setDisabled(false);
 }
 
 void LobbyWindow::startGame()
 {
+    this->ui->bStartGame->setDisabled(true);
+
     if(ui->bApplySettings->isEnabled())
         if(makeDialog(BaseWin::StartGameSettingsNotApplied) != 0)
+        {
+            this->ui->bStartGame->setDisabled(false);
             return;
+        }
 
     this->windowDataRefresh();
+    this->applySettings();
+
     if(!checkIfEveryoneReady())
         if(makeDialog(BaseWin::StartGameNotReady) != 0)
+        {
+            this->ui->bStartGame->setDisabled(false);
             return;
+        }
 
     try
     {
@@ -262,8 +289,9 @@ void LobbyWindow::startGame()
     catch (std::exception &e)
     {
         this->execErrorBox(e.what());
-        return;
     }
+
+    this->ui->bStartGame->setDisabled(false);
 }
 
 void LobbyWindow::applySettings()
@@ -273,12 +301,12 @@ void LobbyWindow::applySettings()
         LobbySettingsCombined tempSettings = makeSettingsObject();
         pServer()->get()->tryLobbySettingsApply(m_context.lobbySystem.uniqueId, tempSettings);
         this->ui->bApplySettings->setDisabled(true);
+        this->ui->bRestoreLastSettings->setDisabled(true);
         m_lastSettings = tempSettings;
     }
     catch (std::exception &e)
     {
         this->execErrorBox(e.what());
-        return;
     }
 }
 
@@ -335,6 +363,7 @@ void LobbyWindow::leaveLobby()
 
 void LobbyWindow::toggleReadyStatus()
 {
+    this->ui->bToggleReady->setDisabled(true);
     int hostUniqueId = pUserMetaInfo()->get()->getHostInfo().uniqueUserId;
     for(short i = 0; i < (short) m_context.usersInTable.size(); i++)
     {
@@ -346,16 +375,15 @@ void LobbyWindow::toggleReadyStatus()
     }
     try
     {
-        this->ui->bToggleReady->setDisabled(true);
         pServer()->get()->tryToggleReady(m_context.lobbySystem.uniqueId);
         this->setUpUsersInTable(*this->ui->tUsers, m_context.usersInTable);
-        this->ui->bToggleReady->setDisabled(false);
     }
     catch (std::exception &e)
     {
         this->execErrorBox(e.what());
         return;
     }
+    this->ui->bToggleReady->setDisabled(false);
 }
 
 void LobbyWindow::quitApp()

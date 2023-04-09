@@ -45,7 +45,6 @@ static const QStringList lobbyTableLabels {"Название",
                                            "Игроки"};
 
 // LobbyWindow
-static const QString passwordPlaceholder = "*****";
 static const QString deleteLobbyText = "Удалить лобби";
 static const QString rankedLobby = "Рейтинговое лобби";
 static const QString averageRp = "Среднее RP: ";
@@ -56,6 +55,9 @@ static const QString userIsReady = "Да";
 static const QString userNotReady = "Нет";
 static const QString lobbyOfPlayer = "Лобби игрока ";
 static const QString myLobby = "Своё лобби ";
+static const QString lobbyVisibility = "Видимость лобби: ";
+static const QString lobbyHidden = "Скрытое";
+static const QString lobbyVisible = "Открытое";
 
 // Sub-dialog strings
 enum SdMode {SdNickname, SdDirectJoin, SdPasswordJoin};
@@ -84,6 +86,7 @@ static const string nicknameException = "Не удалось сменить пс
 static const string applySettingsException = "Не удалось применить настройки";
 static const string toggleReadyException = "Не удалось переключить готовность";
 static const string startGameException = "Не удалось запустить матч";
+static const string toggleVisibilityException = "Не удалось переключить видимость лобби";
 #endif // SOURCESTRINGS_H
 
 
