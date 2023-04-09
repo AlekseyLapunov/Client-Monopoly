@@ -1089,6 +1089,54 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>aExportToFile</sender>
+   <signal>triggered()</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>exportSettingsToFile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>368</x>
+     <y>210</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>aImportFromFile</sender>
+   <signal>triggered()</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>importSettingsFromFile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>368</x>
+     <y>210</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>aSetRankedSettings</sender>
+   <signal>triggered()</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>applyRankedSettings()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>368</x>
+     <y>210</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>toggleLobbyVision()</slot>
@@ -1101,5 +1149,8 @@
   <slot>toggleMaxTurnsAccessibility()</slot>
   <slot>toggleMaxBalanceAccessibility()</slot>
   <slot>restoreLastSettings()</slot>
+  <slot>applyRankedSettings()</slot>
+  <slot>exportSettingsToFile()</slot>
+  <slot>importSettingsFromFile()</slot>
  </slots>
 </ui>

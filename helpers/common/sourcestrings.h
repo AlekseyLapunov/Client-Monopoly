@@ -75,6 +75,12 @@ static const QStringList subDialogPasswordedJoin = {"Ввод пароля к л
                                                     "Пароль"};
 static const QStringList sdStrings[] = {subDialogChangeNickname, subDialogJoinById, subDialogPasswordedJoin};
 
+// filemanager.h
+static const QString localDirPath = "local/";
+static const QString userMetaFileName = "usermeta.json";
+static const QString rankedSettingsFileName = "default_ranked_settings.json";
+static const QString lastSettingsFileName = "last_settings.json";
+
 // runtime_error
 static const string errorPtrLink = "Проблема при передаче указателей";
 static const string lobbyNotFound = "Лобби не найдено";

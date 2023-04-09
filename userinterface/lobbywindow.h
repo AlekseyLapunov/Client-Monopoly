@@ -39,6 +39,9 @@ private slots:
     void toggleMaxBalanceAccessibility();
     void toggleMaxTurnsAccessibility();
     void restoreLastSettings();
+    void applyRankedSettings();
+    void exportSettingsToFile();
+    void importSettingsFromFile();
 
 private:
     void definePrivilege();

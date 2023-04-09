@@ -423,6 +423,21 @@ void LobbyWindow::restoreLastSettings()
     }
 }
 
+void LobbyWindow::applyRankedSettings()
+{
+
+}
+
+void LobbyWindow::exportSettingsToFile()
+{
+
+}
+
+void LobbyWindow::importSettingsFromFile()
+{
+
+}
+
 void LobbyWindow::showAndRefresh()
 {
     this->windowDataRefresh();

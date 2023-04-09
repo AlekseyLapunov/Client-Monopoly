@@ -7,6 +7,7 @@
 #include "userinterface/loginwindow.h"
 #include "helpers/servercommunicator.h"
 #include "helpers/usermetainfo.h"
+#include "helpers/common/filemanager.h"
 
 using std::unique_ptr;
 
@@ -15,6 +16,7 @@ unique_ptr<UserMetaInfo> userMeta(new UserMetaInfo());
 
 int startApplication(int argc, char *argv[])
 {
+    initLocalDirectory();
     QApplication a(argc, argv);
 
     unique_ptr<LoginWindow> loginWindow(new LoginWindow(&server, &userMeta));
