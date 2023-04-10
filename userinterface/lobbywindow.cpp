@@ -286,7 +286,6 @@ void LobbyWindow::startGame()
         }
 
     this->windowDataRefresh();
-    this->applySettings();
 
     if(!checkIfEveryoneReady())
         if(makeDialog(BaseWin::StartGameNotReady) != 0)
@@ -297,7 +296,7 @@ void LobbyWindow::startGame()
 
     try
     {
-        pServer()->get()->tryStartGame(m_context.lobbySystem.uniqueId);
+        pServer()->get()->tryStartGame(m_context.lobbySystem.uniqueId, m_lastSettings);
     }
     catch (std::exception &e)
     {

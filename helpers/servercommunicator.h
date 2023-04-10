@@ -32,7 +32,7 @@ public:
     void tryToggleReady(const int lobbyUniqueId);
     void tryToggleLobbyVision(const int lobbyUniqueId);
     void tryLobbySettingsApply(const int lobbyUniqueId, LobbySettingsCombined newSettings);
-    void tryStartGame(const int lobbyUniqueId);
+    void tryStartGame(const int lobbyUniqueId, LobbySettingsCombined settingsBase);
     void tryKickPlayer(const int playerUniqueId);
     void tryPromotePlayer(const int playerUniqueId);
 

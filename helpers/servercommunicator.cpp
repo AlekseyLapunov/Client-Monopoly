@@ -160,7 +160,7 @@ void ServerCommunicator::tryLobbySettingsApply(const int lobbyUniqueId, LobbySet
         throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[ApplySettingsFail]);
 }
 
-void ServerCommunicator::tryStartGame(const int lobbyUniqueId)
+void ServerCommunicator::tryStartGame(const int lobbyUniqueId, LobbySettingsCombined settingsBase)
 {
     // !!! STUB !!!
     if(false)
