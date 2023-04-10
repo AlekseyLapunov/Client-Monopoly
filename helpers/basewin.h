@@ -98,7 +98,7 @@ protected:
 
     void execErrorBox(QString body)
     {
-        QMessageBox qmb(QMessageBox::Warning, errorTitle, body);
+        QMessageBox qmb(QMessageBox::Warning, ssErrorTitle, body);
         qmb.exec();
     }
 

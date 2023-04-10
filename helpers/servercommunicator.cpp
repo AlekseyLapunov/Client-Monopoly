@@ -14,7 +14,7 @@ HostUserData ServerCommunicator::doVkLogin()
 {
     // !!! STUB !!!
     if(false)
-        throw std::runtime_error(serverCommClassName + vkAuthFail);
+        throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[VkAuthFail]);
 
     m_temporaryHostData = {11, "VK STUB", 1110};
 
@@ -25,7 +25,7 @@ HostUserData ServerCommunicator::doGoogleLogin()
 {
     // !!! STUB !!!
     if(false)
-        throw std::runtime_error(serverCommClassName + googleAuthFail);
+        throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[GoogleAuthFail]);
 
     m_temporaryHostData = {15, "GOOGLE STUB", 1200};
 
@@ -46,7 +46,7 @@ vector<LobbyShortInfo> &ServerCommunicator::getLobbiesShortInfo()
     // !!! STUB !!!
     LobbyShortInfo stubLobbiesShortInfo[]
             = {
-                {0, "A STUB LOBBY", NO_PASSWORD, 4, 6},
+                {0, "A STUB LOBBY", NO_PASSWORD, 3, 6},
                 {1, "Poison", NO_PASSWORD, 1, 6},
                 {2, "horseeeee", HAS_PASSWORD, 3, 5},
                 {3, "Лабби1234", HAS_PASSWORD, 2, 4},
@@ -70,7 +70,7 @@ LobbyFullInfo ServerCommunicator::tryJoinById(const int lobbyUniqueId)
 
     // !!! STUB !!!
     if(lobbyUniqueId != 0)
-        throw std::runtime_error(serverCommClassName + lobbyNotFound);
+        throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[LobbyNotFound]);
 
     return
     {
@@ -90,7 +90,7 @@ LobbyFullInfo ServerCommunicator::tryJoinById(const int lobbyUniqueId)
 LobbyFullInfo ServerCommunicator::tryJoinById(const int lobbyUniqueId, const QString &enteredPassword)
 {
     // Make request
-    throw std::runtime_error(serverCommClassName + lobbyNotFound);
+    throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[LobbyNotFound]);
 }
 
 LobbyFullInfo ServerCommunicator::tryCreateLobby(const int hostUserId)
@@ -98,7 +98,7 @@ LobbyFullInfo ServerCommunicator::tryCreateLobby(const int hostUserId)
     // !!! STUB !!!
     // Need to check if user already has created lobby. If does - throw exception
     if(false)
-        throw std::runtime_error(serverCommClassName + alreadyHasLobby);
+        throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[AlreadyHasLobby]);
 
     return
     {
@@ -116,7 +116,7 @@ LobbyFullInfo ServerCommunicator::tryRankedQueue(const int hostUserId)
     // !!! STUB !!!
     // Need to check if user already in the queue
     if(false)
-        throw std::runtime_error(serverCommClassName + rankedException);
+        throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[AlreadyInQueue]);
 
     return
     {
@@ -143,35 +143,35 @@ void ServerCommunicator::tryToggleReady(const int lobbyUniqueId)
 {
     // !!! STUB !!!
     if(false)
-        throw std::runtime_error(serverCommClassName + toggleReadyException);
+        throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[ToggleReadyFail]);
 }
 
 void ServerCommunicator::tryToggleLobbyVision(const int lobbyUniqueId)
 {
     // !!! STUB !!!
     if(false)
-        throw std::runtime_error(serverCommClassName + toggleVisibilityException);
+        throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[ToggleVisibilityFail]);
 }
 
 void ServerCommunicator::tryLobbySettingsApply(const int lobbyUniqueId, LobbySettingsCombined newSettings)
 {
     // !!! STUB !!!
     if(false)
-        throw std::runtime_error(serverCommClassName + applySettingsException);
+        throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[ApplySettingsFail]);
 }
 
 void ServerCommunicator::tryStartGame(const int lobbyUniqueId)
 {
     // !!! STUB !!!
     if(false)
-        throw std::runtime_error(serverCommClassName + startGameException);
+        throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[StartGameFail]);
 }
 
 void ServerCommunicator::tryChangeNickname(const QString newNickname)
 {
     // !!! STUB !!!
     if(true)
-        throw std::runtime_error(serverCommClassName + nicknameException);
+        throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[ApplyNicknameFail]);
 }
 
 

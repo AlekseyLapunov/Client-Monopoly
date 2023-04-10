@@ -6,6 +6,7 @@
 #include <QTableWidget>
 
 #include "helpers/basewin.h"
+#include "helpers/common/filemanager.h"
 
 namespace Ui {
 class LobbyWindow;
@@ -54,7 +55,7 @@ private:
     void tableClear(QTableWidget &table);
     QString countAverageRp();
     QString findOwnerNickname(int ownerId);
-    LobbySettingsCombined makeSettingsObject();
+    LobbySettingsCombined makeSettingsObjectByInputs();
     void overwriteSettingsInputs(LobbySettingsCombined &overwriteBy);
     bool checkIfEveryoneReady();
 

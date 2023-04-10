@@ -9,90 +9,113 @@
 using std::string;
 
 // Regular expression QStrings
-static const QString lobbyRegExpString = "^[a-zA-Zа-яА-ЯёЁ0-9]+?( ?[a-zA-Zа-яА-ЯёЁ0-9])*$";
-static const QString uniqueIdRegExpString = "^[0-9]*$";
+static const QString ssLobbyRegExpString    = "^[a-zA-Zа-яА-ЯёЁ0-9]+?( ?[a-zA-Zа-яА-ЯёЁ0-9])*$";
+static const QString ssUniqueIdRegExpString = "^[0-9]*$";
 
 // Classes Names for the exception thrower specifying
-static const string loginWindowClassName = "LoginWindow: ";
-static const string menuWindowClassName = "MenuWindow: ";
-static const string lSubDialogClassName = "LobbiesSubDialog: ";
-static const string lobbyWindowClassName = "LobbyWindow: ";
-static const string serverCommClassName = "ServerCommunicator: ";
+static const string ssLoginWindowClassName      = "LoginWindow: ";
+static const string ssMenuWindowClassName       = "MenuWindow: ";
+static const string ssLobbiesSubDialogClassName = "LobbiesSubDialog: ";
+static const string ssLobbyWindowClassName      = "LobbyWindow: ";
+static const string ssServerCommClassName       = "ServerCommunicator: ";
 
 // QMessageBox
-static const QString errorTitle = "Ошибка";
-static const QString errorBody = "Возникла ошибка при\nвыполнении действия";
-static const QString nothingEntered = "Ничего не введено";
-static const QString lobbyNotSelected = "Лобби не выбрано";
+static const QString ssErrorTitle       = "Ошибка";
+static const QString ssErrorBody        = "Возникла ошибка при выполнении действия";
+static const QString ssNothingEntered   = "Ничего не введено";
+static const QString ssLobbyNotSelected = "Лобби не выбрано";
 
 // MenuWindow
-static const QString menuWindowTitle = "Главное меню";
-static const QString passColumnYes = "Есть";
-static const QString passColumnNo = "Нет";
-static const QString playersColumnSlash = " / ";
-static const QString statusBarSubMessage = " | ID для подключения: ";
-static const QString lobbiesInTotal = "Всего лобби: ";
-static const QString lobbiesNotPassworded = ". Открытых комнат: ";
-static const QString aboutTitle = "О приложении";
-static const QString aboutBody = "Приложение \"Игра Монополия\" разработано\n"
-                                 "студентами ИКИТ СФУ Лапуновым А.Ю. и Звягиным С.А.\n"
-                                 "в рамках выпускной квалификационной работы.\n"
-                                 "Клиентское приложение: Лапунов А.Ю.\n"
-                                 "Серверное приложение: Звягин С.А.\n"
-                                 "Руководитель ВКР: ст. преподаватель каф. ВТ ИКИТ СФУ Васильев В.С.";
-static const QStringList lobbyTableLabels {"Название",
-                                           "Пароль",
-                                           "Игроки"};
+static const QString ssMenuWindowTitle      = "Главное меню";
+static const QString ssPassColumnYes        = "Есть";
+static const QString ssPassColumnNo         = "Нет";
+static const QString ssPlayersColumnSlash   = " / ";
+static const QString ssStatusBarSubMessage  = " | ID для подключения: ";
+static const QString ssLobbiesInTotal       = "Всего лобби: ";
+static const QString ssLobbiesNotPassworded = ". Открытых комнат: ";
+static const QString ssAboutTitle           = "О приложении";
+static const QString ssAboutBody            = "Приложение \"Игра Монополия\" разработано\n"
+                                              "студентами ИКИТ СФУ Лапуновым А.Ю. и Звягиным С.А.\n"
+                                              "в рамках выпускной квалификационной работы.\n"
+                                              "Клиентское приложение: Лапунов А.Ю.\n"
+                                              "Серверное приложение: Звягин С.А.\n"
+                                              "Руководитель ВКР: ст. преподаватель каф. ВТ ИКИТ СФУ Васильев В.С.";
+static const QStringList ssLobbyTableLabels { "Название",
+                                              "Пароль",
+                                              "Игроки"};
 
 // LobbyWindow
-static const QString deleteLobbyText = "Удалить лобби";
-static const QString rankedLobby = "Рейтинговое лобби";
-static const QString averageRp = "Среднее RP: ";
-static const QStringList usersTableLabels {"Псевдоним",
-                                           "RP",
-                                           "Готов"};
-static const QString userIsReady = "Да";
-static const QString userNotReady = "Нет";
-static const QString lobbyOfPlayer = "Лобби игрока ";
-static const QString myLobby = "Своё лобби ";
-static const QString lobbyVisibility = "Видимость лобби: ";
-static const QString lobbyHidden = "Скрытое";
-static const QString lobbyVisible = "Открытое";
+static const QString ssDeleteLobbyText      = "Удалить лобби";
+static const QString ssRankedLobby          = "Рейтинговое лобби";
+static const QString ssAverageRp            = "Среднее RP: ";
+static const QStringList ssUsersTableLabels { "Псевдоним",
+                                              "RP",
+                                              "Готов" };
+static const QString ssUserIsReady          = "Да";
+static const QString ssUserNotReady         = "Нет";
+static const QString ssLobbyOfPlayer        = "Лобби игрока ";
+static const QString ssMyLobby              = "Своё лобби ";
+static const QString ssLobbyVisibility      = "Видимость лобби: ";
+static const QString ssLobbyHidden          = "Скрытое";
+static const QString ssLobbyVisible         = "Открытое";
 
 // Sub-dialog strings
-enum SdMode {SdNickname, SdDirectJoin, SdPasswordJoin};
-enum SdElems {SdWinTitle, SdApplyB, SdRejectB, SdInfoString, SdInputString};
+enum SdMode  { SdNickname, SdDirectJoin, SdPasswordJoin };
+enum SdElems { SdWinTitle, SdApplyB, SdRejectB, SdInfoString, SdInputString };
 /// Changing nickname
-static const QStringList subDialogChangeNickname = {"Сменить псевдоним", "Применить",
-                                                    "Отмена", "Введите новый псевдоним:",
-                                                    "Псевдоним"};
+static const QStringList ssSubDialogChangeNickname = { "Сменить псевдоним", "Применить",
+                                                       "Отмена", "Введите новый псевдоним:",
+                                                       "Псевдоним" };
 /// Joining by ID
-static const QStringList subDialogJoinById = {"Подключение по ID", "Подключиться",
-                                              "Отмена", "Введите ID комнаты:", "ID"};
+static const QStringList ssSubDialogJoinById       = { "Подключение по ID", "Подключиться",
+                                                       "Отмена", "Введите ID комнаты:", "ID" };
 /// Joining with password
-static const QStringList subDialogPasswordedJoin = {"Ввод пароля к лобби", "Подключиться",
-                                                    "Отмена", "Введите пароль комнаты \"",
-                                                    "Пароль"};
-static const QStringList sdStrings[] = {subDialogChangeNickname, subDialogJoinById, subDialogPasswordedJoin};
+static const QStringList ssSubDialogPasswordedJoin = { "Ввод пароля к лобби", "Подключиться",
+                                                       "Отмена", "Введите пароль комнаты \"",
+                                                       "Пароль" };
+static const QStringList ssSdStrings[]             = { ssSubDialogChangeNickname,
+                                                       ssSubDialogJoinById,
+                                                       ssSubDialogPasswordedJoin };
 
 // filemanager.h
-static const QString localDirPath = "local/";
-static const QString userMetaFileName = "usermeta.json";
-static const QString rankedSettingsFileName = "default_ranked_settings.json";
-static const QString lastSettingsFileName = "last_settings.json";
+static const QString ssLocalDirPath           = "local/";
+static const QString ssUserMetaFileName       = "usermeta.json";
+static const QString ssRankedSettingsFileName = "default_ranked_settings.json";
+static const QString ssLastSettingsFileName   = "last_settings.json";
+static const QString ssCaptionImportSettings  = "Импортировать Настройки Лобби";
+static const QString ssCaptionExportSettings  = "Экспортировать Настройки Лобби";
+static const QString ssJsonFilter             = "JSON file (*.json)";
+
+// JSON keys
+enum JsonKeysIter           { LobbySystemIter, GameSettingsIter };
+enum JsonKeysLobbySystemId  { UniqueId, LobbyName, LobbyPassword, MaxPlayersCount, OwnerUniqueId, IsPrivate };
+enum JsonKeysGameSettingsId { TurnTime, MaxMoney, IsMaxMoneyInfinite, MaxTurns, AreMaxTurnsInfinite };
+static const QStringList ssJsonKeysLobbySystem      = { "uniqueId", "lobbyName", "lobbyPassword", "maxPlayersCount",
+                                                        "ownerUniqueId", "isPrivate" };
+static const QStringList ssJsonKeysGameSettings     = { "turnTime", "maxMoney", "isMaxMoneyInfinite",
+                                                        "maxTurns", "areMaxTurnsInfinite" };
+static const QStringList ssJsonKeysLobbySettings[]  = { ssJsonKeysLobbySystem, ssJsonKeysGameSettings };
+static const QStringList ssJsonObjectsId            = { "LobbySystemInfo", "GameSettingsInfo" };
 
 // runtime_error
-static const string errorPtrLink = "Проблема при передаче указателей";
-static const string lobbyNotFound = "Лобби не найдено";
-static const string googleAuthFail = "Не удалось войти\nчерез Google аккаунт";
-static const string vkAuthFail = "Не удалось войти\nчерез VK аккаунт";
-static const string alreadyHasLobby = "Лобби уже существует";
-static const string rankedException = "Вы уже находитесь в очереди";
-static const string nicknameException = "Не удалось сменить псевдоним";
-static const string applySettingsException = "Не удалось применить настройки";
-static const string toggleReadyException = "Не удалось переключить готовность";
-static const string startGameException = "Не удалось запустить матч";
-static const string toggleVisibilityException = "Не удалось переключить видимость лобби";
+enum RunTimeErrorId { PtrLinkFail, LobbyNotFound, GoogleAuthFail, VkAuthFail,
+                      AlreadyHasLobby, AlreadyInQueue, ApplyNicknameFail,
+                      ApplySettingsFail, ToggleReadyFail, StartGameFail,
+                      ToggleVisibilityFail, JsonParseError };
+static const string ssRuntimeErrors[] = {
+                                            "Проблема при передаче указателей",
+                                            "Лобби не найдено",
+                                            "Не удалось войти через Google аккаунт",
+                                            "Не удалось войти через VK аккаунт",
+                                            "Лобби уже существует",
+                                            "Вы уже находитесь в очереди",
+                                            "Не удалось сменить псевдоним",
+                                            "Не удалось применить настройки",
+                                            "Не удалось переключить готовность",
+                                            "Не удалось запустить матч",
+                                            "Не удалось переключить видимость лобби",
+                                            "Ошибка при обработке представленного JSON-файла"
+                                        };
 #endif // SOURCESTRINGS_H
 
 

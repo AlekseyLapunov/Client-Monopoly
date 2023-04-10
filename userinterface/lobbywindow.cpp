@@ -8,7 +8,7 @@ LobbyWindow::LobbyWindow(unique_ptr<ServerCommunicator> *newServerPtr,
     ui(new Ui::LobbyWindow)
 {
     if(!*newServerPtr || !*newMetaInfoPtr)
-        throw std::runtime_error(loginWindowClassName + errorPtrLink);
+        throw std::runtime_error(ssLobbyWindowClassName + ssRuntimeErrors[PtrLinkFail]);
 
     setupPointers(*newServerPtr, *newMetaInfoPtr);
 
@@ -68,8 +68,8 @@ void LobbyWindow::setUpByPrivilege()
     {
     case RankedGuest:
         setButtonsVisibility(false);
-        this->ui->lLobbySettings->setText(rankedLobby);
-        this->ui->lLobbyUniqueId->setText(averageRp + countAverageRp());
+        this->ui->lLobbySettings->setText(ssRankedLobby);
+        this->ui->lLobbyUniqueId->setText(ssAverageRp + countAverageRp());
         this->ui->lLobbyUniqueId->setFont(font);
         this->ui->lPasswordConst->setVisible(false);
         this->ui->lePassword->setVisible(false);
@@ -78,22 +78,22 @@ void LobbyWindow::setUpByPrivilege()
         this->ui->lMaxPlayersConst->setVisible(false);
         this->ui->sbMaxPlayers->setVisible(false);
         this->ui->bToggleReady->setVisible(false);
-        this->setWindowTitle(rankedLobby);
+        this->setWindowTitle(ssRankedLobby);
         break;
     case Guest:
         this->setButtonsVisibility(false);
-        this->setWindowTitle(lobbyOfPlayer + "\""
+        this->setWindowTitle(ssLobbyOfPlayer + "\""
                              + findOwnerNickname(m_context.lobbySystem.ownerUniqueId)
-                             + "\"" + " (" + (m_context.lobbySystem.isPrivate ? lobbyHidden
-                                                                             : lobbyVisible) + ")");
+                             + "\"" + " (" + (m_context.lobbySystem.isPrivate ? ssLobbyHidden
+                                                                             : ssLobbyVisible) + ")");
         break;
     case Owner:
         this->setButtonsVisibility(true);
         this->setSettingsInputsAccessibility(true);
-        this->ui->bLeaveLobby->setText(deleteLobbyText);
-        this->ui->aLeaveLobby->setText(deleteLobbyText);
-        this->setWindowTitle(myLobby + " (" + (m_context.lobbySystem.isPrivate ? lobbyHidden
-                                                                               : lobbyVisible) + ")");
+        this->ui->bLeaveLobby->setText(ssDeleteLobbyText);
+        this->ui->aLeaveLobby->setText(ssDeleteLobbyText);
+        this->setWindowTitle(ssMyLobby + " (" + (m_context.lobbySystem.isPrivate ? ssLobbyHidden
+                                                                               : ssLobbyVisible) + ")");
         break;
     default:
         break;
@@ -106,8 +106,8 @@ void LobbyWindow::setButtonsVisibility(bool areVisible)
     this->ui->bRestoreLastSettings->setVisible(areVisible);
     this->ui->bStartGame->setVisible(areVisible);
     this->ui->bToggleLobbyVision->setVisible(areVisible);
-    this->ui->bToggleLobbyVision->setText(lobbyVisibility + (m_context.lobbySystem.isPrivate ? lobbyHidden
-                                                                                             : lobbyVisible));
+    this->ui->bToggleLobbyVision->setText(ssLobbyVisibility + (m_context.lobbySystem.isPrivate ? ssLobbyHidden
+                                                                                             : ssLobbyVisible));
 
     // These should be always visible by default
     this->ui->bToggleReady->setVisible(true);
@@ -142,10 +142,10 @@ void LobbyWindow::setUpGameSettings(GameSettingsInfo& gsContext)
     this->ui->sbTurnTime->setValue(gsContext.turnTime);
     this->ui->sbTurnTime->setReadOnly(true);
 
-    this->ui->sbMaxTurns->setValue(gsContext.turnsRightBorder);
+    this->ui->sbMaxTurns->setValue(gsContext.maxTurns);
     this->ui->sbMaxTurns->setReadOnly(true);
 
-    this->ui->dsbMaxBalance->setValue(gsContext.moneyRightBorder);
+    this->ui->dsbMaxBalance->setValue(gsContext.maxMoney);
     this->ui->dsbMaxBalance->setReadOnly(true);
 
     this->ui->chbAreTurnsInfinite->setChecked(gsContext.areMaxTurnsInfinite);
@@ -168,14 +168,14 @@ void LobbyWindow::setUpUsersInTable(QTableWidget& table, std::vector<UserShortIn
     table.setColumnCount(tCols);
     table.setRowCount(tRows);
 
-    table.setHorizontalHeaderLabels(usersTableLabels);
+    table.setHorizontalHeaderLabels(ssUsersTableLabels);
 
     int row = 0;
     for(auto &usiItem : usiContextVec)
     {
         const QString nickname = usiItem.nickname;
         const QString rpCountString = QString::number(usiItem.rpCount);
-        const QString playerIsReady = usiItem.isReady ? userIsReady : userNotReady;
+        const QString playerIsReady = usiItem.isReady ? ssUserIsReady : ssUserNotReady;
 
         QTableWidgetItem* items[] = {
                                         new QTableWidgetItem(nickname),
@@ -298,7 +298,7 @@ void LobbyWindow::applySettings()
 {
     try
     {
-        LobbySettingsCombined tempSettings = makeSettingsObject();
+        LobbySettingsCombined tempSettings = makeSettingsObjectByInputs();
         pServer()->get()->tryLobbySettingsApply(m_context.lobbySystem.uniqueId, tempSettings);
         this->ui->bApplySettings->setDisabled(true);
         this->ui->bRestoreLastSettings->setDisabled(true);
@@ -310,7 +310,7 @@ void LobbyWindow::applySettings()
     }
 }
 
-LobbySettingsCombined LobbyWindow::makeSettingsObject()
+LobbySettingsCombined LobbyWindow::makeSettingsObjectByInputs()
 {
     return  {
                 {m_context.lobbySystem.uniqueId,
@@ -330,14 +330,17 @@ LobbySettingsCombined LobbyWindow::makeSettingsObject()
 
 void LobbyWindow::overwriteSettingsInputs(LobbySettingsCombined &overwriteBy)
 {
-    this->ui->leLobbyName->setText(overwriteBy.lobbySystem.lobbyName);
-    this->ui->lePassword->setText(overwriteBy.lobbySystem.lobbyPassword);
-    this->ui->sbMaxPlayers->setValue(overwriteBy.lobbySystem.maxPlayersCount);
+    if(!overwriteBy.lobbySystem.lobbyName.isEmpty())
+        this->ui->leLobbyName->setText(overwriteBy.lobbySystem.lobbyName);
+    if(!overwriteBy.lobbySystem.lobbyPassword.isEmpty())
+        this->ui->lePassword->setText(overwriteBy.lobbySystem.lobbyPassword);
+    if(overwriteBy.lobbySystem.maxPlayersCount >= MIN_PLAYERS_COUNT)
+        this->ui->sbMaxPlayers->setValue(overwriteBy.lobbySystem.maxPlayersCount);
 
     this->ui->sbTurnTime->setValue(overwriteBy.gameSettings.turnTime);
-    this->ui->dsbMaxBalance->setValue(overwriteBy.gameSettings.moneyRightBorder);
+    this->ui->dsbMaxBalance->setValue(overwriteBy.gameSettings.maxMoney);
     this->ui->chbIsBalanceInfinite->setChecked(overwriteBy.gameSettings.isMaxMoneyInfinite);
-    this->ui->sbMaxTurns->setValue(overwriteBy.gameSettings.turnsRightBorder);
+    this->ui->sbMaxTurns->setValue(overwriteBy.gameSettings.maxTurns);
     this->ui->chbAreTurnsInfinite->setChecked(overwriteBy.gameSettings.areMaxTurnsInfinite);
 }
 
@@ -381,7 +384,6 @@ void LobbyWindow::toggleReadyStatus()
     catch (std::exception &e)
     {
         this->execErrorBox(e.what());
-        return;
     }
     this->ui->bToggleReady->setDisabled(false);
 }
@@ -399,8 +401,10 @@ void LobbyWindow::quitApp()
 
 void LobbyWindow::settingsChangesDetected()
 {
-    this->ui->bApplySettings->setEnabled(true);
-    this->ui->bRestoreLastSettings->setEnabled(true);
+    LobbySettingsCombined currentSettings = makeSettingsObjectByInputs();
+    bool flag = (m_lastSettings != currentSettings);
+    this->ui->bApplySettings->setEnabled(flag);
+    this->ui->bRestoreLastSettings->setEnabled(flag);
 }
 
 void LobbyWindow::toggleMaxBalanceAccessibility()
@@ -425,17 +429,54 @@ void LobbyWindow::restoreLastSettings()
 
 void LobbyWindow::applyRankedSettings()
 {
-
+    try
+    {
+        LobbySettingsCombined trueRankedSettings = getRankedSettingsFromLocal();
+        overwriteSettingsInputs(trueRankedSettings);
+    }
+    catch (std::exception &e)
+    {
+        this->execErrorBox(e.what());
+        return;
+    }
+    this->ui->bApplySettings->setEnabled(true);
+    this->ui->bRestoreLastSettings->setEnabled(true);
 }
 
 void LobbyWindow::exportSettingsToFile()
 {
-
+    try
+    {
+        manageSettingsExport(m_lastSettings);
+    }
+    catch (std::exception &e)
+    {
+        this->execErrorBox(e.what());
+        return;
+    }
 }
 
 void LobbyWindow::importSettingsFromFile()
 {
+    bool gotSettings = false;
+    LobbySettingsCombined importedSettings;
 
+    try
+    {
+        importedSettings = manageSettingsImport(gotSettings);
+    }
+    catch (std::exception &e)
+    {
+        this->execErrorBox(e.what());
+        return;
+    }
+
+    if(!gotSettings)
+        return;
+
+    overwriteSettingsInputs(importedSettings);
+    this->ui->bApplySettings->setEnabled(true);
+    this->ui->bRestoreLastSettings->setEnabled(true);
 }
 
 void LobbyWindow::showAndRefresh()

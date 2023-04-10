@@ -8,7 +8,7 @@ MenuWindow::MenuWindow(unique_ptr<ServerCommunicator> *newServerPtr,
     ui(new Ui::MenuWindow)
 {
     if(!*newServerPtr || !*newMetaInfoPtr)
-        throw std::runtime_error(menuWindowClassName + errorPtrLink);
+        throw std::runtime_error(ssMenuWindowClassName + ssRuntimeErrors[PtrLinkFail]);
 
     setupPointers(*newServerPtr, *newMetaInfoPtr);
 
@@ -67,7 +67,7 @@ void MenuWindow::lobbyClicked(QTableWidgetItem *itemClicked)
                 (
                     ui->tLobbies->item(ui->tLobbies->row(itemClicked),
                                        LOBBY_NAME_COL)->text() +
-                                       statusBarSubMessage +
+                                       ssStatusBarSubMessage +
                                        QString::number(curLobbyUniqueId), 0
                 );
 }
@@ -95,7 +95,7 @@ void MenuWindow::joinToLobby()
     const QList<QTableWidgetItem*> selectedItems = ui->tLobbies->selectedItems();
     if(selectedItems.isEmpty())
     {
-        this->execErrorBox(lobbyNotSelected);
+        this->execErrorBox(ssLobbyNotSelected);
         return;
     }
     this->lobbyClicked(selectedItems.at(0));
@@ -152,7 +152,7 @@ void MenuWindow::findRanked()
 
 void MenuWindow::showAbout()
 {
-    QMessageBox qmb(QMessageBox::Information, aboutTitle, aboutBody);
+    QMessageBox qmb(QMessageBox::Information, ssAboutTitle, ssAboutBody);
     qmb.exec();
 }
 
@@ -187,9 +187,9 @@ void MenuWindow::setupLobbiesTable()
 
     this->tableSetupFill(*ui->tLobbies, *pLobbiesVec, ui->leLobbyFilter->text());
 
-    ui->lLobbiesCount->setText(lobbiesInTotal
+    ui->lLobbiesCount->setText(ssLobbiesInTotal
                                + QString::number(pLobbiesVec->size())
-                               + lobbiesNotPassworded
+                               + ssLobbiesNotPassworded
                                + QString::number(count_if(pLobbiesVec->begin(),
                                                           pLobbiesVec->end(),
                                                           [](const LobbyShortInfo &lobby)
@@ -198,7 +198,7 @@ void MenuWindow::setupLobbiesTable()
 
 void MenuWindow::setupLobbiesFilter()
 {
-    QRegularExpression lobbyFilterRegExp(lobbyRegExpString);
+    QRegularExpression lobbyFilterRegExp(ssLobbyRegExpString);
     QRegularExpressionValidator* lobbyFilterValidator = new QRegularExpressionValidator(lobbyFilterRegExp, this);
     ui->leLobbyFilter->setValidator(lobbyFilterValidator);
     ui->leLobbyFilter->clear();
@@ -231,7 +231,7 @@ void MenuWindow::tableSetupFill(QTableWidget &table, const vector<LobbyShortInfo
 
     table.hideColumn(UNIQUE_ID_COL);
 
-    table.setHorizontalHeaderLabels(lobbyTableLabels);
+    table.setHorizontalHeaderLabels(ssLobbyTableLabels);
     table.horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     int row = 0;
@@ -241,8 +241,8 @@ void MenuWindow::tableSetupFill(QTableWidget &table, const vector<LobbyShortInfo
         const QString lobbyName = lsiItem.lobbyName;
         if(!lobbyName.toLower().contains(filter.toLower()))
             continue;
-        const QString isPassworded = lsiItem.isPassworded ? passColumnYes : passColumnNo;
-        const QString playersCount = QString::number(lsiItem.curPlayersCount) + playersColumnSlash
+        const QString isPassworded = lsiItem.isPassworded ? ssPassColumnYes : ssPassColumnNo;
+        const QString playersCount = QString::number(lsiItem.curPlayersCount) + ssPlayersColumnSlash
                 + QString::number(lsiItem.maxPlayersCount);
         QTableWidgetItem* items[] = {
                                         new QTableWidgetItem(lobbyName),
@@ -304,7 +304,7 @@ void MenuWindow::showLobbyWindow()
 
 dialogCode MenuWindow::checkIfPassworded(const QTableWidgetItem &item)
 {
-    if(ui->tLobbies->item(item.row(), IS_PASSWORDED_COL)->text() == passColumnYes)
+    if(ui->tLobbies->item(item.row(), IS_PASSWORDED_COL)->text() == ssPassColumnYes)
     {
         pSubDialog.get()->selfConfig(LobbiesSubDialog::LobbyPasswordEnter,
                                      ui->tLobbies->item(item.row(), LOBBY_NAME_COL)->text());

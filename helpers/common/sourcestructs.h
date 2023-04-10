@@ -36,6 +36,24 @@
 #define USING_3D_DICES          true
 #define NOT_USING_3D_DICES      false
 
+// True ranked settings source values
+/// Ranked Settings Lobby System Info
+#define RS_LS_UNIQUE_ID         -1
+#define RS_LS_LOBBY_NAME        ""
+#define RS_LS_LOBBY_PASSWORD    ""
+#define RS_LS_MAX_PLAYERS_COUNT -1
+#define RS_LS_OWNER_UNIQUE_ID   -1
+#define RS_LS_IS_PRIVATE        false
+/// Ranked Settings Game Settings Info
+#define RS_GS_TURN_TIME         8
+#define RS_GS_MAX_MONEY         2.000
+#define RS_GS_IS_MAX_MONEY_INF  true
+#define RS_GS_MAX_TURNS         72
+#define RS_GS_ARE_MAX_TURNS_INF false
+
+// Set by game rules
+#define MIN_PLAYERS_COUNT 2
+
 using std::vector;
 using std::count_if;
 
@@ -90,17 +108,17 @@ struct UserShortInfo
 struct GameSettingsInfo
 {
     short turnTime;
-    float moneyRightBorder; // represents billions
+    float maxMoney; // represents billions
     bool isMaxMoneyInfinite;
-    short turnsRightBorder;
+    short maxTurns;
     bool areMaxTurnsInfinite;
 
     bool operator==(GameSettingsInfo& other)
     {
         if(this->turnTime != other.turnTime ||
-           this->moneyRightBorder != other.moneyRightBorder ||
+           this->maxMoney != other.maxMoney ||
            this->isMaxMoneyInfinite != other.isMaxMoneyInfinite ||
-           this->turnsRightBorder != other.turnsRightBorder ||
+           this->maxTurns != other.maxTurns ||
            this->areMaxTurnsInfinite != other.areMaxTurnsInfinite)
             return false;
         return true;
@@ -126,7 +144,7 @@ struct LobbySettingsCombined
     LobbySystemInfo lobbySystem;
     GameSettingsInfo gameSettings;
 
-    bool operator==(LobbySettingsCombined other)
+    bool operator==(LobbySettingsCombined& other)
     {
         if(this->lobbySystem != other.lobbySystem || this->gameSettings != other.gameSettings)
             return false;

@@ -8,7 +8,7 @@ LoginWindow::LoginWindow(unique_ptr<ServerCommunicator> *newServerPtr,
     , ui(new Ui::LoginWindow)
 {
     if(!*newServerPtr || !*newMetaInfoPtr)
-        throw std::runtime_error(loginWindowClassName + errorPtrLink);
+        throw std::runtime_error(ssLoginWindowClassName + ssRuntimeErrors[PtrLinkFail]);
 
     setupPointers(*newServerPtr, *newMetaInfoPtr);
 
