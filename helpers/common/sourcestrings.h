@@ -82,8 +82,8 @@ static const QString ssLocalDirPath           = "local/";
 static const QString ssUserMetaFileName       = "usermeta.json";
 static const QString ssRankedSettingsFileName = "default_ranked_settings.json";
 static const QString ssLastSettingsFileName   = "last_settings.json";
-static const QString ssCaptionImportSettings  = "Импортировать Настройки Лобби";
-static const QString ssCaptionExportSettings  = "Экспортировать Настройки Лобби";
+static const QString ssCaptionImportSettings  = "Импортировать настройки лобби";
+static const QString ssCaptionExportSettings  = "Экспортировать настройки лобби";
 static const QString ssJsonFilter             = "JSON file (*.json)";
 
 // JSON keys

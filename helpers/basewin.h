@@ -90,6 +90,13 @@ protected:
                                        "записанных настройках?",
                                        {"Да", "Нет"});
             break;
+        case ExportSettingsNotApplied:
+            qmb = dialogBoxConstructor(QMessageBox::Question,
+                                       "Экспорт настроек",
+                                       "Замечены неприменённые настройки.\nСделать экспорт последних\n"
+                                       "записанных настроек?",
+                                       {"Да", "Нет"});
+            break;
         default:
             break;
         }
@@ -105,7 +112,7 @@ protected:
 protected:
     enum DialogBoxVariations { QuitApp, ChangeAcc, JoinLobby,
                                LeaveLobby, RestoreSettings, StartGameNotReady,
-                               StartGameSettingsNotApplied };
+                               StartGameSettingsNotApplied, ExportSettingsNotApplied };
 
 private:
     unique_ptr<QMessageBox> dialogBoxConstructor(QMessageBox::Icon icon,

@@ -79,6 +79,10 @@ void LobbyWindow::setUpByPrivilege()
         this->ui->sbMaxPlayers->setVisible(false);
         this->ui->bToggleReady->setVisible(false);
         this->setWindowTitle(ssRankedLobby);
+        this->ui->aSetRankedSettings->setVisible(false);
+        this->ui->aImportFromFile->setVisible(false);
+        this->ui->aExportToFile->setVisible(false);
+        this->ui->menuSettings->setDisabled(true);
         break;
     case Guest:
         this->setButtonsVisibility(false);
@@ -86,6 +90,9 @@ void LobbyWindow::setUpByPrivilege()
                              + findOwnerNickname(m_context.lobbySystem.ownerUniqueId)
                              + "\"" + " (" + (m_context.lobbySystem.isPrivate ? ssLobbyHidden
                                                                              : ssLobbyVisible) + ")");
+        this->ui->aSetRankedSettings->setVisible(false);
+        this->ui->aImportFromFile->setVisible(false);
+        this->ui->aExportToFile->setVisible(true);
         break;
     case Owner:
         this->setButtonsVisibility(true);
@@ -94,6 +101,9 @@ void LobbyWindow::setUpByPrivilege()
         this->ui->aLeaveLobby->setText(ssDeleteLobbyText);
         this->setWindowTitle(ssMyLobby + " (" + (m_context.lobbySystem.isPrivate ? ssLobbyHidden
                                                                                : ssLobbyVisible) + ")");
+        this->ui->aSetRankedSettings->setVisible(true);
+        this->ui->aImportFromFile->setVisible(true);
+        this->ui->aExportToFile->setVisible(true);
         break;
     default:
         break;
@@ -445,6 +455,10 @@ void LobbyWindow::applyRankedSettings()
 
 void LobbyWindow::exportSettingsToFile()
 {
+    if(this->ui->bApplySettings->isEnabled())
+        if(makeDialog(BaseWin::ExportSettingsNotApplied) != 0)
+            return;
+
     try
     {
         manageSettingsExport(m_lastSettings);
