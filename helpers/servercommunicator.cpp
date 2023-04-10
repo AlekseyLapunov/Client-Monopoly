@@ -167,6 +167,20 @@ void ServerCommunicator::tryStartGame(const int lobbyUniqueId)
         throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[StartGameFail]);
 }
 
+void ServerCommunicator::tryKickPlayer(const int playerUniqueId)
+{
+    // !!! STUB !!!
+    if(false)
+        throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[KickPlayerFail]);
+}
+
+void ServerCommunicator::tryPromotePlayer(const int playerUniqueId)
+{
+    // !!! STUB !!!
+    if(false)
+        throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[PromotePlayerFail]);
+}
+
 void ServerCommunicator::tryChangeNickname(const QString newNickname)
 {
     // !!! STUB !!!

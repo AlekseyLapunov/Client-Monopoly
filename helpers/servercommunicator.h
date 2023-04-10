@@ -33,6 +33,10 @@ public:
     void tryToggleLobbyVision(const int lobbyUniqueId);
     void tryLobbySettingsApply(const int lobbyUniqueId, LobbySettingsCombined newSettings);
     void tryStartGame(const int lobbyUniqueId);
+    void tryKickPlayer(const int playerUniqueId);
+    void tryPromotePlayer(const int playerUniqueId);
+
+    // Miscelanious
     void tryChangeNickname(const QString newNickname);
 
 private:

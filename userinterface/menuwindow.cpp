@@ -118,7 +118,7 @@ void MenuWindow::joinIdDialog()
             this->execErrorBox(e.what());
             return;
         }
-    }
+    } else return;
     showLobbyWindow();
 }
 

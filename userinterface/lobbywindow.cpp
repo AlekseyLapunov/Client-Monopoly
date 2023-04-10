@@ -138,7 +138,7 @@ void LobbyWindow::setSettingsInputsAccessibility(bool areAccessible)
 
 void LobbyWindow::setUpLobbySystem(LobbySystemInfo& lsiContext)
 {
-    this->ui->lLobbyUniqueId->setText("ID " + QString::number(lsiContext.uniqueId));
+    this->ui->lLobbyUniqueId->setText(ssLobbyIdPrefix + QString::number(lsiContext.uniqueId));
     this->ui->leLobbyName->setText(lsiContext.lobbyName);
     this->ui->leLobbyName->setReadOnly(true);
     this->ui->lePassword->setText(lsiContext.lobbyPassword);
@@ -177,6 +177,7 @@ void LobbyWindow::setUpUsersInTable(QTableWidget& table, std::vector<UserShortIn
 
     table.setColumnCount(tCols);
     table.setRowCount(tRows);
+    table.hideColumn(PLAYER_UNIQUE_ID_COL);
 
     table.setHorizontalHeaderLabels(ssUsersTableLabels);
 
@@ -186,11 +187,13 @@ void LobbyWindow::setUpUsersInTable(QTableWidget& table, std::vector<UserShortIn
         const QString nickname = usiItem.nickname;
         const QString rpCountString = QString::number(usiItem.rpCount);
         const QString playerIsReady = usiItem.isReady ? ssUserIsReady : ssUserNotReady;
+        const QString playerUniqueId = QString::number(usiItem.uniqueId);
 
         QTableWidgetItem* items[] = {
                                         new QTableWidgetItem(nickname),
                                         new QTableWidgetItem(rpCountString),
                                         new QTableWidgetItem(playerIsReady),
+                                        new QTableWidgetItem(playerUniqueId)
                                     };
 
         if(usiItem.isReady)
@@ -491,6 +494,45 @@ void LobbyWindow::importSettingsFromFile()
     overwriteSettingsInputs(importedSettings);
     this->ui->bApplySettings->setEnabled(true);
     this->ui->bRestoreLastSettings->setEnabled(true);
+}
+
+void LobbyWindow::reactToUserSelect(QTableWidgetItem *item)
+{
+    int hostUniqueId = pUserMetaInfo()->get()->getHostInfo().uniqueUserId;
+    if(m_context.lobbySystem.ownerUniqueId != hostUniqueId)
+        return;
+
+    int selectedUniqueId = this->ui->tUsers->item(item->row(), PLAYER_UNIQUE_ID_COL)->text().toInt();
+    if(selectedUniqueId == hostUniqueId)
+        return;
+
+    QString selectedNickname = this->ui->tUsers->item(item->row(), NICKNAME_COL)->text();
+    short dialogAnswer = makeDialog(BaseWin::PlayerSelected, selectedNickname);
+    enum DialogAnswerCodes { Kick, Promote, Cancel };
+
+    try
+    {
+        switch (dialogAnswer)
+        {
+        case DialogAnswerCodes::Kick:
+            pServer()->get()->tryKickPlayer(selectedUniqueId);
+            break;
+        case DialogAnswerCodes::Promote:
+            if(makeDialog(BaseWin::PlayerPromoteConfirmation, selectedNickname) != 0)
+                return;
+            pServer()->get()->tryPromotePlayer(selectedUniqueId);
+            break;
+        case DialogAnswerCodes::Cancel:
+            return;
+        default:
+            return;
+        }
+    }
+    catch (std::exception &e)
+    {
+        this->execErrorBox(e.what());
+        return;
+    }
 }
 
 void LobbyWindow::showAndRefresh()

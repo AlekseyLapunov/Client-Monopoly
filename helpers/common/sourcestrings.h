@@ -58,6 +58,7 @@ static const QString ssMyLobby              = "Своё лобби ";
 static const QString ssLobbyVisibility      = "Видимость лобби: ";
 static const QString ssLobbyHidden          = "Скрытое";
 static const QString ssLobbyVisible         = "Открытое";
+static const QString ssLobbyIdPrefix        = "ID ";
 
 // Sub-dialog strings
 enum SdMode  { SdNickname, SdDirectJoin, SdPasswordJoin };
@@ -101,7 +102,8 @@ static const QStringList ssJsonObjectsId            = { "LobbySystemInfo", "Game
 enum RunTimeErrorId { PtrLinkFail, LobbyNotFound, GoogleAuthFail, VkAuthFail,
                       AlreadyHasLobby, AlreadyInQueue, ApplyNicknameFail,
                       ApplySettingsFail, ToggleReadyFail, StartGameFail,
-                      ToggleVisibilityFail, JsonParseError };
+                      ToggleVisibilityFail, JsonParseError, KickPlayerFail,
+                      PromotePlayerFail };
 static const string ssRuntimeErrors[] = {
                                             "Проблема при передаче указателей",
                                             "Лобби не найдено",
@@ -114,7 +116,9 @@ static const string ssRuntimeErrors[] = {
                                             "Не удалось переключить готовность",
                                             "Не удалось запустить матч",
                                             "Не удалось переключить видимость лобби",
-                                            "Ошибка при обработке представленного JSON-файла"
+                                            "Ошибка при обработке представленного JSON-файла",
+                                            "Не удалось исключить игрока",
+                                            "Не удалось сделать игрока владельцем"
                                         };
 #endif // SOURCESTRINGS_H
 

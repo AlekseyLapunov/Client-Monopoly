@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QCoreApplication>
 #include <QTableWidget>
+#include <QTableWidgetItem>
 
 #include "helpers/basewin.h"
 #include "helpers/common/filemanager.h"
@@ -43,6 +44,7 @@ private slots:
     void applyRankedSettings();
     void exportSettingsToFile();
     void importSettingsFromFile();
+    void reactToUserSelect(QTableWidgetItem* item);
 
 private:
     void definePrivilege();

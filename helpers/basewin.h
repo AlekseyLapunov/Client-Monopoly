@@ -97,6 +97,18 @@ protected:
                                        "записанных настроек?",
                                        {"Да", "Нет"});
             break;
+        case PlayerSelected:
+            qmb = dialogBoxConstructor(QMessageBox::Question,
+                                       "Применить действие",
+                                       "Выбран игрок \"" + carrier + "\"",
+                                       {"Исключить", "Сделать владельцем", "Закрыть"});
+            break;
+        case PlayerPromoteConfirmation:
+            qmb = dialogBoxConstructor(QMessageBox::Question,
+                                       "Сделать владельцем",
+                                       "Вы уверены, что хотите сделать\nигрока \"" + carrier + "\" владельцем лобби?",
+                                       {"Да", "Нет"});
+            break;
         default:
             break;
         }
@@ -112,7 +124,8 @@ protected:
 protected:
     enum DialogBoxVariations { QuitApp, ChangeAcc, JoinLobby,
                                LeaveLobby, RestoreSettings, StartGameNotReady,
-                               StartGameSettingsNotApplied, ExportSettingsNotApplied };
+                               StartGameSettingsNotApplied, ExportSettingsNotApplied,
+                               PlayerSelected, PlayerPromoteConfirmation };
 
 private:
     unique_ptr<QMessageBox> dialogBoxConstructor(QMessageBox::Icon icon,

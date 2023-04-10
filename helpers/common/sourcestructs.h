@@ -19,10 +19,11 @@
 #define UNIQUE_ID_MAX_LEN       9
 
 // LobbyWindow: parameters of table with users
-#define USERS_TABLE_COLS        3
+#define USERS_TABLE_COLS        4
 #define NICKNAME_COL            0
 #define USER_RP_COL             1
 #define READY_COL               2
+#define PLAYER_UNIQUE_ID_COL    3
 
 // bools
 #define IS_READY                true
