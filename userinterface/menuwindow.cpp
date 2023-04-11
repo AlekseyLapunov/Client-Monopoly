@@ -16,7 +16,7 @@ MenuWindow::MenuWindow(unique_ptr<ServerCommunicator> *newServerPtr,
 
     pSubDialog = unique_ptr<LobbiesSubDialog>(new LobbiesSubDialog(this));
 
-    this->setupLobbiesFilter();
+    setupLobbiesFilter();
 
     pLobbyWindow = unique_ptr<LobbyWindow>(new LobbyWindow(pServer(), pUserMetaInfo(), this));
 
@@ -33,11 +33,11 @@ void MenuWindow::windowDataRefresh()
 {
     pUserMetaInfo()->get()->setHostInfo(pServer()->get()->getCurrentHostInfo());
     ui->setupUi(this);
-    this->setDisabled(true);
-    this->setupLobbiesTable();
-    this->displayHostShortInfo();
-    this->apply3dDiceState();
-    this->setEnabled(true);
+    setDisabled(true);
+    setupLobbiesTable();
+    displayHostShortInfo();
+    apply3dDiceState();
+    setEnabled(true);
 }
 
 void MenuWindow::quitApp()
@@ -50,14 +50,14 @@ void MenuWindow::changeAcc()
 {
     if(makeDialog(BaseWin::ChangeAcc, "", this) == 0)
     {
-        this->hide();
+        hide();
         emit goToLoginWindow();
     }
 }
 
 void MenuWindow::apply3dDiceState()
 {
-    pUserMetaInfo()->get()->apply3dDiceChoise(this->ui->aDiceIf3D->isChecked());
+    pUserMetaInfo()->get()->apply3dDiceChoise(ui->aDiceIf3D->isChecked());
 }
 
 void MenuWindow::lobbyClicked(QTableWidgetItem *itemClicked)
@@ -81,7 +81,7 @@ void MenuWindow::applyLobbyFilter(QString textChanged)
 void MenuWindow::joinToLobby(QTableWidgetItem *itemActivated)
 {
     QTableWidgetItem &lobbyItem = *ui->tLobbies->selectedItems().at(0);
-    this->lobbyClicked(&lobbyItem);
+    lobbyClicked(&lobbyItem);
     int answer = makeDialog(BaseWin::JoinLobby, ui->tLobbies->item(ui->tLobbies->row(itemActivated), LOBBY_NAME_COL)->text(), this);
 
     if(answer != 0)
@@ -95,10 +95,10 @@ void MenuWindow::joinToLobby()
     const QList<QTableWidgetItem*> selectedItems = ui->tLobbies->selectedItems();
     if(selectedItems.isEmpty())
     {
-        this->execErrorBox(ssLobbyNotSelected, this);
+        execErrorBox(ssLobbyNotSelected, this);
         return;
     }
-    this->lobbyClicked(selectedItems.at(0));
+    lobbyClicked(selectedItems.at(0));
 
     switchJoinByItem(*selectedItems.at(0));
 }
@@ -115,7 +115,7 @@ void MenuWindow::joinIdDialog()
         }
         catch (std::exception &e)
         {
-            this->execErrorBox(e.what(), this);
+            execErrorBox(e.what(), this);
             return;
         }
     } else return;
@@ -130,7 +130,7 @@ void MenuWindow::createLobby()
     }
     catch (std::exception &e)
     {
-        this->execErrorBox(e.what(), this);
+        execErrorBox(e.what(), this);
         return;
     }
     showLobbyWindow();
@@ -144,7 +144,7 @@ void MenuWindow::findRanked()
     }
     catch (std::exception &e)
     {
-        this->execErrorBox(e.what(), this);
+        execErrorBox(e.what(), this);
         return;
     }
     showLobbyWindow();
@@ -167,7 +167,7 @@ void MenuWindow::chooseNickname()
         }
         catch (std::exception &e)
         {
-            this->execErrorBox(e.what());
+            execErrorBox(e.what());
             return;
         }
     }
@@ -175,17 +175,17 @@ void MenuWindow::chooseNickname()
 
 void MenuWindow::showAndRefresh()
 {
-    this->windowDataRefresh();
-    this->show();
+    windowDataRefresh();
+    show();
 }
 
 void MenuWindow::setupLobbiesTable()
 {
     const std::vector<LobbyShortInfo>* pLobbiesVec = &pServer()->get()->getLobbiesShortInfo();
 
-    this->tableClear(*ui->tLobbies);
+    tableClear(*ui->tLobbies);
 
-    this->tableSetupFill(*ui->tLobbies, *pLobbiesVec, ui->leLobbyFilter->text());
+    tableSetupFill(*ui->tLobbies, *pLobbiesVec, ui->leLobbyFilter->text());
 
     ui->lLobbiesCount->setText(ssLobbiesInTotal
                                + QString::number(pLobbiesVec->size())
@@ -265,7 +265,7 @@ void MenuWindow::tableSetupFill(QTableWidget &table, const vector<LobbyShortInfo
 
 void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
 {
-    switch (this->checkIfPassworded(item))
+    switch (checkIfPassworded(item))
     {
     case DialogCodes::PassEntered:
         try
@@ -274,7 +274,7 @@ void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
         }
         catch (std::exception &e)
         {
-            this->execErrorBox(e.what(), this);
+            execErrorBox(e.what(), this);
             return;
         }
         break;
@@ -285,7 +285,7 @@ void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
         }
         catch (std::exception &e)
         {
-            this->execErrorBox(e.what(), this);
+            execErrorBox(e.what(), this);
             return;
         }
         break;
@@ -297,7 +297,7 @@ void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
 
 void MenuWindow::showLobbyWindow()
 {
-    this->hide();
+    hide();
     pLobbyWindow.get()->giveFirstContext(m_firstContext);
     pLobbyWindow.get()->showAndRefresh();
 }

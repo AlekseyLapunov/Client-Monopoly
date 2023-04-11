@@ -21,7 +21,7 @@ void LobbiesSubDialog::selfConfig(const short configFlag, const QString &carrier
     switch (configFlag)
     {
     case SdConfigFlags::ChangeNickname:
-        this->setRegExps(LobbyRegExp);
+        setRegExps(LobbyRegExp);
         ui->leInput->setEchoMode(QLineEdit::Normal);
         ui->leInput->setMaxLength(NICKNAME_MAX_LEN);
         writeWidgetTexts(ssSdStrings[SdNickname][SdWinTitle], ssSdStrings[SdNickname][SdApplyB],
@@ -29,7 +29,7 @@ void LobbiesSubDialog::selfConfig(const short configFlag, const QString &carrier
                          ssSdStrings[SdNickname][SdInputString]);
         break;
     case SdConfigFlags::JoinById:
-        this->setRegExps(UniqueIdRegExp);
+        setRegExps(UniqueIdRegExp);
         ui->leInput->setEchoMode(QLineEdit::Normal);
         ui->leInput->setMaxLength(UNIQUE_ID_MAX_LEN);
         writeWidgetTexts(ssSdStrings[SdDirectJoin][SdWinTitle], ssSdStrings[SdDirectJoin][SdApplyB],
@@ -37,7 +37,7 @@ void LobbiesSubDialog::selfConfig(const short configFlag, const QString &carrier
                          ssSdStrings[SdDirectJoin][SdInputString]);
         break;
     case SdConfigFlags::LobbyPasswordEnter:
-        this->setRegExps(LobbyRegExp);
+        setRegExps(LobbyRegExp);
         ui->leInput->setEchoMode(QLineEdit::Password);
         ui->leInput->setMaxLength(LOBBY_PASSWORD_MAX_LEN);
         writeWidgetTexts(ssSdStrings[SdPasswordJoin][SdWinTitle], ssSdStrings[SdPasswordJoin][SdApplyB],
@@ -79,7 +79,7 @@ void LobbiesSubDialog::writeWidgetTexts(const QString &windowTitle,
                                         const QString &lInfoString,
                                         const QString &leInputString)
 {
-    this->setWindowTitle(windowTitle);
+    setWindowTitle(windowTitle);
     ui->bApply->setText(bApplyString);
     ui->bReject->setText(bRejectString);
     ui->lInfoText->setText(lInfoString);
@@ -95,7 +95,7 @@ void LobbiesSubDialog::accept()
 {
     if(ui->leInput->text().isEmpty())
     {
-        this->execErrorBox(ssNothingEntered, this);
+        execErrorBox(ssNothingEntered, this);
         return;
     }
     switch (m_interactionMode)

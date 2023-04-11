@@ -52,7 +52,7 @@ void LoginWindow::baseLogin(serviceFlag flag)
     }
     catch(const std::exception &e)
     {
-        this->execErrorBox(e.what(), this);
+        execErrorBox(e.what(), this);
         return;
     }
     switchToMenuWindow();
@@ -60,7 +60,7 @@ void LoginWindow::baseLogin(serviceFlag flag)
 
 void LoginWindow::switchToMenuWindow()
 {
-    this->hide();
+    hide();
     pMenuWindow.get()->showAndRefresh();
 }
 
