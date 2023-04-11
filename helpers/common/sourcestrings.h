@@ -104,7 +104,7 @@ enum RunTimeErrorId { PtrLinkFail, LobbyNotFound, GoogleAuthFail, VkAuthFail,
                       AlreadyHasLobby, AlreadyInQueue, ApplyNicknameFail,
                       ApplySettingsFail, ToggleReadyFail, StartGameFail,
                       ToggleVisibilityFail, JsonParseError, KickPlayerFail,
-                      PromotePlayerFail };
+                      PromotePlayerFail, lastSettingsFileDoesNotExist };
 static const string ssRuntimeErrors[] = {
                                             "Проблема при передаче указателей",
                                             "Лобби не найдено",
@@ -119,7 +119,8 @@ static const string ssRuntimeErrors[] = {
                                             "Не удалось переключить видимость лобби",
                                             "Ошибка при обработке представленного JSON-файла",
                                             "Не удалось исключить игрока",
-                                            "Не удалось сделать игрока владельцем"
+                                            "Не удалось сделать игрока владельцем",
+                                            "Файл с последними настройками не существует"
                                         };
 #endif // SOURCESTRINGS_H
 

@@ -152,7 +152,7 @@ void MenuWindow::findRanked()
 
 void MenuWindow::showAbout()
 {
-    QMessageBox qmb(QMessageBox::Information, ssAboutTitle, ssAboutBody);
+    QMessageBox qmb(QMessageBox::Information, ssAboutTitle, ssAboutBody, QMessageBox::NoButton, this);
     qmb.exec();
 }
 

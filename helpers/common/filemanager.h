@@ -30,6 +30,7 @@ void writeFile(QFile &file, const QString &content);
 void saveLastSettingsToLocal(LobbySettingsCombined settingsToSave);
 
 LobbySettingsCombined getRankedSettingsFromLocal();
+bool isLastSettingsFileExists();
 LobbySettingsCombined getLastSettingsFromLocal();
 LobbySettingsCombined loadSettingsFromFile(const QString &path);
 

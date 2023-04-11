@@ -169,12 +169,17 @@ LobbySettingsCombined getRankedSettingsFromLocal()
     return { settingsOutput.lobbySystem, settingsOutput.gameSettings };
 }
 
+bool isLastSettingsFileExists()
+{
+    QFile lastSettingsFile(ssLocalDirPath + ssLastSettingsFileName);
+    return lastSettingsFile.exists();
+}
+
 LobbySettingsCombined getLastSettingsFromLocal()
 {
     initLocalDirectory();
 
-    QFile lastSettingsFile(ssLocalDirPath + ssLastSettingsFileName);
-    if(!lastSettingsFile.exists())
+    if(!isLastSettingsFileExists())
         return {};
 
     LobbySettingsCombined settingsOutput = loadSettingsFromFile(ssLocalDirPath + ssLastSettingsFileName);

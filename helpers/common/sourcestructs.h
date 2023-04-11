@@ -94,6 +94,13 @@ struct LobbySystemInfo
     {
         return !(*this == other);
     }
+
+    void softOverride(LobbySystemInfo& other)
+    {
+        this->lobbyName = other.lobbyName;
+        this->lobbyPassword = other.lobbyPassword;
+        this->maxPlayersCount = other.maxPlayersCount;
+    }
 };
 
 // Users short information inside LobbyWindow's table of users
@@ -131,14 +138,6 @@ struct GameSettingsInfo
     }
 };
 
-// Full lobby info inside LobbyWindow
-struct LobbyFullInfo
-{
-    LobbySystemInfo lobbySystem;
-    GameSettingsInfo gameSettings;
-    vector<UserShortInfo> usersInTable;
-};
-
 // Settings in one place
 struct LobbySettingsCombined
 {
@@ -156,6 +155,19 @@ struct LobbySettingsCombined
     {
         return !(*this == other);
     }
+
+    void softOverride(LobbySettingsCombined &other)
+    {
+        this->lobbySystem.softOverride(other.lobbySystem);
+        this->gameSettings = other.gameSettings;
+    }
+};
+
+// Full lobby info inside LobbyWindow
+struct LobbyFullInfo
+{
+    LobbySettingsCombined settings;
+    vector<UserShortInfo> usersInTable;
 };
 
 // Host-user data

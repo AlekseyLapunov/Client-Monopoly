@@ -74,10 +74,12 @@ LobbyFullInfo ServerCommunicator::tryJoinById(const int lobbyUniqueId)
 
     return
     {
-        // LobbySystemInfo
-        { 0, "A STUB LOBBY", "", 6, 23, NOT_PRIVATE },
-        // GameSettingsInfo
-        { 8, 1.000, IS_INFINITE, 72, NOT_INFINITE },
+        {
+            // LobbySystemInfo
+            { 0, "A STUB LOBBY", "", 6, 23, NOT_PRIVATE },
+            // GameSettingsInfo
+            { 8, 1.000, IS_INFINITE, 72, NOT_INFINITE }
+        },
         // vector<UserShortInfo>
         {
           {"monk", 800, IS_READY, 23},
@@ -102,10 +104,12 @@ LobbyFullInfo ServerCommunicator::tryCreateLobby(const int hostUserId)
 
     return
     {
-        // LobbySystemInfo
-        { 1, "My Lobby", "", 6, hostUserId, IS_PRIVATE },
-        // GameSettingsInfo
-        { 8, 0.100, NOT_INFINITE, 72, NOT_INFINITE },
+        {
+            // LobbySystemInfo
+            { 1, "My Lobby", "", 6, hostUserId, IS_PRIVATE },
+            // GameSettingsInfo
+            { 8, 0.100, NOT_INFINITE, 72, NOT_INFINITE }
+        },
         // vector<UserShortInfo>
         {}
     };
@@ -120,10 +124,12 @@ LobbyFullInfo ServerCommunicator::tryRankedQueue(const int hostUserId)
 
     return
     {
-        // LobbySystemInfo
-        { -1, "RANKED STUB", "", 4, -1, IS_PRIVATE },
-        // GameSettingsInfo
-        { 8, 2.000, IS_INFINITE, 72, NOT_INFINITE },
+        {
+            // LobbySystemInfo
+            { -1, "RANKED STUB", "", 4, -1, IS_PRIVATE },
+            // GameSettingsInfo
+            { 8, 2.000, IS_INFINITE, 72, NOT_INFINITE }
+        },
         // vector<UserShortInfo>
         {
           {"Максим Баландин", 1435, IS_READY, 92},
