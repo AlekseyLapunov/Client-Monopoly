@@ -47,6 +47,7 @@ private slots:
     void reactToUserSelect(QTableWidgetItem* item);
 
 private:
+    void closeEvent(QCloseEvent *event);
     void definePrivilege();
     void setUpByPrivilege();
     void setButtonsVisibility(bool areVisible);

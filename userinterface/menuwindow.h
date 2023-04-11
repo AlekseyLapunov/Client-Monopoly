@@ -48,6 +48,7 @@ private slots:
     void chooseNickname();
 
 private:
+    void closeEvent(QCloseEvent *event);
     void setupLobbiesTable();
     void setupLobbiesFilter();
     void displayHostShortInfo();

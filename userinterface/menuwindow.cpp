@@ -173,6 +173,12 @@ void MenuWindow::chooseNickname()
     }
 }
 
+void MenuWindow::closeEvent(QCloseEvent *event)
+{
+    quitApp();
+    event->ignore();
+}
+
 void MenuWindow::showAndRefresh()
 {
     windowDataRefresh();

@@ -27,6 +27,7 @@ private slots:
     void quitApp();
 
 private:
+    void closeEvent(QCloseEvent *event);
     enum ServiceFlags { Google, Vk };
     void baseLogin(serviceFlag flag);
     void switchToMenuWindow();

@@ -562,6 +562,12 @@ void LobbyWindow::reactToUserSelect(QTableWidgetItem *item)
     }
 }
 
+void LobbyWindow::closeEvent(QCloseEvent *event)
+{
+    quitApp();
+    event->ignore();
+}
+
 void LobbyWindow::showAndRefresh()
 {
     windowDataRefresh();

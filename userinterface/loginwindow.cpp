@@ -37,7 +37,14 @@ void LoginWindow::vkLogin()
 
 void LoginWindow::quitApp()
 {
-    QCoreApplication::quit();
+    if(makeDialog(BaseWin::QuitApp, "", this) == 0)
+        QCoreApplication::quit();
+}
+
+void LoginWindow::closeEvent(QCloseEvent *event)
+{
+    quitApp();
+    event->ignore();
 }
 
 void LoginWindow::baseLogin(serviceFlag flag)

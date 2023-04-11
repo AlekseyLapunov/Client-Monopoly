@@ -5,6 +5,7 @@
 
 #include <QString>
 #include <QMessageBox>
+#include <QCloseEvent>
 
 #include "servercommunicator.h"
 #include "usermetainfo.h"
