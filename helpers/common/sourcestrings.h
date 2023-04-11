@@ -89,6 +89,7 @@ static const QString ssCaptionExportSettings  = "Экспортировать н
 static const QString ssJsonFilter             = "JSON file (*.json)";
 
 // JSON keys
+enum JsonKeysUserMeta       { Uses3dDice };
 enum JsonKeysIter           { LobbySystemIter, GameSettingsIter };
 enum JsonKeysLobbySystemId  { UniqueId, LobbyName, LobbyPassword, MaxPlayersCount, OwnerUniqueId, IsPrivate };
 enum JsonKeysGameSettingsId { TurnTime, MaxMoney, IsMaxMoneyInfinite, MaxTurns, AreMaxTurnsInfinite };
@@ -98,6 +99,7 @@ static const QStringList ssJsonKeysGameSettings     = { "turnTime", "maxMoney", 
                                                         "maxTurns", "areMaxTurnsInfinite" };
 static const QStringList ssJsonKeysLobbySettings[]  = { ssJsonKeysLobbySystem, ssJsonKeysGameSettings };
 static const QStringList ssJsonObjectsId            = { "LobbySystemInfo", "GameSettingsInfo" };
+static const QStringList ssJsonUserMeta = { "uses3dDice" };
 
 // runtime_error
 enum RunTimeErrorId { PtrLinkFail, LobbyNotFound, GoogleAuthFail, VkAuthFail,

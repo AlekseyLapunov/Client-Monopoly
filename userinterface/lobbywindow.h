@@ -26,6 +26,7 @@ public:
     void giveFirstContext(LobbyFullInfo &context);
     void windowDataRefresh();
     void showAndRefresh();
+    void quitAppDialog();
 
 signals:
     void goToMenuWindow();

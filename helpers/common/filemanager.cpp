@@ -10,6 +10,38 @@ void createUserMetaJson(const QString &path)
     }
 }
 
+void fillUserMetaJson(bool uses3dDice)
+{
+    initLocalDirectory();
+    QFile userMeta(ssLocalDirPath + ssUserMetaFileName);
+
+    QJsonObject mainObject;
+    mainObject.insert(ssJsonUserMeta[Uses3dDice], uses3dDice);
+
+    QJsonDocument doc(mainObject);
+    writeFile(userMeta, doc.toJson(QJsonDocument::Indented));
+}
+
+bool get3dDicePrefFromLocal()
+{
+    initLocalDirectory();
+
+    LobbySettingsCombined settingsOutput;
+
+    QString jsonString = readJsonToQString(ssLocalDirPath + ssUserMetaFileName);
+
+    QJsonParseError error;
+    QJsonDocument doc = QJsonDocument::fromJson(jsonString.toUtf8(), &error);
+    qDebug() << "JSON Parse" << error.errorString() << error.offset << error.error;
+
+    if(!doc.isObject())
+        return true;
+
+    QJsonObject jsonObj = doc.object();
+
+    return jsonObj[ssJsonUserMeta[Uses3dDice]].toBool();
+}
+
 void createRankedSettingsJson(const QString &path)
 {
     QFile rankedSettingsJsonFile(path + ssRankedSettingsFileName);
@@ -186,9 +218,9 @@ LobbySettingsCombined getLastSettingsFromLocal()
     return { settingsOutput.lobbySystem, settingsOutput.gameSettings };
 }
 
-LobbySettingsCombined manageSettingsImport(bool &gotSettings)
+LobbySettingsCombined manageSettingsImport(bool &gotSettings, QWidget *parent)
 {
-    QString filePath = QFileDialog::getOpenFileName(nullptr, ssCaptionImportSettings, QString(), ssJsonFilter);
+    QString filePath = QFileDialog::getOpenFileName(parent, ssCaptionImportSettings, QString(), ssJsonFilter);
 
     if(filePath.isEmpty())
     {
@@ -202,9 +234,9 @@ LobbySettingsCombined manageSettingsImport(bool &gotSettings)
     return {settingsOutput.lobbySystem, settingsOutput.gameSettings};
 }
 
-void manageSettingsExport(LobbySettingsCombined settingsToExport)
+void manageSettingsExport(LobbySettingsCombined settingsToExport, QWidget *parent)
 {
-    QString filePath = QFileDialog::getSaveFileName(nullptr, ssCaptionExportSettings, QString(), ssJsonFilter);
+    QString filePath = QFileDialog::getSaveFileName(parent, ssCaptionExportSettings, QString(), ssJsonFilter);
 
     if(filePath.isEmpty())
         return;
@@ -237,6 +269,3 @@ QString toJsonQString(LobbySettingsCombined settingsToConvert)
     QJsonDocument doc(mainObject);
     return doc.toJson(QJsonDocument::Indented);
 }
-
-
-

@@ -24,6 +24,7 @@ public:
     ~BaseWin() {}
 
     virtual void windowDataRefresh() {}
+    virtual void quitAppDialog() {}
 
 protected:
     void setupPointers(unique_ptr<ServerCommunicator> &newServerPtr,

@@ -13,6 +13,7 @@ public:
     HostUserData getHostInfo();
     void setHostInfo(HostUserData newHostInfo);
     void apply3dDiceChoise(bool isUsing3dDice);
+    bool get3dDiceChoise();
 
 private:
     void resetHostInfo();

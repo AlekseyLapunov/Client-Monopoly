@@ -17,8 +17,11 @@
 #include "sourcestrings.h"
 
 void createUserMetaJson(const QString &path);
+void fillUserMetaJson(bool uses3dDice);
 void createRankedSettingsJson(const QString &path);
 void initLocalDirectory();
+
+bool get3dDicePrefFromLocal();
 
 QString makeTrueRankedJsonString();
 QString readJsonToQString(const QString &path);
@@ -35,7 +38,7 @@ LobbySettingsCombined getLastSettingsFromLocal();
 LobbySettingsCombined loadSettingsFromFile(const QString &path);
 
 // Import / Export
-LobbySettingsCombined manageSettingsImport(bool &gotSettings);
-void manageSettingsExport(LobbySettingsCombined settingsToExport);
+LobbySettingsCombined manageSettingsImport(bool &gotSettings, QWidget *parent = nullptr);
+void manageSettingsExport(LobbySettingsCombined settingsToExport, QWidget *parent = nullptr);
 
 #endif // FILEMANAGER_H

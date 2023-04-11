@@ -430,13 +430,7 @@ void LobbyWindow::toggleReadyStatus()
 
 void LobbyWindow::quitApp()
 {
-    if(makeDialog(BaseWin::QuitApp, "", this) == 0)
-    {
-        // Make delete lobby request if host user leaves
-        if(m_privilegeType == Owner)
-            pServer()->get()->deleteLobbyRequest(m_context.settings.lobbySystem.uniqueId);
-        QCoreApplication::quit();
-    }
+    QCoreApplication::quit();
 }
 
 void LobbyWindow::settingsChangesDetected()
@@ -491,7 +485,7 @@ void LobbyWindow::exportSettingsToFile()
 
     try
     {
-        manageSettingsExport(m_lastSettings);
+        manageSettingsExport(m_lastSettings, this);
     }
     catch (std::exception &e)
     {
@@ -507,7 +501,7 @@ void LobbyWindow::importSettingsFromFile()
 
     try
     {
-        importedSettings = manageSettingsImport(gotSettings);
+        importedSettings = manageSettingsImport(gotSettings, this);
     }
     catch (std::exception &e)
     {
@@ -564,7 +558,7 @@ void LobbyWindow::reactToUserSelect(QTableWidgetItem *item)
 
 void LobbyWindow::closeEvent(QCloseEvent *event)
 {
-    quitApp();
+    quitAppDialog();
     event->ignore();
 }
 
@@ -574,4 +568,15 @@ void LobbyWindow::showAndRefresh()
     show();
     ui->bApplySettings->setEnabled(false);
     ui->bRestoreLastSettings->setEnabled(false);
+}
+
+void LobbyWindow::quitAppDialog()
+{
+    if(makeDialog(BaseWin::QuitApp, "", this) == 0)
+    {
+        // Make delete lobby request if host user leaves
+        if(m_privilegeType == Owner)
+            pServer()->get()->deleteLobbyRequest(m_context.settings.lobbySystem.uniqueId);
+        QCoreApplication::quit();
+    }
 }

@@ -14,7 +14,7 @@ LoginWindow::LoginWindow(unique_ptr<ServerCommunicator> *newServerPtr,
 
     ui->setupUi(this);
 
-    pMenuWindow = unique_ptr<MenuWindow>(new MenuWindow(pServer(), pUserMetaInfo(), this));
+    pMenuWindow = unique_ptr<MenuWindow>(new MenuWindow(pServer(), pUserMetaInfo()));
 
     connect(pMenuWindow.get(), &MenuWindow::goToLoginWindow,
             this, &LoginWindow::show);
@@ -23,6 +23,12 @@ LoginWindow::LoginWindow(unique_ptr<ServerCommunicator> *newServerPtr,
 LoginWindow::~LoginWindow()
 {
     delete ui;
+}
+
+void LoginWindow::quitAppDialog()
+{
+    if(makeDialog(BaseWin::QuitApp, "", this) == 0)
+        QCoreApplication::quit();
 }
 
 void LoginWindow::googleLogin()
@@ -37,13 +43,12 @@ void LoginWindow::vkLogin()
 
 void LoginWindow::quitApp()
 {
-    if(makeDialog(BaseWin::QuitApp, "", this) == 0)
-        QCoreApplication::quit();
+    QCoreApplication::quit();
 }
 
 void LoginWindow::closeEvent(QCloseEvent *event)
 {
-    quitApp();
+    quitAppDialog();
     event->ignore();
 }
 

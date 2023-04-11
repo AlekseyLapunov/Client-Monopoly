@@ -21,6 +21,8 @@ public:
                 QWidget *parent = nullptr);
     ~LoginWindow();
 
+    void quitAppDialog();
+
 private slots:
     void googleLogin();
     void vkLogin();

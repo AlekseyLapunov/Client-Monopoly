@@ -18,7 +18,7 @@ MenuWindow::MenuWindow(unique_ptr<ServerCommunicator> *newServerPtr,
 
     setupLobbiesFilter();
 
-    pLobbyWindow = unique_ptr<LobbyWindow>(new LobbyWindow(pServer(), pUserMetaInfo(), this));
+    pLobbyWindow = unique_ptr<LobbyWindow>(new LobbyWindow(pServer(), pUserMetaInfo()));
 
     connect(pLobbyWindow.get(), &LobbyWindow::goToMenuWindow,
             this, &MenuWindow::showAndRefresh);
@@ -33,6 +33,7 @@ void MenuWindow::windowDataRefresh()
 {
     pUserMetaInfo()->get()->setHostInfo(pServer()->get()->getCurrentHostInfo());
     ui->setupUi(this);
+    ui->aDiceIf3D->setChecked(get3dDicePrefFromLocal());
     setDisabled(true);
     setupLobbiesTable();
     displayHostShortInfo();
@@ -42,8 +43,7 @@ void MenuWindow::windowDataRefresh()
 
 void MenuWindow::quitApp()
 {
-    if(makeDialog(BaseWin::QuitApp, "", this) == 0)
-        QCoreApplication::quit();
+    QCoreApplication::quit();
 }
 
 void MenuWindow::changeAcc()
@@ -58,6 +58,7 @@ void MenuWindow::changeAcc()
 void MenuWindow::apply3dDiceState()
 {
     pUserMetaInfo()->get()->apply3dDiceChoise(ui->aDiceIf3D->isChecked());
+    fillUserMetaJson(pUserMetaInfo()->get()->get3dDiceChoise());
 }
 
 void MenuWindow::lobbyClicked(QTableWidgetItem *itemClicked)
@@ -175,7 +176,7 @@ void MenuWindow::chooseNickname()
 
 void MenuWindow::closeEvent(QCloseEvent *event)
 {
-    quitApp();
+    quitAppDialog();
     event->ignore();
 }
 
@@ -183,6 +184,12 @@ void MenuWindow::showAndRefresh()
 {
     windowDataRefresh();
     show();
+}
+
+void MenuWindow::quitAppDialog()
+{
+    if(makeDialog(BaseWin::QuitApp, "", this) == 0)
+        QCoreApplication::quit();
 }
 
 void MenuWindow::setupLobbiesTable()

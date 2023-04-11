@@ -22,9 +22,14 @@ void UserMetaInfo::apply3dDiceChoise(bool isUsing3dDice)
     this->m_isUsing3dDice = isUsing3dDice;
 }
 
+bool UserMetaInfo::get3dDiceChoise()
+{
+    return this->m_isUsing3dDice;
+}
+
 void UserMetaInfo::resetHostInfo()
 {
-    m_hostInfo.uniqueUserId = -1;
+    m_hostInfo.uniqueUserId = 0;
     m_hostInfo.userName = "Nickname";
-    m_hostInfo.userRpCount = -1;
+    m_hostInfo.userRpCount = 0;
 }
