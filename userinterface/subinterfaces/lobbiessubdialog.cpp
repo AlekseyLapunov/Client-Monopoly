@@ -1,7 +1,7 @@
 #include "lobbiessubdialog.h"
 #include "ui_lobbiessubdialog.h"
 
-LobbiesSubDialog::LobbiesSubDialog(QDialog *parent) :
+LobbiesSubDialog::LobbiesSubDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::LobbiesSubDialog)
 {
@@ -95,7 +95,7 @@ void LobbiesSubDialog::accept()
 {
     if(ui->leInput->text().isEmpty())
     {
-        this->execErrorBox(ssNothingEntered);
+        this->execErrorBox(ssNothingEntered, this);
         return;
     }
     switch (m_interactionMode)

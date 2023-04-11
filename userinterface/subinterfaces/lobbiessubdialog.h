@@ -21,7 +21,7 @@ class LobbiesSubDialog : public QDialog, public BaseWin
     Q_OBJECT
 
 public:
-    explicit LobbiesSubDialog(QDialog *parent = nullptr);
+    explicit LobbiesSubDialog(QWidget *parent = nullptr);
     ~LobbiesSubDialog();
 
     enum SdConfigFlags { ChangeNickname, JoinById, LobbyPasswordEnter };

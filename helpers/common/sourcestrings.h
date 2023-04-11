@@ -24,6 +24,7 @@ static const QString ssErrorTitle       = "Ошибка";
 static const QString ssErrorBody        = "Возникла ошибка при выполнении действия";
 static const QString ssNothingEntered   = "Ничего не введено";
 static const QString ssLobbyNotSelected = "Лобби не выбрано";
+static const QString ssNotEnoughPlayers = "Недостаточно игроков\nдля старта игры";
 
 // MenuWindow
 static const QString ssMenuWindowTitle      = "Главное меню";

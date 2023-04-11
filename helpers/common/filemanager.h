@@ -24,10 +24,13 @@ QString makeTrueRankedJsonString();
 QString readJsonToQString(const QString &path);
 QString toJsonQString(LobbySettingsCombined settingsToConvert);
 
-void writeFile(QString &path, const QString &content);
+void writeFile(const QString &path, const QString &content);
 void writeFile(QFile &file, const QString &content);
 
+void saveLastSettingsToLocal(LobbySettingsCombined settingsToSave);
+
 LobbySettingsCombined getRankedSettingsFromLocal();
+LobbySettingsCombined getLastSettingsFromLocal();
 LobbySettingsCombined loadSettingsFromFile(const QString &path);
 
 // Import / Export

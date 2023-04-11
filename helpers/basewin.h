@@ -42,7 +42,7 @@ protected:
         return m_pUserMetaInfo;
     }
 
-    int makeDialog(dialogBoxRole role, const QString &carrier = "")
+    int makeDialog(dialogBoxRole role, const QString &carrier = "", QWidget *parent = nullptr)
     {
         unique_ptr<QMessageBox> qmb;
         switch (role)
@@ -51,63 +51,63 @@ protected:
             qmb = dialogBoxConstructor(QMessageBox::Question,
                                        "Выход из приложения",
                                        "Вы уверены, что хотите выйти из приложения?",
-                                       {"Да", "Нет"});
+                                       {"Да", "Нет"}, parent);
             break;
         case ChangeAcc:
             qmb = dialogBoxConstructor(QMessageBox::Question,
                                        "Смена аккаунта",
                                        "Вы уверены, что хотите сменить аккаунт?",
-                                       {"Да", "Нет"});
+                                       {"Да", "Нет"}, parent);
             break;
         case JoinLobby:
             qmb = dialogBoxConstructor(QMessageBox::Question,
                                        "Подключение",
                                        "Подключиться к лобби \"" + carrier + "\"?",
-                                       {"Да", "Нет"});
+                                       {"Да", "Нет"}, parent);
             break;
         case LeaveLobby:
             qmb = dialogBoxConstructor(QMessageBox::Question,
                                        "Выход из лобби",
                                        "Вы уверены, что хотите покинуть лобби?",
-                                       {"Да", "Нет"});
+                                       {"Да", "Нет"}, parent);
             break;
         case RestoreSettings:
             qmb = dialogBoxConstructor(QMessageBox::Question,
                                        "Восстановление настроек",
                                        "Восстановить последние\nзаписанные настройки?",
-                                       {"Да", "Нет"});
+                                       {"Да", "Нет"}, parent);
             break;
         case StartGameNotReady:
             qmb = dialogBoxConstructor(QMessageBox::Question,
                                        "Запуск матча",
                                        "Не все игроки готовы.\nЗапустить матч?",
-                                       {"Да", "Нет"});
+                                       {"Да", "Нет"}, parent);
             break;
         case StartGameSettingsNotApplied:
             qmb = dialogBoxConstructor(QMessageBox::Question,
                                        "Запуск матча",
                                        "Замечены неприменённые настройки.\nЗапустить матч на последних\n"
                                        "записанных настройках?",
-                                       {"Да", "Нет"});
+                                       {"Да", "Нет"}, parent);
             break;
         case ExportSettingsNotApplied:
             qmb = dialogBoxConstructor(QMessageBox::Question,
                                        "Экспорт настроек",
                                        "Замечены неприменённые настройки.\nСделать экспорт последних\n"
                                        "записанных настроек?",
-                                       {"Да", "Нет"});
+                                       {"Да", "Нет"}, parent);
             break;
         case PlayerSelected:
             qmb = dialogBoxConstructor(QMessageBox::Question,
                                        "Применить действие",
                                        "Выбран игрок \"" + carrier + "\"",
-                                       {"Исключить", "Сделать владельцем", "Закрыть"});
+                                       {"Исключить", "Сделать владельцем", "Закрыть"}, parent);
             break;
         case PlayerPromoteConfirmation:
             qmb = dialogBoxConstructor(QMessageBox::Question,
                                        "Сделать владельцем",
                                        "Вы уверены, что хотите сделать\nигрока \"" + carrier + "\" владельцем лобби?",
-                                       {"Да", "Нет"});
+                                       {"Да", "Нет"}, parent);
             break;
         default:
             break;
@@ -115,9 +115,9 @@ protected:
         return qmb->exec();
     }
 
-    void execErrorBox(QString body)
+    void execErrorBox(QString body, QWidget *parent = nullptr)
     {
-        QMessageBox qmb(QMessageBox::Warning, ssErrorTitle, body);
+        QMessageBox qmb(QMessageBox::Warning, ssErrorTitle, body, QMessageBox::NoButton, parent);
         qmb.exec();
     }
 
@@ -129,11 +129,12 @@ protected:
 
 private:
     unique_ptr<QMessageBox> dialogBoxConstructor(QMessageBox::Icon icon,
-                              const QString &boxName,
-                              const QString &boxBodyText,
-                              const QStringList buttonsText)
+                                                 const QString &boxName,
+                                                 const QString &boxBodyText,
+                                                 const QStringList buttonsText,
+                                                 QWidget *parent)
     {
-        unique_ptr<QMessageBox> qmb (new QMessageBox(icon, boxName, boxBodyText));
+        unique_ptr<QMessageBox> qmb (new QMessageBox(icon, boxName, boxBodyText, QMessageBox::NoButton, parent));
         for(auto buttonName : buttonsText)
         {
             qmb->addButton(buttonName, QMessageBox::HelpRole);

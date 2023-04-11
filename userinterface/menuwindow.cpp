@@ -14,11 +14,11 @@ MenuWindow::MenuWindow(unique_ptr<ServerCommunicator> *newServerPtr,
 
     ui->setupUi(this);
 
-    pSubDialog = unique_ptr<LobbiesSubDialog>(new LobbiesSubDialog());
+    pSubDialog = unique_ptr<LobbiesSubDialog>(new LobbiesSubDialog(this));
 
     this->setupLobbiesFilter();
 
-    pLobbyWindow = unique_ptr<LobbyWindow>(new LobbyWindow(pServer(), pUserMetaInfo()));
+    pLobbyWindow = unique_ptr<LobbyWindow>(new LobbyWindow(pServer(), pUserMetaInfo(), this));
 
     connect(pLobbyWindow.get(), &LobbyWindow::goToMenuWindow,
             this, &MenuWindow::showAndRefresh);
@@ -42,13 +42,13 @@ void MenuWindow::windowDataRefresh()
 
 void MenuWindow::quitApp()
 {
-    if(makeDialog(BaseWin::QuitApp) == 0)
+    if(makeDialog(BaseWin::QuitApp, "", this) == 0)
         QCoreApplication::quit();
 }
 
 void MenuWindow::changeAcc()
 {
-    if(makeDialog(BaseWin::ChangeAcc) == 0)
+    if(makeDialog(BaseWin::ChangeAcc, "", this) == 0)
     {
         this->hide();
         emit goToLoginWindow();
@@ -82,7 +82,7 @@ void MenuWindow::joinToLobby(QTableWidgetItem *itemActivated)
 {
     QTableWidgetItem &lobbyItem = *ui->tLobbies->selectedItems().at(0);
     this->lobbyClicked(&lobbyItem);
-    int answer = makeDialog(BaseWin::JoinLobby, ui->tLobbies->item(ui->tLobbies->row(itemActivated), LOBBY_NAME_COL)->text());
+    int answer = makeDialog(BaseWin::JoinLobby, ui->tLobbies->item(ui->tLobbies->row(itemActivated), LOBBY_NAME_COL)->text(), this);
 
     if(answer != 0)
         return;
@@ -95,7 +95,7 @@ void MenuWindow::joinToLobby()
     const QList<QTableWidgetItem*> selectedItems = ui->tLobbies->selectedItems();
     if(selectedItems.isEmpty())
     {
-        this->execErrorBox(ssLobbyNotSelected);
+        this->execErrorBox(ssLobbyNotSelected, this);
         return;
     }
     this->lobbyClicked(selectedItems.at(0));
@@ -115,7 +115,7 @@ void MenuWindow::joinIdDialog()
         }
         catch (std::exception &e)
         {
-            this->execErrorBox(e.what());
+            this->execErrorBox(e.what(), this);
             return;
         }
     } else return;
@@ -130,7 +130,7 @@ void MenuWindow::createLobby()
     }
     catch (std::exception &e)
     {
-        this->execErrorBox(e.what());
+        this->execErrorBox(e.what(), this);
         return;
     }
     showLobbyWindow();
@@ -144,7 +144,7 @@ void MenuWindow::findRanked()
     }
     catch (std::exception &e)
     {
-        this->execErrorBox(e.what());
+        this->execErrorBox(e.what(), this);
         return;
     }
     showLobbyWindow();
@@ -274,7 +274,7 @@ void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
         }
         catch (std::exception &e)
         {
-            this->execErrorBox(e.what());
+            this->execErrorBox(e.what(), this);
             return;
         }
         break;
@@ -285,7 +285,7 @@ void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
         }
         catch (std::exception &e)
         {
-            this->execErrorBox(e.what());
+            this->execErrorBox(e.what(), this);
             return;
         }
         break;

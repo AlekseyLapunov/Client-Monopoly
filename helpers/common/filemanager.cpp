@@ -81,7 +81,7 @@ LobbySettingsCombined loadSettingsFromFile(const QString &path)
 
     QJsonParseError error;
     QJsonDocument doc = QJsonDocument::fromJson(jsonString.toUtf8(), &error);
-    qDebug() << "JSON Parse Error: " << error.errorString() << error.offset << error.error;
+    qDebug() << "JSON Parse" << error.errorString() << error.offset << error.error;
 
     if(!doc.isObject())
         throw std::runtime_error(ssRuntimeErrors[JsonParseError]);
@@ -125,7 +125,7 @@ QString readJsonToQString(const QString &path)
     return readJson;
 }
 
-void writeFile(QString &path, const QString &content)
+void writeFile(const QString &path, const QString &content)
 {
     try
     {
@@ -156,10 +156,28 @@ void writeFile(QFile &file, const QString &content)
     }
 }
 
+void saveLastSettingsToLocal(LobbySettingsCombined settingsToSave)
+{
+    const QString content = toJsonQString(settingsToSave);
+    writeFile(ssLocalDirPath + ssLastSettingsFileName, content);
+}
+
 LobbySettingsCombined getRankedSettingsFromLocal()
 {
     initLocalDirectory();
     LobbySettingsCombined settingsOutput = loadSettingsFromFile(ssLocalDirPath + ssRankedSettingsFileName);
+    return { settingsOutput.lobbySystem, settingsOutput.gameSettings };
+}
+
+LobbySettingsCombined getLastSettingsFromLocal()
+{
+    initLocalDirectory();
+
+    QFile lastSettingsFile(ssLocalDirPath + ssLastSettingsFileName);
+    if(!lastSettingsFile.exists())
+        return {};
+
+    LobbySettingsCombined settingsOutput = loadSettingsFromFile(ssLocalDirPath + ssLastSettingsFileName);
     return { settingsOutput.lobbySystem, settingsOutput.gameSettings };
 }
 
@@ -214,3 +232,6 @@ QString toJsonQString(LobbySettingsCombined settingsToConvert)
     QJsonDocument doc(mainObject);
     return doc.toJson(QJsonDocument::Indented);
 }
+
+
+

@@ -103,7 +103,7 @@ LobbyFullInfo ServerCommunicator::tryCreateLobby(const int hostUserId)
     return
     {
         // LobbySystemInfo
-        { 1, "MY STUB LOBBY", "", 6, hostUserId, IS_PRIVATE },
+        { 1, "My Lobby", "", 6, hostUserId, IS_PRIVATE },
         // GameSettingsInfo
         { 8, 0.100, NOT_INFINITE, 72, NOT_INFINITE },
         // vector<UserShortInfo>

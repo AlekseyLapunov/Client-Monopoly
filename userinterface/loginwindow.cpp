@@ -14,7 +14,7 @@ LoginWindow::LoginWindow(unique_ptr<ServerCommunicator> *newServerPtr,
 
     ui->setupUi(this);
 
-    pMenuWindow = unique_ptr<MenuWindow>(new MenuWindow(pServer(), pUserMetaInfo()));
+    pMenuWindow = unique_ptr<MenuWindow>(new MenuWindow(pServer(), pUserMetaInfo(), this));
 
     connect(pMenuWindow.get(), &MenuWindow::goToLoginWindow,
             this, &LoginWindow::show);
@@ -52,7 +52,7 @@ void LoginWindow::baseLogin(serviceFlag flag)
     }
     catch(const std::exception &e)
     {
-        this->execErrorBox(e.what());
+        this->execErrorBox(e.what(), this);
         return;
     }
     switchToMenuWindow();

@@ -25,7 +25,22 @@ void LobbyWindow::giveFirstContext(LobbyFullInfo &context)
     HostUserData hostUser = this->pUserMetaInfo()->get()->getHostInfo();
     context.usersInTable.push_back({hostUser.userName, hostUser.userRpCount, false, hostUser.uniqueUserId});
     m_context = context;
-    m_lastSettings = {context.lobbySystem, context.gameSettings};
+    if(m_context.lobbySystem.ownerUniqueId == hostUser.uniqueUserId)
+    {
+        try
+        {
+            m_lastSettings = getLastSettingsFromLocal();
+            m_context.lobbySystem = m_lastSettings.lobbySystem;
+            m_context.gameSettings = m_lastSettings.gameSettings;
+            this->applySettings();
+        }
+        catch (std::runtime_error &e)
+        {
+            qDebug() << e.what();
+        }
+    }
+    else
+        m_lastSettings = {context.lobbySystem, context.gameSettings};
 }
 
 void LobbyWindow::windowDataRefresh()
@@ -268,7 +283,7 @@ void LobbyWindow::toggleLobbyVision()
     }
     catch (std::exception &e)
     {
-        this->execErrorBox(e.what());
+        this->execErrorBox(e.what(), this);
     }
 
     this->ui->bToggleLobbyVision->setDisabled(false);
@@ -279,7 +294,7 @@ void LobbyWindow::startGame()
     this->ui->bStartGame->setDisabled(true);
 
     if(ui->bApplySettings->isEnabled())
-        if(makeDialog(BaseWin::StartGameSettingsNotApplied) != 0)
+        if(makeDialog(BaseWin::StartGameSettingsNotApplied, "", this) != 0)
         {
             this->ui->bStartGame->setDisabled(false);
             return;
@@ -287,8 +302,15 @@ void LobbyWindow::startGame()
 
     this->windowDataRefresh();
 
+    if(m_context.usersInTable.size() < MIN_PLAYERS_COUNT)
+    {
+        this->execErrorBox(ssNotEnoughPlayers, this);
+        this->ui->bStartGame->setDisabled(false);
+        return;
+    }
+
     if(!checkIfEveryoneReady())
-        if(makeDialog(BaseWin::StartGameNotReady) != 0)
+        if(makeDialog(BaseWin::StartGameNotReady, "", this) != 0)
         {
             this->ui->bStartGame->setDisabled(false);
             return;
@@ -297,10 +319,13 @@ void LobbyWindow::startGame()
     try
     {
         pServer()->get()->tryStartGame(m_context.lobbySystem.uniqueId, m_lastSettings);
+        this->m_context.lobbySystem = m_lastSettings.lobbySystem;
+        this->m_context.gameSettings = m_lastSettings.gameSettings;
+        this->setDisabled(true);
     }
     catch (std::exception &e)
     {
-        this->execErrorBox(e.what());
+        this->execErrorBox(e.what(), this);
     }
 
     this->ui->bStartGame->setDisabled(false);
@@ -318,8 +343,9 @@ void LobbyWindow::applySettings()
     }
     catch (std::exception &e)
     {
-        this->execErrorBox(e.what());
+        this->execErrorBox(e.what(), this);
     }
+    saveLastSettingsToLocal(m_lastSettings);
 }
 
 LobbySettingsCombined LobbyWindow::makeSettingsObjectByInputs()
@@ -366,7 +392,7 @@ bool LobbyWindow::checkIfEveryoneReady()
 
 void LobbyWindow::leaveLobby()
 {
-    if(makeDialog(BaseWin::LeaveLobby) == 0)
+    if(makeDialog(BaseWin::LeaveLobby, "", this) == 0)
     {
         this->hide();
         emit goToMenuWindow();
@@ -395,14 +421,14 @@ void LobbyWindow::toggleReadyStatus()
     }
     catch (std::exception &e)
     {
-        this->execErrorBox(e.what());
+        this->execErrorBox(e.what(), this);
     }
     this->ui->bToggleReady->setDisabled(false);
 }
 
 void LobbyWindow::quitApp()
 {
-    if(makeDialog(BaseWin::QuitApp) == 0)
+    if(makeDialog(BaseWin::QuitApp, "", this) == 0)
     {
         // Make delete lobby request if host user leaves
         if(m_privilegeType == Owner)
@@ -431,7 +457,7 @@ void LobbyWindow::toggleMaxTurnsAccessibility()
 
 void LobbyWindow::restoreLastSettings()
 {
-    if(makeDialog(BaseWin::RestoreSettings) == 0)
+    if(makeDialog(BaseWin::RestoreSettings, "", this) == 0)
     {
         this->overwriteSettingsInputs(m_lastSettings);
         this->applySettings();
@@ -448,7 +474,7 @@ void LobbyWindow::applyRankedSettings()
     }
     catch (std::exception &e)
     {
-        this->execErrorBox(e.what());
+        this->execErrorBox(e.what(), this);
         return;
     }
     this->ui->bApplySettings->setEnabled(true);
@@ -458,7 +484,7 @@ void LobbyWindow::applyRankedSettings()
 void LobbyWindow::exportSettingsToFile()
 {
     if(this->ui->bApplySettings->isEnabled())
-        if(makeDialog(BaseWin::ExportSettingsNotApplied) != 0)
+        if(makeDialog(BaseWin::ExportSettingsNotApplied, "", this) != 0)
             return;
 
     try
@@ -467,7 +493,7 @@ void LobbyWindow::exportSettingsToFile()
     }
     catch (std::exception &e)
     {
-        this->execErrorBox(e.what());
+        this->execErrorBox(e.what(), this);
         return;
     }
 }
@@ -483,7 +509,7 @@ void LobbyWindow::importSettingsFromFile()
     }
     catch (std::exception &e)
     {
-        this->execErrorBox(e.what());
+        this->execErrorBox(e.what(), this);
         return;
     }
 
@@ -506,7 +532,7 @@ void LobbyWindow::reactToUserSelect(QTableWidgetItem *item)
         return;
 
     QString selectedNickname = this->ui->tUsers->item(item->row(), NICKNAME_COL)->text();
-    short dialogAnswer = makeDialog(BaseWin::PlayerSelected, selectedNickname);
+    short dialogAnswer = makeDialog(BaseWin::PlayerSelected, selectedNickname, this);
     enum DialogAnswerCodes { Kick, Promote, Cancel };
 
     try
@@ -517,7 +543,7 @@ void LobbyWindow::reactToUserSelect(QTableWidgetItem *item)
             pServer()->get()->tryKickPlayer(selectedUniqueId);
             break;
         case DialogAnswerCodes::Promote:
-            if(makeDialog(BaseWin::PlayerPromoteConfirmation, selectedNickname) != 0)
+            if(makeDialog(BaseWin::PlayerPromoteConfirmation, selectedNickname, this) != 0)
                 return;
             pServer()->get()->tryPromotePlayer(selectedUniqueId);
             break;
@@ -529,7 +555,7 @@ void LobbyWindow::reactToUserSelect(QTableWidgetItem *item)
     }
     catch (std::exception &e)
     {
-        this->execErrorBox(e.what());
+        this->execErrorBox(e.what(), this);
         return;
     }
 }
