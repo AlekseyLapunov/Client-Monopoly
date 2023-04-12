@@ -10,7 +10,7 @@ using std::string;
 
 // Regular expression QStrings
 static const QString ssLobbyRegExpString    = "^[a-zA-Zа-яА-ЯёЁ0-9]+?( ?[a-zA-Zа-яА-ЯёЁ0-9])*$";
-static const QString ssUniqueIdRegExpString = "^[0-9]*$";
+static const QString ssUniqueIdRegExpString = "^[a-zA-Z0-9]*$";
 
 // Classes Names for the exception thrower specifying
 static const string ssLoginWindowClassName      = "LoginWindow: ";
@@ -56,9 +56,6 @@ static const QString ssUserIsReady          = "Да";
 static const QString ssUserNotReady         = "Нет";
 static const QString ssLobbyOfPlayer        = "Лобби игрока ";
 static const QString ssMyLobby              = "Своё лобби ";
-static const QString ssLobbyVisibility      = "Видимость лобби: ";
-static const QString ssLobbyHidden          = "Скрытое";
-static const QString ssLobbyVisible         = "Открытое";
 static const QString ssLobbyIdPrefix        = "ID ";
 
 // Sub-dialog strings
@@ -91,22 +88,22 @@ static const QString ssJsonFilter             = "JSON file (*.json)";
 // JSON keys
 enum JsonKeysUserMeta       { Uses3dDice };
 enum JsonKeysIter           { LobbySystemIter, GameSettingsIter };
-enum JsonKeysLobbySystemId  { UniqueId, LobbyName, LobbyPassword, MaxPlayersCount, OwnerUniqueId, IsPrivate };
+enum JsonKeysLobbySystemId  { UniqueId, LobbyName, LobbyPassword, MaxPlayersCount, OwnerUniqueId };
 enum JsonKeysGameSettingsId { TurnTime, MaxMoney, IsMaxMoneyInfinite, MaxTurns, AreMaxTurnsInfinite };
 static const QStringList ssJsonKeysLobbySystem      = { "uniqueId", "lobbyName", "lobbyPassword", "maxPlayersCount",
-                                                        "ownerUniqueId", "isPrivate" };
+                                                        "ownerUniqueId" };
 static const QStringList ssJsonKeysGameSettings     = { "turnTime", "maxMoney", "isMaxMoneyInfinite",
                                                         "maxTurns", "areMaxTurnsInfinite" };
 static const QStringList ssJsonKeysLobbySettings[]  = { ssJsonKeysLobbySystem, ssJsonKeysGameSettings };
 static const QStringList ssJsonObjectsId            = { "LobbySystemInfo", "GameSettingsInfo" };
-static const QStringList ssJsonUserMeta = { "uses3dDice" };
+static const QStringList ssJsonUserMeta             = { "uses3dDice" };
 
 // runtime_error
 enum RunTimeErrorId { PtrLinkFail, LobbyNotFound, GoogleAuthFail, VkAuthFail,
                       AlreadyHasLobby, AlreadyInQueue, ApplyNicknameFail,
                       ApplySettingsFail, ToggleReadyFail, StartGameFail,
-                      ToggleVisibilityFail, JsonParseError, KickPlayerFail,
-                      PromotePlayerFail, lastSettingsFileDoesNotExist };
+                      JsonParseError, KickPlayerFail, PromotePlayerFail,
+                      lastSettingsFileDoesNotExist };
 static const string ssRuntimeErrors[] = {
                                             "Проблема при передаче указателей",
                                             "Лобби не найдено",
@@ -118,7 +115,6 @@ static const string ssRuntimeErrors[] = {
                                             "Не удалось применить настройки",
                                             "Не удалось переключить готовность",
                                             "Не удалось запустить матч",
-                                            "Не удалось переключить видимость лобби",
                                             "Ошибка при обработке представленного JSON-файла",
                                             "Не удалось исключить игрока",
                                             "Не удалось сделать игрока владельцем",

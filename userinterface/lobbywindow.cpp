@@ -23,24 +23,29 @@ LobbyWindow::~LobbyWindow()
 void LobbyWindow::giveFirstContext(LobbyFullInfo &context)
 {
     HostUserData hostUser = pUserMetaInfo()->get()->getHostInfo();
-    context.usersInTable.push_back({hostUser.userName, hostUser.userRpCount, false, hostUser.uniqueUserId});
+    context.usersInLobby.push_back({hostUser.nickname, hostUser.rpCount, false, hostUser.uniqueId});
     m_context = context;
-    if(m_context.settings.lobbySystem.ownerUniqueId == hostUser.uniqueUserId)
+    if(m_context.settings.ownerUniqueId == hostUser.uniqueId)
     {
         if(isLastSettingsFileExists())
+        {
             try
             {
-                m_lastSettings = getLastSettingsFromLocal();
+                LobbySettings settingsFromLocal = getLastSettingsFromLocal();
+                m_lastSettings.softOverride(settingsFromLocal);
                 m_context.settings.softOverride(m_lastSettings);
+                overwriteSettingsInputs(m_lastSettings);
                 applySettings();
             }
             catch (std::runtime_error &e)
             {
                 qDebug() << e.what();
             }
+        }
+        else m_lastSettings = context.settings;
     }
     else
-        m_lastSettings = {context.settings.lobbySystem, context.settings.gameSettings};
+        m_lastSettings = context.settings;
 }
 
 void LobbyWindow::windowDataRefresh()
@@ -51,22 +56,29 @@ void LobbyWindow::windowDataRefresh()
     ///m_context = pServer()->get()->getCurrentLobbyContext(m_context.lobbySystem.uniqueId);
     ui->setupUi(this);
     setDisabled(true);
-    setUpLobbySystem(m_context.settings.lobbySystem);
-    setUpGameSettings(m_context.settings.gameSettings);
-    setUpUsersInTable(*ui->tUsers, m_context.usersInTable);
+    setUpSettingsInputs();
+    setUpUsersInTable(*ui->tUsers, m_context.usersInLobby);
     setUpByPrivilege();
     setEnabled(true);
 }
 
+void LobbyWindow::show()
+{
+    windowDataRefresh();
+    ui->bApplySettings->setEnabled(false);
+    ui->bRestoreLastSettings->setEnabled(false);
+    QWidget::show();
+}
+
 void LobbyWindow::definePrivilege()
 {
-    int uniqueHostId = pUserMetaInfo()->get()->getHostInfo().uniqueUserId;
+    int uniqueHostId = pUserMetaInfo()->get()->getHostInfo().uniqueId;
     // If lobby is ranked
-    if(m_context.settings.lobbySystem.uniqueId < 0)
+    if(m_context.settings.ownerUniqueId < 0)
         m_privilegeType = RankedGuest;
     else
     // If host user is the lobby host
-    if(m_context.settings.lobbySystem.ownerUniqueId == uniqueHostId)
+    if(m_context.settings.ownerUniqueId == uniqueHostId)
     {
         m_privilegeType = Owner;
     }
@@ -102,10 +114,8 @@ void LobbyWindow::setUpByPrivilege()
     case Guest:
         setButtonsVisibility(false);
         setWindowTitle(ssLobbyOfPlayer + "\""
-                             + findOwnerNickname(m_context.settings.lobbySystem.ownerUniqueId)
-                             + "\"" + " (" +
-                             (m_context.settings.lobbySystem.isPrivate ? ssLobbyHidden
-                                                                       : ssLobbyVisible) + ")");
+                       + findOwnerNickname(m_context.settings.ownerUniqueId)
+                       + "\"");
         ui->aSetRankedSettings->setVisible(false);
         ui->aImportFromFile->setVisible(false);
         ui->aExportToFile->setVisible(true);
@@ -115,9 +125,7 @@ void LobbyWindow::setUpByPrivilege()
         setSettingsInputsAccessibility(true);
         ui->bLeaveLobby->setText(ssDeleteLobbyText);
         ui->aLeaveLobby->setText(ssDeleteLobbyText);
-        setWindowTitle(ssMyLobby + " (" +
-                       (m_context.settings.lobbySystem.isPrivate ? ssLobbyHidden
-                                                                 : ssLobbyVisible) + ")");
+        setWindowTitle(ssMyLobby);
         ui->aSetRankedSettings->setVisible(true);
         ui->aImportFromFile->setVisible(true);
         ui->aExportToFile->setVisible(true);
@@ -132,10 +140,6 @@ void LobbyWindow::setButtonsVisibility(bool areVisible)
     ui->bApplySettings->setVisible(areVisible);
     ui->bRestoreLastSettings->setVisible(areVisible);
     ui->bStartGame->setVisible(areVisible);
-    ui->bToggleLobbyVision->setVisible(areVisible);
-    ui->bToggleLobbyVision->setText(ssLobbyVisibility +
-                                   (m_context.settings.lobbySystem.isPrivate ? ssLobbyHidden
-                                                                             : ssLobbyVisible));
 
     // These should be always visible by default
     ui->bToggleReady->setVisible(true);
@@ -154,36 +158,33 @@ void LobbyWindow::setSettingsInputsAccessibility(bool areAccessible)
     ui->chbAreTurnsInfinite->setEnabled(areAccessible);
 }
 
-void LobbyWindow::setUpLobbySystem(LobbySystemInfo& lsiContext)
+void LobbyWindow::setUpSettingsInputs()
 {
-    ui->lLobbyUniqueId->setText(ssLobbyIdPrefix + QString::number(lsiContext.uniqueId));
-    ui->leLobbyName->setText(lsiContext.lobbyName);
+    ui->lLobbyUniqueId->setText(ssLobbyIdPrefix + m_context.settings.uniqueId);
+    ui->leLobbyName->setText(m_context.settings.lobbyName);
     ui->leLobbyName->setReadOnly(true);
-    ui->lePassword->setText(lsiContext.lobbyPassword);
+    ui->lePassword->setText(m_context.settings.lobbyPassword);
     ui->lePassword->setReadOnly(true);
-    ui->sbMaxPlayers->setValue(lsiContext.maxPlayersCount);
+    ui->sbMaxPlayers->setValue(m_context.settings.maxPlayersCount);
     ui->sbMaxPlayers->setReadOnly(true);
-}
-
-void LobbyWindow::setUpGameSettings(GameSettingsInfo& gsContext)
-{
-    ui->sbTurnTime->setValue(gsContext.turnTime);
+    ui->sbTurnTime->setValue(m_context.settings.turnTime);
     ui->sbTurnTime->setReadOnly(true);
 
-    ui->sbMaxTurns->setValue(gsContext.maxTurns);
+    ui->sbMaxTurns->setValue(m_context.settings.maxTurns);
     ui->sbMaxTurns->setReadOnly(true);
 
-    ui->dsbMaxBalance->setValue(gsContext.maxMoney);
+    ui->dsbMaxBalance->setValue(m_context.settings.maxMoney);
     ui->dsbMaxBalance->setReadOnly(true);
 
-    ui->chbAreTurnsInfinite->setChecked(gsContext.areMaxTurnsInfinite);
-    ui->sbTurnTime->setDisabled(gsContext.areMaxTurnsInfinite);
+    ui->chbAreTurnsInfinite->setChecked(m_context.settings.areMaxTurnsInfinite);
+    ui->sbTurnTime->setDisabled(m_context.settings.areMaxTurnsInfinite);
 
-    ui->chbIsBalanceInfinite->setChecked(gsContext.isMaxMoneyInfinite);
-    ui->dsbMaxBalance->setDisabled(gsContext.isMaxMoneyInfinite);
+    ui->chbIsBalanceInfinite->setChecked(m_context.settings.isMaxMoneyInfinite);
+    ui->dsbMaxBalance->setDisabled(m_context.settings.isMaxMoneyInfinite);
 
     ui->chbAreTurnsInfinite->setDisabled(true);
     ui->chbIsBalanceInfinite->setDisabled(true);
+
 }
 
 void LobbyWindow::setUpUsersInTable(QTableWidget& table, std::vector<UserShortInfo>& usiContextVec)
@@ -203,7 +204,7 @@ void LobbyWindow::setUpUsersInTable(QTableWidget& table, std::vector<UserShortIn
     for(auto &usiItem : usiContextVec)
     {
         const QString nickname = usiItem.nickname;
-        const QString rpCountString = QString::number(usiItem.rpCount);
+        const QString rpCountString = QString::number(usiItem.rp);
         const QString playerIsReady = usiItem.isReady ? ssUserIsReady : ssUserNotReady;
         const QString playerUniqueId = QString::number(usiItem.uniqueId);
 
@@ -220,7 +221,7 @@ void LobbyWindow::setUpUsersInTable(QTableWidget& table, std::vector<UserShortIn
         for(auto &i : items)
         {
             i->setTextAlignment(Qt::AlignCenter);
-            if(usiItem.uniqueId == m_context.settings.lobbySystem.ownerUniqueId)
+            if(usiItem.uniqueId == m_context.settings.ownerUniqueId)
                 i->setBackground(QColorConstants::Svg::lightyellow);
         }
 
@@ -233,7 +234,7 @@ void LobbyWindow::setUpUsersInTable(QTableWidget& table, std::vector<UserShortIn
 
     table.horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
-    if(m_context.settings.lobbySystem.uniqueId < 0)
+    if(m_context.settings.ownerUniqueId < 0)
         table.hideColumn(READY_COL);
 
     if(usiContextVec.size() >= 4)
@@ -252,18 +253,18 @@ QString LobbyWindow::countAverageRp()
 {
     QString averageRpOutput = "";
     int sum = 0;
-    for(auto &i : m_context.usersInTable)
+    for(auto &i : m_context.usersInLobby)
     {
-        sum += i.rpCount;
+        sum += i.rp;
     }
-    averageRpOutput = QString::number(sum / m_context.usersInTable.size());
+    averageRpOutput = QString::number(sum / m_context.usersInLobby.size());
     return averageRpOutput;
 }
 
 QString LobbyWindow::findOwnerNickname(int ownerId)
 {
     QString ownerNicknameOutput = "";
-    for(auto &i : m_context.usersInTable)
+    for(auto &i : m_context.usersInLobby)
     {
         if(i.uniqueId == ownerId)
         {
@@ -272,24 +273,6 @@ QString LobbyWindow::findOwnerNickname(int ownerId)
         }
     }
     return ownerNicknameOutput;
-}
-
-void LobbyWindow::toggleLobbyVision()
-{
-    ui->bToggleLobbyVision->setDisabled(true);
-
-    try
-    {
-        pServer()->get()->tryToggleLobbyVision(m_context.settings.lobbySystem.uniqueId);
-        m_context.settings.lobbySystem.isPrivate = !m_context.settings.lobbySystem.isPrivate;
-        setUpByPrivilege();
-    }
-    catch (std::exception &e)
-    {
-        execErrorBox(e.what(), this);
-    }
-
-    ui->bToggleLobbyVision->setDisabled(false);
 }
 
 void LobbyWindow::startGame()
@@ -305,7 +288,7 @@ void LobbyWindow::startGame()
 
     windowDataRefresh();
 
-    if(m_context.usersInTable.size() < MIN_PLAYERS_COUNT)
+    if(m_context.usersInLobby.size() < MIN_PLAYERS_COUNT)
     {
         execErrorBox(ssNotEnoughPlayers, this);
         ui->bStartGame->setDisabled(false);
@@ -321,7 +304,7 @@ void LobbyWindow::startGame()
 
     try
     {
-        pServer()->get()->tryStartGame(m_context.settings.lobbySystem.uniqueId, m_lastSettings);
+        pServer()->get()->tryStartGame(m_context.settings.uniqueId, m_lastSettings);
         m_context.settings.softOverride(m_lastSettings);
         setDisabled(true);
     }
@@ -337,57 +320,59 @@ void LobbyWindow::applySettings()
 {
     try
     {
-        LobbySettingsCombined tempSettings = makeSettingsObjectByInputs();
-        pServer()->get()->tryLobbySettingsApply(m_context.settings.lobbySystem.uniqueId, tempSettings);
+        LobbySettings tempSettings = makeSettingsObjectByInputs();
+        pServer()->get()->tryLobbySettingsApply(m_context.settings.uniqueId, tempSettings);
         ui->bApplySettings->setDisabled(true);
         ui->bRestoreLastSettings->setDisabled(true);
         m_lastSettings.softOverride(tempSettings);
+        saveLastSettingsToLocal(m_lastSettings);
     }
     catch (std::exception &e)
     {
         execErrorBox(e.what(), this);
     }
-    saveLastSettingsToLocal(m_lastSettings);
 }
 
-LobbySettingsCombined LobbyWindow::makeSettingsObjectByInputs()
+LobbySettings LobbyWindow::makeSettingsObjectByInputs()
 {
     return  {
-                {m_context.settings.lobbySystem.uniqueId,
-                 ui->leLobbyName->text(),
-                 ui->lePassword->text(),
-                 (short) ui->sbMaxPlayers->value(),
-                 m_context.settings.lobbySystem.ownerUniqueId,
-                 m_context.settings.lobbySystem.isPrivate},
+                m_context.settings.uniqueId,
+                ui->leLobbyName->text(),
+                ui->lePassword->text(),
+                (short) ui->sbMaxPlayers->value(),
+                m_context.settings.ownerUniqueId,
+                m_context.settings.isTimerActive,
+                m_context.settings.sessionAddress,
+                m_context.settings.sessionPort,
 
-                {(short)ui->sbTurnTime->value(),
-                 (float)ui->dsbMaxBalance->value(),
-                 ui->chbIsBalanceInfinite->isChecked(),
-                 (short)ui->sbMaxTurns->value(),
-                 ui->chbAreTurnsInfinite->isChecked()}
+                (short)ui->sbTurnTime->value(),
+                (float)ui->dsbMaxBalance->value(),
+                ui->chbIsBalanceInfinite->isChecked(),
+                (short)ui->sbMaxTurns->value(),
+                ui->chbAreTurnsInfinite->isChecked()
             };
 }
 
-void LobbyWindow::overwriteSettingsInputs(LobbySettingsCombined &overwriteBy)
+void LobbyWindow::overwriteSettingsInputs(LobbySettings &overwriteBy)
 {
-    if(!overwriteBy.lobbySystem.lobbyName.isEmpty())
-        ui->leLobbyName->setText(overwriteBy.lobbySystem.lobbyName);
-    if(!overwriteBy.lobbySystem.lobbyPassword.isEmpty())
-        ui->lePassword->setText(overwriteBy.lobbySystem.lobbyPassword);
-    if(overwriteBy.lobbySystem.maxPlayersCount >= MIN_PLAYERS_COUNT)
-        ui->sbMaxPlayers->setValue(overwriteBy.lobbySystem.maxPlayersCount);
+    if(!overwriteBy.lobbyName.isEmpty())
+        ui->leLobbyName->setText(overwriteBy.lobbyName);
+    if(!overwriteBy.lobbyPassword.isEmpty())
+        ui->lePassword->setText(overwriteBy.lobbyPassword);
+    if(overwriteBy.maxPlayersCount >= MIN_PLAYERS_COUNT)
+        ui->sbMaxPlayers->setValue(overwriteBy.maxPlayersCount);
 
-    ui->sbTurnTime->setValue(overwriteBy.gameSettings.turnTime);
-    ui->dsbMaxBalance->setValue(overwriteBy.gameSettings.maxMoney);
-    ui->chbIsBalanceInfinite->setChecked(overwriteBy.gameSettings.isMaxMoneyInfinite);
-    ui->sbMaxTurns->setValue(overwriteBy.gameSettings.maxTurns);
-    ui->chbAreTurnsInfinite->setChecked(overwriteBy.gameSettings.areMaxTurnsInfinite);
+    ui->sbTurnTime->setValue(overwriteBy.turnTime);
+    ui->dsbMaxBalance->setValue(overwriteBy.maxMoney);
+    ui->chbIsBalanceInfinite->setChecked(overwriteBy.isMaxMoneyInfinite);
+    ui->sbMaxTurns->setValue(overwriteBy.maxTurns);
+    ui->chbAreTurnsInfinite->setChecked(overwriteBy.areMaxTurnsInfinite);
 }
 
 bool LobbyWindow::checkIfEveryoneReady()
 {
-    for(auto &i : m_context.usersInTable)
-        if(!i.isReady && (i.uniqueId != m_context.settings.lobbySystem.ownerUniqueId))
+    for(auto &i : m_context.usersInLobby)
+        if(!i.isReady && (i.uniqueId != m_context.settings.ownerUniqueId))
             return false;
     return true;
 }
@@ -401,25 +386,25 @@ void LobbyWindow::leaveLobby()
     }
     // Make delete lobby request if host user leaves
     if(m_privilegeType == Owner)
-        pServer()->get()->deleteLobbyRequest(m_context.settings.lobbySystem.uniqueId);
+        pServer()->get()->deleteLobbyRequest(m_context.settings.uniqueId);
 }
 
 void LobbyWindow::toggleReadyStatus()
 {
     ui->bToggleReady->setDisabled(true);
-    int hostUniqueId = pUserMetaInfo()->get()->getHostInfo().uniqueUserId;
-    for(short i = 0; i < (short) m_context.usersInTable.size(); i++)
+    int hostUniqueId = pUserMetaInfo()->get()->getHostInfo().uniqueId;
+    for(short i = 0; i < (short) m_context.usersInLobby.size(); i++)
     {
-        if(m_context.usersInTable.at(i).uniqueId == hostUniqueId)
+        if(m_context.usersInLobby.at(i).uniqueId == hostUniqueId)
         {
-            m_context.usersInTable.at(i).isReady = !m_context.usersInTable.at(i).isReady;
+            m_context.usersInLobby.at(i).isReady = !m_context.usersInLobby.at(i).isReady;
             break;
         }
     }
     try
     {
-        pServer()->get()->tryToggleReady(m_context.settings.lobbySystem.uniqueId);
-        setUpUsersInTable(*ui->tUsers, m_context.usersInTable);
+        pServer()->get()->tryToggleReady(m_context.settings.uniqueId);
+        setUpUsersInTable(*ui->tUsers, m_context.usersInLobby);
     }
     catch (std::exception &e)
     {
@@ -435,7 +420,7 @@ void LobbyWindow::quitApp()
 
 void LobbyWindow::settingsChangesDetected()
 {
-    LobbySettingsCombined currentSettings = makeSettingsObjectByInputs();
+    LobbySettings currentSettings = makeSettingsObjectByInputs();
     bool flag = (m_lastSettings != currentSettings);
     ui->bApplySettings->setEnabled(flag);
     ui->bRestoreLastSettings->setEnabled(flag);
@@ -465,7 +450,7 @@ void LobbyWindow::applyRankedSettings()
 {
     try
     {
-        LobbySettingsCombined trueRankedSettings = getRankedSettingsFromLocal();
+        LobbySettings trueRankedSettings = getRankedSettingsFromLocal();
         overwriteSettingsInputs(trueRankedSettings);
     }
     catch (std::exception &e)
@@ -497,7 +482,7 @@ void LobbyWindow::exportSettingsToFile()
 void LobbyWindow::importSettingsFromFile()
 {
     bool gotSettings = false;
-    LobbySettingsCombined importedSettings;
+    LobbySettings importedSettings;
 
     try
     {
@@ -519,8 +504,8 @@ void LobbyWindow::importSettingsFromFile()
 
 void LobbyWindow::reactToUserSelect(QTableWidgetItem *item)
 {
-    int hostUniqueId = pUserMetaInfo()->get()->getHostInfo().uniqueUserId;
-    if(m_context.settings.lobbySystem.ownerUniqueId != hostUniqueId)
+    int hostUniqueId = pUserMetaInfo()->get()->getHostInfo().uniqueId;
+    if(m_context.settings.ownerUniqueId != hostUniqueId)
         return;
 
     int selectedUniqueId = ui->tUsers->item(item->row(), PLAYER_UNIQUE_ID_COL)->text().toInt();
@@ -536,12 +521,12 @@ void LobbyWindow::reactToUserSelect(QTableWidgetItem *item)
         switch (dialogAnswer)
         {
         case DialogAnswerCodes::Kick:
-            pServer()->get()->tryKickPlayer(selectedUniqueId);
+            pServer()->get()->tryKickPlayer(m_context.settings.uniqueId, selectedUniqueId);
             break;
         case DialogAnswerCodes::Promote:
             if(makeDialog(BaseWin::PlayerPromoteConfirmation, selectedNickname, this) != 0)
                 return;
-            pServer()->get()->tryPromotePlayer(selectedUniqueId);
+            pServer()->get()->tryPromotePlayer(m_context.settings.uniqueId, selectedUniqueId);
             break;
         case DialogAnswerCodes::Cancel:
             return;
@@ -562,21 +547,13 @@ void LobbyWindow::closeEvent(QCloseEvent *event)
     event->ignore();
 }
 
-void LobbyWindow::showAndRefresh()
-{
-    windowDataRefresh();
-    show();
-    ui->bApplySettings->setEnabled(false);
-    ui->bRestoreLastSettings->setEnabled(false);
-}
-
 void LobbyWindow::quitAppDialog()
 {
     if(makeDialog(BaseWin::QuitApp, "", this) == 0)
     {
         // Make delete lobby request if host user leaves
         if(m_privilegeType == Owner)
-            pServer()->get()->deleteLobbyRequest(m_context.settings.lobbySystem.uniqueId);
+            pServer()->get()->deleteLobbyRequest(m_context.settings.uniqueId);
         QCoreApplication::quit();
     }
 }

@@ -12,9 +12,9 @@ HostUserData UserMetaInfo::getHostInfo()
 
 void UserMetaInfo::setHostInfo(HostUserData newHostInfo)
 {
-    this->m_hostInfo.uniqueUserId = newHostInfo.uniqueUserId;
-    this->m_hostInfo.userName = newHostInfo.userName;
-    this->m_hostInfo.userRpCount = newHostInfo.userRpCount;
+    this->m_hostInfo.uniqueId = newHostInfo.uniqueId;
+    this->m_hostInfo.nickname = newHostInfo.nickname;
+    this->m_hostInfo.rpCount = newHostInfo.rpCount;
 }
 
 void UserMetaInfo::apply3dDiceChoise(bool isUsing3dDice)
@@ -29,7 +29,7 @@ bool UserMetaInfo::get3dDiceChoise()
 
 void UserMetaInfo::resetHostInfo()
 {
-    m_hostInfo.uniqueUserId = 0;
-    m_hostInfo.userName = "Nickname";
-    m_hostInfo.userRpCount = 0;
+    m_hostInfo.uniqueId = 0;
+    m_hostInfo.nickname = "Nickname";
+    m_hostInfo.rpCount = 0;
 }

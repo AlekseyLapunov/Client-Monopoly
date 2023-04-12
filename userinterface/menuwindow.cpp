@@ -63,13 +63,13 @@ void MenuWindow::apply3dDiceState()
 
 void MenuWindow::lobbyClicked(QTableWidgetItem *itemClicked)
 {
-    curLobbyUniqueId = ui->tLobbies->item(ui->tLobbies->row(itemClicked), UNIQUE_ID_COL)->text().toInt();
+    selectedLobbyUniqueId = ui->tLobbies->item(ui->tLobbies->row(itemClicked), UNIQUE_ID_COL)->text();
     ui->statusbar->showMessage
                 (
                     ui->tLobbies->item(ui->tLobbies->row(itemClicked),
                                        LOBBY_NAME_COL)->text() +
                                        ssStatusBarSubMessage +
-                                       QString::number(curLobbyUniqueId), 0
+                                       selectedLobbyUniqueId, 0
                 );
 }
 
@@ -127,7 +127,7 @@ void MenuWindow::createLobby()
 {
     try
     {
-        m_firstContext = pServer()->get()->tryCreateLobby(pUserMetaInfo()->get()->getHostInfo().uniqueUserId);
+        m_firstContext = pServer()->get()->tryCreateLobby(pUserMetaInfo()->get()->getHostInfo().uniqueId);
     }
     catch (std::exception &e)
     {
@@ -141,7 +141,7 @@ void MenuWindow::findRanked()
 {
     try
     {
-        m_firstContext = pServer()->get()->tryRankedQueue(pUserMetaInfo()->get()->getHostInfo().uniqueUserId);
+        m_firstContext = pServer()->get()->tryRankedQueue(pUserMetaInfo()->get()->getHostInfo().uniqueId);
     }
     catch (std::exception &e)
     {
@@ -219,8 +219,8 @@ void MenuWindow::setupLobbiesFilter()
 
 void MenuWindow::displayHostShortInfo()
 {
-    ui->lNickname->setText(pUserMetaInfo()->get()->getHostInfo().userName);
-    ui->lRpCount->setText(QString::number(pUserMetaInfo()->get()->getHostInfo().userRpCount) + " RP");
+    ui->lNickname->setText(pUserMetaInfo()->get()->getHostInfo().nickname);
+    ui->lRpCount->setText(QString::number(pUserMetaInfo()->get()->getHostInfo().rpCount) + " RP");
 }
 
 void MenuWindow::tableClear(QTableWidget &table)
@@ -237,7 +237,7 @@ void MenuWindow::tableSetupFill(QTableWidget &table, const vector<LobbyShortInfo
     const int tRows = count_if(contentVec.begin(),
                                contentVec.end(),
                                [filter](const LobbyShortInfo &lobby)
-                               { return lobby.lobbyName.toLower().contains(filter.toLower()); });
+                               { return lobby.name.toLower().contains(filter.toLower()); });
 
     table.setColumnCount(tCols);
     table.setRowCount(tRows);
@@ -250,8 +250,8 @@ void MenuWindow::tableSetupFill(QTableWidget &table, const vector<LobbyShortInfo
     int row = 0;
     for(auto &lsiItem : contentVec)
     {
-        const int uniqueId = lsiItem.uniqueId;
-        const QString lobbyName = lsiItem.lobbyName;
+        const QString uniqueId = lsiItem.uniqueId;
+        const QString lobbyName = lsiItem.name;
         if(!lobbyName.toLower().contains(filter.toLower()))
             continue;
         const QString isPassworded = lsiItem.isPassworded ? ssPassColumnYes : ssPassColumnNo;
@@ -261,7 +261,7 @@ void MenuWindow::tableSetupFill(QTableWidget &table, const vector<LobbyShortInfo
                                         new QTableWidgetItem(lobbyName),
                                         new QTableWidgetItem(isPassworded),
                                         new QTableWidgetItem(playersCount),
-                                        new QTableWidgetItem(QString::number(uniqueId))
+                                        new QTableWidgetItem(uniqueId)
                                     };
         for(auto &i : items)
             i->setTextAlignment(Qt::AlignCenter);
@@ -283,7 +283,7 @@ void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
     case DialogCodes::PassEntered:
         try
         {
-            m_firstContext = pServer()->get()->tryJoinById(curLobbyUniqueId, pSubDialog.get()->lobbyPasswordValue());
+            m_firstContext = pServer()->get()->tryJoinById(selectedLobbyUniqueId, pSubDialog.get()->lobbyPasswordValue());
         }
         catch (std::exception &e)
         {
@@ -294,7 +294,7 @@ void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
     case DialogCodes::NoPassword:
         try
         {
-            m_firstContext = pServer()->get()->tryJoinById(curLobbyUniqueId);
+            m_firstContext = pServer()->get()->tryJoinById(selectedLobbyUniqueId);
         }
         catch (std::exception &e)
         {
@@ -312,7 +312,7 @@ void MenuWindow::showLobbyWindow()
 {
     hide();
     pLobbyWindow.get()->giveFirstContext(m_firstContext);
-    pLobbyWindow.get()->showAndRefresh();
+    pLobbyWindow.get()->show();
 }
 
 dialogCode MenuWindow::checkIfPassworded(const QTableWidgetItem &item)

@@ -24,17 +24,16 @@ public:
 
     // Lobbies
     vector<LobbyShortInfo>& getLobbiesShortInfo();
-    LobbyFullInfo tryJoinById(const int lobbyUniqueId);
-    LobbyFullInfo tryJoinById(const int lobbyUniqueId, const QString &enteredPassword);
+    LobbyFullInfo tryJoinById(const QString lobbyUniqueId);
+    LobbyFullInfo tryJoinById(const QString lobbyUniqueId, const QString &enteredPassword);
     LobbyFullInfo tryCreateLobby(const int hostUserId);
     LobbyFullInfo tryRankedQueue(const int hostUserId);
-    void deleteLobbyRequest(const int lobbyUniqueId);
-    void tryToggleReady(const int lobbyUniqueId);
-    void tryToggleLobbyVision(const int lobbyUniqueId);
-    void tryLobbySettingsApply(const int lobbyUniqueId, LobbySettingsCombined newSettings);
-    void tryStartGame(const int lobbyUniqueId, LobbySettingsCombined settingsBase);
-    void tryKickPlayer(const int playerUniqueId);
-    void tryPromotePlayer(const int playerUniqueId);
+    void deleteLobbyRequest(const QString lobbyUniqueId);
+    void tryToggleReady(const QString lobbyUniqueId);
+    void tryLobbySettingsApply(const QString lobbyUniqueId, LobbySettings newSettings);
+    void tryStartGame(const QString lobbyUniqueId, LobbySettings settingsBase);
+    void tryKickPlayer(const QString lobbyUniqueId, const int playerUniqueId);
+    void tryPromotePlayer(const QString lobbyUniqueId, const int playerUniqueId);
 
     // Miscelanious
     void tryChangeNickname(const QString newNickname);

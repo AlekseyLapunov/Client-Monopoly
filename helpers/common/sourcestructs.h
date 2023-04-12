@@ -30,8 +30,6 @@
 #define NOT_READY               false
 #define HAS_PASSWORD            true
 #define NO_PASSWORD             false
-#define IS_PRIVATE              true
-#define NOT_PRIVATE             false
 #define IS_INFINITE             true
 #define NOT_INFINITE            false
 #define USING_3D_DICES          true
@@ -39,7 +37,7 @@
 
 // True ranked settings source values
 /// Ranked Settings Lobby System Info
-#define RS_LS_UNIQUE_ID         -1
+#define RS_LS_UNIQUE_ID         ""
 #define RS_LS_LOBBY_NAME        ""
 #define RS_LS_LOBBY_PASSWORD    ""
 #define RS_LS_MAX_PLAYERS_COUNT -1
@@ -61,121 +59,108 @@ using std::count_if;
 // Lobbies short information inside MenuWindow's center table
 struct LobbyShortInfo
 {
-    int uniqueId;
-    QString lobbyName;
+    QString uniqueId;
+    QString name;
     bool isPassworded;
     short curPlayersCount;
     short maxPlayersCount;
-};
-
-// Detailed lobby system info
-struct LobbySystemInfo
-{
-    int uniqueId;
-    QString lobbyName;
-    QString lobbyPassword;
-    short maxPlayersCount;
-    int ownerUniqueId;
-    bool isPrivate;
-
-    bool operator==(LobbySystemInfo& other)
-    {
-        if(this->uniqueId != other.uniqueId ||
-           this->lobbyName != other.lobbyName ||
-           this->lobbyPassword != other.lobbyPassword ||
-           this->maxPlayersCount != other.maxPlayersCount ||
-           this->ownerUniqueId != other.ownerUniqueId ||
-           this->isPrivate != other.isPrivate)
-            return false;
-        return true;
-    }
-
-    bool operator!=(LobbySystemInfo& other)
-    {
-        return !(*this == other);
-    }
-
-    void softOverride(LobbySystemInfo& other)
-    {
-        this->lobbyName = other.lobbyName;
-        this->lobbyPassword = other.lobbyPassword;
-        this->maxPlayersCount = other.maxPlayersCount;
-    }
 };
 
 // Users short information inside LobbyWindow's table of users
 struct UserShortInfo
 {
     QString nickname;
-    int rpCount;
+    int rp;
     bool isReady;
     int uniqueId;
 };
 
-// Game settings information inside LobbyWindow's section
-struct GameSettingsInfo
+// All lobby settings
+struct LobbySettings
 {
+    // System info
+    QString uniqueId;
+    QString lobbyName;
+    QString lobbyPassword;
+    short maxPlayersCount;
+    int ownerUniqueId;
+    bool isTimerActive;
+    QString sessionAddress;
+    int sessionPort;
+
+    // Game settings
     short turnTime;
     float maxMoney; // represents billions
     bool isMaxMoneyInfinite;
     short maxTurns;
     bool areMaxTurnsInfinite;
 
-    bool operator==(GameSettingsInfo& other)
+    bool softEquals(LobbySettings& other)
     {
-        if(this->turnTime != other.turnTime ||
-           this->maxMoney != other.maxMoney ||
-           this->isMaxMoneyInfinite != other.isMaxMoneyInfinite ||
-           this->maxTurns != other.maxTurns ||
+        if(this->lobbyName           != other.lobbyName          ||
+           this->lobbyPassword       != other.lobbyPassword      ||
+           this->maxPlayersCount     != other.maxPlayersCount    ||
+           this->turnTime            != other.turnTime           ||
+           this->maxMoney            != other.maxMoney           ||
+           this->isMaxMoneyInfinite  != other.isMaxMoneyInfinite ||
+           this->maxTurns            != other.maxTurns           ||
            this->areMaxTurnsInfinite != other.areMaxTurnsInfinite)
             return false;
         return true;
     }
 
-    bool operator!=(GameSettingsInfo& other)
+    bool softNotEquals(LobbySettings& other)
     {
-        return !(*this == other);
+        return !softEquals(other);
     }
-};
 
-// Settings in one place
-struct LobbySettingsCombined
-{
-    LobbySystemInfo lobbySystem;
-    GameSettingsInfo gameSettings;
-
-    bool operator==(LobbySettingsCombined& other)
+    bool operator==(LobbySettings& other)
     {
-        if(this->lobbySystem != other.lobbySystem || this->gameSettings != other.gameSettings)
+        if(this->uniqueId            != other.uniqueId           ||
+           this->lobbyName           != other.lobbyName          ||
+           this->lobbyPassword       != other.lobbyPassword      ||
+           this->maxPlayersCount     != other.maxPlayersCount    ||
+           this->ownerUniqueId       != other.ownerUniqueId      ||
+           this->turnTime            != other.turnTime           ||
+           this->maxMoney            != other.maxMoney           ||
+           this->isMaxMoneyInfinite  != other.isMaxMoneyInfinite ||
+           this->maxTurns            != other.maxTurns           ||
+           this->areMaxTurnsInfinite != other.areMaxTurnsInfinite)
             return false;
         return true;
     }
 
-    bool operator!=(LobbySettingsCombined& other)
+    bool operator!=(LobbySettings& other)
     {
         return !(*this == other);
     }
 
-    void softOverride(LobbySettingsCombined &other)
+    void softOverride(LobbySettings &other)
     {
-        this->lobbySystem.softOverride(other.lobbySystem);
-        this->gameSettings = other.gameSettings;
+        this->lobbyName           = other.lobbyName;
+        this->lobbyPassword       = other.lobbyPassword;
+        this->maxPlayersCount     = other.maxPlayersCount;
+        this->turnTime            = other.turnTime;
+        this->maxMoney            = other.maxMoney;
+        this->isMaxMoneyInfinite  = other.isMaxMoneyInfinite;
+        this->maxTurns            = other.maxTurns;
+        this->areMaxTurnsInfinite = other.areMaxTurnsInfinite;
     }
 };
 
 // Full lobby info inside LobbyWindow
 struct LobbyFullInfo
 {
-    LobbySettingsCombined settings;
-    vector<UserShortInfo> usersInTable;
+    LobbySettings settings;
+    vector<UserShortInfo> usersInLobby;
 };
 
 // Host-user data
 struct HostUserData
 {
-    int uniqueUserId;
-    QString userName;
-    int userRpCount;
+    int uniqueId;
+    QString nickname;
+    int rpCount;
 };
 
 #endif // SOURCESTRUCTS_H

@@ -86,7 +86,7 @@ void LobbiesSubDialog::writeWidgetTexts(const QString &windowTitle,
     ui->leInput->setPlaceholderText(leInputString);
 }
 
-int LobbiesSubDialog::uniqueIdValue() const
+QString LobbiesSubDialog::uniqueIdValue() const
 {
     return m_uniqueIdValue;
 }
@@ -104,7 +104,7 @@ void LobbiesSubDialog::accept()
         m_nicknameValue = ui->leInput->text();
         break;
     case SdConfigFlags::JoinById:
-        m_uniqueIdValue = ui->leInput->text().toInt();
+        m_uniqueIdValue = ui->leInput->text().toUpper();
         break;
     case SdConfigFlags::LobbyPasswordEnter:
         m_lobbyPasswordValue = ui->leInput->text();

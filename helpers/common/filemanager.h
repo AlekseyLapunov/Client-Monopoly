@@ -25,20 +25,20 @@ bool get3dDicePrefFromLocal();
 
 QString makeTrueRankedJsonString();
 QString readJsonToQString(const QString &path);
-QString toJsonQString(LobbySettingsCombined settingsToConvert);
+QString toJsonQString(LobbySettings settingsToConvert);
 
 void writeFile(const QString &path, const QString &content);
 void writeFile(QFile &file, const QString &content);
 
-void saveLastSettingsToLocal(LobbySettingsCombined settingsToSave);
+void saveLastSettingsToLocal(LobbySettings settingsToSave);
 
-LobbySettingsCombined getRankedSettingsFromLocal();
+LobbySettings getRankedSettingsFromLocal();
 bool isLastSettingsFileExists();
-LobbySettingsCombined getLastSettingsFromLocal();
-LobbySettingsCombined loadSettingsFromFile(const QString &path);
+LobbySettings getLastSettingsFromLocal();
+LobbySettings loadSettingsFromFile(const QString &path);
 
 // Import / Export
-LobbySettingsCombined manageSettingsImport(bool &gotSettings, QWidget *parent = nullptr);
-void manageSettingsExport(LobbySettingsCombined settingsToExport, QWidget *parent = nullptr);
+LobbySettings manageSettingsImport(bool &gotSettings, QWidget *parent = nullptr);
+void manageSettingsExport(LobbySettings settingsToExport, QWidget *parent = nullptr);
 
 #endif // FILEMANAGER_H

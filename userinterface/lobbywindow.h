@@ -25,14 +25,13 @@ public:
 
     void giveFirstContext(LobbyFullInfo &context);
     void windowDataRefresh();
-    void showAndRefresh();
+    void show();
     void quitAppDialog();
 
 signals:
     void goToMenuWindow();
 
 private slots:
-    void toggleLobbyVision();
     void startGame();
     void applySettings();
     void leaveLobby();
@@ -53,21 +52,20 @@ private:
     void setUpByPrivilege();
     void setButtonsVisibility(bool areVisible);
     void setSettingsInputsAccessibility(bool areAccessible);
-    void setUpLobbySystem(LobbySystemInfo& lsiContext);
-    void setUpGameSettings(GameSettingsInfo& gsContext);
+    void setUpSettingsInputs();
     void setUpUsersInTable(QTableWidget &table, vector<UserShortInfo>& usiContextVec);
     void tableClear(QTableWidget &table);
     QString countAverageRp();
     QString findOwnerNickname(int ownerId);
-    LobbySettingsCombined makeSettingsObjectByInputs();
-    void overwriteSettingsInputs(LobbySettingsCombined &overwriteBy);
+    LobbySettings makeSettingsObjectByInputs();
+    void overwriteSettingsInputs(LobbySettings &overwriteBy);
     bool checkIfEveryoneReady();
 
 private:
     Ui::LobbyWindow *ui;
 
     LobbyFullInfo m_context;
-    LobbySettingsCombined m_lastSettings;
+    LobbySettings m_lastSettings;
 
     enum PrivelegeTypes { Owner, Guest, RankedGuest };
     short m_privilegeType = PrivelegeTypes::Guest;
