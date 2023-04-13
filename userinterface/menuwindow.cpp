@@ -12,16 +12,12 @@ MenuWindow::MenuWindow(unique_ptr<ServerCommunicator> *newServerPtr,
 
     setupPointers(*newServerPtr, *newMetaInfoPtr);
 
-    ui->setupUi(this);
-
     pSubDialog = unique_ptr<LobbiesSubDialog>(new LobbiesSubDialog(this));
-
-    setupLobbiesFilter();
 
     pLobbyWindow = unique_ptr<LobbyWindow>(new LobbyWindow(pServer(), pUserMetaInfo()));
 
     connect(pLobbyWindow.get(), &LobbyWindow::goToMenuWindow,
-            this, &MenuWindow::showAndRefresh);
+            this, &MenuWindow::show);
 }
 
 MenuWindow::~MenuWindow()
@@ -31,14 +27,9 @@ MenuWindow::~MenuWindow()
 
 void MenuWindow::windowDataRefresh()
 {
-    pUserMetaInfo()->get()->setHostInfo(pServer()->get()->getCurrentHostInfo());
-    ui->setupUi(this);
-    ui->aDiceIf3D->setChecked(FileManager::get3dDicePrefFromLocal());
-    setDisabled(true);
+    if(!isEnabled())
+        return;
     setupLobbiesTable();
-    displayHostShortInfo();
-    apply3dDiceState();
-    setEnabled(true);
 }
 
 void MenuWindow::quitApp()
@@ -127,7 +118,8 @@ void MenuWindow::createLobby()
 {
     try
     {
-        m_firstContext = pServer()->get()->tryCreateLobby(pUserMetaInfo()->get()->getHostInfo().uniqueId);
+        m_firstContext = pServer()->get()->tryCreateLobby(pUserMetaInfo()->get()->getHostInfo().uniqueId,
+                                                          FileManager::getLastSettingsFromLocal());
     }
     catch (std::exception &e)
     {
@@ -162,15 +154,12 @@ void MenuWindow::chooseNickname()
     pSubDialog.get()->selfConfig(LobbiesSubDialog::ChangeNickname);
     if(pSubDialog.get()->exec() == QDialog::Accepted)
     {
-        try
-        {
-            pServer()->get()->tryChangeNickname(pSubDialog.get()->nicknameValue());
-        }
-        catch (std::exception &e)
-        {
-            execErrorBox(e.what());
-            return;
-        }
+        QString gotNickname = pSubDialog.get()->nicknameValue();
+        ui->lNickname->setText(gotNickname);
+        pServer()->get()->changeNickname(gotNickname);
+        HostUserData temp = pUserMetaInfo()->get()->getHostInfo();
+        temp.nickname = gotNickname;
+        pUserMetaInfo()->get()->setHostInfo(temp);
     }
 }
 
@@ -180,16 +169,29 @@ void MenuWindow::closeEvent(QCloseEvent *event)
     event->ignore();
 }
 
-void MenuWindow::showAndRefresh()
-{
-    windowDataRefresh();
-    show();
-}
-
 void MenuWindow::quitAppDialog()
 {
     if(makeDialog(BaseWin::QuitApp, "", this) == 0)
         QCoreApplication::quit();
+}
+
+void MenuWindow::show()
+{
+    ui->setupUi(this);
+    setupLobbiesFilter();
+    pUserMetaInfo()->get()->setHostInfo(pServer()->get()->getCurrentHostInfo());
+    displayHostShortInfo();
+    ui->aDiceIf3D->setChecked(FileManager::get3dDicePrefFromLocal());
+    FileManager::fillUserMetaJson(ui->aDiceIf3D->isChecked());
+    setEnabled(true);
+    windowDataRefresh();
+    QMainWindow::show();
+}
+
+void MenuWindow::hide()
+{
+    setDisabled(true);
+    QMainWindow::hide();
 }
 
 void MenuWindow::setupLobbiesTable()
@@ -311,8 +313,7 @@ void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
 void MenuWindow::showLobbyWindow()
 {
     hide();
-    pLobbyWindow.get()->giveFirstContext(m_firstContext);
-    pLobbyWindow.get()->show();
+    pLobbyWindow.get()->show(m_firstContext);
 }
 
 dialogCode MenuWindow::checkIfPassworded(const QTableWidgetItem &item)

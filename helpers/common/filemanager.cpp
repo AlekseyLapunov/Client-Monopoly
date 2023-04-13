@@ -16,11 +16,9 @@ bool FileManager::get3dDicePrefFromLocal()
 {
     initLocalDirectory();
 
-    LobbySettings settingsOutput;
-
     QString jsonString = readJsonToQString(ssLocalDirPath + ssUserMetaFileName);
 
-    if(isJsonIntegral(jsonString, ssUserMetaFileName))
+    if(!isJsonIntegral(jsonString, ssUserMetaFileName))
         return true;
 
     QJsonDocument doc = QJsonDocument::fromJson(jsonString.toUtf8());
@@ -66,14 +64,15 @@ void FileManager::createLastSettingsJson(const QString &dir)
 {
     QFile lastSettingsJsonFile(dir + ssLastSettingsFileName);
 
+    LobbySettings defaultSettingsCopy = DefaultLobbySettings;
     if(!lastSettingsJsonFile.exists())
     {
-        LobbySettings defaultSettingsCopy = DefaultLobbySettings;
         writeFile(lastSettingsJsonFile, defaultSettingsCopy.toJsonQString());
     }
     else
     {
-        isJsonFileIntegral(dir + ssLastSettingsFileName);
+        if(!isJsonFileIntegral(dir + ssLastSettingsFileName))
+            writeFile(lastSettingsJsonFile, defaultSettingsCopy.toJsonQString());
     }
 }
 
@@ -102,7 +101,7 @@ LobbySettings FileManager::loadSettingsFromFile(const QString &path)
 
     QString jsonString = readJsonToQString(path);
 
-    if(isJsonIntegral(jsonString, path))
+    if(!isJsonIntegral(jsonString, path))
         throw std::runtime_error(ssRuntimeErrors[JsonParseError]);
 
     QJsonDocument doc = QJsonDocument::fromJson(jsonString.toUtf8());
@@ -177,7 +176,8 @@ bool FileManager::isJsonFileIntegral(const QString &path)
 
     QJsonParseError error;
     QJsonDocument doc = QJsonDocument::fromJson(jsonString.toUtf8(), &error);
-    qDebug() << "JSON Integrity" << path << error.errorString() << error.offset << error.error;
+    if(error.offset != 0 || error.error != 0)
+        qDebug() << "JSON Integrity" << path << error.errorString() << error.offset << error.error;
 
     return (error.offset == 0 && error.error == 0 && doc.isObject());
 }
@@ -186,8 +186,9 @@ bool FileManager::isJsonIntegral(const QString &jsonString, const QString &name)
 {
     QJsonParseError error;
     QJsonDocument doc = QJsonDocument::fromJson(jsonString.toUtf8(), &error);
-    qDebug() << "JSON Integrity" << (name.isEmpty() ? "" : name)
-             << error.errorString() << error.offset << error.error;
+    if(error.offset != 0 || error.error != 0)
+        qDebug() << "JSON Integrity" << (name.isEmpty() ? "" : name)
+                 << error.errorString() << error.offset << error.error;
 
     return (error.offset == 0 && error.error == 0 && doc.isObject());
 }
@@ -205,23 +206,24 @@ LobbySettings FileManager::getRankedSettingsFromLocal()
     return settingsOutput;
 }
 
-bool FileManager::isLastSettingsFileExists()
-{
-    QFile lastSettingsFile(ssLocalDirPath + ssLastSettingsFileName);
-    return lastSettingsFile.exists();
-}
-
 void FileManager::checkLastSettingsIntegrity()
 {
-
+    initLocalDirectory();
+    if(!isJsonFileIntegral(ssLocalDirPath + ssLastSettingsFileName))
+    {
+        LobbySettings defaultSettingsCopy = DefaultLobbySettings;
+        writeFile(ssLocalDirPath + ssLastSettingsFileName, defaultSettingsCopy.toJsonQString());
+    }
+    else return;
 }
 
 LobbySettings FileManager::getLastSettingsFromLocal()
 {
     initLocalDirectory();
 
-    if(!isLastSettingsFileExists())
-        return {};
+    QFile lastSettingsFile(ssLocalDirPath + ssLastSettingsFileName);
+    if(!lastSettingsFile.exists() || !isJsonFileIntegral(ssLocalDirPath + ssLastSettingsFileName))
+        return DefaultLobbySettings;
 
     LobbySettings settingsOutput = loadSettingsFromFile(ssLocalDirPath + ssLastSettingsFileName);
     return settingsOutput;

@@ -23,9 +23,9 @@ public:
                          QWidget *parent = nullptr);
     ~LobbyWindow();
 
-    void giveFirstContext(LobbyFullInfo &context);
     void windowDataRefresh();
-    void show();
+    void show(const LobbyFullInfo firstContext = {DefaultLobbySettings, {}});
+    void hide();
     void quitAppDialog();
 
 signals:
@@ -45,10 +45,12 @@ private slots:
     void exportSettingsToFile();
     void importSettingsFromFile();
     void reactToUserSelect(QTableWidgetItem* item);
+    void togglePasswordLineEditEcho();
 
 private:
+    void setFirstContext(const LobbyFullInfo context);
     void closeEvent(QCloseEvent *event);
-    void definePrivilege();
+    short definePrivilege();
     void setUpByPrivilege();
     void setButtonsVisibility(bool areVisible);
     void setSettingsInputsAccessibility(bool areAccessible);
@@ -68,7 +70,6 @@ private:
     LobbySettings m_lastSettings;
 
     enum PrivelegeTypes { Owner, Guest, RankedGuest };
-    short m_privilegeType = PrivelegeTypes::Guest;
 };
 
 #endif // LOBBYWINDOW_H

@@ -331,12 +331,25 @@
            </font>
           </property>
           <property name="maxLength">
-           <number>15</number>
+           <number>16</number>
           </property>
           <property name="readOnly">
            <bool>true</bool>
           </property>
          </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_9">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
         <item>
          <spacer name="horizontalSpacer_7">
@@ -445,6 +458,13 @@
           </property>
           <property name="readOnly">
            <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="tbShowPassword">
+          <property name="text">
+           <string>...</string>
           </property>
          </widget>
         </item>
@@ -1117,6 +1137,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>tbShowPassword</sender>
+   <signal>clicked()</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>togglePasswordLineEditEcho()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>275</x>
+     <y>129</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>368</x>
+     <y>210</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>toggleLobbyVision()</slot>
@@ -1133,5 +1169,6 @@
   <slot>exportSettingsToFile()</slot>
   <slot>importSettingsFromFile()</slot>
   <slot>reactToUserSelect(QTableWidgetItem*)</slot>
+  <slot>togglePasswordLineEditEcho()</slot>
  </slots>
 </ui>

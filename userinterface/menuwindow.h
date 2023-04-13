@@ -28,8 +28,9 @@ public:
     ~MenuWindow();
 
     void windowDataRefresh();
-    void showAndRefresh();
     void quitAppDialog();
+    void show();
+    void hide();
 
 signals:
     void goToLoginWindow();

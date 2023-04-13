@@ -21,6 +21,8 @@ public:
                 QWidget *parent = nullptr);
     ~LoginWindow();
 
+    void show();
+    void hide();
     void quitAppDialog();
 
 private slots:

@@ -12,8 +12,6 @@ LoginWindow::LoginWindow(unique_ptr<ServerCommunicator> *newServerPtr,
 
     setupPointers(*newServerPtr, *newMetaInfoPtr);
 
-    ui->setupUi(this);
-
     pMenuWindow = unique_ptr<MenuWindow>(new MenuWindow(pServer(), pUserMetaInfo()));
 
     connect(pMenuWindow.get(), &MenuWindow::goToLoginWindow,
@@ -23,6 +21,19 @@ LoginWindow::LoginWindow(unique_ptr<ServerCommunicator> *newServerPtr,
 LoginWindow::~LoginWindow()
 {
     delete ui;
+}
+
+void LoginWindow::show()
+{
+    ui->setupUi(this);
+    setDisabled(false);
+    QWidget::show();
+}
+
+void LoginWindow::hide()
+{
+    setDisabled(true);
+    QWidget::hide();
 }
 
 void LoginWindow::quitAppDialog()
@@ -58,8 +69,8 @@ void LoginWindow::baseLogin(serviceFlag flag)
     {
         pUserMetaInfo()->get()->setHostInfo
             (
-                flag == LoginWindow::Google ? pServer()->get()->doGoogleLogin()
-                                            : pServer()->get()->doVkLogin()
+                flag == LoginWindow::Google ? pServer()->get()->tryGoogleLogin()
+                                            : pServer()->get()->tryVkLogin()
             );
     }
     catch(const std::exception &e)
@@ -73,6 +84,6 @@ void LoginWindow::baseLogin(serviceFlag flag)
 void LoginWindow::switchToMenuWindow()
 {
     hide();
-    pMenuWindow.get()->showAndRefresh();
+    pMenuWindow.get()->show();
 }
 

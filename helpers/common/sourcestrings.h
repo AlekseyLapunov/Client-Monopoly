@@ -133,10 +133,9 @@ static const QMap<short, QString> ssJsonUserMeta              = {
 
 // runtime_error
 enum RunTimeErrorId { PtrLinkFail, LobbyNotFound, GoogleAuthFail, VkAuthFail,
-                      AlreadyHasLobby, AlreadyInQueue, ApplyNicknameFail,
-                      ApplySettingsFail, ToggleReadyFail, StartGameFail,
-                      JsonParseError, KickPlayerFail, PromotePlayerFail,
-                      lastSettingsFileDoesNotExist };
+                      AlreadyHasLobby, AlreadyInQueue, ApplySettingsFail,
+                      ToggleReadyFail, StartGameFail, JsonParseError, KickPlayerFail,
+                      PromotePlayerFail, LastSettingsFileDoesNotExist };
 static const QMap<short, string> ssRuntimeErrors  = {
                                                         {PtrLinkFail,                   "Проблема при передаче указателей"},
                                                         {LobbyNotFound,                 "Лобби не найдено"},
@@ -144,14 +143,13 @@ static const QMap<short, string> ssRuntimeErrors  = {
                                                         {VkAuthFail,                    "Не удалось войти через VK аккаунт"},
                                                         {AlreadyHasLobby,               "Лобби уже существует"},
                                                         {AlreadyInQueue,                "Вы уже находитесь в очереди"},
-                                                        {ApplyNicknameFail,             "Не удалось сменить псевдоним"},
                                                         {ApplySettingsFail,             "Не удалось применить настройки"},
                                                         {ToggleReadyFail,               "Не удалось переключить готовность"},
                                                         {StartGameFail,                 "Не удалось запустить матч"},
                                                         {JsonParseError,                "Не удалось обработать JSON-файл"},
                                                         {KickPlayerFail,                "Не удалось исключить игрока"},
                                                         {PromotePlayerFail,             "Не удалось сделать игрока владельцем"},
-                                                        {lastSettingsFileDoesNotExist,  "Файл с последними настройками не существует"}
+                                                        {LastSettingsFileDoesNotExist,  "Файл с последними настройками не существует"}
                                                     };
 
 #endif // SOURCESTRINGS_H

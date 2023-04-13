@@ -10,7 +10,7 @@ ServerCommunicator::~ServerCommunicator()
     lobbiesShortInfoVec.clear();
 }
 
-HostUserData ServerCommunicator::doVkLogin()
+HostUserData ServerCommunicator::tryVkLogin()
 {
     // !!! STUB !!!
     if(false)
@@ -21,7 +21,7 @@ HostUserData ServerCommunicator::doVkLogin()
     return m_temporaryHostData;
 }
 
-HostUserData ServerCommunicator::doGoogleLogin()
+HostUserData ServerCommunicator::tryGoogleLogin()
 {
     // !!! STUB !!!
     if(false)
@@ -93,7 +93,7 @@ LobbyFullInfo ServerCommunicator::tryJoinById(const QString lobbyUniqueId, const
     throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[LobbyNotFound]);
 }
 
-LobbyFullInfo ServerCommunicator::tryCreateLobby(const int hostUserId)
+LobbyFullInfo ServerCommunicator::tryCreateLobby(const int hostUserId, LobbySettings priorSettings)
 {
     // !!! STUB !!!
     // Need to check if user already has created lobby. If does - throw exception
@@ -134,7 +134,7 @@ LobbyFullInfo ServerCommunicator::tryRankedQueue(const int hostUserId)
 
 }
 
-void ServerCommunicator::deleteLobbyRequest(const QString lobbyUniqueId)
+void ServerCommunicator::deleteLobby(const QString lobbyUniqueId)
 {
     // !!! STUB !!!
 }
@@ -153,7 +153,7 @@ void ServerCommunicator::tryLobbySettingsApply(const QString lobbyUniqueId, Lobb
         throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[ApplySettingsFail]);
 }
 
-void ServerCommunicator::tryStartGame(const QString lobbyUniqueId, LobbySettings settingsBase)
+void ServerCommunicator::tryStartGame(const QString lobbyUniqueId)
 {
     // !!! STUB !!!
     if(false)
@@ -174,11 +174,9 @@ void ServerCommunicator::tryPromotePlayer(const QString lobbyUniqueId, const int
         throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[PromotePlayerFail]);
 }
 
-void ServerCommunicator::tryChangeNickname(const QString newNickname)
+void ServerCommunicator::changeNickname(const QString newNickname)
 {
     // !!! STUB !!!
-    if(true)
-        throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[ApplyNicknameFail]);
 }
 
 

@@ -27,7 +27,6 @@ public:
     static LobbySettings getRankedSettingsFromLocal();
     static LobbySettings getLastSettingsFromLocal();
     static bool get3dDicePrefFromLocal();
-    static bool isLastSettingsFileExists();
     static void checkLastSettingsIntegrity();
 
 private:
