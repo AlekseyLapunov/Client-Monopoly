@@ -54,6 +54,21 @@
 #define RS_MAX_TURNS         72
 #define RS_ARE_MAX_TURNS_INF false
 
+// Default lobby settings source values
+#define DS_UNIQUE_ID         ""
+#define DS_LOBBY_NAME        ""
+#define DS_LOBBY_PASSWORD    ""
+#define DS_MAX_PLAYERS_COUNT 4
+#define DS_OWNER_UNIQUE_ID   -1
+#define DS_IS_TIMER_ACTIVE   false
+#define DS_SESSION_ADDRESS   ""
+#define DS_SESSION_PORT      0
+#define DS_TURN_TIME         10
+#define DS_MAX_MONEY         0.400
+#define DS_IS_MAX_MONEY_INF  false
+#define DS_MAX_TURNS         72
+#define DS_ARE_MAX_TURNS_INF false
+
 // Set by game rules
 #define MIN_PLAYERS_COUNT 2
 
@@ -200,6 +215,23 @@ static const LobbySettings TrueRankedSettings
     RS_IS_MAX_MONEY_INF,
     RS_MAX_TURNS,
     RS_ARE_MAX_TURNS_INF
+};
+
+static const LobbySettings DefaultLobbySettings
+{
+    DS_UNIQUE_ID,
+    DS_LOBBY_NAME,
+    DS_LOBBY_PASSWORD,
+    DS_MAX_PLAYERS_COUNT,
+    DS_OWNER_UNIQUE_ID,
+    DS_IS_TIMER_ACTIVE,
+    DS_SESSION_ADDRESS,
+    DS_SESSION_PORT,
+    DS_TURN_TIME,
+    DS_MAX_MONEY,
+    DS_IS_MAX_MONEY_INF,
+    DS_MAX_TURNS,
+    DS_ARE_MAX_TURNS_INF
 };
 
 #endif // SOURCESTRUCTS_H

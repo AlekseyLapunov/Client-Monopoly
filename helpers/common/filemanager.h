@@ -28,12 +28,16 @@ public:
     static LobbySettings getLastSettingsFromLocal();
     static bool get3dDicePrefFromLocal();
     static bool isLastSettingsFileExists();
+    static void checkLastSettingsIntegrity();
 
 private:
-    static void createUserMetaJson(const QString &path);
-    static void createRankedSettingsJson(const QString &path);
+    static void createUserMetaJson(const QString &dir);
+    static void createRankedSettingsJson(const QString &dir);
+    static void createLastSettingsJson(const QString &dir);
     static void writeFile(const QString &path, const QString &content);
     static void writeFile(QFile &file, const QString &content);
+    static bool isJsonFileIntegral(const QString &path);
+    static bool isJsonIntegral(const QString &jsonString, const QString &name = "");
     static QString readJsonToQString(const QString &path);
     static LobbySettings loadSettingsFromFile(const QString &path);
 };
