@@ -16,7 +16,7 @@ unique_ptr<UserMetaInfo> userMeta(new UserMetaInfo());
 
 int startApplication(int argc, char *argv[])
 {
-    initLocalDirectory();
+    FileManager::initLocalDirectory();
     QApplication a(argc, argv);
 
     unique_ptr<LoginWindow> loginWindow(new LoginWindow(&server, &userMeta));

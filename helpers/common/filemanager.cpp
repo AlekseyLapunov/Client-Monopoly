@@ -1,6 +1,6 @@
 #include "filemanager.h"
 
-void createUserMetaJson(const QString &path)
+void FileManager::createUserMetaJson(const QString &path)
 {
     QFile userMeta(path + ssUserMetaFileName);
     if(!userMeta.exists())
@@ -10,7 +10,7 @@ void createUserMetaJson(const QString &path)
     }
 }
 
-void fillUserMetaJson(bool uses3dDice)
+void FileManager::fillUserMetaJson(bool uses3dDice)
 {
     initLocalDirectory();
     QFile userMeta(ssLocalDirPath + ssUserMetaFileName);
@@ -22,7 +22,7 @@ void fillUserMetaJson(bool uses3dDice)
     writeFile(userMeta, doc.toJson(QJsonDocument::Indented));
 }
 
-bool get3dDicePrefFromLocal()
+bool FileManager::get3dDicePrefFromLocal()
 {
     initLocalDirectory();
 
@@ -42,10 +42,12 @@ bool get3dDicePrefFromLocal()
     return jsonObj[ssJsonUserMeta[Uses3dDice]].toBool();
 }
 
-void createRankedSettingsJson(const QString &path)
+void FileManager::createRankedSettingsJson(const QString &path)
 {
     QFile rankedSettingsJsonFile(path + ssRankedSettingsFileName);
-    const QString trueRankedSettingsJson = makeTrueRankedJsonString();
+
+    LobbySettings rankedSettingsCopy = TrueRankedSettings;
+    const QString trueRankedSettingsJson = rankedSettingsCopy.toJsonQString();
 
     if(!rankedSettingsJsonFile.exists())
     {
@@ -55,35 +57,11 @@ void createRankedSettingsJson(const QString &path)
     {
         QString rankedSettingsFromLocalDir = readJsonToQString(path + ssRankedSettingsFileName);
         if(rankedSettingsFromLocalDir != trueRankedSettingsJson)
-        {
             writeFile(rankedSettingsJsonFile, trueRankedSettingsJson);
-        }
     }
 }
 
-QString makeTrueRankedJsonString()
-{
-    QJsonObject settingsObject;
-    settingsObject.insert(ssJsonKeysLobbySettingsIds[UniqueId],            RS_UNIQUE_ID);
-    settingsObject.insert(ssJsonKeysLobbySettingsIds[LobbyName],           RS_LOBBY_NAME);
-    settingsObject.insert(ssJsonKeysLobbySettingsIds[LobbyPassword],       RS_LOBBY_PASSWORD);
-    settingsObject.insert(ssJsonKeysLobbySettingsIds[MaxPlayersCount],     RS_MAX_PLAYERS_COUNT);
-    settingsObject.insert(ssJsonKeysLobbySettingsIds[OwnerUniqueId],       RS_OWNER_UNIQUE_ID);
-    settingsObject.insert(ssJsonKeysLobbySettingsIds[IsTimerActive],       RS_IS_TIMER_ACTIVE);
-    settingsObject.insert(ssJsonKeysLobbySettingsIds[SessionAddress],      RS_SESSION_ADDRESS);
-    settingsObject.insert(ssJsonKeysLobbySettingsIds[SessionPort],         RS_SESSION_PORT);
-
-    settingsObject.insert(ssJsonKeysLobbySettingsIds[TurnTime],            RS_TURN_TIME);
-    settingsObject.insert(ssJsonKeysLobbySettingsIds[MaxMoney],            RS_MAX_MONEY);
-    settingsObject.insert(ssJsonKeysLobbySettingsIds[IsMaxMoneyInfinite],  RS_IS_MAX_MONEY_INF);
-    settingsObject.insert(ssJsonKeysLobbySettingsIds[MaxTurns],            RS_MAX_TURNS);
-    settingsObject.insert(ssJsonKeysLobbySettingsIds[AreMaxTurnsInfinite], RS_ARE_MAX_TURNS_INF);
-
-    QJsonDocument doc(settingsObject);
-    return doc.toJson(QJsonDocument::Indented);
-}
-
-void initLocalDirectory()
+void FileManager::initLocalDirectory()
 {
     QDir dir;
     try
@@ -101,7 +79,7 @@ void initLocalDirectory()
     }
 }
 
-LobbySettings loadSettingsFromFile(const QString &path)
+LobbySettings FileManager::loadSettingsFromFile(const QString &path)
 {
     LobbySettings settingsOutput;
 
@@ -134,7 +112,7 @@ LobbySettings loadSettingsFromFile(const QString &path)
     return settingsOutput;
 }
 
-QString readJsonToQString(const QString &path)
+QString FileManager::readJsonToQString(const QString &path)
 {
     QString readJson;
 
@@ -147,7 +125,7 @@ QString readJsonToQString(const QString &path)
     return readJson;
 }
 
-void writeFile(const QString &path, const QString &content)
+void FileManager::writeFile(const QString &path, const QString &content)
 {
     try
     {
@@ -163,7 +141,7 @@ void writeFile(const QString &path, const QString &content)
     }
 }
 
-void writeFile(QFile &file, const QString &content)
+void FileManager::writeFile(QFile &file, const QString &content)
 {
     try
     {
@@ -178,26 +156,26 @@ void writeFile(QFile &file, const QString &content)
     }
 }
 
-void saveLastSettingsToLocal(LobbySettings settingsToSave)
+void FileManager::saveLastSettingsToLocal(LobbySettings settingsToSave)
 {
     const QString content = settingsToSave.toJsonQString();
     writeFile(ssLocalDirPath + ssLastSettingsFileName, content);
 }
 
-LobbySettings getRankedSettingsFromLocal()
+LobbySettings FileManager::getRankedSettingsFromLocal()
 {
     initLocalDirectory();
     LobbySettings settingsOutput = loadSettingsFromFile(ssLocalDirPath + ssRankedSettingsFileName);
     return settingsOutput;
 }
 
-bool isLastSettingsFileExists()
+bool FileManager::isLastSettingsFileExists()
 {
     QFile lastSettingsFile(ssLocalDirPath + ssLastSettingsFileName);
     return lastSettingsFile.exists();
 }
 
-LobbySettings getLastSettingsFromLocal()
+LobbySettings FileManager::getLastSettingsFromLocal()
 {
     initLocalDirectory();
 
@@ -208,7 +186,7 @@ LobbySettings getLastSettingsFromLocal()
     return settingsOutput;
 }
 
-LobbySettings manageSettingsImport(bool &gotSettings, QWidget *parent)
+LobbySettings FileManager::manageSettingsImport(bool &gotSettings, QWidget *parent)
 {
     QString filePath = QFileDialog::getOpenFileName(parent, ssCaptionImportSettings, QString(), ssJsonFilter);
 
@@ -224,7 +202,7 @@ LobbySettings manageSettingsImport(bool &gotSettings, QWidget *parent)
     return settingsOutput;
 }
 
-void manageSettingsExport(LobbySettings settingsToExport, QWidget *parent)
+void FileManager::manageSettingsExport(LobbySettings settingsToExport, QWidget *parent)
 {
     QString filePath = QFileDialog::getSaveFileName(parent, ssCaptionExportSettings, QString(), ssJsonFilter);
 

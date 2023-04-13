@@ -16,28 +16,26 @@
 #include "sourcestructs.h"
 #include "sourcestrings.h"
 
-void createUserMetaJson(const QString &path);
-void fillUserMetaJson(bool uses3dDice);
-void createRankedSettingsJson(const QString &path);
-void initLocalDirectory();
+class FileManager
+{
+public:
+    static void initLocalDirectory();
+    static void saveLastSettingsToLocal(LobbySettings settingsToSave);
+    static void fillUserMetaJson(bool uses3dDice);
+    static void manageSettingsExport(LobbySettings settingsToExport, QWidget *parent = nullptr);
+    static LobbySettings manageSettingsImport(bool &gotSettings, QWidget *parent = nullptr);
+    static LobbySettings getRankedSettingsFromLocal();
+    static LobbySettings getLastSettingsFromLocal();
+    static bool get3dDicePrefFromLocal();
+    static bool isLastSettingsFileExists();
 
-bool get3dDicePrefFromLocal();
-
-QString makeTrueRankedJsonString();
-QString readJsonToQString(const QString &path);
-
-void writeFile(const QString &path, const QString &content);
-void writeFile(QFile &file, const QString &content);
-
-void saveLastSettingsToLocal(LobbySettings settingsToSave);
-
-LobbySettings getRankedSettingsFromLocal();
-bool isLastSettingsFileExists();
-LobbySettings getLastSettingsFromLocal();
-LobbySettings loadSettingsFromFile(const QString &path);
-
-// Import / Export
-LobbySettings manageSettingsImport(bool &gotSettings, QWidget *parent = nullptr);
-void manageSettingsExport(LobbySettings settingsToExport, QWidget *parent = nullptr);
+private:
+    static void createUserMetaJson(const QString &path);
+    static void createRankedSettingsJson(const QString &path);
+    static void writeFile(const QString &path, const QString &content);
+    static void writeFile(QFile &file, const QString &content);
+    static QString readJsonToQString(const QString &path);
+    static LobbySettings loadSettingsFromFile(const QString &path);
+};
 
 #endif // FILEMANAGER_H

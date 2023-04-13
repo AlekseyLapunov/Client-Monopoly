@@ -33,7 +33,7 @@ void MenuWindow::windowDataRefresh()
 {
     pUserMetaInfo()->get()->setHostInfo(pServer()->get()->getCurrentHostInfo());
     ui->setupUi(this);
-    ui->aDiceIf3D->setChecked(get3dDicePrefFromLocal());
+    ui->aDiceIf3D->setChecked(FileManager::get3dDicePrefFromLocal());
     setDisabled(true);
     setupLobbiesTable();
     displayHostShortInfo();
@@ -58,7 +58,7 @@ void MenuWindow::changeAcc()
 void MenuWindow::apply3dDiceState()
 {
     pUserMetaInfo()->get()->apply3dDiceChoise(ui->aDiceIf3D->isChecked());
-    fillUserMetaJson(pUserMetaInfo()->get()->get3dDiceChoise());
+    FileManager::fillUserMetaJson(pUserMetaInfo()->get()->get3dDiceChoise());
 }
 
 void MenuWindow::lobbyClicked(QTableWidgetItem *itemClicked)

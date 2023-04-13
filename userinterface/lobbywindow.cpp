@@ -27,11 +27,11 @@ void LobbyWindow::giveFirstContext(LobbyFullInfo &context)
     m_context = context;
     if(m_context.settings.ownerUniqueId == hostUser.uniqueId)
     {
-        if(isLastSettingsFileExists())
+        if(FileManager::isLastSettingsFileExists())
         {
             try
             {
-                LobbySettings settingsFromLocal = getLastSettingsFromLocal();
+                LobbySettings settingsFromLocal = FileManager::getLastSettingsFromLocal();
                 m_lastSettings.softOverride(settingsFromLocal);
                 m_context.settings.softOverride(m_lastSettings);
                 overwriteSettingsInputs(m_lastSettings);
@@ -325,7 +325,7 @@ void LobbyWindow::applySettings()
         ui->bApplySettings->setDisabled(true);
         ui->bRestoreLastSettings->setDisabled(true);
         m_lastSettings.softOverride(tempSettings);
-        saveLastSettingsToLocal(m_lastSettings);
+        FileManager::saveLastSettingsToLocal(m_lastSettings);
     }
     catch (std::exception &e)
     {
@@ -450,7 +450,7 @@ void LobbyWindow::applyRankedSettings()
 {
     try
     {
-        LobbySettings trueRankedSettings = getRankedSettingsFromLocal();
+        LobbySettings trueRankedSettings = FileManager::getRankedSettingsFromLocal();
         overwriteSettingsInputs(trueRankedSettings);
     }
     catch (std::exception &e)
@@ -470,7 +470,7 @@ void LobbyWindow::exportSettingsToFile()
 
     try
     {
-        manageSettingsExport(m_lastSettings, this);
+        FileManager::manageSettingsExport(m_lastSettings, this);
     }
     catch (std::exception &e)
     {
@@ -486,7 +486,7 @@ void LobbyWindow::importSettingsFromFile()
 
     try
     {
-        importedSettings = manageSettingsImport(gotSettings, this);
+        importedSettings = FileManager::manageSettingsImport(gotSettings, this);
     }
     catch (std::exception &e)
     {
