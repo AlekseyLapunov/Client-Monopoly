@@ -5,6 +5,10 @@
 
 #include <QString>
 #include <QStringList>
+#include <QJsonObject>
+#include <QJsonDocument>
+
+#include "sourcestrings.h"
 
 // MenuWindow: parameters of table with lobbies
 #define LOBBIES_TABLE_COLS      4
@@ -16,7 +20,7 @@
 // String lengths
 #define NICKNAME_MAX_LEN        20
 #define LOBBY_PASSWORD_MAX_LEN  10
-#define UNIQUE_ID_MAX_LEN       9
+#define UNIQUE_ID_MAX_LEN       6
 
 // LobbyWindow: parameters of table with users
 #define USERS_TABLE_COLS        4
@@ -36,19 +40,19 @@
 #define NOT_USING_3D_DICES      false
 
 // True ranked settings source values
-/// Ranked Settings Lobby System Info
-#define RS_LS_UNIQUE_ID         ""
-#define RS_LS_LOBBY_NAME        ""
-#define RS_LS_LOBBY_PASSWORD    ""
-#define RS_LS_MAX_PLAYERS_COUNT -1
-#define RS_LS_OWNER_UNIQUE_ID   -1
-#define RS_LS_IS_PRIVATE        false
-/// Ranked Settings Game Settings Info
-#define RS_GS_TURN_TIME         8
-#define RS_GS_MAX_MONEY         2.000
-#define RS_GS_IS_MAX_MONEY_INF  true
-#define RS_GS_MAX_TURNS         72
-#define RS_GS_ARE_MAX_TURNS_INF false
+#define RS_UNIQUE_ID         ""
+#define RS_LOBBY_NAME        ""
+#define RS_LOBBY_PASSWORD    ""
+#define RS_MAX_PLAYERS_COUNT -1
+#define RS_OWNER_UNIQUE_ID   -1
+#define RS_IS_TIMER_ACTIVE   false
+#define RS_SESSION_ADDRESS   ""
+#define RS_SESSION_PORT      0
+#define RS_TURN_TIME         8
+#define RS_MAX_MONEY         2.000
+#define RS_IS_MAX_MONEY_INF  true
+#define RS_MAX_TURNS         72
+#define RS_ARE_MAX_TURNS_INF false
 
 // Set by game rules
 #define MIN_PLAYERS_COUNT 2
@@ -78,7 +82,6 @@ struct UserShortInfo
 // All lobby settings
 struct LobbySettings
 {
-    // System info
     QString uniqueId;
     QString lobbyName;
     QString lobbyPassword;
@@ -88,7 +91,6 @@ struct LobbySettings
     QString sessionAddress;
     int sessionPort;
 
-    // Game settings
     short turnTime;
     float maxMoney; // represents billions
     bool isMaxMoneyInfinite;
@@ -146,6 +148,26 @@ struct LobbySettings
         this->maxTurns            = other.maxTurns;
         this->areMaxTurnsInfinite = other.areMaxTurnsInfinite;
     }
+
+    QString toJsonQString()
+    {
+        QJsonObject settingsObject;
+        settingsObject.insert(ssJsonKeysLobbySettingsIds[UniqueId],            this->uniqueId);
+        settingsObject.insert(ssJsonKeysLobbySettingsIds[LobbyName],           this->lobbyName);
+        settingsObject.insert(ssJsonKeysLobbySettingsIds[LobbyPassword],       this->lobbyPassword);
+        settingsObject.insert(ssJsonKeysLobbySettingsIds[MaxPlayersCount],     this->maxPlayersCount);
+        settingsObject.insert(ssJsonKeysLobbySettingsIds[OwnerUniqueId],       this->ownerUniqueId);
+        settingsObject.insert(ssJsonKeysLobbySettingsIds[IsTimerActive],       this->isTimerActive);
+        settingsObject.insert(ssJsonKeysLobbySettingsIds[SessionAddress],      this->sessionAddress);
+        settingsObject.insert(ssJsonKeysLobbySettingsIds[SessionPort],         this->sessionPort);
+        settingsObject.insert(ssJsonKeysLobbySettingsIds[TurnTime],            this->turnTime);
+        settingsObject.insert(ssJsonKeysLobbySettingsIds[MaxMoney],            this->maxMoney);
+        settingsObject.insert(ssJsonKeysLobbySettingsIds[IsMaxMoneyInfinite],  this->isMaxMoneyInfinite);
+        settingsObject.insert(ssJsonKeysLobbySettingsIds[MaxTurns],            this->maxTurns);
+        settingsObject.insert(ssJsonKeysLobbySettingsIds[AreMaxTurnsInfinite], this->areMaxTurnsInfinite);
+        QJsonDocument doc(settingsObject);
+        return doc.toJson(QJsonDocument::Indented);
+    }
 };
 
 // Full lobby info inside LobbyWindow
@@ -161,6 +183,23 @@ struct HostUserData
     int uniqueId;
     QString nickname;
     int rpCount;
+};
+
+static const LobbySettings TrueRankedSettings
+{
+    RS_UNIQUE_ID,
+    RS_LOBBY_NAME,
+    RS_LOBBY_PASSWORD,
+    RS_MAX_PLAYERS_COUNT,
+    RS_OWNER_UNIQUE_ID,
+    RS_IS_TIMER_ACTIVE,
+    RS_SESSION_ADDRESS,
+    RS_SESSION_PORT,
+    RS_TURN_TIME,
+    RS_MAX_MONEY,
+    RS_IS_MAX_MONEY_INF,
+    RS_MAX_TURNS,
+    RS_ARE_MAX_TURNS_INF
 };
 
 #endif // SOURCESTRUCTS_H

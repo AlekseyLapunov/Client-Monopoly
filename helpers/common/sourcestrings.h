@@ -5,6 +5,7 @@
 
 #include <QString>
 #include <QStringList>
+#include <QMap>
 
 using std::string;
 
@@ -60,21 +61,43 @@ static const QString ssLobbyIdPrefix        = "ID ";
 
 // Sub-dialog strings
 enum SdMode  { SdNickname, SdDirectJoin, SdPasswordJoin };
-enum SdElems { SdWinTitle, SdApplyB, SdRejectB, SdInfoString, SdInputString };
+struct SubDialogStrings
+{
+    QString winTitle;
+    QString applyButtonText;
+    QString rejectButtonText;
+    QString infoText;
+    QString hintText;
+};
 /// Changing nickname
-static const QStringList ssSubDialogChangeNickname = { "Сменить псевдоним", "Применить",
-                                                       "Отмена", "Введите новый псевдоним:",
-                                                       "Псевдоним" };
+static const SubDialogStrings ssSubDialogChangeNickname = {
+                                                            "Сменить псевдоним",
+                                                            "Применить",
+                                                            "Отмена",
+                                                            "Введите новый псевдоним:",
+                                                            "Псевдоним"
+                                                          };
 /// Joining by ID
-static const QStringList ssSubDialogJoinById       = { "Подключение по ID", "Подключиться",
-                                                       "Отмена", "Введите ID комнаты:", "ID" };
+static const SubDialogStrings ssSubDialogJoinById       = {
+                                                            "Подключение по ID",
+                                                            "Подключиться",
+                                                            "Отмена",
+                                                            "Введите ID комнаты:",
+                                                            "ID"
+                                                          };
 /// Joining with password
-static const QStringList ssSubDialogPasswordedJoin = { "Ввод пароля к лобби", "Подключиться",
-                                                       "Отмена", "Введите пароль комнаты \"",
-                                                       "Пароль" };
-static const QStringList ssSdStrings[]             = { ssSubDialogChangeNickname,
-                                                       ssSubDialogJoinById,
-                                                       ssSubDialogPasswordedJoin };
+static const SubDialogStrings ssSubDialogPasswordedJoin = {
+                                                            "Ввод пароля к лобби",
+                                                            "Подключиться",
+                                                            "Отмена",
+                                                            "Введите пароль комнаты",
+                                                            "Пароль"
+                                                          };
+static const QMap<short, SubDialogStrings> ssSdStrings  = {
+                                                            {SdNickname, ssSubDialogChangeNickname},
+                                                            {SdDirectJoin, ssSubDialogJoinById},
+                                                            {SdPasswordJoin, ssSubDialogPasswordedJoin}
+                                                          };
 
 // filemanager.h
 static const QString ssLocalDirPath           = "local/";
@@ -86,17 +109,27 @@ static const QString ssCaptionExportSettings  = "Экспортировать н
 static const QString ssJsonFilter             = "JSON file (*.json)";
 
 // JSON keys
-enum JsonKeysUserMeta       { Uses3dDice };
-enum JsonKeysIter           { LobbySystemIter, GameSettingsIter };
-enum JsonKeysLobbySystemId  { UniqueId, LobbyName, LobbyPassword, MaxPlayersCount, OwnerUniqueId };
-enum JsonKeysGameSettingsId { TurnTime, MaxMoney, IsMaxMoneyInfinite, MaxTurns, AreMaxTurnsInfinite };
-static const QStringList ssJsonKeysLobbySystem      = { "uniqueId", "lobbyName", "lobbyPassword", "maxPlayersCount",
-                                                        "ownerUniqueId" };
-static const QStringList ssJsonKeysGameSettings     = { "turnTime", "maxMoney", "isMaxMoneyInfinite",
-                                                        "maxTurns", "areMaxTurnsInfinite" };
-static const QStringList ssJsonKeysLobbySettings[]  = { ssJsonKeysLobbySystem, ssJsonKeysGameSettings };
-static const QStringList ssJsonObjectsId            = { "LobbySystemInfo", "GameSettingsInfo" };
-static const QStringList ssJsonUserMeta             = { "uses3dDice" };
+enum JsonKeysUserMeta        { Uses3dDice };
+enum JsonKeysLobbySettingsId { UniqueId, LobbyName, LobbyPassword, MaxPlayersCount, OwnerUniqueId, IsTimerActive,
+                               SessionAddress, SessionPort, TurnTime, MaxMoney, IsMaxMoneyInfinite, MaxTurns, AreMaxTurnsInfinite };
+static const QMap<short, QString> ssJsonKeysLobbySettingsIds  = {
+                                                                    {UniqueId,              "uniqueId"},
+                                                                    {LobbyName,             "lobbyName"},
+                                                                    {LobbyPassword,         "lobbyPassword"},
+                                                                    {MaxPlayersCount,       "maxPlayersCount"},
+                                                                    {OwnerUniqueId,         "ownerUniqueId"},
+                                                                    {IsTimerActive,         "isTimerActive"},
+                                                                    {SessionAddress,        "sessionAddress"},
+                                                                    {SessionPort,           "sessionPort"},
+                                                                    {TurnTime,              "turnTime"},
+                                                                    {MaxMoney,              "maxMoney"},
+                                                                    {IsMaxMoneyInfinite,    "isMaxMoneyInfinite"},
+                                                                    {MaxTurns,              "maxTurns"},
+                                                                    {AreMaxTurnsInfinite,   "areMaxTurnsInfinite"}
+                                                                };
+static const QMap<short, QString> ssJsonUserMeta              = {
+                                                                    {Uses3dDice, "uses3dDice"}
+                                                                };
 
 // runtime_error
 enum RunTimeErrorId { PtrLinkFail, LobbyNotFound, GoogleAuthFail, VkAuthFail,
@@ -104,28 +137,21 @@ enum RunTimeErrorId { PtrLinkFail, LobbyNotFound, GoogleAuthFail, VkAuthFail,
                       ApplySettingsFail, ToggleReadyFail, StartGameFail,
                       JsonParseError, KickPlayerFail, PromotePlayerFail,
                       lastSettingsFileDoesNotExist };
-static const string ssRuntimeErrors[] = {
-                                            "Проблема при передаче указателей",
-                                            "Лобби не найдено",
-                                            "Не удалось войти через Google аккаунт",
-                                            "Не удалось войти через VK аккаунт",
-                                            "Лобби уже существует",
-                                            "Вы уже находитесь в очереди",
-                                            "Не удалось сменить псевдоним",
-                                            "Не удалось применить настройки",
-                                            "Не удалось переключить готовность",
-                                            "Не удалось запустить матч",
-                                            "Ошибка при обработке представленного JSON-файла",
-                                            "Не удалось исключить игрока",
-                                            "Не удалось сделать игрока владельцем",
-                                            "Файл с последними настройками не существует"
-                                        };
+static const QMap<short, string> ssRuntimeErrors  = {
+                                                        {PtrLinkFail,                   "Проблема при передаче указателей"},
+                                                        {LobbyNotFound,                 "Лобби не найдено"},
+                                                        {GoogleAuthFail,                "Не удалось войти через Google аккаунт"},
+                                                        {VkAuthFail,                    "Не удалось войти через VK аккаунт"},
+                                                        {AlreadyHasLobby,               "Лобби уже существует"},
+                                                        {AlreadyInQueue,                "Вы уже находитесь в очереди"},
+                                                        {ApplyNicknameFail,             "Не удалось сменить псевдоним"},
+                                                        {ApplySettingsFail,             "Не удалось применить настройки"},
+                                                        {ToggleReadyFail,               "Не удалось переключить готовность"},
+                                                        {StartGameFail,                 "Не удалось запустить матч"},
+                                                        {JsonParseError,                "Не удалось обработать JSON-файл"},
+                                                        {KickPlayerFail,                "Не удалось исключить игрока"},
+                                                        {PromotePlayerFail,             "Не удалось сделать игрока владельцем"},
+                                                        {lastSettingsFileDoesNotExist,  "Файл с последними настройками не существует"}
+                                                    };
+
 #endif // SOURCESTRINGS_H
-
-
-
-
-
-
-
-

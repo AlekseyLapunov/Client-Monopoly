@@ -25,7 +25,6 @@ bool get3dDicePrefFromLocal();
 
 QString makeTrueRankedJsonString();
 QString readJsonToQString(const QString &path);
-QString toJsonQString(LobbySettings settingsToConvert);
 
 void writeFile(const QString &path, const QString &content);
 void writeFile(QFile &file, const QString &content);

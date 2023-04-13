@@ -63,26 +63,23 @@ void createRankedSettingsJson(const QString &path)
 
 QString makeTrueRankedJsonString()
 {
-    QJsonObject mainObject;
+    QJsonObject settingsObject;
+    settingsObject.insert(ssJsonKeysLobbySettingsIds[UniqueId],            RS_UNIQUE_ID);
+    settingsObject.insert(ssJsonKeysLobbySettingsIds[LobbyName],           RS_LOBBY_NAME);
+    settingsObject.insert(ssJsonKeysLobbySettingsIds[LobbyPassword],       RS_LOBBY_PASSWORD);
+    settingsObject.insert(ssJsonKeysLobbySettingsIds[MaxPlayersCount],     RS_MAX_PLAYERS_COUNT);
+    settingsObject.insert(ssJsonKeysLobbySettingsIds[OwnerUniqueId],       RS_OWNER_UNIQUE_ID);
+    settingsObject.insert(ssJsonKeysLobbySettingsIds[IsTimerActive],       RS_IS_TIMER_ACTIVE);
+    settingsObject.insert(ssJsonKeysLobbySettingsIds[SessionAddress],      RS_SESSION_ADDRESS);
+    settingsObject.insert(ssJsonKeysLobbySettingsIds[SessionPort],         RS_SESSION_PORT);
 
-    QJsonObject lobbySystemObject;
-    lobbySystemObject.insert(ssJsonKeysLobbySettings[LobbySystemIter][UniqueId],        RS_LS_UNIQUE_ID);
-    lobbySystemObject.insert(ssJsonKeysLobbySettings[LobbySystemIter][LobbyName],       RS_LS_LOBBY_NAME);
-    lobbySystemObject.insert(ssJsonKeysLobbySettings[LobbySystemIter][LobbyPassword],   RS_LS_LOBBY_PASSWORD);
-    lobbySystemObject.insert(ssJsonKeysLobbySettings[LobbySystemIter][MaxPlayersCount], RS_LS_MAX_PLAYERS_COUNT);
-    lobbySystemObject.insert(ssJsonKeysLobbySettings[LobbySystemIter][OwnerUniqueId],   RS_LS_OWNER_UNIQUE_ID);
+    settingsObject.insert(ssJsonKeysLobbySettingsIds[TurnTime],            RS_TURN_TIME);
+    settingsObject.insert(ssJsonKeysLobbySettingsIds[MaxMoney],            RS_MAX_MONEY);
+    settingsObject.insert(ssJsonKeysLobbySettingsIds[IsMaxMoneyInfinite],  RS_IS_MAX_MONEY_INF);
+    settingsObject.insert(ssJsonKeysLobbySettingsIds[MaxTurns],            RS_MAX_TURNS);
+    settingsObject.insert(ssJsonKeysLobbySettingsIds[AreMaxTurnsInfinite], RS_ARE_MAX_TURNS_INF);
 
-    QJsonObject gameSettingsObject;
-    gameSettingsObject.insert(ssJsonKeysLobbySettings[GameSettingsIter][TurnTime],            RS_GS_TURN_TIME);
-    gameSettingsObject.insert(ssJsonKeysLobbySettings[GameSettingsIter][MaxMoney],            RS_GS_MAX_MONEY);
-    gameSettingsObject.insert(ssJsonKeysLobbySettings[GameSettingsIter][IsMaxMoneyInfinite],  RS_GS_IS_MAX_MONEY_INF);
-    gameSettingsObject.insert(ssJsonKeysLobbySettings[GameSettingsIter][MaxTurns],            RS_GS_MAX_TURNS);
-    gameSettingsObject.insert(ssJsonKeysLobbySettings[GameSettingsIter][AreMaxTurnsInfinite], RS_GS_ARE_MAX_TURNS_INF);
-
-    mainObject.insert(ssJsonObjectsId[LobbySystemIter], lobbySystemObject);
-    mainObject.insert(ssJsonObjectsId[GameSettingsIter], gameSettingsObject);
-
-    QJsonDocument doc(mainObject);
+    QJsonDocument doc(settingsObject);
     return doc.toJson(QJsonDocument::Indented);
 }
 
@@ -117,27 +114,22 @@ LobbySettings loadSettingsFromFile(const QString &path)
     if(!doc.isObject())
         throw std::runtime_error(ssRuntimeErrors[JsonParseError]);
 
-    QJsonObject jsonObj = doc.object();
-    QJsonValue jsonLSI = jsonObj.value(ssJsonObjectsId[LobbySystemIter]);
-    QJsonValue jsonGSI = jsonObj.value(ssJsonObjectsId[GameSettingsIter]);
+    QJsonObject settingsObj = doc.object();
 
-    if(!jsonLSI.isObject() || !jsonGSI.isObject())
-        throw std::runtime_error(ssRuntimeErrors[JsonParseError]);
+    settingsOutput.uniqueId            = settingsObj[ssJsonKeysLobbySettingsIds[UniqueId]].toString();
+    settingsOutput.lobbyName           = settingsObj[ssJsonKeysLobbySettingsIds[LobbyName]].toString();
+    settingsOutput.lobbyPassword       = settingsObj[ssJsonKeysLobbySettingsIds[LobbyPassword]].toString();
+    settingsOutput.maxPlayersCount     = settingsObj[ssJsonKeysLobbySettingsIds[MaxPlayersCount]].toInt();
+    settingsOutput.ownerUniqueId       = settingsObj[ssJsonKeysLobbySettingsIds[OwnerUniqueId]].toInt();
+    settingsOutput.isTimerActive       = settingsObj[ssJsonKeysLobbySettingsIds[IsTimerActive]].toBool();
+    settingsOutput.sessionAddress      = settingsObj[ssJsonKeysLobbySettingsIds[SessionAddress]].toString();
+    settingsOutput.sessionPort         = settingsObj[ssJsonKeysLobbySettingsIds[SessionPort]].toInt();
 
-    QJsonObject jsonObjLSI = jsonLSI.toObject();
-    QJsonObject jsonObjGSI = jsonGSI.toObject();
-
-    settingsOutput.uniqueId        = jsonObjLSI[ssJsonKeysLobbySettings[LobbySystemIter][UniqueId]].toString();
-    settingsOutput.lobbyName       = jsonObjLSI[ssJsonKeysLobbySettings[LobbySystemIter][LobbyName]].toString();
-    settingsOutput.lobbyPassword   = jsonObjLSI[ssJsonKeysLobbySettings[LobbySystemIter][LobbyPassword]].toString();
-    settingsOutput.maxPlayersCount = jsonObjLSI[ssJsonKeysLobbySettings[LobbySystemIter][MaxPlayersCount]].toInt();
-    settingsOutput.ownerUniqueId   = jsonObjLSI[ssJsonKeysLobbySettings[LobbySystemIter][OwnerUniqueId]].toInt();
-
-    settingsOutput.turnTime            = jsonObjGSI[ssJsonKeysLobbySettings[GameSettingsIter][TurnTime]].toInt();
-    settingsOutput.maxMoney            = jsonObjGSI[ssJsonKeysLobbySettings[GameSettingsIter][MaxMoney]].toDouble();
-    settingsOutput.isMaxMoneyInfinite  = jsonObjGSI[ssJsonKeysLobbySettings[GameSettingsIter][IsMaxMoneyInfinite]].toBool();
-    settingsOutput.maxTurns            = jsonObjGSI[ssJsonKeysLobbySettings[GameSettingsIter][MaxTurns]].toInt();
-    settingsOutput.areMaxTurnsInfinite = jsonObjGSI[ssJsonKeysLobbySettings[GameSettingsIter][AreMaxTurnsInfinite]].toBool();
+    settingsOutput.turnTime            = settingsObj[ssJsonKeysLobbySettingsIds[TurnTime]].toInt();
+    settingsOutput.maxMoney            = settingsObj[ssJsonKeysLobbySettingsIds[MaxMoney]].toDouble();
+    settingsOutput.isMaxMoneyInfinite  = settingsObj[ssJsonKeysLobbySettingsIds[IsMaxMoneyInfinite]].toBool();
+    settingsOutput.maxTurns            = settingsObj[ssJsonKeysLobbySettingsIds[MaxTurns]].toInt();
+    settingsOutput.areMaxTurnsInfinite = settingsObj[ssJsonKeysLobbySettingsIds[AreMaxTurnsInfinite]].toBool();
 
     return settingsOutput;
 }
@@ -188,7 +180,7 @@ void writeFile(QFile &file, const QString &content)
 
 void saveLastSettingsToLocal(LobbySettings settingsToSave)
 {
-    const QString content = toJsonQString(settingsToSave);
+    const QString content = settingsToSave.toJsonQString();
     writeFile(ssLocalDirPath + ssLastSettingsFileName, content);
 }
 
@@ -239,30 +231,5 @@ void manageSettingsExport(LobbySettings settingsToExport, QWidget *parent)
     if(filePath.isEmpty())
         return;
 
-    writeFile(filePath, toJsonQString(settingsToExport));
-}
-
-QString toJsonQString(LobbySettings settingsToConvert)
-{
-    QJsonObject mainObject;
-
-    QJsonObject lobbySystemObject;
-    lobbySystemObject.insert(ssJsonKeysLobbySettings[LobbySystemIter][UniqueId],        settingsToConvert.uniqueId);
-    lobbySystemObject.insert(ssJsonKeysLobbySettings[LobbySystemIter][LobbyName],       settingsToConvert.lobbyName);
-    lobbySystemObject.insert(ssJsonKeysLobbySettings[LobbySystemIter][LobbyPassword],   settingsToConvert.lobbyPassword);
-    lobbySystemObject.insert(ssJsonKeysLobbySettings[LobbySystemIter][MaxPlayersCount], settingsToConvert.maxPlayersCount);
-    lobbySystemObject.insert(ssJsonKeysLobbySettings[LobbySystemIter][OwnerUniqueId],   settingsToConvert.ownerUniqueId);
-
-    QJsonObject gameSettingsObject;
-    gameSettingsObject.insert(ssJsonKeysLobbySettings[GameSettingsIter][TurnTime],            settingsToConvert.turnTime);
-    gameSettingsObject.insert(ssJsonKeysLobbySettings[GameSettingsIter][MaxMoney],            settingsToConvert.maxMoney);
-    gameSettingsObject.insert(ssJsonKeysLobbySettings[GameSettingsIter][IsMaxMoneyInfinite],  settingsToConvert.isMaxMoneyInfinite);
-    gameSettingsObject.insert(ssJsonKeysLobbySettings[GameSettingsIter][MaxTurns],            settingsToConvert.maxTurns);
-    gameSettingsObject.insert(ssJsonKeysLobbySettings[GameSettingsIter][AreMaxTurnsInfinite], settingsToConvert.areMaxTurnsInfinite);
-
-    mainObject.insert(ssJsonObjectsId[LobbySystemIter], lobbySystemObject);
-    mainObject.insert(ssJsonObjectsId[GameSettingsIter], gameSettingsObject);
-
-    QJsonDocument doc(mainObject);
-    return doc.toJson(QJsonDocument::Indented);
+    writeFile(filePath, settingsToExport.toJsonQString());
 }

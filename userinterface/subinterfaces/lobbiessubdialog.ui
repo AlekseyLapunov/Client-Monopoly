@@ -22,6 +22,11 @@
     <height>152</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <family>Bookman Old Style</family>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
@@ -33,7 +38,9 @@
     <widget class="QPushButton" name="bApply">
      <property name="font">
       <font>
-       <bold>true</bold>
+       <family>Bookman Old Style</family>
+       <pointsize>11</pointsize>
+       <bold>false</bold>
       </font>
      </property>
      <property name="text">
@@ -45,7 +52,9 @@
     <widget class="QPushButton" name="bReject">
      <property name="font">
       <font>
-       <bold>true</bold>
+       <family>Bookman Old Style</family>
+       <pointsize>11</pointsize>
+       <bold>false</bold>
       </font>
      </property>
      <property name="text">

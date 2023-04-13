@@ -24,29 +24,26 @@ void LobbiesSubDialog::selfConfig(const short configFlag, const QString &carrier
         setRegExps(LobbyRegExp);
         ui->leInput->setEchoMode(QLineEdit::Normal);
         ui->leInput->setMaxLength(NICKNAME_MAX_LEN);
-        writeWidgetTexts(ssSdStrings[SdNickname][SdWinTitle], ssSdStrings[SdNickname][SdApplyB],
-                         ssSdStrings[SdNickname][SdRejectB], ssSdStrings[SdNickname][SdInfoString],
-                         ssSdStrings[SdNickname][SdInputString]);
         break;
     case SdConfigFlags::JoinById:
         setRegExps(UniqueIdRegExp);
         ui->leInput->setEchoMode(QLineEdit::Normal);
         ui->leInput->setMaxLength(UNIQUE_ID_MAX_LEN);
-        writeWidgetTexts(ssSdStrings[SdDirectJoin][SdWinTitle], ssSdStrings[SdDirectJoin][SdApplyB],
-                         ssSdStrings[SdDirectJoin][SdRejectB], ssSdStrings[SdDirectJoin][SdInfoString],
-                         ssSdStrings[SdDirectJoin][SdInputString]);
         break;
     case SdConfigFlags::LobbyPasswordEnter:
         setRegExps(LobbyRegExp);
         ui->leInput->setEchoMode(QLineEdit::Password);
         ui->leInput->setMaxLength(LOBBY_PASSWORD_MAX_LEN);
-        writeWidgetTexts(ssSdStrings[SdPasswordJoin][SdWinTitle], ssSdStrings[SdPasswordJoin][SdApplyB],
-                         ssSdStrings[SdPasswordJoin][SdRejectB], ssSdStrings[SdPasswordJoin][SdInfoString] + carrier + "\":",
-                         ssSdStrings[SdPasswordJoin][SdInputString]);
         break;
     default:
         QDialog::reject();
     }
+    writeWidgetTexts(ssSdStrings[configFlag].winTitle,
+                     ssSdStrings[configFlag].applyButtonText,
+                     ssSdStrings[configFlag].rejectButtonText,
+                     ssSdStrings[configFlag].infoText +
+                     ((configFlag == SdConfigFlags::LobbyPasswordEnter) ? " \"" + carrier + "\":" : ""),
+                     ssSdStrings[configFlag].hintText);
 }
 
 void LobbiesSubDialog::setRegExps(const short regExpFlag)
