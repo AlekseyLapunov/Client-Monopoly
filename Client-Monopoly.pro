@@ -16,6 +16,7 @@ SOURCES += \
     helpers/servercommunicator.cpp \
     userinterface/loginwindow.cpp \
     userinterface/menuwindow.cpp \
+    userinterface/subinterfaces/gamemanagerwindow.cpp \
     userinterface/subinterfaces/lobbiessubdialog.cpp
 
 HEADERS += \
@@ -28,12 +29,14 @@ HEADERS += \
     userinterface/loginwindow.h \
     helpers/servercommunicator.h \
     userinterface/menuwindow.h \
+    userinterface/subinterfaces/gamemanagerwindow.h \
     userinterface/subinterfaces/lobbiessubdialog.h
 
 FORMS += \
     userinterface/lobbywindow.ui \
     userinterface/loginwindow.ui \
     userinterface/menuwindow.ui \
+    userinterface/subinterfaces/gamemanagerwindow.ui \
     userinterface/subinterfaces/lobbiessubdialog.ui
 
 # Default rules for deployment.

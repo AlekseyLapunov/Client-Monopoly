@@ -8,7 +8,7 @@ LobbyWindow::LobbyWindow(unique_ptr<ServerCommunicator> *newServerPtr,
     ui(new Ui::LobbyWindow)
 {
     if(!*newServerPtr || !*newMetaInfoPtr)
-        throw std::runtime_error(ssLobbyWindowClassName + ssRuntimeErrors[PtrLinkFail]);
+        throw std::runtime_error(ssClassNames[LobbyWindowCN] + ssRuntimeErrors[PtrLinkFail]);
 
     setupPointers(*newServerPtr, *newMetaInfoPtr);
 
@@ -318,6 +318,7 @@ void LobbyWindow::startGame()
 
 void LobbyWindow::applySettings()
 {
+    checkMaxPlayers();
     ui->bApplySettings->setDisabled(true);
     ui->bRestoreLastSettings->setDisabled(true);
     LobbySettings tempSettings = makeSettingsObjectByInputs();
@@ -379,6 +380,13 @@ bool LobbyWindow::checkIfEveryoneReady()
         if(!i.isReady && (i.uniqueId != m_context.settings.ownerUniqueId))
             return false;
     return true;
+}
+
+void LobbyWindow::checkMaxPlayers()
+{
+    int playersCount = m_context.usersInLobby.size();
+    if(ui->sbMaxPlayers->value() < playersCount)
+        ui->sbMaxPlayers->setValue(playersCount);
 }
 
 void LobbyWindow::leaveLobby()
@@ -445,6 +453,7 @@ void LobbyWindow::restoreLastSettings()
     if(makeDialog(BaseWin::RestoreSettings, "", this) == 0)
     {
         overwriteSettingsInputs(m_lastSettings);
+        checkMaxPlayers();
         applySettings();
         ui->bRestoreLastSettings->setDisabled(true);
     }

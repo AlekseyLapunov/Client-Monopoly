@@ -8,7 +8,7 @@ MenuWindow::MenuWindow(unique_ptr<ServerCommunicator> *newServerPtr,
     ui(new Ui::MenuWindow)
 {
     if(!*newServerPtr || !*newMetaInfoPtr)
-        throw std::runtime_error(ssMenuWindowClassName + ssRuntimeErrors[PtrLinkFail]);
+        throw std::runtime_error(ssClassNames[MenuWindowCN] + ssRuntimeErrors[PtrLinkFail]);
 
     setupPointers(*newServerPtr, *newMetaInfoPtr);
 
@@ -161,6 +161,12 @@ void MenuWindow::chooseNickname()
         temp.nickname = gotNickname;
         pUserMetaInfo()->get()->setHostInfo(temp);
     }
+}
+
+void MenuWindow::checkStatusBarToClear()
+{
+    if(ui->tLobbies->selectedItems().isEmpty())
+        ui->statusbar->clearMessage();
 }
 
 void MenuWindow::closeEvent(QCloseEvent *event)

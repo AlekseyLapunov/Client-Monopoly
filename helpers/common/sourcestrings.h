@@ -18,13 +18,6 @@ static const QMap<short, QString> ssRegExps = {
                                                 {LobbyUniqueIdRegExp,   "^[a-zA-Z0-9]*$"}
                                               };
 
-// Classes Names for the exception thrower specifying
-static const string ssLoginWindowClassName      = "LoginWindow: ";
-static const string ssMenuWindowClassName       = "MenuWindow: ";
-static const string ssLobbiesSubDialogClassName = "LobbiesSubDialog: ";
-static const string ssLobbyWindowClassName      = "LobbyWindow: ";
-static const string ssServerCommClassName       = "ServerCommunicator: ";
-
 // QMessageBox
 static const QString ssErrorTitle       = "Ошибка";
 static const QString ssErrorBody        = "Возникла ошибка при выполнении действия";
@@ -135,6 +128,20 @@ static const QMap<short, QString> ssJsonKeysLobbySettingsIds  = {
 static const QMap<short, QString> ssJsonUserMeta              = {
                                                                     {Uses3dDice, "uses3dDice"}
                                                                 };
+
+
+// Classes Names for the exception thrower specifying
+enum ClassesNames { LoginWindowCN, MenuWindowCN, LobbiesSubDialogCN, LobbyWindowCN,
+                    ServerCommCN, GameManagerCN, FileManagerCN };
+static const QMap<short, string> ssClassNames = {
+                                                    {LoginWindowCN,      "LoginWindow: "},
+                                                    {MenuWindowCN,       "MenuWindow: "},
+                                                    {LobbiesSubDialogCN, "LobbiesSubDialog: "},
+                                                    {LobbyWindowCN,      "LobbyWindow: "},
+                                                    {ServerCommCN,       "ServerCommunicator: "},
+                                                    {GameManagerCN,      "GameManagerWindow: "},
+                                                    {FileManagerCN,      "FileManager: "}
+                                                };
 
 // runtime_error
 enum RunTimeErrorId { PtrLinkFail, LobbyNotFound, GoogleAuthFail, VkAuthFail,

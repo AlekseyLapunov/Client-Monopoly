@@ -14,7 +14,7 @@ HostUserData ServerCommunicator::tryVkLogin()
 {
     // !!! STUB !!!
     if(false)
-        throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[VkAuthFail]);
+        throw std::runtime_error(ssClassNames[ServerCommCN] + ssRuntimeErrors[VkAuthFail]);
 
     m_temporaryHostData = {11, "VK STUB", 1110};
 
@@ -25,7 +25,7 @@ HostUserData ServerCommunicator::tryGoogleLogin()
 {
     // !!! STUB !!!
     if(false)
-        throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[GoogleAuthFail]);
+        throw std::runtime_error(ssClassNames[ServerCommCN] + ssRuntimeErrors[GoogleAuthFail]);
 
     m_temporaryHostData = {15, "GOOGLE STUB", 1200};
 
@@ -70,7 +70,7 @@ LobbyFullInfo ServerCommunicator::tryJoinById(const QString lobbyUniqueId)
 
     // !!! STUB !!!
     if(lobbyUniqueId != "0")
-        throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[LobbyNotFound]);
+        throw std::runtime_error(ssClassNames[ServerCommCN] + ssRuntimeErrors[LobbyNotFound]);
 
     return
     {
@@ -90,7 +90,7 @@ LobbyFullInfo ServerCommunicator::tryJoinById(const QString lobbyUniqueId)
 LobbyFullInfo ServerCommunicator::tryJoinById(const QString lobbyUniqueId, const QString &enteredPassword)
 {
     // Make request
-    throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[LobbyNotFound]);
+    throw std::runtime_error(ssClassNames[ServerCommCN] + ssRuntimeErrors[LobbyNotFound]);
 }
 
 LobbyFullInfo ServerCommunicator::tryCreateLobby(const int hostUserId, LobbySettings priorSettings)
@@ -98,7 +98,7 @@ LobbyFullInfo ServerCommunicator::tryCreateLobby(const int hostUserId, LobbySett
     // !!! STUB !!!
     // Need to check if user already has created lobby. If does - throw exception
     if(false)
-        throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[AlreadyHasLobby]);
+        throw std::runtime_error(ssClassNames[ServerCommCN] + ssRuntimeErrors[AlreadyHasLobby]);
 
     return
     {
@@ -116,7 +116,7 @@ LobbyFullInfo ServerCommunicator::tryRankedQueue(const int hostUserId)
     // !!! STUB !!!
     // Need to check if user already in the queue
     if(false)
-        throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[AlreadyInQueue]);
+        throw std::runtime_error(ssClassNames[ServerCommCN] + ssRuntimeErrors[AlreadyInQueue]);
 
     return
     {
@@ -143,35 +143,35 @@ void ServerCommunicator::tryToggleReady(const QString lobbyUniqueId)
 {
     // !!! STUB !!!
     if(false)
-        throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[ToggleReadyFail]);
+        throw std::runtime_error(ssClassNames[ServerCommCN] + ssRuntimeErrors[ToggleReadyFail]);
 }
 
 void ServerCommunicator::tryLobbySettingsApply(const QString lobbyUniqueId, LobbySettings newSettings)
 {
     // !!! STUB !!!
     if(false)
-        throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[ApplySettingsFail]);
+        throw std::runtime_error(ssClassNames[ServerCommCN] + ssRuntimeErrors[ApplySettingsFail]);
 }
 
 void ServerCommunicator::tryStartGame(const QString lobbyUniqueId)
 {
     // !!! STUB !!!
     if(false)
-        throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[StartGameFail]);
+        throw std::runtime_error(ssClassNames[ServerCommCN] + ssRuntimeErrors[StartGameFail]);
 }
 
 void ServerCommunicator::tryKickPlayer(const QString lobbyUniqueId, const int playerUniqueId)
 {
     // !!! STUB !!!
     if(false)
-        throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[KickPlayerFail]);
+        throw std::runtime_error(ssClassNames[ServerCommCN] + ssRuntimeErrors[KickPlayerFail]);
 }
 
 void ServerCommunicator::tryPromotePlayer(const QString lobbyUniqueId, const int playerUniqueId)
 {
     // !!! STUB !!!
     if(false)
-        throw std::runtime_error(ssServerCommClassName + ssRuntimeErrors[PromotePlayerFail]);
+        throw std::runtime_error(ssClassNames[ServerCommCN] + ssRuntimeErrors[PromotePlayerFail]);
 }
 
 void ServerCommunicator::changeNickname(const QString newNickname)

@@ -48,6 +48,7 @@ private slots:
     void findRanked();
     void showAbout();
     void chooseNickname();
+    void checkStatusBarToClear();
 
 private:
     void closeEvent(QCloseEvent *event);

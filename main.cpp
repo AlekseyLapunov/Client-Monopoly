@@ -14,7 +14,7 @@ using std::unique_ptr;
 unique_ptr<ServerCommunicator> server(new ServerCommunicator());
 unique_ptr<UserMetaInfo> userMeta(new UserMetaInfo());
 
-int startApplication(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     FileManager::initLocalDirectory();
     QApplication a(argc, argv);
@@ -23,11 +23,4 @@ int startApplication(int argc, char *argv[])
     loginWindow->show();
 
     return a.exec();
-}
-
-int main(int argc, char *argv[])
-{
-    startApplication(argc, argv);
-
-    return 0;
 }

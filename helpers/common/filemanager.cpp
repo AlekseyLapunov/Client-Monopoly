@@ -102,7 +102,7 @@ LobbySettings FileManager::loadSettingsFromFile(const QString &path)
     QString jsonString = readJsonToQString(path);
 
     if(!isJsonIntegral(jsonString, path))
-        throw std::runtime_error(ssRuntimeErrors[JsonParseError]);
+        throw std::runtime_error(ssClassNames[FileManagerCN] + ssRuntimeErrors[JsonParseError]);
 
     QJsonDocument doc = QJsonDocument::fromJson(jsonString.toUtf8());
 

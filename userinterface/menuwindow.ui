@@ -12,8 +12,8 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>466</width>
-    <height>339</height>
+    <width>627</width>
+    <height>542</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -25,12 +25,24 @@
   <property name="windowTitle">
    <string>Главное меню</string>
   </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Rounded</enum>
+  </property>
+  <property name="dockNestingEnabled">
+   <bool>false</bool>
+  </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="maximumSize">
+    <size>
+     <width>627</width>
+     <height>501</height>
+    </size>
+   </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="6" column="0">
      <widget class="QPushButton" name="bConnect">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -54,34 +66,90 @@
         <bold>false</bold>
        </font>
       </property>
+      <property name="cursor">
+       <cursorShape>ArrowCursor</cursorShape>
+      </property>
+      <property name="toolTip">
+       <string/>
+      </property>
       <property name="text">
        <string>Подключиться к лобби</string>
       </property>
      </widget>
     </item>
-    <item row="6" column="1">
-     <widget class="QPushButton" name="bCreateLobby">
-      <property name="minimumSize">
-       <size>
-        <width>200</width>
-        <height>0</height>
-       </size>
+    <item row="0" column="3">
+     <widget class="QLabel" name="lSubVertBar">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Maximum" vsizetype="Minimum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Bookman Old Style</family>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>|</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1" colspan="2">
+     <widget class="QLabel" name="lNickname">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
       <property name="maximumSize">
        <size>
-        <width>225</width>
+        <width>293</width>
         <height>16777215</height>
        </size>
       </property>
       <property name="font">
        <font>
         <family>Bookman Old Style</family>
-        <pointsize>11</pointsize>
-        <bold>false</bold>
+        <pointsize>12</pointsize>
+        <bold>true</bold>
+        <underline>true</underline>
        </font>
       </property>
+      <property name="cursor">
+       <cursorShape>ArrowCursor</cursorShape>
+      </property>
+      <property name="mouseTracking">
+       <bool>false</bool>
+      </property>
+      <property name="tabletTracking">
+       <bool>false</bool>
+      </property>
+      <property name="toolTip">
+       <string/>
+      </property>
+      <property name="toolTipDuration">
+       <number>-1</number>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
       <property name="text">
-       <string>Создать лобби</string>
+       <string>Nickname</string>
+      </property>
+      <property name="scaledContents">
+       <bool>false</bool>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
@@ -116,35 +184,31 @@
       </attribute>
      </widget>
     </item>
-    <item row="0" column="4">
-     <widget class="QLabel" name="lRpCount">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>100</width>
-        <height>100</height>
-       </size>
-      </property>
+    <item row="5" column="0" colspan="5">
+     <widget class="QLabel" name="lLobbiesCount">
       <property name="font">
        <font>
         <family>Bookman Old Style</family>
         <pointsize>12</pointsize>
         <bold>true</bold>
-        <underline>true</underline>
        </font>
       </property>
+      <property name="toolTip">
+       <string extracomment="Информация о комнатах"/>
+      </property>
       <property name="text">
-       <string>0 RP</string>
+       <string>Lobby00</string>
       </property>
      </widget>
     </item>
-    <item row="6" column="2" colspan="3">
-     <widget class="QPushButton" name="bRankedSearch">
+    <item row="6" column="1">
+     <widget class="QPushButton" name="bCreateLobby">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="minimumSize">
        <size>
         <width>200</width>
@@ -165,7 +229,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Найти рейтинговую игру</string>
+       <string>Создать лобби</string>
       </property>
      </widget>
     </item>
@@ -188,6 +252,9 @@
         <family>Bookman Old Style</family>
        </font>
       </property>
+      <property name="toolTip">
+       <string/>
+      </property>
       <property name="maxLength">
        <number>16</number>
       </property>
@@ -196,35 +263,19 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="3">
-     <widget class="QLabel" name="lSubVertBar">
+    <item row="0" column="4">
+     <widget class="QLabel" name="lRpCount">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Maximum" vsizetype="Minimum">
+       <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
-      <property name="font">
-       <font>
-        <family>Bookman Old Style</family>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>|</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1" colspan="2">
-     <widget class="QLabel" name="lNickname">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
+      <property name="maximumSize">
+       <size>
+        <width>100</width>
+        <height>100</height>
+       </size>
       </property>
       <property name="font">
        <font>
@@ -234,25 +285,43 @@
         <underline>true</underline>
        </font>
       </property>
-      <property name="text">
-       <string>Nickname</string>
+      <property name="toolTip">
+       <string/>
       </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      <property name="text">
+       <string>0 RP</string>
       </property>
      </widget>
     </item>
-    <item row="5" column="0" colspan="5">
-     <widget class="QLabel" name="lLobbiesCount">
+    <item row="6" column="2" colspan="3">
+     <widget class="QPushButton" name="bRankedSearch">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>200</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>225</width>
+        <height>16777215</height>
+       </size>
+      </property>
       <property name="font">
        <font>
         <family>Bookman Old Style</family>
-        <pointsize>12</pointsize>
-        <bold>true</bold>
+        <pointsize>11</pointsize>
+        <bold>false</bold>
        </font>
       </property>
       <property name="text">
-       <string>Lobby00</string>
+       <string>Найти рейтинговую игру</string>
       </property>
      </widget>
     </item>
@@ -570,6 +639,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>tLobbies</sender>
+   <signal>itemSelectionChanged()</signal>
+   <receiver>MenuWindow</receiver>
+   <slot>checkStatusBarToClear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>313</x>
+     <y>255</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>quitApp()</slot>
@@ -584,5 +669,6 @@
   <slot>createLobby()</slot>
   <slot>findRanked()</slot>
   <slot>chooseNickname()</slot>
+  <slot>checkStatusBarToClear()</slot>
  </slots>
 </ui>

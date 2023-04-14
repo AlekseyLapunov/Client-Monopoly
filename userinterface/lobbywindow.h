@@ -63,6 +63,7 @@ private:
     LobbySettings makeSettingsObjectByInputs();
     void overwriteSettingsInputs(LobbySettings &overwriteBy);
     bool checkIfEveryoneReady();
+    void checkMaxPlayers();
 
 private:
     Ui::LobbyWindow *ui;
