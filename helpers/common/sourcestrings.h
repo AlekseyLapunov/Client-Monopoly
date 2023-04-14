@@ -9,9 +9,14 @@
 
 using std::string;
 
-// Regular expression QStrings
-static const QString ssLobbyRegExpString    = "^[a-zA-Zа-яА-ЯёЁ0-9]+?( ?[a-zA-Zа-яА-ЯёЁ0-9])*$";
-static const QString ssUniqueIdRegExpString = "^[a-zA-Z0-9]*$";
+// Regular expressions
+enum RegExpFlags {LobbyNameRegExp, NicknameRegExp, LobbyPasswordRegExp, LobbyUniqueIdRegExp};
+static const QMap<short, QString> ssRegExps = {
+                                                {LobbyNameRegExp,       "^((\\S+)(\\s?(\\S+))*)$"},
+                                                {NicknameRegExp,        "^((\\S+)(\\s?(\\S+))*)$"},
+                                                {LobbyPasswordRegExp,   "^(\\S|\\s)+$"},
+                                                {LobbyUniqueIdRegExp,   "^[a-zA-Z0-9]*$"}
+                                              };
 
 // Classes Names for the exception thrower specifying
 static const string ssLoginWindowClassName      = "LoginWindow: ";

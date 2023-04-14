@@ -21,17 +21,17 @@ void LobbiesSubDialog::selfConfig(const short configFlag, const QString &carrier
     switch (configFlag)
     {
     case SdConfigFlags::ChangeNickname:
-        setRegExps(LobbyRegExp);
+        setRegExps(NicknameRegExp);
         ui->leInput->setEchoMode(QLineEdit::Normal);
         ui->leInput->setMaxLength(NICKNAME_MAX_LEN);
         break;
     case SdConfigFlags::JoinById:
-        setRegExps(UniqueIdRegExp);
+        setRegExps(LobbyUniqueIdRegExp);
         ui->leInput->setEchoMode(QLineEdit::Normal);
         ui->leInput->setMaxLength(UNIQUE_ID_MAX_LEN);
         break;
     case SdConfigFlags::LobbyPasswordEnter:
-        setRegExps(LobbyRegExp);
+        setRegExps(LobbyPasswordRegExp);
         ui->leInput->setEchoMode(QLineEdit::Password);
         ui->leInput->setMaxLength(LOBBY_PASSWORD_MAX_LEN);
         break;
@@ -42,7 +42,8 @@ void LobbiesSubDialog::selfConfig(const short configFlag, const QString &carrier
                      ssSdStrings[configFlag].applyButtonText,
                      ssSdStrings[configFlag].rejectButtonText,
                      ssSdStrings[configFlag].infoText +
-                     ((configFlag == SdConfigFlags::LobbyPasswordEnter) ? " \"" + carrier + "\":" : ""),
+                     ((configFlag == SdConfigFlags::LobbyPasswordEnter)
+                      ? " \"" + carrier + "\":" : ""),
                      ssSdStrings[configFlag].hintText);
 }
 
@@ -50,24 +51,12 @@ void LobbiesSubDialog::setRegExps(const short regExpFlag)
 {
     QRegularExpression* pRegExp;
 
-    switch (regExpFlag)
-    {
-    case RegExpFlags::LobbyRegExp:
-        pRegExp = new QRegularExpression(ssLobbyRegExpString);
-        break;
-    case RegExpFlags::UniqueIdRegExp:
-        pRegExp = new QRegularExpression(ssUniqueIdRegExpString);
-        break;
-    default:
-        pRegExp = nullptr;
-        QDialog::reject();
-    }
+    pRegExp = new QRegularExpression(ssRegExps[regExpFlag]);
 
     QRegularExpressionValidator* pLobbyFilterValidator;
 
     pLobbyFilterValidator =  new QRegularExpressionValidator(*pRegExp, this);
     ui->leInput->setValidator(pLobbyFilterValidator);
-
 }
 
 void LobbiesSubDialog::writeWidgetTexts(const QString &windowTitle,

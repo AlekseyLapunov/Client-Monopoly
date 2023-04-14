@@ -43,6 +43,7 @@ void LobbyWindow::show(const LobbyFullInfo firstContext)
     ui->setupUi(this);
     setFirstContext(firstContext);
     setUpSettingsInputs();
+    setUpRegExps();
     ui->bApplySettings->setEnabled(false);
     ui->bRestoreLastSettings->setEnabled(false);
     setEnabled(true);
@@ -145,8 +146,10 @@ void LobbyWindow::setUpSettingsInputs()
 {
     ui->lLobbyUniqueId->setText(ssLobbyIdPrefix + m_context.settings.uniqueId);
     ui->leLobbyName->setText(m_context.settings.lobbyName);
+    ui->leLobbyName->setMaxLength(LOBBY_NAME_MAX_LEN);
     ui->leLobbyName->setReadOnly(true);
     ui->lePassword->setText(m_context.settings.lobbyPassword);
+    ui->lePassword->setMaxLength(LOBBY_PASSWORD_MAX_LEN);
     ui->lePassword->setReadOnly(true);
     ui->sbMaxPlayers->setValue(m_context.settings.maxPlayersCount);
     ui->sbMaxPlayers->setReadOnly(true);
@@ -157,11 +160,27 @@ void LobbyWindow::setUpSettingsInputs()
     ui->dsbMaxBalance->setValue(m_context.settings.maxMoney);
     ui->dsbMaxBalance->setReadOnly(true);
     ui->chbAreTurnsInfinite->setChecked(m_context.settings.areMaxTurnsInfinite);
-    ui->sbTurnTime->setDisabled(m_context.settings.areMaxTurnsInfinite);
+    ui->sbTurnTime->setReadOnly(true);
     ui->chbIsBalanceInfinite->setChecked(m_context.settings.isMaxMoneyInfinite);
     ui->dsbMaxBalance->setDisabled(m_context.settings.isMaxMoneyInfinite);
     ui->chbAreTurnsInfinite->setDisabled(true);
     ui->chbIsBalanceInfinite->setDisabled(true);
+}
+
+void LobbyWindow::setUpRegExps()
+{
+    QRegularExpression* pRegExp[] = {
+                                        new QRegularExpression(ssRegExps[LobbyNameRegExp]),
+                                        new QRegularExpression(ssRegExps[LobbyPasswordRegExp])
+                                    };
+
+    QRegularExpressionValidator* pLobbyFilterValidator[] = {
+                                                                new QRegularExpressionValidator(*pRegExp[0], this),
+                                                                new QRegularExpressionValidator(*pRegExp[1], this)
+                                                           };
+
+    ui->leLobbyName->setValidator(pLobbyFilterValidator[0]);
+    ui->lePassword->setValidator(pLobbyFilterValidator[1]);
 }
 
 void LobbyWindow::setUpUsersInTable(QTableWidget& table, std::vector<UserShortInfo>& usiContextVec)

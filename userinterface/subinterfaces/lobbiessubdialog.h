@@ -35,9 +35,7 @@ private slots:
     void accept() override;
 
 private:
-    enum RegExpFlags { LobbyRegExp, UniqueIdRegExp };
     void setRegExps(const short regExpFlag);
-
     void writeWidgetTexts(const QString &windowTitle,
                           const QString &bApplyString,
                           const QString &bRejectString,

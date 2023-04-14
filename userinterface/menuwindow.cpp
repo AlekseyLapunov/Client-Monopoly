@@ -213,9 +213,10 @@ void MenuWindow::setupLobbiesTable()
 
 void MenuWindow::setupLobbiesFilter()
 {
-    QRegularExpression lobbyFilterRegExp(ssLobbyRegExpString);
+    QRegularExpression lobbyFilterRegExp(ssRegExps[LobbyNameRegExp]);
     QRegularExpressionValidator* lobbyFilterValidator = new QRegularExpressionValidator(lobbyFilterRegExp, this);
     ui->leLobbyFilter->setValidator(lobbyFilterValidator);
+    ui->leLobbyFilter->setMaxLength(LOBBY_NAME_MAX_LEN);
     ui->leLobbyFilter->clear();
 }
 

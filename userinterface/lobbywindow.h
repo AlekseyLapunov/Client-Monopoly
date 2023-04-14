@@ -55,6 +55,7 @@ private:
     void setButtonsVisibility(bool areVisible);
     void setSettingsInputsAccessibility(bool areAccessible);
     void setUpSettingsInputs();
+    void setUpRegExps();
     void setUpUsersInTable(QTableWidget &table, vector<UserShortInfo>& usiContextVec);
     void tableClear(QTableWidget &table);
     QString countAverageRp();

@@ -18,7 +18,8 @@
 #define UNIQUE_ID_COL           3
 
 // String lengths
-#define NICKNAME_MAX_LEN        20
+#define NICKNAME_MAX_LEN        32
+#define LOBBY_NAME_MAX_LEN      16
 #define LOBBY_PASSWORD_MAX_LEN  10
 #define UNIQUE_ID_MAX_LEN       6
 
