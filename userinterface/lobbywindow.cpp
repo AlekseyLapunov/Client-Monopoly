@@ -41,6 +41,8 @@ void LobbyWindow::windowDataRefresh()
 void LobbyWindow::show(const LobbyFullInfo firstContext)
 {
     ui->setupUi(this);
+    ui->lGameBeginsIn->setVisible(false);
+    ui->lSecondsToStart->setVisible(false);
     setFirstContext(firstContext);
     setUpSettingsInputs();
     setUpRegExps();
