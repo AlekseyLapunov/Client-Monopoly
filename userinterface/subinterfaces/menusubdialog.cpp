@@ -1,20 +1,20 @@
-#include "lobbiessubdialog.h"
-#include "ui_lobbiessubdialog.h"
+#include "menusubdialog.h"
+#include "ui_menusubdialog.h"
 
-LobbiesSubDialog::LobbiesSubDialog(QWidget *parent) :
+MenuSubDialog::MenuSubDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::LobbiesSubDialog)
+    ui(new Ui::MenuSubDialog)
 {
     m_interactionMode = -1;
     ui->setupUi(this);
 }
 
-LobbiesSubDialog::~LobbiesSubDialog()
+MenuSubDialog::~MenuSubDialog()
 {
     delete ui;
 }
 
-void LobbiesSubDialog::selfConfig(const short configFlag, const QString &carrier)
+void MenuSubDialog::selfConfig(const short configFlag, const QString &carrier)
 {
     ui->leInput->clear();
     m_interactionMode = configFlag;
@@ -47,7 +47,7 @@ void LobbiesSubDialog::selfConfig(const short configFlag, const QString &carrier
                      ssSdStrings[configFlag].hintText);
 }
 
-void LobbiesSubDialog::setRegExps(const short regExpFlag)
+void MenuSubDialog::setRegExps(const short regExpFlag)
 {
     QRegularExpression* pRegExp;
 
@@ -59,7 +59,7 @@ void LobbiesSubDialog::setRegExps(const short regExpFlag)
     ui->leInput->setValidator(pLobbyFilterValidator);
 }
 
-void LobbiesSubDialog::writeWidgetTexts(const QString &windowTitle,
+void MenuSubDialog::writeWidgetTexts(const QString &windowTitle,
                                         const QString &bApplyString,
                                         const QString &bRejectString,
                                         const QString &lInfoString,
@@ -72,12 +72,12 @@ void LobbiesSubDialog::writeWidgetTexts(const QString &windowTitle,
     ui->leInput->setPlaceholderText(leInputString);
 }
 
-QString LobbiesSubDialog::uniqueIdValue() const
+QString MenuSubDialog::uniqueIdValue() const
 {
     return m_uniqueIdValue;
 }
 
-void LobbiesSubDialog::accept()
+void MenuSubDialog::accept()
 {
     if(ui->leInput->text().isEmpty())
     {
@@ -101,12 +101,12 @@ void LobbiesSubDialog::accept()
     QDialog::accept();
 }
 
-QString LobbiesSubDialog::nicknameValue() const
+QString MenuSubDialog::nicknameValue() const
 {
     return m_nicknameValue;
 }
 
-QString LobbiesSubDialog::lobbyPasswordValue() const
+QString MenuSubDialog::lobbyPasswordValue() const
 {
     return m_lobbyPasswordValue;
 }

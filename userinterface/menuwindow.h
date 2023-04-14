@@ -7,7 +7,7 @@
 #include <QRegularExpressionValidator>
 #include <QMessageBox>
 
-#include "subinterfaces/lobbiessubdialog.h"
+#include "subinterfaces/menusubdialog.h"
 #include "helpers/basewin.h"
 #include "lobbywindow.h"
 
@@ -65,7 +65,7 @@ private:
 
 private:
     Ui::MenuWindow *ui;
-    unique_ptr<LobbiesSubDialog> pSubDialog;
+    unique_ptr<MenuSubDialog> pSubDialog;
     unique_ptr<LobbyWindow> pLobbyWindow;
 
     LobbyFullInfo m_firstContext;

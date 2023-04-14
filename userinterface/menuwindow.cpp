@@ -12,7 +12,7 @@ MenuWindow::MenuWindow(unique_ptr<ServerCommunicator> *newServerPtr,
 
     setupPointers(*newServerPtr, *newMetaInfoPtr);
 
-    pSubDialog = unique_ptr<LobbiesSubDialog>(new LobbiesSubDialog(this));
+    pSubDialog = unique_ptr<MenuSubDialog>(new MenuSubDialog(this));
 
     pLobbyWindow = unique_ptr<LobbyWindow>(new LobbyWindow(pServer(), pUserMetaInfo()));
 
@@ -97,7 +97,7 @@ void MenuWindow::joinToLobby()
 
 void MenuWindow::joinIdDialog()
 {
-    pSubDialog.get()->selfConfig(LobbiesSubDialog::JoinById);
+    pSubDialog.get()->selfConfig(MenuSubDialog::JoinById);
     if(pSubDialog.get()->exec() == QDialog::Accepted)
     {
         // !!! STUB !!! NEED TO CHECK IF PASSWORDED!
@@ -151,7 +151,7 @@ void MenuWindow::showAbout()
 
 void MenuWindow::chooseNickname()
 {
-    pSubDialog.get()->selfConfig(LobbiesSubDialog::ChangeNickname);
+    pSubDialog.get()->selfConfig(MenuSubDialog::ChangeNickname);
     if(pSubDialog.get()->exec() == QDialog::Accepted)
     {
         QString gotNickname = pSubDialog.get()->nicknameValue();
@@ -327,7 +327,7 @@ dialogCode MenuWindow::checkIfPassworded(const QTableWidgetItem &item)
 {
     if(ui->tLobbies->item(item.row(), IS_PASSWORDED_COL)->text() == ssPassColumnYes)
     {
-        pSubDialog.get()->selfConfig(LobbiesSubDialog::LobbyPasswordEnter,
+        pSubDialog.get()->selfConfig(MenuSubDialog::LobbyPasswordEnter,
                                      ui->tLobbies->item(item.row(), LOBBY_NAME_COL)->text());
         if(pSubDialog.get()->exec() == QDialog::Accepted)
         {

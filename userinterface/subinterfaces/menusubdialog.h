@@ -1,5 +1,5 @@
-#ifndef LOBBIESSUBDIALOG_H
-#define LOBBIESSUBDIALOG_H
+#ifndef MENUSUBDIALOG_H
+#define MENUSUBDIALOG_H
 
 #include <memory>
 
@@ -13,16 +13,16 @@
 using std::unique_ptr;
 
 namespace Ui {
-class LobbiesSubDialog;
+class MenuSubDialog;
 }
 
-class LobbiesSubDialog : public QDialog, public BaseWin
+class MenuSubDialog : public QDialog, public BaseWin
 {
     Q_OBJECT
 
 public:
-    explicit LobbiesSubDialog(QWidget *parent = nullptr);
-    ~LobbiesSubDialog();
+    explicit MenuSubDialog(QWidget *parent = nullptr);
+    ~MenuSubDialog();
 
     enum SdConfigFlags { ChangeNickname, JoinById, LobbyPasswordEnter };
     void selfConfig(const short configFlag, const QString &carrier = "");
@@ -49,7 +49,7 @@ private:
     QString m_nicknameValue;
     QString m_uniqueIdValue;
 
-    Ui::LobbiesSubDialog *ui;
+    Ui::MenuSubDialog *ui;
 };
 
-#endif // LOBBIESSUBDIALOG_H
+#endif // MENUSUBDIALOG_H
