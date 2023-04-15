@@ -8,6 +8,9 @@
 
 #include "helpers/basewin.h"
 #include "helpers/common/filemanager.h"
+#include "subinterfaces/gamemanagerwindow.h"
+
+#define DEBUG
 
 namespace Ui {
 class LobbyWindow;
@@ -20,6 +23,7 @@ class LobbyWindow : public QMainWindow, public BaseWin
 public:
     explicit LobbyWindow(unique_ptr<ServerCommunicator> *newServerPtr,
                          unique_ptr<UserMetaInfo> *newMetaInfoPtr,
+                         unique_ptr<GameManagerWindow> &newGameManagerPtr,
                          QWidget *parent = nullptr);
     ~LobbyWindow();
 
@@ -70,6 +74,8 @@ private:
 
     LobbyFullInfo m_context;
     LobbySettings m_lastSettings;
+
+    unique_ptr<GameManagerWindow> *m_pGameManager;
 
     enum PrivelegeTypes { Owner, Guest, RankedGuest };
 };

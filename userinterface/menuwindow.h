@@ -8,6 +8,7 @@
 #include <QMessageBox>
 
 #include "subinterfaces/menusubdialog.h"
+#include "subinterfaces/gamemanagerwindow.h"
 #include "helpers/basewin.h"
 #include "lobbywindow.h"
 
@@ -67,6 +68,7 @@ private:
     Ui::MenuWindow *ui;
     unique_ptr<MenuSubDialog> pSubDialog;
     unique_ptr<LobbyWindow> pLobbyWindow;
+    unique_ptr<GameManagerWindow> pGameManagerWindow;
 
     LobbyFullInfo m_firstContext;
 

@@ -11,17 +11,36 @@ GameManagerWindow::GameManagerWindow(unique_ptr<ServerCommunicator> *newServerPt
         throw std::runtime_error(ssClassNames[GameManagerCN] + ssRuntimeErrors[PtrLinkFail]);
 
     setupPointers(*newServerPtr, *newMetaInfoPtr);
-
-    ui->setupUi(this);
 }
 
 GameManagerWindow::~GameManagerWindow()
 {
+    delete qmlEngine;
+    qmlEngine = nullptr;
     delete ui;
 }
 
 void GameManagerWindow::show()
 {
-
+    ui->setupUi(this);
+    if(qmlEngine != nullptr)
+    {
+        qDebug() << "Already created, loshad";
+        return;
+    }
+    qmlEngine = new QQmlApplicationEngine;
+    qmlEngine->load("qrc:/qmlfiles/GameWindow.qml");
     QWidget::show();
+}
+
+void GameManagerWindow::quitAppDialog()
+{
+    if(makeDialog(BaseWin::QuitApp, "", this) == 0)
+        QCoreApplication::quit();
+}
+
+void GameManagerWindow::closeEvent(QCloseEvent *event)
+{
+    quitAppDialog();
+    event->ignore();
 }

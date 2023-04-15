@@ -2,6 +2,8 @@
 #define GAMEMANAGERWINDOW_H
 
 #include <QWidget>
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
 
 #include "helpers/basewin.h"
 
@@ -20,9 +22,12 @@ public:
     ~GameManagerWindow();
 
     void show();
+    void quitAppDialog();
+    void closeEvent(QCloseEvent *event);
 
 private:
     Ui::GameManagerWindow *ui;
+    QQmlApplicationEngine* qmlEngine = nullptr;
 };
 
 #endif // GAMEMANAGERWINDOW_H

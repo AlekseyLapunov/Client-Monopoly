@@ -3,14 +3,16 @@
 
 LobbyWindow::LobbyWindow(unique_ptr<ServerCommunicator> *newServerPtr,
                          unique_ptr<UserMetaInfo> *newMetaInfoPtr,
+                         unique_ptr<GameManagerWindow> &newGameManagerPtr,
                          QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::LobbyWindow)
 {
-    if(!*newServerPtr || !*newMetaInfoPtr)
+    if(!*newServerPtr || !*newMetaInfoPtr || !newGameManagerPtr)
         throw std::runtime_error(ssClassNames[LobbyWindowCN] + ssRuntimeErrors[PtrLinkFail]);
 
     setupPointers(*newServerPtr, *newMetaInfoPtr);
+    this->m_pGameManager = &newGameManagerPtr;
 
     ui->setupUi(this);
 }
@@ -264,11 +266,11 @@ QString LobbyWindow::countAverageRp()
 QString LobbyWindow::findOwnerNickname(int ownerId)
 {
     QString ownerNicknameOutput = "";
-    for(auto &i : m_context.usersInLobby)
+    for(auto &user : m_context.usersInLobby)
     {
-        if(i.uniqueId == ownerId)
+        if(user.uniqueId == ownerId)
         {
-            ownerNicknameOutput = i.nickname;
+            ownerNicknameOutput = user.nickname;
             break;
         }
     }
@@ -277,6 +279,11 @@ QString LobbyWindow::findOwnerNickname(int ownerId)
 
 void LobbyWindow::startGame()
 {
+#ifdef DEBUG
+    hide();
+    m_pGameManager->get()->show();
+    return;
+#endif
     ui->bStartGame->setDisabled(true);
 
     if(ui->bApplySettings->isEnabled())
