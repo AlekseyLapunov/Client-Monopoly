@@ -19,3 +19,9 @@ GameManagerWindow::~GameManagerWindow()
 {
     delete ui;
 }
+
+void GameManagerWindow::show()
+{
+
+    QWidget::show();
+}
