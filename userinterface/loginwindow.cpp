@@ -25,6 +25,10 @@ LoginWindow::~LoginWindow()
 
 void LoginWindow::show()
 {
+#ifdef DEBUG
+    switchToMenuWindow();
+    return;
+#endif
     ui->setupUi(this);
     setDisabled(false);
     QWidget::show();

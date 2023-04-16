@@ -185,6 +185,11 @@ void MenuWindow::quitAppDialog()
 
 void MenuWindow::show()
 {
+#ifdef DEBUG
+    pGameManagerWindow->show();
+    this->hide();
+    return;
+#endif
     ui->setupUi(this);
     setupLobbiesFilter();
     pUserMetaInfo()->get()->setHostInfo(pServer()->get()->getCurrentHostInfo());

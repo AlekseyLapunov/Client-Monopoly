@@ -3,5 +3,12 @@
         <file>qmlfiles/Cell.qml</file>
         <file>qmlfiles/FieldsGrid.qml</file>
         <file>qmlfiles/GameWindow.qml</file>
+        <file>qmlfiles/DiceBlock.qml</file>
+        <file>qmlfiles/PlayersInfoBlock.qml</file>
+        <file>qmlfiles/EndConditionsInfoBlock.qml</file>
+        <file>qmlfiles/CurrentStageInfoBlock.qml</file>
+        <file>qmlfiles/WhosTurnInfoBlock.qml</file>
+        <file>qmlfiles/MyDice3D.qml</file>
+        <file>qmlfiles/MonopolyButton.qml</file>
     </qresource>
 </RCC>

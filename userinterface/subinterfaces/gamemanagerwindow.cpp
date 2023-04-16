@@ -25,11 +25,15 @@ void GameManagerWindow::show()
     ui->setupUi(this);
     if(qmlEngine != nullptr)
     {
-        qDebug() << "Already created, loshad";
+        qDebug() << "Already created";
         return;
     }
     qmlEngine = new QQmlApplicationEngine;
     qmlEngine->load("qrc:/qmlfiles/GameWindow.qml");
+#ifdef DEBUG
+    QWidget::hide();
+    return;
+#endif
     QWidget::show();
 }
 

@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/">
+        <file>assets/3d_dice/Dice.fbx</file>
+        <file>assets/3d_dice/dice_001.mesh</file>
+        <file>assets/3d_dice/Dice_Bump.png</file>
+        <file>assets/3d_dice/Dice_Diffuse.png</file>
+        <file>assets/svgs/fields/businesses/1_sawmill.svg</file>
+        <file>assets/svgs/fields/businesses/2_coal_station.svg</file>
+        <file>assets/svgs/fields/businesses/3_atomic_station.svg</file>
+        <file>assets/svgs/fields/misc/arrow_field.svg</file>
+        <file>assets/svgs/fields/misc/sabotage_field.svg</file>
+        <file>assets/svgs/fields/misc/vacation_field.svg</file>
+        <file>assets/svgs/fields/resources/1_forest.svg</file>
+        <file>assets/svgs/fields/resources/2_coal_source.svg</file>
+        <file>assets/svgs/fields/resources/3_uranium_source.svg</file>
+        <file>assets/svgs/player/gaming_piece.svg</file>
+    </qresource>
+</RCC>

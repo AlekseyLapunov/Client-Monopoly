@@ -7,6 +7,8 @@
 #include "helpers/basewin.h"
 #include "menuwindow.h"
 
+#define DEBUG
+
 namespace Ui { class LoginWindow; }
 
 typedef short serviceFlag;

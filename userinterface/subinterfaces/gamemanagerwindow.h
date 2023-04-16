@@ -7,6 +7,8 @@
 
 #include "helpers/basewin.h"
 
+#define DEBUG
+
 namespace Ui {
 class GameManagerWindow;
 }
