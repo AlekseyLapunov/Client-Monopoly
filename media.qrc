@@ -14,5 +14,7 @@
         <file>assets/svgs/fields/resources/2_coal_source.svg</file>
         <file>assets/svgs/fields/resources/3_uranium_source.svg</file>
         <file>assets/svgs/player/gaming_piece.svg</file>
+        <file>assets/svgs/misc/full_screen.svg</file>
+        <file>assets/svgs/misc/window_mode.svg</file>
     </qresource>
 </RCC>

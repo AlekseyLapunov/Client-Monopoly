@@ -10,5 +10,6 @@
         <file>qmlfiles/WhosTurnInfoBlock.qml</file>
         <file>qmlfiles/MyDice3D.qml</file>
         <file>qmlfiles/MonopolyButton.qml</file>
+        <file>qmlfiles/GamingPiecesDisplay.qml</file>
     </qresource>
 </RCC>
