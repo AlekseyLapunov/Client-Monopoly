@@ -4,7 +4,12 @@ import QtQuick3D
 Rectangle
 {
     id: root
-    color: "lightgrey"
+    color: Qt.rgba(_displayField.color.r-0.25,
+                   _displayField.color.g-0.25,
+                   _displayField.color.b-0.25)
+    radius: (height + width)*0.035
+    border.width: (height+width)*0.02
+    border.color: Qt.lighter(root.color, 1.2)
 
     View3D
     {
@@ -23,11 +28,8 @@ Rectangle
 
         MyDice3D
         {
-            position: Qt.vector3d(-15, 0, 0)
-            PrincipledMaterial
-            {
-                baseColor: _displayField.makeRgb(255, 0, 0)
-            }
+            position: Qt.vector3d(-16, 0, 0)
+            diceColor: _displayField.makeRgb(224, 204, 255)
             PropertyAnimation on eulerRotation
             {
                 loops: Animation.Infinite
@@ -40,10 +42,7 @@ Rectangle
         MyDice3D
         {
             position: Qt.vector3d(22, 0, 0)
-            PrincipledMaterial
-            {
-                baseColor: _displayField.makeRgb(0, 255, 0)
-            }
+            diceColor: _displayField.makeRgb(211, 222, 237)
             PropertyAnimation on eulerRotation
             {
                 loops: Animation.Infinite

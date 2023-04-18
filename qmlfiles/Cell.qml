@@ -45,12 +45,6 @@ Rectangle
         sourceSize.height: root.height*0.9
     }
 
-    Desaturate
-    {
-        anchors.fill: _fieldTypeImage
-        source: _fieldTypeImage
-    }
-
     GamingPiecesDisplay
     {
         id: _gamingPiecesDisplay
@@ -103,7 +97,7 @@ Rectangle
         case Cell.Type.Coal:
             return _displayField.makeRgb(255, 232, 102);
         case Cell.Type.Uranium:
-            return _displayField.makeRgb(77, 255, 77);
+            return _displayField.makeRgb(168, 255, 171);
         case Cell.Type.Vacation:
             return _displayField.makeRgb(179, 102, 255);
         case Cell.Type.Sabotage:

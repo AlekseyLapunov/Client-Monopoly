@@ -4,7 +4,7 @@ import QtQuick.Controls
 Window
 {
     property int sizeUnit: (_win.height + _win.width)*0.1
-    property double defaultMargin: sizeUnit*0.05
+    property double defaultMargin: sizeUnit*0.15
 
     id: _win
     minimumWidth: 800
@@ -14,14 +14,13 @@ Window
     visible: true
     title: qsTr("Игра \"Монополия\"")
 
-    //visibility: _toggleVisibilityButton.toggler ? "Maximized" : "FullScreen"
-    visibility: "Maximized"
+    visibility: _toggleVisibilityButton.isWinFullScreen ? "FullScreen" : "Maximized"
 
     Rectangle
     {
         id: _displayField
         anchors.fill: parent
-        color: makeRgb(237, 255, 230);
+        color: makeRgb(224, 240, 255);
 
         function makeRgb(r, g, b, alpha = 1)
         {
@@ -32,8 +31,8 @@ Window
         FieldsGrid
         {
             id: _map
-            anchors.centerIn: _displayField
-            anchors.bottomMargin: defaultMargin
+            anchors.horizontalCenter: _displayField.horizontalCenter
+            anchors.bottom: _diceBlock.bottom
             height: sizeUnit*mapScale
             width: height
         }
@@ -45,7 +44,7 @@ Window
             width: _endTurnButton.width
             anchors.horizontalCenter: _endTurnButton.horizontalCenter
             anchors.bottom: _endTurnButton.top
-            anchors.bottomMargin: defaultMargin*2
+            anchors.bottomMargin: defaultMargin
             textContent: "Применить действие"
 
         }
@@ -57,20 +56,18 @@ Window
             width: height*3
             anchors.bottom: _diceBlock.top
             anchors.horizontalCenter: _diceBlock.horizontalCenter
-            anchors.bottomMargin: defaultMargin*2
+            anchors.bottomMargin: defaultMargin
             textContent: "Закончить ход"
         }
 
         DiceBlock
         {
             id: _diceBlock
-            height: sizeUnit*0.7
-            width: height*1.5
-            color: "transparent"
+            height: _endTurnButton.height*2
+            width: _endTurnButton.width
             anchors.right: _displayField.right
             anchors.bottom: _displayField.bottom
-            anchors.rightMargin: defaultMargin*5
-            anchors.bottomMargin: defaultMargin
+            anchors.margins: defaultMargin
         }
 
         MonopolyButton
@@ -87,20 +84,17 @@ Window
         MonopolyButton
         {
             id: _toggleVisibilityButton
-            property bool toggler: false
+            property bool isWinFullScreen: false
             height: sizeUnit*0.25
             width: height
             anchors.left: _displayField.left
             anchors.top: _displayField.top
             anchors.margins: defaultMargin
-            imageSource:  toggler ? "../assets/svgs/misc/full_screen.svg" :
-                                    "../assets/svgs/misc/window_mode.svg"
-            imageColorOverlay: Qt.lighter(_toggleVisibilityButton.color, 1.5)
+            imageSource:  isWinFullScreen ? "../assets/svgs/misc/window_mode.svg" :
+                                            "../assets/svgs/misc/full_screen.svg"
             onClicked:
             {
-                toggler = !toggler;
-                imageSource = toggler ? "../assets/svgs/misc/full_screen.svg" :
-                                        "../assets/svgs/misc/window_mode.svg";
+                isWinFullScreen = !isWinFullScreen;
             }
         }
 
@@ -123,6 +117,14 @@ Window
         {
 
         }
-    }
 
+        Keys.onPressed: (event) =>
+        {
+            if(event.key === Qt.Key_F11)
+            {
+                _toggleVisibilityButton.isWinFullScreen = !_toggleVisibilityButton.isWinFullScreen;
+                event.accepted = true;
+            }
+        }
+    }
 }

@@ -4,9 +4,10 @@ import Qt5Compat.GraphicalEffects
 Rectangle
 {
     id: root
-    property color baseColor: "lightgreen"
+    property color baseColor: Qt.rgba(_displayField.color.r-0.25,
+                                      _displayField.color.g-0.25,
+                                      _displayField.color.b-0.25)
     property string imageSource: ""
-    property color imageColorOverlay: "lightgreen"
     property string textContent: ""
 
     property bool hasText: textContent.length > 0
@@ -16,7 +17,7 @@ Rectangle
     radius: (height + width)*0.035
 
     border.width: (height+width)*0.02
-    border.color: Qt.lighter(color, 1.2)
+    border.color: Qt.lighter(root.color, 1.2)
 
     signal clicked()
 
@@ -37,7 +38,7 @@ Rectangle
         anchors.centerIn: root
         text: root.hasText ? root.textContent : ""
         color: Qt.lighter(root.color, 1.5)
-        font.family: "Consolas"
+        font.family: "Bookman Old Style"
         font.pointSize: (1/(Math.sqrt(textContent.length)*1.2+1))*root.width*0.4
     }
 
@@ -47,8 +48,8 @@ Rectangle
         //anchors.fill: root
         anchors.centerIn: root
         source: root.hasImage ? root.imageSource : ""
-        sourceSize.height: root.height - 2*root.border.width
-        sourceSize.width: root.height - 2*root.border.width
+        sourceSize.height: root.height - 6*root.border.width
+        sourceSize.width: root.height - 6*root.border.width
 
         smooth: true
     }
@@ -57,6 +58,6 @@ Rectangle
     {
         anchors.fill: _image
         source: _image
-        color: imageColorOverlay
+        color: Qt.lighter(root.color, 1.5)
     }
 }

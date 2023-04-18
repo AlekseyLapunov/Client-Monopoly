@@ -5,6 +5,7 @@ import QtQuick3D.Helpers
 Node
 {
     position: Qt.vector3d(0, 0, 0)
+    property color diceColor: "white"
 
     PrincipledMaterial
     {
@@ -13,6 +14,7 @@ Node
         {
             source: "../assets/3d_dice/Dice_Diffuse.png"
         }
+        baseColor: diceColor
     }
 
     Model
