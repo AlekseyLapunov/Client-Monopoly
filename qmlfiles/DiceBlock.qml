@@ -24,6 +24,10 @@ Rectangle
         MyDice3D
         {
             position: Qt.vector3d(-15, 0, 0)
+            PrincipledMaterial
+            {
+                baseColor: _displayField.makeRgb(255, 0, 0)
+            }
             PropertyAnimation on eulerRotation
             {
                 loops: Animation.Infinite
@@ -36,6 +40,10 @@ Rectangle
         MyDice3D
         {
             position: Qt.vector3d(22, 0, 0)
+            PrincipledMaterial
+            {
+                baseColor: _displayField.makeRgb(0, 255, 0)
+            }
             PropertyAnimation on eulerRotation
             {
                 loops: Animation.Infinite

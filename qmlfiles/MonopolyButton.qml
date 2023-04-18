@@ -13,7 +13,10 @@ Rectangle
     property bool hasImage: imageSource.length > 0
 
     color: _mouseArea.containsPress ? Qt.darker(root.baseColor, 1.2) : root.baseColor
-    radius: (height + width)*0.04
+    radius: (height + width)*0.035
+
+    border.width: (height+width)*0.02
+    border.color: Qt.lighter(color, 1.2)
 
     signal clicked()
 
@@ -28,38 +31,32 @@ Rectangle
         }
     }
 
-    Rectangle
+    Text
     {
-        id: _backgroundRect
-        property double mockingValue: 10
+        id: _text
         anchors.centerIn: root
-        width: root.width - mockingValue
-        height: root.height - mockingValue
-        color: Qt.darker(root.color, 1.1)
-        radius: root.radius - mockingValue/2
+        text: root.hasText ? root.textContent : ""
+        color: Qt.lighter(root.color, 1.5)
+        font.family: "Consolas"
+        font.pointSize: (1/(Math.sqrt(textContent.length)*1.2+1))*root.width*0.4
+    }
 
-        Text
-        {
-            id: _text
-            anchors.centerIn: _backgroundRect
-            text: root.hasText ? root.textContent : ""
-            color: Qt.lighter(root.color, 1.5)
-            font.family: "Consolas"
-            font.pointSize: (1/(Math.sqrt(textContent.length)+1))*root.width*0.4
-        }
+    Image
+    {
+        id: _image
+        //anchors.fill: root
+        anchors.centerIn: root
+        source: root.hasImage ? root.imageSource : ""
+        sourceSize.height: root.height - 2*root.border.width
+        sourceSize.width: root.height - 2*root.border.width
 
-        Image
-        {
-            id: _image
-            anchors.fill: _backgroundRect
-            source: root.hasImage ? root.imageSource : ""
-        }
+        smooth: true
+    }
 
-        ColorOverlay
-        {
-            anchors.fill: _image
-            source: _image
-            color: imageColorOverlay
-        }
+    ColorOverlay
+    {
+        anchors.fill: _image
+        source: _image
+        color: imageColorOverlay
     }
 }

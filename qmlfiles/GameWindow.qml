@@ -32,12 +32,33 @@ Window
         FieldsGrid
         {
             id: _map
-            //anchors.centerIn: _displayField
-            anchors.horizontalCenter: _displayField.horizontalCenter
-            anchors.bottom: _displayField.bottom
-            anchors.bottomMargin: defaultMargin*10
+            anchors.centerIn: _displayField
+            anchors.bottomMargin: defaultMargin
             height: sizeUnit*mapScale
             width: height
+        }
+
+        MonopolyButton
+        {
+            id: _activateFieldButton
+            height: _endTurnButton.height
+            width: _endTurnButton.width
+            anchors.horizontalCenter: _endTurnButton.horizontalCenter
+            anchors.bottom: _endTurnButton.top
+            anchors.bottomMargin: defaultMargin*2
+            textContent: "Применить действие"
+
+        }
+
+        MonopolyButton
+        {
+            id: _endTurnButton
+            height: sizeUnit*0.32
+            width: height*3
+            anchors.bottom: _diceBlock.top
+            anchors.horizontalCenter: _diceBlock.horizontalCenter
+            anchors.bottomMargin: defaultMargin*2
+            textContent: "Закончить ход"
         }
 
         DiceBlock
@@ -54,39 +75,12 @@ Window
 
         MonopolyButton
         {
-            id: _activateFieldButton
-            height: _endTurnButton.height
-            width: _endTurnButton.width
-            anchors.right: _displayField.right
-            anchors.bottom: _endTurnButton.top
-            anchors.rightMargin: _endTurnButton.anchors.rightMargin
-            anchors.bottomMargin: defaultMargin*2
-            textContent: "Использовать"
-
-        }
-
-        MonopolyButton
-        {
-            id: _endTurnButton
-            height: sizeUnit*0.3
-            width: height*3
-            anchors.right: _displayField.right
-            anchors.bottom: _diceBlock.top
-            anchors.rightMargin: defaultMargin*7
-            anchors.bottomMargin: defaultMargin*2
-            textContent: "Пропустить ход"
-
-        }
-
-        MonopolyButton
-        {
             id: _giveUpButton
-            height: sizeUnit*0.25
+            height: sizeUnit*0.20
             width: height*2.5
             anchors.bottom: _displayField.bottom
-            anchors.right: _diceBlock.left
-            anchors.rightMargin: defaultMargin*2.2
-            anchors.bottomMargin: defaultMargin*2.2
+            anchors.left: _displayField.left
+            anchors.margins: defaultMargin
             textContent: "Сдаться"
         }
 

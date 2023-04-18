@@ -3,7 +3,7 @@ import QtQuick 2.15
 Rectangle
 {
     id: root
-    property double mapScale: 2.6
+    property double mapScale: 3
 
     color: "transparent"
 
@@ -24,7 +24,7 @@ Rectangle
         {
             height: _grid.cellHeight
             width: _grid.cellWidth
-            color: "white"
+            fieldType: Math.floor((Math.random() * 11 + 1))
         }
     }
 }
