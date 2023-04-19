@@ -5,6 +5,7 @@ Window
 {
     property int sizeUnit: (_win.height + _win.width)*0.1
     property double defaultMargin: sizeUnit*0.15
+    property int debugCellsCount: 0
 
     id: _win
     minimumWidth: 800
@@ -38,6 +39,7 @@ Window
         MonopolyButton
         {
             id: _activateFieldButton
+            state: "normal"
             height: _endTurnButton.height
             width: _endTurnButton.width
             anchors.horizontalCenter: _endTurnButton.horizontalCenter
@@ -49,6 +51,7 @@ Window
         MonopolyButton
         {
             id: _endTurnButton
+            state: "normal"
             height: sizeUnit*0.32
             width: height*3
             anchors.bottom: _diceBlock.top
@@ -70,6 +73,7 @@ Window
         MonopolyButton
         {
             id: _giveUpButton
+            state: "normal"
             height: sizeUnit*0.20
             width: height*2.5
             anchors.bottom: _displayField.bottom
@@ -81,6 +85,7 @@ Window
         MonopolyButton
         {
             id: _toggleVisibilityButton
+            state: "normal"
             property bool isWinFullScreen: false
             height: sizeUnit*0.15
             width: height
@@ -117,10 +122,27 @@ Window
 
         Keys.onPressed: (event) =>
         {
-            if(event.key === Qt.Key_F11)
+            switch(event.key)
             {
+            case Qt.Key_F11:
                 _toggleVisibilityButton.isWinFullScreen = !_toggleVisibilityButton.isWinFullScreen;
                 event.accepted = true;
+                break;
+            case Qt.Key_F10:
+                _map.refresh()
+                event.accepted = true;
+                break;
+            case Qt.Key_F9:
+                _win.debugCellsCount++;
+                _map.addField();
+                break;
+            case Qt.Key_F8:
+                if(_win.debugCellsCount != 0)
+                {
+                    _win.debugCellsCount--;
+                    _map.delField();
+                }
+                break;
             }
         }
     }

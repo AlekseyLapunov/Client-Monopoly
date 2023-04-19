@@ -13,7 +13,6 @@ Rectangle
     property bool hasText: textContent.length > 0
     property bool hasImage: imageSource.length > 0
 
-    color: _mouseArea.containsPress ? Qt.darker(root.baseColor, 1.2) : root.baseColor
     radius: (height + width)*0.035
 
     border.width: (height+width)*0.02
@@ -29,6 +28,10 @@ Rectangle
         onClicked:
         {
             root.clicked()
+        }
+        onContainsPressChanged:
+        {
+            _mouseArea.containsPress ? root.state = "underPressure" : root.state = "normal"
         }
     }
 
@@ -60,4 +63,64 @@ Rectangle
         source: _image
         color: Qt.lighter(root.color, 1.5)
     }
+
+    states:
+    [
+        State
+        {
+            name: "normal"
+            PropertyChanges
+            {
+                target: root
+                color: root.baseColor
+            }
+            PropertyChanges
+            {
+                target: _mouseArea
+                enabled: true
+            }
+        },
+        State
+        {
+            name: "underPressure"
+            PropertyChanges
+            {
+                target: root
+                color: Qt.darker(root.baseColor, 1.2)
+            }
+            PropertyChanges
+            {
+                target: _mouseArea
+                enabled: true
+            }
+        },
+        State
+        {
+            name: "disabled"
+            PropertyChanges
+            {
+                target: root
+                color: Helpers.makeRgb(153, 153, 153)
+            }
+            PropertyChanges
+            {
+                target: _mouseArea
+                enabled: false
+            }
+        },
+        State
+        {
+            name: "hidden"
+            PropertyChanges
+            {
+                target: root
+                visible: false
+            }
+            PropertyChanges
+            {
+                target: _mouseArea
+                enabled: false
+            }
+        }
+    ]
 }
