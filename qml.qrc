@@ -11,5 +11,7 @@
         <file>qmlfiles/MyDice3D.qml</file>
         <file>qmlfiles/MonopolyButton.qml</file>
         <file>qmlfiles/GamingPiecesDisplay.qml</file>
+        <file>qmlfiles/GamingPiece.qml</file>
+        <file>qmlfiles/Helpers.qml</file>
     </qresource>
 </RCC>

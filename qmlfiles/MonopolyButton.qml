@@ -39,7 +39,7 @@ Rectangle
         text: root.hasText ? root.textContent : ""
         color: Qt.lighter(root.color, 1.5)
         font.family: "Bookman Old Style"
-        font.pointSize: (1/(Math.sqrt(textContent.length)*1.2+1))*root.width*0.4
+        font.pointSize: (1/(Math.sqrt(textContent.length)*1.3+1))*root.width*0.4
     }
 
     Image

@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QtQml>
 
 #include "helpers/basewin.h"
 

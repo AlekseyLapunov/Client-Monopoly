@@ -29,7 +29,7 @@ Rectangle
         MyDice3D
         {
             position: Qt.vector3d(-16, 0, 0)
-            diceColor: _displayField.makeRgb(224, 204, 255)
+            diceColor: Helpers.makeRgb(224, 204, 255)
             PropertyAnimation on eulerRotation
             {
                 loops: Animation.Infinite
@@ -42,7 +42,7 @@ Rectangle
         MyDice3D
         {
             position: Qt.vector3d(22, 0, 0)
-            diceColor: _displayField.makeRgb(211, 222, 237)
+            diceColor: Helpers.makeRgb(211, 222, 237)
             PropertyAnimation on eulerRotation
             {
                 loops: Animation.Infinite

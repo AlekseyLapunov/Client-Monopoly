@@ -20,13 +20,7 @@ Window
     {
         id: _displayField
         anchors.fill: parent
-        color: makeRgb(224, 240, 255);
-
-        function makeRgb(r, g, b, alpha = 1)
-        {
-            const max = 255;
-            return Qt.rgba(r/max, g/max, b/max, alpha);
-        }
+        color: Helpers.makeRgb(224, 240, 255);
 
         FieldsGrid
         {
@@ -35,6 +29,10 @@ Window
             anchors.bottom: _diceBlock.bottom
             height: sizeUnit*mapScale
             width: height
+            border.width: 2
+            border.color: Qt.rgba(_displayField.color.r-0.25,
+                                  _displayField.color.g-0.25,
+                                  _displayField.color.b-0.25)
         }
 
         MonopolyButton
@@ -46,7 +44,6 @@ Window
             anchors.bottom: _endTurnButton.top
             anchors.bottomMargin: defaultMargin
             textContent: "Применить действие"
-
         }
 
         MonopolyButton
@@ -85,7 +82,7 @@ Window
         {
             id: _toggleVisibilityButton
             property bool isWinFullScreen: false
-            height: sizeUnit*0.25
+            height: sizeUnit*0.15
             width: height
             anchors.left: _displayField.left
             anchors.top: _displayField.top
