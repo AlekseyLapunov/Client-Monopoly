@@ -1,12 +1,14 @@
 import QtQuick 2.15
 import Qt5Compat.GraphicalEffects
+import "../HelperSingletone"
 
 Rectangle
 {
     id: root
-    property color baseColor: Qt.rgba(_displayField.color.r-0.25,
-                                      _displayField.color.g-0.25,
-                                      _displayField.color.b-0.25)
+    property color sharedColor: Qt.rgba(0, 0, 0, 0)
+    property color baseColor: Qt.rgba(sharedColor.r-0.25,
+                                      sharedColor.g-0.25,
+                                      sharedColor.b-0.25)
     property string imageSource: ""
     property string textContent: ""
 
@@ -40,7 +42,7 @@ Rectangle
         id: _text
         anchors.centerIn: root
         text: root.hasText ? root.textContent : ""
-        color: Qt.lighter(root.color, 1.5)
+        color: Qt.lighter(root.color, 1.7)
         font.family: "Bookman Old Style"
         font.pointSize: (1/(Math.sqrt(textContent.length)*1.3+1))*root.width*0.4
     }
@@ -61,7 +63,7 @@ Rectangle
     {
         anchors.fill: _image
         source: _image
-        color: Qt.lighter(root.color, 1.5)
+        color: Qt.lighter(root.color, 1.7)
     }
 
     states:
@@ -100,7 +102,7 @@ Rectangle
             PropertyChanges
             {
                 target: root
-                color: Helpers.makeRgb(153, 153, 153)
+                color: Helper.makeRgb(153, 153, 153)
             }
             PropertyChanges
             {

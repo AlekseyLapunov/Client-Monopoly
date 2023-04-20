@@ -1,12 +1,18 @@
 import QtQuick 2.15
 import QtQuick3D
+import "SubComponents"
+import "../HelperSingletone"
 
 Rectangle
 {
     id: root
-    color: Qt.rgba(_displayField.color.r-0.25,
-                   _displayField.color.g-0.25,
-                   _displayField.color.b-0.25)
+    property color sharedColor: Qt.rgba(0, 0, 0, 0)
+    property color baseColor: Qt.rgba(sharedColor.r-0.25,
+                                      sharedColor.g-0.25,
+                                      sharedColor.b-0.25)
+    property color leftDiceColor: Qt.rgba(0, 0, 0, 0)
+    property color rightDiceColor: Qt.rgba(0, 0, 0, 0)
+    color: baseColor
     radius: (height + width)*0.035
     border.width: (height+width)*0.02
     border.color: Qt.lighter(root.color, 1.2)
@@ -29,7 +35,7 @@ Rectangle
         MyDice3D
         {
             position: Qt.vector3d(-16, 0, 0)
-            diceColor: Helpers.makeRgb(224, 204, 255)
+            diceColor: leftDiceColor
             PropertyAnimation on eulerRotation
             {
                 loops: Animation.Infinite
@@ -42,7 +48,7 @@ Rectangle
         MyDice3D
         {
             position: Qt.vector3d(22, 0, 0)
-            diceColor: Helpers.makeRgb(211, 222, 237)
+            diceColor: rightDiceColor
             PropertyAnimation on eulerRotation
             {
                 loops: Animation.Infinite

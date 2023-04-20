@@ -1,12 +1,20 @@
 import QtQuick 2.15
 import QtQuick.Controls
+import "SubComponents"
+import "../HelperSingletone"
 
 Rectangle
 {
     id: root
     property double mapScale: 3.1
+    property color sharedColor: Qt.rgba(0, 0, 0, 0)
+    property color baseColor: Qt.rgba(sharedColor.r-0.20,
+                                      sharedColor.g-0.20,
+                                      sharedColor.b-0.20)
 
     color: "transparent"
+    border.color: Qt.darker(baseColor, 1)
+    border.width: 3
 
     GridView
     {

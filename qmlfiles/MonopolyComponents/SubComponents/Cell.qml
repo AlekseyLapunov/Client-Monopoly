@@ -1,16 +1,17 @@
 import QtQuick 2.15
 import Qt5Compat.GraphicalEffects
+import "../../HelperSingletone"
 
 Rectangle
 {
     id: root
 
     property string backgroundColor: "transparent"
-    property int fieldType: Helpers.FieldType.Void
+    property int fieldType: Helper.FieldType.Void
     //property list playersOnIt: []
 
-    visible: fieldType === Helpers.FieldType.Void ? false : true
-    color: Helpers.defineFieldColorByType(fieldType)
+    visible: fieldType === Helper.FieldType.Void ? false : true
+    color: Helper.defineFieldColorByType(fieldType)
 
     Image
     {
@@ -22,7 +23,7 @@ Rectangle
     {
         id: _fieldTypeImage
         anchors.centerIn: root
-        source: Helpers.defineFieldImageByType(fieldType)
+        source: Helper.defineFieldImageByType(fieldType)
         smooth: true
         sourceSize.width: root.width*0.9
         sourceSize.height: root.height*0.9
