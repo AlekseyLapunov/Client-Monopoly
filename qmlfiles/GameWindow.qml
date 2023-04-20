@@ -35,7 +35,7 @@ Window
         anchors.fill: parent
         color: "transparent"
         border.width: sizeUnit/40
-        border.color: backgroundColor2
+        border.color: shareGradColor2
 
         FieldsGrid
         {
@@ -160,6 +160,10 @@ Window
                     _win.debugCellsCount--;
                     _map.delField();
                 }
+                break;
+            case Qt.Key_F7:
+                _win.debugCellsCount = 1000;
+                _map.resetField();
                 break;
             }
         }

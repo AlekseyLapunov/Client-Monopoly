@@ -65,6 +65,13 @@ Rectangle
         }
     }
 
+    function resetField()
+    {
+        _cellsList.clear();
+        for(let i = 0; i < _win.debugCellsCount; i++)
+            addField();
+    }
+
     ListModel
     {
         id: _cellsList
