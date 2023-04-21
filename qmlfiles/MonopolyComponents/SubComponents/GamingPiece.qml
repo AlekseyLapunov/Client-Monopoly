@@ -7,6 +7,7 @@ Image
     id: root
 
     property int whatPlayer: Helper.PlayerNumber.NoPlayer
+    property color colorOverlay: Helper.definePlayerColorByNumber(root.whatPlayer)
 
     source: (whatPlayer === Helper.PlayerNumber.NoPlayer) ? "" :
                                                              "../../../assets/svgs/player/gaming_piece.svg"
@@ -15,6 +16,7 @@ Image
     ColorOverlay
     {
         source: root
-        color: Helper.definePlayerColorByNumber(root.whatPlayer)
+        anchors.fill: root
+        color: colorOverlay
     }
 }

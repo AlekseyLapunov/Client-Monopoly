@@ -8,7 +8,7 @@ Rectangle
 
     property string backgroundColor: "transparent"
     property int fieldType: Helper.FieldType.Void
-    //property list playersOnIt: []
+    property int cellNumber: -1
 
     visible: fieldType === Helper.FieldType.Void ? false : true
     color: Helper.defineFieldColorByType(fieldType)
@@ -33,5 +33,24 @@ Rectangle
     {
         id: _gamingPiecesDisplay
         anchors.fill: root
+    }
+
+    function placeNewPiece(cellId, playerNumber)
+    {
+        if(root.cellNumber !== cellId)
+            return;
+        _gamingPiecesDisplay.addPiece(playerNumber);
+    }
+
+    function removeLastPiece(cellId)
+    {
+        if(root.cellNumber !== cellId)
+            return;
+        _gamingPiecesDisplay.removeLastPiece();
+    }
+
+    function bark()
+    {
+        console.log("bark");
     }
 }

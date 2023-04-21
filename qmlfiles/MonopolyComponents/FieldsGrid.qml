@@ -16,9 +16,13 @@ Rectangle
     border.color: Qt.darker(baseColor, 1)
     border.width: 3
 
+    signal placeNewPieceSig(int cellId, int playerNumber)
+    signal removeLastPieceSig(int cellId)
+
     GridView
     {
         id: _grid
+
         width: root.width - 2*root.border.width
         height: root.height - 2*root.border.width
         anchors.centerIn: root
@@ -35,6 +39,14 @@ Rectangle
             border.color: root.border.color
             border.width: root.border.width/2
             fieldType: fieldTypeSet
+            cellNumber: index
+
+            Connections
+            {
+                target: root
+                function onPlaceNewPieceSig(cellId, playerNumber) { placeNewPiece(cellId, playerNumber); }
+                function onRemoveLastPieceSig(cellId) { removeLastPiece(cellId); }
+            }
         }
     }
 
@@ -60,8 +72,10 @@ Rectangle
         let deleting = _cellsList.count - Math.pow(_win.debugCellsCount, 2);
         for(let i = 0; i < deleting; i++)
         {
-            if(_cellsList.count != 0)
+            if(_cellsList.count !== 0)
+            {
                 _cellsList.remove(_cellsList.count - 1);
+            }
         }
     }
 
@@ -70,6 +84,16 @@ Rectangle
         _cellsList.clear();
         for(let i = 0; i < _win.debugCellsCount; i++)
             addField();
+    }
+
+    function placeRandomPiece(cellId)
+    {
+        placeNewPieceSig(cellId, (Math.random()*Helper.PlayerNumber.Player6 + 1));
+    }
+
+    function delPiece(cellId)
+    {
+        removeLastPieceSig(cellId);
     }
 
     ListModel

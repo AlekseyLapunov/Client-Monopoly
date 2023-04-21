@@ -11,8 +11,8 @@ Window
     property double defaultMargin: sizeUnit*0.15
     property int debugCellsCount: 0
 
-    readonly property color backgroundColor1: Qt.lighter(Helper.makeRgb(102, 217, 255), 1.3)
-    readonly property color backgroundColor2: Qt.lighter(Helper.makeRgb(168, 255, 212), 1.1)
+    readonly property color backgroundColor1: Qt.lighter(Helper.makeRgb(102, 214, 255), 1.3)
+    readonly property color backgroundColor2: Qt.lighter(Helper.makeRgb(167, 255, 211), 1.1)
 
     property color shareGradColor1: Helper.makeRgb(0, 0, 0)
     property color shareGradColor2: Helper.makeRgb(0, 0, 0)
@@ -162,12 +162,17 @@ Window
                 }
                 break;
             case Qt.Key_F7:
-                _win.debugCellsCount = 1000;
+                _win.debugCellsCount = 9;
                 _map.resetField();
+                break;
+            case Qt.Key_F6:
+                _map.placeRandomPiece(0);
+                break;
+            case Qt.Key_F5:
+                _map.delPiece();
                 break;
             }
         }
-
 
         LinearGradient
         {

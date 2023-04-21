@@ -21,13 +21,13 @@ Item
 
     enum PlayerNumber
     {
+        NoPlayer,
         Player1,
         Player2,
         Player3,
         Player4,
         Player5,
-        Player6,
-        NoPlayer
+        Player6
     }
 
     function makeRgb(r, g, b, alpha = 1)
