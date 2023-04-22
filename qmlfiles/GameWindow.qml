@@ -138,6 +138,12 @@ Window
 
         PlayersInfoBlock
         {
+            id: _playersInfoBlock
+            anchors.top: _displayField.top
+            anchors.right: _displayField.right
+            anchors.margins: defaultMargin
+            width: _endTurnButton.width
+            sharedColor: _displayField.shareGradColor2
 
         }
 
@@ -190,6 +196,15 @@ Window
                 _map.delLastPiece(0);
                 if(debugPieceIter !== Helper.PlayerNumber.Player1)
                     debugPieceIter--;
+                break;
+            case Qt.Key_F4:
+                _playersInfoBlock.addPlayerRow();
+                break;
+            case Qt.Key_F3:
+                _playersInfoBlock.delPlayerRow();
+                break;
+            case Qt.Key_F2:
+                _playersInfoBlock.debugChangePlayerBalance();
                 break;
             }
         }

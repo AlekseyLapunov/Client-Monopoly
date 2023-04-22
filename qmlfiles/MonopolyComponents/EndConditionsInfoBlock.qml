@@ -82,8 +82,8 @@ Rectangle
         }
     }
 
-    Behavior on width { PropertyAnimation { easing.type: Easing.OutExpo; duration: 800 } }
-    Behavior on height { PropertyAnimation { easing.type: Easing.OutExpo; duration: 200 } }
+    Behavior on width { PropertyAnimation { id: _blockWidthAnimation; easing.type: Easing.OutExpo; duration: 800 } }
+    Behavior on height { PropertyAnimation { id: _blockHeightAnimation; easing.type: Easing.OutExpo; duration: 200 } }
 
     Image
     {
@@ -95,7 +95,6 @@ Rectangle
         source: ((root.state === "folded") ? "../../../assets/svgs/misc/game_conditions_folded.svg"
                                            : "")
         smooth: true
-        Behavior on opacity { NumberAnimation { easing.type: Easing.OutQuad; duration: 1000} }
     }
 
     ColorOverlay
