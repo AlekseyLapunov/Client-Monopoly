@@ -13,11 +13,22 @@ Rectangle
         model: _piecesOnCell
         delegate: GamingPiece
         {
-            sourceSize.height: root.height/((_piecesOnCell.count+1)*0.49)
-            sourceSize.width: root.width/((_piecesOnCell.count+1)*0.49)
+            sourceSize.height: (_piecesOnCell.count === 1) ? (root.height) : (1.1*(root.height/Math.sqrt(_piecesOnCell.count)))
+            sourceSize.width:  (_piecesOnCell.count === 1) ? (root.width)  : (1.1*(root.width/Math.sqrt(_piecesOnCell.count)))
             x: defineX(index, sourceSize.width)
             y: defineY(index, sourceSize.height)
             whatPlayer: pieceNumber
+
+            PropertyAnimation on opacity
+            {
+                easing.type: Easing.InQuad
+                from: 0.0
+                to: 1.0
+                duration: 250
+            }
+
+            Behavior on x { PropertyAnimation { easing.type: Easing.OutQuart; duration: 450} }
+            Behavior on y { PropertyAnimation { easing.type: Easing.InQuart; duration: 450} }
         }
     }
 
@@ -63,75 +74,86 @@ Rectangle
     {
         if(_piecesOnCell.count === 0)
             return 0;
+
+        if(index === undefined)
+            return 0;
+
+        let scaleUnit = function(koeff) { return (-1*imageWidth + imageWidth*koeff) };
+
         switch(_piecesOnCell.count)
         {
         case 1:
-            return -1*imageWidth + imageWidth*0.99;
+            return scaleUnit(1.0);
         case 2:
             switch(index)
             {
             case 0:
-                return root.width;
+                return scaleUnit(0.86);
             case 1:
-                return root.width;
+                return scaleUnit(1.44);
+            default:
+                return 0;
             }
-            break;
         case 3:
             switch(index)
             {
             case 0:
-                return root.width;
+                return scaleUnit(1.29);
             case 1:
-                return root.width;
+                return scaleUnit(0.85);
             case 2:
-                return root.width;
+                return scaleUnit(1.75);
+            default:
+                return 0;
             }
-            break;
         case 4:
             switch(index)
             {
             case 0:
-                return root.width;
+                return scaleUnit(1.00);
             case 1:
-                return root.width;
+                return scaleUnit(1.82);
             case 2:
-                return root.width;
+                return scaleUnit(1.00);
             case 3:
-                return root.width;
+                return scaleUnit(1.82);
+            default:
+                return 0;
             }
-            break;
         case 5:
             switch(index)
             {
             case 0:
-                return root.width;
+                return scaleUnit(1.03);
             case 1:
-                return root.width;
+                return scaleUnit(1.99);
             case 2:
-                return root.width;
+                return scaleUnit(1.03);
             case 3:
-                return root.width;
+                return scaleUnit(1.99);
             case 4:
-                return root.width;
+                return scaleUnit(1.51);
+            default:
+                return 0;
             }
-            break;
         case 6:
             switch(index)
             {
             case 0:
-                return root.width;
+                return scaleUnit(1.06);
             case 1:
-                return root.width;
+                return scaleUnit(1.62);
             case 2:
-                return root.width;
+                return scaleUnit(2.18);
             case 3:
-                return root.width;
+                return scaleUnit(1.06);
             case 4:
-                return root.width;
+                return scaleUnit(1.62);
             case 5:
-                return root.width;
+                return scaleUnit(2.18);
+            default:
+                return 0;
             }
-            break;
         }
     }
 
@@ -139,75 +161,86 @@ Rectangle
     {
         if(_piecesOnCell.count === 0)
             return 0;
+
+        if(index === undefined)
+            return 0;
+
+        let scaleUnit = function(koeff) { return (-1*imageHeight + imageHeight*koeff) };
+
         switch(_piecesOnCell.count)
         {
         case 1:
-            return -1*imageHeight + imageHeight*0.99;
+            return scaleUnit(0.99);
         case 2:
             switch(index)
             {
             case 0:
-                return root.height;
+                return scaleUnit(1.16);
             case 1:
-                return root.height;
+                return scaleUnit(1.16);
+            default:
+                return 0;
             }
-            break;
         case 3:
             switch(index)
             {
             case 0:
-                return root.height;
+                return scaleUnit(0.95);
             case 1:
-                return root.height;
+                return scaleUnit(1.58);
             case 2:
-                return root.height;
+                return scaleUnit(1.58);
+            default:
+                return 0;
             }
-            break;
         case 4:
             switch(index)
             {
             case 0:
-                return root.height;
+                return scaleUnit(0.98);
             case 1:
-                return root.height;
+                return scaleUnit(0.98);
             case 2:
-                return root.height;
+                return scaleUnit(1.83);
             case 3:
-                return root.height;
+                return scaleUnit(1.83);
+            default:
+                return 0;
             }
-            break;
         case 5:
             switch(index)
             {
             case 0:
-                return root.height;
+                return scaleUnit(1.08);
             case 1:
-                return root.height;
+                return scaleUnit(1.08);
             case 2:
-                return root.height;
+                return scaleUnit(1.93);
             case 3:
-                return root.height;
+                return scaleUnit(1.93);
             case 4:
-                return root.height;
+                return scaleUnit(1.52);
+            default:
+                return 0;
             }
-            break;
         case 6:
             switch(index)
             {
             case 0:
-                return root.height;
+                return scaleUnit(1.15);
             case 1:
-                return root.height;
+                return scaleUnit(1.15);
             case 2:
-                return root.height;
+                return scaleUnit(1.15);
             case 3:
-                return root.height;
+                return scaleUnit(2.06);
             case 4:
-                return root.height;
+                return scaleUnit(2.06);
             case 5:
-                return root.height;
+                return scaleUnit(2.06);
+            default:
+                return 0;
             }
-            break;
         }
     }
 }

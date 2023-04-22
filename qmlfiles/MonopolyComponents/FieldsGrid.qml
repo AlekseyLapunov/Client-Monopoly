@@ -37,7 +37,7 @@ Rectangle
             height: _grid.cellHeight
             width: _grid.cellWidth
             border.color: root.border.color
-            border.width: root.border.width/2
+            border.width: root.border.width/3
             fieldType: fieldTypeSet
             cellNumber: index
 
@@ -84,6 +84,11 @@ Rectangle
         _cellsList.clear();
         for(let i = 0; i < _win.debugCellsCount; i++)
             addField();
+    }
+
+    function placeGamingPiece(cellId, playerNumberToPlace)
+    {
+        placeNewPieceSig(cellId, playerNumberToPlace);
     }
 
     function placeRandomPiece(cellId)

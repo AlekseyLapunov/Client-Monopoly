@@ -10,6 +10,7 @@ Window
     property int sizeUnit: (_win.height + _win.width)*0.1
     property double defaultMargin: sizeUnit*0.15
     property int debugCellsCount: 0
+    property int debugPieceIter: Helper.PlayerNumber.Player1
 
     readonly property color backgroundColor1: Qt.lighter(Helper.makeRgb(102, 214, 255), 1.3)
     readonly property color backgroundColor2: Qt.lighter(Helper.makeRgb(167, 255, 211), 1.1)
@@ -166,10 +167,14 @@ Window
                 _map.resetField();
                 break;
             case Qt.Key_F6:
-                _map.placeRandomPiece(0);
+                _map.placeGamingPiece(0, debugPieceIter);
+                if(debugPieceIter !== Helper.PlayerNumber.Player6 + 1)
+                    debugPieceIter++;
                 break;
             case Qt.Key_F5:
                 _map.delPiece();
+                if(debugPieceIter !== Helper.PlayerNumber.Player1)
+                    debugPieceIter--;
                 break;
             }
         }
