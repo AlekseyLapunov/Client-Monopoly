@@ -14,7 +14,7 @@ Rectangle
     property color rightDiceColor: Qt.rgba(0, 0, 0, 0)
     color: baseColor
     radius: (height + width)*0.035
-    border.width: (height+width)*0.02
+    border.width: (height+width)*_win.componentsBorderCoeff
     border.color: Qt.lighter(root.color, 1.2)
 
     View3D

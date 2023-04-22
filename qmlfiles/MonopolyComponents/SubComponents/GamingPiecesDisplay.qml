@@ -78,7 +78,7 @@ Rectangle
         if(index === undefined)
             return 0;
 
-        let scaleUnit = function(koeff) { return (-1*imageWidth + imageWidth*koeff) };
+        let scaleUnit = function(coeff) { return (-1*imageWidth + imageWidth*coeff) };
 
         switch(_piecesOnCell.count)
         {
@@ -165,7 +165,7 @@ Rectangle
         if(index === undefined)
             return 0;
 
-        let scaleUnit = function(koeff) { return (-1*imageHeight + imageHeight*koeff) };
+        let scaleUnit = function(coeff) { return (-1*imageHeight + imageHeight*coeff) };
 
         switch(_piecesOnCell.count)
         {

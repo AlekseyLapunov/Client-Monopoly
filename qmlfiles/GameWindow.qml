@@ -9,8 +9,12 @@ Window
 {
     property int sizeUnit: (_win.height + _win.width)*0.1
     property double defaultMargin: sizeUnit*0.15
+    property double componentsBorderCoeff: 0.015
+
+    // Delete later!
     property int debugCellsCount: 0
     property int debugPieceIter: Helper.PlayerNumber.Player1
+    // -------------
 
     readonly property color backgroundColor1: Qt.lighter(Helper.makeRgb(102, 214, 255), 1.3)
     readonly property color backgroundColor2: Qt.lighter(Helper.makeRgb(167, 255, 211), 1.1)
@@ -92,12 +96,13 @@ Window
             id: _giveUpButton
             sharedColor: shareGradColor1
             state: "normal"
-            height: sizeUnit*0.20
+            height: sizeUnit*0.25
             width: height*2.5
             anchors.bottom: _displayField.bottom
             anchors.left: _displayField.left
             anchors.margins: defaultMargin
             textContent: "Сдаться"
+            opacityMinBorder: 0.5
         }
 
         MonopolyButton
@@ -113,6 +118,7 @@ Window
             anchors.margins: defaultMargin
             imageSource:  isWinFullScreen ? "../../assets/svgs/misc/window_mode.svg" :
                                             "../../assets/svgs/misc/full_screen.svg"
+            opacityMinBorder: 0.5
             onClicked:
             {
                 isWinFullScreen = !isWinFullScreen;

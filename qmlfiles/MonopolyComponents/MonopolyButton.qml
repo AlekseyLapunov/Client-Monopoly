@@ -15,10 +15,15 @@ Rectangle
     property bool hasText: textContent.length > 0
     property bool hasImage: imageSource.length > 0
 
+    property double opacityMinBorder: 1.0
+    property double opacityMaxBorder: 1.0
+
     radius: (height + width)*0.035
 
-    border.width: (height+width)*0.02
+    border.width: (height+width)*_win.componentsBorderCoeff
     border.color: Qt.lighter(root.color, 1.2)
+
+    opacity: _hoverHandler.hovered ? opacityMaxBorder : opacityMinBorder
 
     signal clicked()
 
@@ -27,6 +32,7 @@ Rectangle
         id: _mouseArea
         anchors.fill: root
         cursorShape: "PointingHandCursor"
+        preventStealing: true
         onClicked:
         {
             root.clicked()
@@ -34,6 +40,10 @@ Rectangle
         onContainsPressChanged:
         {
             _mouseArea.containsPress ? root.state = "underPressure" : root.state = "normal"
+        }
+        HoverHandler
+        {
+            id: _hoverHandler
         }
     }
 
@@ -65,6 +75,8 @@ Rectangle
         source: _image
         color: Qt.lighter(root.color, 1.7)
     }
+
+    Behavior on opacity { PropertyAnimation { duration: 100 } }
 
     states:
     [
