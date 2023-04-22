@@ -10,19 +10,13 @@ Window
     property int sizeUnit: (_win.height + _win.width)*0.1
     property double defaultMargin: sizeUnit*0.15
     property double componentsBorderCoeff: 0.015
+    property double componentsRadiusCoeff: 0.035
 
     // Delete later!
     property int debugCellsCount: 0
     property int debugPieceIter: Helper.PlayerNumber.Player1
     // -------------
 
-    readonly property color backgroundColor1: Qt.lighter(Helper.makeRgb(102, 214, 255), 1.3)
-    readonly property color backgroundColor2: Qt.lighter(Helper.makeRgb(167, 255, 211), 1.1)
-
-    property color shareGradColor1: Helper.makeRgb(0, 0, 0)
-    property color shareGradColor2: Helper.makeRgb(0, 0, 0)
-
-    readonly property int backgroundAnimationDuration: 10000
 
     id: _win
     minimumWidth: 800
@@ -36,6 +30,12 @@ Window
 
     Rectangle
     {
+        property color shareGradColor1: Helper.makeRgb(0, 0, 0)
+        property color shareGradColor2: Helper.makeRgb(0, 0, 0)
+        property color backgroundColor1: Qt.lighter(Helper.makeRgb(90, 202, 255), 1.3)
+        property color backgroundColor2: Qt.lighter(Helper.makeRgb(155, 255, 199), 1.1)
+        readonly property int backgroundAnimationDuration: 10000
+
         id: _displayField
         anchors.fill: parent
         color: "transparent"
@@ -47,15 +47,16 @@ Window
             id: _map
             anchors.horizontalCenter: _displayField.horizontalCenter
             anchors.bottom: _diceBlock.bottom
+            anchors.top: _toggleVisibilityButton.bottom
             height: sizeUnit*mapScale
             width: height
-            sharedColor: _win.shareGradColor1
+            sharedColor: _displayField.shareGradColor1
         }
 
         MonopolyButton
         {
             id: _activateFieldButton
-            sharedColor: shareGradColor2
+            sharedColor: _displayField.shareGradColor2
             state: "normal"
             height: _endTurnButton.height
             width: _endTurnButton.width
@@ -68,7 +69,7 @@ Window
         MonopolyButton
         {
             id: _endTurnButton
-            sharedColor: shareGradColor2
+            sharedColor: _displayField.shareGradColor2
             state: "normal"
             height: sizeUnit*0.32
             width: height*3
@@ -81,9 +82,9 @@ Window
         DiceBlock
         {
             id: _diceBlock
-            sharedColor: shareGradColor2
-            leftDiceColor: shareGradColor1
-            rightDiceColor: shareGradColor2
+            sharedColor: _displayField.shareGradColor2
+            leftDiceColor: _displayField.shareGradColor1
+            rightDiceColor: _displayField.shareGradColor2
             height: _endTurnButton.height*2
             width: _endTurnButton.width
             anchors.right: _displayField.right
@@ -94,7 +95,7 @@ Window
         MonopolyButton
         {
             id: _giveUpButton
-            sharedColor: shareGradColor1
+            sharedColor: _displayField.shareGradColor1
             state: "normal"
             height: sizeUnit*0.25
             width: height*2.5
@@ -108,10 +109,10 @@ Window
         MonopolyButton
         {
             id: _toggleVisibilityButton
-            sharedColor: shareGradColor1
+            sharedColor: _displayField.shareGradColor1
             state: "normal"
             property bool isWinFullScreen: false
-            height: sizeUnit*0.15
+            height: sizeUnit*0.25
             width: height
             anchors.left: _displayField.left
             anchors.top: _displayField.top
@@ -142,7 +143,15 @@ Window
 
         EndConditionsInfoBlock
         {
-
+            id: _endConditionsBlock
+            sharedColor: _displayField.shareGradColor1
+            state: "folded"
+            height: state === "unfolded" ? sizeUnit*0.35 : sizeUnit*0.25
+            width: state === "unfolded" ? height*3.3 : height
+            anchors.top: _toggleVisibilityButton.bottom
+            anchors.left: _displayField.left
+            anchors.leftMargin: defaultMargin
+            anchors.topMargin: defaultMargin
         }
 
         Keys.onPressed: (event) =>
@@ -178,7 +187,7 @@ Window
                     debugPieceIter++;
                 break;
             case Qt.Key_F5:
-                _map.delPiece();
+                _map.delLastPiece(0);
                 if(debugPieceIter !== Helper.PlayerNumber.Player1)
                     debugPieceIter--;
                 break;
@@ -196,34 +205,34 @@ Window
             {
                 GradientStop { id: _firstGrad
                                position: 0.0;
-                               color: backgroundColor1
+                               color: _displayField.backgroundColor1
                                PropertyAnimation on color
                                {
                                    id: _backgroundAnimation1
-                                   from: backgroundColor1;
-                                   to: backgroundColor2;
-                                   duration: _win.backgroundAnimationDuration
-                                   onStopped:
+                                   from: _displayField.backgroundColor1;
+                                   to: _displayField.backgroundColor2;
+                                   duration: _displayField.backgroundAnimationDuration
+                                   onFinished:
                                    {
                                        let changer;
                                        changer = _backgroundAnimation1.from.toString();
                                        _backgroundAnimation1.from = _backgroundAnimation1.to.toString();
                                        _backgroundAnimation1.to = changer.toString();
-                                       _win.shareGradColor1 = _firstGrad.color
+                                       _displayField.shareGradColor1 = _firstGrad.color
                                        _backgroundAnimation1.restart();
                                    }
                                }
                              }
                 GradientStop { id: _secondGrad
                                position: 1.0;
-                               color: backgroundColor2
+                               color: _displayField.backgroundColor2
                                PropertyAnimation on color
                                {
                                    id: _backgroundAnimation2
-                                   from: backgroundColor2;
-                                   to: backgroundColor1;
-                                   duration: _win.backgroundAnimationDuration
-                                   onStopped:
+                                   from: _displayField.backgroundColor2;
+                                   to: _displayField.backgroundColor1;
+                                   duration: _displayField.backgroundAnimationDuration
+                                   onFinished:
                                    {
                                        let changer;
                                        changer = _backgroundAnimation2.from.toString();
@@ -235,36 +244,36 @@ Window
                              }
             }
         }
-    }
 
-    PropertyAnimation on shareGradColor1
-    {
-        id: _shareGradAnimation1
-        from: backgroundColor2
-        to: backgroundColor1
-        duration: _win.backgroundAnimationDuration
-        onStopped:
+        PropertyAnimation on shareGradColor1
         {
-            let changer;
-            changer = _shareGradAnimation1.from.toString();
-            _shareGradAnimation1.from = _shareGradAnimation1.to.toString();
-            _shareGradAnimation1.to = changer.toString();
-            _shareGradAnimation1.restart();
+            id: _shareGradAnimation1
+            from: _displayField.backgroundColor2
+            to: _displayField.backgroundColor1
+            duration: _displayField.backgroundAnimationDuration
+            onFinished:
+            {
+                let changer;
+                changer = _shareGradAnimation1.from.toString();
+                _shareGradAnimation1.from = _shareGradAnimation1.to.toString();
+                _shareGradAnimation1.to = changer.toString();
+                _shareGradAnimation1.restart();
+            }
         }
-    }
-    PropertyAnimation on shareGradColor2
-    {
-        id: _shareGradAnimation2
-        from: backgroundColor1
-        to: backgroundColor2
-        duration: _win.backgroundAnimationDuration
-        onStopped:
+        PropertyAnimation on shareGradColor2
         {
-            let changer;
-            changer = _shareGradAnimation2.from.toString();
-            _shareGradAnimation2.from = _shareGradAnimation2.to.toString();
-            _shareGradAnimation2.to = changer.toString();
-            _shareGradAnimation2.restart();
+            id: _shareGradAnimation2
+            from: _displayField.backgroundColor1
+            to: _displayField.backgroundColor2
+            duration: _displayField.backgroundAnimationDuration
+            onFinished:
+            {
+                let changer;
+                changer = _shareGradAnimation2.from.toString();
+                _shareGradAnimation2.from = _shareGradAnimation2.to.toString();
+                _shareGradAnimation2.to = changer.toString();
+                _shareGradAnimation2.restart();
+            }
         }
     }
 }

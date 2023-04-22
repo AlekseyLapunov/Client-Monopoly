@@ -16,5 +16,6 @@
         <file>assets/svgs/player/gaming_piece.svg</file>
         <file>assets/svgs/misc/full_screen.svg</file>
         <file>assets/svgs/misc/window_mode.svg</file>
+        <file>assets/svgs/misc/game_conditions_folded.svg</file>
     </qresource>
 </RCC>

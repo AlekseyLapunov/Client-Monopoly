@@ -18,7 +18,7 @@ Rectangle
     property double opacityMinBorder: 1.0
     property double opacityMaxBorder: 1.0
 
-    radius: (height + width)*0.035
+    radius: (height + width)*_win.componentsRadiusCoeff
 
     border.width: (height+width)*_win.componentsBorderCoeff
     border.color: Qt.lighter(root.color, 1.2)
@@ -63,8 +63,8 @@ Rectangle
         //anchors.fill: root
         anchors.centerIn: root
         source: root.hasImage ? root.imageSource : ""
-        sourceSize.height: root.height - 6*root.border.width
-        sourceSize.width: root.height - 6*root.border.width
+        sourceSize.height: root.height*0.8
+        sourceSize.width: root.height*0.8
 
         smooth: true
     }

@@ -50,6 +50,14 @@ Rectangle
         }
     }
 
+    Rectangle
+    {
+        id: _overlayRectangle
+        color: Qt.lighter(root.baseColor, 1.1)
+        anchors.fill: root
+        opacity: 0.1
+    }
+
     function refresh()
     {
         for(let i = 0; i < _cellsList.count; i++)
@@ -96,7 +104,7 @@ Rectangle
         placeNewPieceSig(cellId, (Math.random()*Helper.PlayerNumber.Player6 + 1));
     }
 
-    function delPiece(cellId)
+    function delLastPiece(cellId)
     {
         removeLastPieceSig(cellId);
     }
