@@ -93,19 +93,19 @@ Item
         case Helper.FieldType.Common:
             return makeRgb(245, 255, 250);
         case Helper.FieldType.Beginning:
-            return makeRgb(144, 238, 144);
+            return makeRgb(135, 206, 250);
         case Helper.FieldType.Sawmill:
-            return makeRgb(214, 111, 0);
+            return makeRgb(255, 142, 13);
         case Helper.FieldType.CoalStation:
             return makeRgb(255, 224, 51);
         case Helper.FieldType.AtomicStation:
-            return makeRgb(0, 230, 0);
+            return makeRgb(77, 255, 77);
         case Helper.FieldType.Forest:
-            return makeRgb(255, 146, 92);
+            return makeRgb(255, 167, 66);
         case Helper.FieldType.Coal:
             return makeRgb(255, 232, 102);
         case Helper.FieldType.Uranium:
-            return makeRgb(168, 255, 171);
+            return makeRgb(128, 255, 128);
         case Helper.FieldType.Vacation:
             return makeRgb(179, 102, 255);
         case Helper.FieldType.Sabotage:
