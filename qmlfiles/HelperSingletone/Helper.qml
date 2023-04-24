@@ -136,4 +136,17 @@ Item
     {
         return pointSize === 0 ? 1 : pointSize;
     }
+
+    function getRandomInt(includedMin, includedMax)
+    {
+        let value = Math.floor((includedMin + Math.random()*((includedMax+1)-includedMin)));
+        return value;
+    }
+
+    function getRandomQtVector(includedMin, includedMax)
+    {
+        return Qt.vector3d(getRandomInt(includedMin, includedMax),
+                           getRandomInt(includedMin, includedMax),
+                           getRandomInt(includedMin, includedMax));
+    }
 }

@@ -47,6 +47,13 @@ Rectangle
                 function onPlaceNewPieceSig(cellId, playerNumber) { placeNewPiece(cellId, playerNumber); }
                 function onRemoveLastPieceSig(cellId) { removeLastPiece(cellId); }
             }
+
+            PropertyAnimation on opacity
+            {
+                from: 0.0
+                to: 1.0
+                duration: 200
+            }
         }
     }
 

@@ -36,26 +36,12 @@ Rectangle
         {
             position: Qt.vector3d(-16, 0, 0)
             diceColor: leftDiceColor
-            PropertyAnimation on eulerRotation
-            {
-                loops: Animation.Infinite
-                from: Qt.vector3d(0, 0, 0)
-                to: Qt.vector3d(360, 360, 360)
-                duration: 1500
-            }
         }
 
         MyDice3D
         {
             position: Qt.vector3d(22, 0, 0)
             diceColor: rightDiceColor
-            PropertyAnimation on eulerRotation
-            {
-                loops: Animation.Infinite
-                from: Qt.vector3d(0, 0, 0)
-                to: Qt.vector3d(360, 360, 360)
-                duration: 1500
-            }
         }
    }
 }

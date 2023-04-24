@@ -39,7 +39,7 @@ Rectangle
     {
         id: _energyKrendelsOvercomeSound
         source: "../../assets/sounds/energy_krendels_overcome.wav"
-        volume: 0.1
+        volume: 0.25
     }
 
     Column
