@@ -8,7 +8,7 @@ import "HelperSingletone"
 Window
 {
     property int sizeUnit: (_win.height + _win.width)*0.1
-    property double defaultMargin: sizeUnit*0.15
+    property double defaultMargin: sizeUnit*0.12
     property double componentsBorderCoeff: 0.015
     property double componentsRadiusCoeff: 0.035
 
@@ -30,10 +30,10 @@ Window
 
     Rectangle
     {
-        property color shareGradColor1: Helper.makeRgb(0, 0, 0)
-        property color shareGradColor2: Helper.makeRgb(0, 0, 0)
         property color backgroundColor1: Qt.lighter(Helper.makeRgb(90, 202, 255), 1.3)
         property color backgroundColor2: Qt.lighter(Helper.makeRgb(155, 255, 199), 1.1)
+        property color shareGradColor1
+        property color shareGradColor2
         readonly property int backgroundAnimationDuration: 10000
 
         id: _displayField
@@ -128,12 +128,16 @@ Window
 
         CurrentStageInfoBlock
         {
-
+            id: _currentStageInfoBlock
+            anchors.horizontalCenter: _displayField.horizontalCenter
+            anchors.top: _toggleVisibilityButton.top
+            width: sizeUnit*2
+            height: sizeUnit/5
         }
 
         WhosTurnInfoBlock
         {
-
+            id: _whosTurnInfoBlock
         }
 
         PlayersInfoBlock
@@ -233,7 +237,6 @@ Window
                                        changer = _backgroundAnimation1.from.toString();
                                        _backgroundAnimation1.from = _backgroundAnimation1.to.toString();
                                        _backgroundAnimation1.to = changer.toString();
-                                       _displayField.shareGradColor1 = _firstGrad.color
                                        _backgroundAnimation1.restart();
                                    }
                                }
