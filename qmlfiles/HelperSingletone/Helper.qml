@@ -131,4 +131,9 @@ Item
 
         return Qt.rgba(red, green, blue, color.a);
     }
+
+    function fontWarningPreventor(pointSize)
+    {
+        return pointSize === 0 ? 1 : pointSize;
+    }
 }

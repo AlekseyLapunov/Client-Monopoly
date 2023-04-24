@@ -21,7 +21,7 @@ Rectangle
         anchors.verticalCenter: root.verticalCenter
         color: Qt.darker(localShareGradColor1, 1.1)
         font.family: "Bookman Old Style"
-        font.pointSize: root.width*0.048
+        font.pointSize: Helper.fontWarningPreventor(root.width*0.048)
         font.bold: true
         horizontalAlignment: Text.AlignRight
         style: Text.Outline
@@ -40,7 +40,7 @@ Rectangle
         anchors.verticalCenter: root.verticalCenter
         color: Qt.darker(localShareGradColor2, 1.1)
         font.family: "Bookman Old Style"
-        font.pointSize: root.width*0.048
+        font.pointSize: Helper.fontWarningPreventor(root.width*0.048)
         font.bold: true
         horizontalAlignment: Text.AlignLeft
         style: Text.Outline

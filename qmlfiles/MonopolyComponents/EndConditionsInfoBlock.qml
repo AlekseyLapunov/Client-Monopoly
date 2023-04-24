@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import Qt5Compat.GraphicalEffects
+import "../HelperSingletone"
 
 Rectangle
 {
@@ -34,7 +35,7 @@ Rectangle
         anchors.topMargin: _win.defaultMargin/8
         color: Qt.lighter(root.color, 1.7)
         font.family: "Bookman Old Style"
-        font.pointSize: root.width*0.048
+        font.pointSize: Helper.fontWarningPreventor(root.width*0.048)
         font.underline: true
         font.bold: true
         text: "Условия окончания игры"
@@ -50,7 +51,7 @@ Rectangle
         opacity: labelsOpacity
         anchors.centerIn: root
         font.family: "Bookman Old Style"
-        font.pointSize: root.width*conditionsLabelsSizeCoeff
+        font.pointSize: Helper.fontWarningPreventor(root.width*conditionsLabelsSizeCoeff)
         color: _upperLabel.color
         text: ("Макс. ходов:   " + ((turnsEndCondition !== -1) ? turnsEndCondition.toString() : "Неограниченно"))
 
@@ -63,7 +64,7 @@ Rectangle
         anchors.top: _turnsEndConditionLabel.bottom
         anchors.horizontalCenter: _turnsEndConditionLabel.horizontalCenter
         font.family: "Bookman Old Style"
-        font.pointSize: root.width*conditionsLabelsSizeCoeff
+        font.pointSize: Helper.fontWarningPreventor(root.width*conditionsLabelsSizeCoeff)
         color: _upperLabel.color
         text: ("Макс. баланс: " + ((moneyEndCondition !== -1) ? (moneyEndCondition.toString() + " млн.") : "Неограниченно"))
 

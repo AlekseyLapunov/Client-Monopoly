@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import Qt5Compat.GraphicalEffects
+import QtMultimedia
 import "../HelperSingletone"
 
 Rectangle
@@ -27,6 +28,20 @@ Rectangle
 
     signal clicked()
 
+    SoundEffect
+    {
+        id: _buttonPressedSoundEffect
+        source: "../../assets/sounds/button_pressed.wav"
+        volume: 0.2
+    }
+
+    SoundEffect
+    {
+        id: _buttonUnpressedSoundEffect
+        source: "../../assets/sounds/button_unpressed.wav"
+        volume: 0.2
+    }
+
     MouseArea
     {
         id: _mouseArea
@@ -39,7 +54,9 @@ Rectangle
         }
         onContainsPressChanged:
         {
-            _mouseArea.containsPress ? root.state = "underPressure" : root.state = "normal"
+            _mouseArea.containsPress ? root.state = "underPressure" : root.state = "normal";
+            _mouseArea.containsPress ? _buttonPressedSoundEffect.play()
+                                     : _buttonUnpressedSoundEffect.play();
         }
         HoverHandler
         {
@@ -54,7 +71,7 @@ Rectangle
         text: root.hasText ? root.textContent : ""
         color: Qt.lighter(root.color, 1.7)
         font.family: "Bookman Old Style"
-        font.pointSize: (1/(Math.sqrt(textContent.length)*1.3+1))*root.width*0.4
+        font.pointSize: Helper.fontWarningPreventor((1/(Math.sqrt(textContent.length)*1.3+1))*root.width*0.4)
     }
 
     Image

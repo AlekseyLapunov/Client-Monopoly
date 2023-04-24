@@ -1,4 +1,5 @@
 import QtQuick 2.15
+import QtMultimedia
 import "../HelperSingletone"
 
 Rectangle
@@ -31,7 +32,14 @@ Rectangle
         font.underline: true
         color: Qt.lighter(root.color, 1.7)
         font.family: "Bookman Old Style"
-        font.pointSize: root.width*0.055
+        font.pointSize: Helper.fontWarningPreventor(root.width*0.055)
+    }
+
+    SoundEffect
+    {
+        id: _energyKrendelsOvercomeSound
+        source: "../../assets/sounds/energy_krendels_overcome.wav"
+        volume: 0.1
     }
 
     Column
@@ -42,8 +50,13 @@ Rectangle
         anchors.topMargin: _win.defaultMargin/8
         spacing: sizeUnit/80
         move: Transition {
-            NumberAnimation { properties: "x,y"; duration: 800 }
+            NumberAnimation
+            {
+                easing.type: Easing.OutQuint; properties: "x,y"; duration: 1400
+            }
+
         }
+
         Repeater
         {
             model: _playersDataRows
@@ -69,7 +82,7 @@ Rectangle
                     font.bold: true
                     color: Qt.lighter(parent.playerColorProp, 1.1)
                     font.family: "Bookman Old Style"
-                    font.pointSize: parent.height*0.4
+                    font.pointSize: Helper.fontWarningPreventor(parent.height*0.4)
                     style: Text.Outline
                     styleColor: (parent.index%2 === 0) ? Qt.darker(root.color, 1.25)
                                                        : Qt.lighter(root.color, 1.05)
@@ -81,11 +94,11 @@ Rectangle
                     anchors.right: parent.right
                     anchors.rightMargin: _win.defaultMargin/8
                     anchors.verticalCenter: parent.verticalCenter
-                    text: parent.playerBalanceProp.toString() + " млн."
+                    text: parent.playerBalanceProp.toString() + " млн. ЭК"
                     font.bold: true
                     color: Qt.lighter(parent.playerColorProp, 1.1)
                     font.family: "Bookman Old Style"
-                    font.pointSize: parent.height*0.5
+                    font.pointSize: Helper.fontWarningPreventor(parent.height*0.5)
                     style: Text.Outline
                     styleColor: (parent.index%2 === 0) ? Qt.darker(root.color, 1.25)
                                                        : Qt.lighter(root.color, 1.05)
@@ -134,7 +147,8 @@ Rectangle
             for (let j = 0; j < (_playersDataRows.count - i - 1); j++)
                 if (_playersDataRows.get(j).playerBalance < _playersDataRows.get(j + 1).playerBalance)
                 {
-                    _playersDataRows.move(j, j+1, 1)
+                    _playersDataRows.move(j, j+1, 1);
+                    _energyKrendelsOvercomeSound.play();
                     //_playersDataRows.move(j+1, j, 1)
                 }
     }
