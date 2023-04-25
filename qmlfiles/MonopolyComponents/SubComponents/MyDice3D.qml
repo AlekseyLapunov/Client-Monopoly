@@ -7,6 +7,7 @@ Node
 {
     position: Qt.vector3d(0, 0, 0)
     property color diceColor: "white"
+    property int whatDice
 
     PrincipledMaterial
     {
@@ -29,30 +30,46 @@ Node
     PropertyAnimation on eulerRotation
     {
         id: _infiniteRotationAnimation
-        property vector3d lastKnownAngle
-        from: Qt.vector3d(0, 0, 0)
+        property double rotationCoeff: 5
         to: Helper.getRandomQtVector(0, 360)
-        duration: 600
+        duration: Helper.getRandomInt(300, 600)
+        Behavior on duration { PropertyAnimation {}}
         onFinished:
         {
             if(_infiniteRotationAnimation.paused)
                 return;
 
-            let lastKnownAngle = _infiniteRotationAnimation.to;
-
-            _infiniteRotationAnimation.from = lastKnownAngle;
+            _infiniteRotationAnimation.from = _infiniteRotationAnimation.to;
             _infiniteRotationAnimation.to = Helper.getRandomQtVector(0, 360);
+            _infiniteRotationAnimation.duration = _infiniteRotationAnimation.duration
 
             _infiniteRotationAnimation.restart();
         }
     }
 
-//    PropertyAnimation on eulerRotation
-//    {
-//        id: _directionalRotationAnimation
-//        loops: Animation.Infinite
-//        from: Qt.vector3d(0, 0, 0)
-//        to: Qt.vector3d(360, 360, 360)
-//        duration: 1500
-//    }
+    PropertyAnimation on eulerRotation
+    {
+        id: _directionalRotationAnimation
+        easing.type: Easing.OutElastic
+        duration: 0
+    }
+
+    function stopInfiniteRotation()
+    {
+        _infiniteRotationAnimation.pause();
+    }
+
+    function resumeInfiniteRotation()
+    {
+        _infiniteRotationAnimation.resume();
+    }
+
+    function doDirectionalRotate(diceNumber: int)
+    {
+        _infiniteRotationAnimation.pause();
+        _directionalRotationAnimation.to = Helper.getDirectionalRotate(diceNumber,
+                                                                       whatDice);
+        _directionalRotationAnimation.duration = 2500;
+        _directionalRotationAnimation.restart();
+    }
 }

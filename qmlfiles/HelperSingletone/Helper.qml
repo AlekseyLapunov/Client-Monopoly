@@ -30,6 +30,12 @@ Item
         Player6
     }
 
+    enum Dice
+    {
+        Left,
+        Right
+    }
+
     function makeRgb(r, g, b, alpha = 1)
     {
         const max = 255;
@@ -148,5 +154,33 @@ Item
         return Qt.vector3d(getRandomInt(includedMin, includedMax),
                            getRandomInt(includedMin, includedMax),
                            getRandomInt(includedMin, includedMax));
+    }
+
+    function getVectorDiff(vec1: vector3d, vec2: vector3d)
+    {
+        let sum1 = vec1.x + vec1.y + vec1.z;
+        let sum2 = vec2.x + vec2.y + vec2.z;
+        return Math.abs(sum2 - sum1);
+    }
+
+    function getDirectionalRotate(diceNumber: int, rightDiceCorrection: int)
+    {
+        let correction = (rightDiceCorrection === Helper.Dice.Right) ? -22 : 0;
+        switch(diceNumber)
+        {
+        case 1:
+            return Qt.vector3d(0, 11 + correction, 0);
+        case 2:
+            return Qt.vector3d(0, -76 + correction*1.25, 0);
+        case 3:
+            return Qt.vector3d(90, 11 + correction, 0);
+        case 4:
+            return Qt.vector3d(270, 11 + correction, 0);
+        case 5:
+            return Qt.vector3d(90, 105 + correction*1.25, 0);
+        case 6:
+            return Qt.vector3d(0, 195 + correction*1.4, 90);
+        default: return;
+        }
     }
 }

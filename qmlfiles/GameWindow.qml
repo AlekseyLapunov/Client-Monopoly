@@ -15,6 +15,7 @@ Window
     // Delete later!
     property int debugCellsCount: 0
     property int debugPieceIter: Helper.PlayerNumber.Player1
+    property int whatDice: Helper.Dice.Left
     // -------------
 
 
@@ -90,6 +91,8 @@ Window
             anchors.right: _displayField.right
             anchors.bottom: _displayField.bottom
             anchors.margins: defaultMargin
+
+            Component.onCompleted: { _diceBlock.diceStop(); }
         }
 
         MonopolyButton
@@ -210,6 +213,22 @@ Window
             case Qt.Key_F2:
                 _playersInfoBlock.debugChangePlayerBalance();
                 break;
+            case Qt.Key_0:
+                _diceBlock.diceStop();
+                break;
+            case Qt.Key_9:
+                _diceBlock.diceGoInfiniteRotation();
+                break;
+            case Qt.Key_8:
+                whatDice = (whatDice === Helper.Dice.Left) ? Helper.Dice.Right : Helper.Dice.Left;
+                break;
+            case Qt.Key_7:
+                _diceBlock.diceGoRandomDirectionalRotation();
+                break;
+            }
+            if((event.key >= Qt.Key_1) && (event.key <= Qt.Key_6))
+            {
+                _diceBlock.doDirectRotateTo(whatDice, (event.key - 48));
             }
         }
 

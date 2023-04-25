@@ -34,14 +34,44 @@ Rectangle
 
         MyDice3D
         {
+            id: _leftDice
             position: Qt.vector3d(-16, 0, 0)
             diceColor: leftDiceColor
+            whatDice: Helper.Dice.Left
         }
 
         MyDice3D
         {
+            id: _rightDice
             position: Qt.vector3d(22, 0, 0)
             diceColor: rightDiceColor
+            whatDice: Helper.Dice.Right
         }
    }
+
+    function diceStop()
+    {
+        _leftDice.stopInfiniteRotation();
+        _rightDice.stopInfiniteRotation();
+    }
+
+    function diceGoInfiniteRotation()
+    {
+        _leftDice.resumeInfiniteRotation();
+        _rightDice.resumeInfiniteRotation();
+    }
+
+    function doDirectRotateTo(whatDice: int, diceNumber: int)
+    {
+        if(whatDice === Helper.Dice.Left)
+            _leftDice.doDirectionalRotate(diceNumber);
+        else
+            _rightDice.doDirectionalRotate(diceNumber);
+    }
+
+    function diceGoRandomDirectionalRotation()
+    {
+        _leftDice.doDirectionalRotate(Helper.getRandomInt(1,6));
+        _rightDice.doDirectionalRotate(Helper.getRandomInt(1,6));
+    }
 }
