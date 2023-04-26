@@ -14,5 +14,6 @@
         <file>qmlfiles/MonopolyComponents/InfoBlocks/FoldingInfoBlocks/FoldingInfoBlock.qml</file>
         <file>qmlfiles/MonopolyComponents/InfoBlocks/FoldingInfoBlocks/WhosTurnInfoBlock.qml</file>
         <file>qmlfiles/MonopolyComponents/InfoBlocks/CurrentStageInfoBlock.qml</file>
+        <file>qmlfiles/MonopolyComponents/InfoBlocks/FoldingInfoBlocks/HostInfoBlock.qml</file>
     </qresource>
 </RCC>

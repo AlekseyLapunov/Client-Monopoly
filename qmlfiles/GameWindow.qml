@@ -15,13 +15,14 @@ Window
     property double componentsRadiusCoeff: 0.035
     property int hostPlayerNumber: Helper.PlayerNumber.Player2
     property bool isTurnNotiEnabled: true
+    property int tooltipDelayMs: 700
+    property int turnTime: 10
 
     // Delete later!
     property int debugCellsCount: 0
     property int debugPieceIter: Helper.PlayerNumber.Player1
     property int whatDice: Helper.Dice.Left
     // -------------
-
 
     id: _win
     minimumWidth: 800
@@ -76,7 +77,7 @@ Window
             id: _endTurnButton
             sharedColor: _displayField.shareGradColor2
             state: "normal"
-            height: sizeUnit*0.32
+            height: sizeUnit*0.36
             width: height*3
             anchors.bottom: _diceBlock.top
             anchors.horizontalCenter: _diceBlock.horizontalCenter
@@ -127,6 +128,8 @@ Window
             imageSource:  isWinFullScreen ? "../../assets/svgs/misc/full_screen.svg" :
                                             "../../assets/svgs/misc/window_mode.svg"
             opacityMinBorder: 0.5
+            tooltipText: isWinFullScreen ? "Перейти в оконный режим"
+                                         : "Перейти в полноэкранный режим"
             onClicked:
             {
                 isWinFullScreen = !isWinFullScreen;
@@ -147,6 +150,8 @@ Window
                                             : "../../assets/svgs/misc/notification_bell_disabled.svg"
             imageSizeCoeff: 0.6
             opacityMinBorder: 0.5
+            tooltipText: isTurnNotiEnabled ? "Выключить уведомление о ходе"
+                                           : "Включить уведомление о ходе"
             onClicked:
             {
                 isTurnNotiEnabled = !isTurnNotiEnabled;
@@ -198,6 +203,21 @@ Window
             foldedWidth: _endConditionsBlock.foldedWidth
             anchors.left: _displayField.left
             anchors.top: _endConditionsBlock.bottom
+            anchors.margins: defaultMargin
+            turnTime: _win.turnTime
+        }
+
+        HostInfoBlock
+        {
+            id: _hostInfoBlock
+            sharedColor: _displayField.shareGradColor1
+            state: "unfolded"
+            //unfoldedHeight: _whosTurnInfoBlock.unfoldedHeight
+            unfoldedWidth: _whosTurnInfoBlock.unfoldedWidth
+            foldedHeight: _whosTurnInfoBlock.foldedHeight
+            foldedWidth: _whosTurnInfoBlock.foldedWidth
+            anchors.left: _displayField.left
+            anchors.top: _whosTurnInfoBlock.bottom
             anchors.margins: defaultMargin
         }
 
@@ -260,6 +280,12 @@ Window
             case Qt.Key_7:
                 _diceBlock.diceRotateToNumbers(Helper.getRandomInt(1,6),
                                                Helper.getRandomInt(1,6));
+                break;
+            case Qt.Key_BracketLeft:
+                _hostInfoBlock.debugRemoveCoalStation();
+                break;
+            case Qt.Key_BracketRight:
+                _hostInfoBlock.debugAddCoalStation();
                 break;
             }
             if((event.key >= Qt.Key_1) && (event.key <= Qt.Key_6))

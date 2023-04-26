@@ -25,5 +25,6 @@
         <file>assets/svgs/misc/notification_bell_disabled.svg</file>
         <file>assets/svgs/misc/notification_bell_enabled.svg</file>
         <file>assets/svgs/misc/turn_info_folded_image.svg</file>
+        <file>assets/svgs/misc/host_info_folded.svg</file>
     </qresource>
 </RCC>

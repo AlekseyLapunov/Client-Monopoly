@@ -48,9 +48,4 @@ Rectangle
             return;
         _gamingPiecesDisplay.removeLastPiece();
     }
-
-    function bark()
-    {
-        console.log("bark");
-    }
 }

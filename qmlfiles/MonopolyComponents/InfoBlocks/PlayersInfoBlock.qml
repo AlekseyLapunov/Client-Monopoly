@@ -10,8 +10,8 @@ Rectangle
                                       sharedColor.g-0.25,
                                       sharedColor.b-0.25)
 
-    property int dataRowHeight: sizeUnit*0.09
-    property int dataRowWidth: sizeUnit*0.90
+    property int dataRowHeight: sizeUnit*0.12
+    property int dataRowWidth: sizeUnit*0.98
 
     radius: (height/Math.pow(width, 1.2))*30
 
@@ -48,7 +48,7 @@ Rectangle
         anchors.top: _blockLabel.bottom
         anchors.horizontalCenter: root.horizontalCenter
         anchors.topMargin: _win.defaultMargin/8
-        spacing: sizeUnit/80
+        spacing: sizeUnit/75
         move: Transition {
             NumberAnimation
             {
@@ -81,7 +81,7 @@ Rectangle
                     font.bold: true
                     color: Qt.lighter(parent.playerColorProp, 1.1)
                     font.family: "Bookman Old Style"
-                    font.pointSize: Helper.fontWarningPreventor(parent.height*0.4)
+                    font.pointSize: Helper.fontWarningPreventor(parent.height*0.35)
                     style: Text.Outline
                     styleColor: (parent.index%2 === 0) ? Qt.darker(root.color, 1.25)
                                                        : Qt.lighter(root.color, 1.05)
@@ -97,7 +97,7 @@ Rectangle
                     font.bold: true
                     color: Qt.lighter(parent.playerColorProp, 1.1)
                     font.family: "Bookman Old Style"
-                    font.pointSize: Helper.fontWarningPreventor(parent.height*0.5)
+                    font.pointSize: Helper.fontWarningPreventor(parent.height*0.35)
                     style: Text.Outline
                     styleColor: (parent.index%2 === 0) ? Qt.darker(root.color, 1.25)
                                                        : Qt.lighter(root.color, 1.05)

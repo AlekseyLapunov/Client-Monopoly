@@ -11,6 +11,9 @@ FoldingInfoBlock
 
     foldedImagePath: "../../../../assets/svgs/misc/game_conditions_folded.svg";
 
+    tooltipText: (state === "unfolded") ? "Свернуть вкладку"
+                                        : "Развернуть условия окончания игры"
+
     Text
     {
         id: _upperLabel

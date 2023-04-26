@@ -123,6 +123,33 @@ Item
         }
     }
 
+    function defineFieldNameByType(inputFieldType)
+    {
+        switch(inputFieldType)
+        {
+        case Helper.FieldType.Sawmill:
+            return "Лесопилка";
+        case Helper.FieldType.CoalStation:
+            return "Тепловая электростанция";
+        case Helper.FieldType.AtomicStation:
+            return "Атомная электростанция";
+        case Helper.FieldType.Forest:
+            return "Лесной массив";
+        case Helper.FieldType.Coal:
+            return "Залежи угля";
+        case Helper.FieldType.Uranium:
+            return "Залежи урана";
+        case Helper.FieldType.Vacation:
+            return "Отпуск";
+        case Helper.FieldType.Sabotage:
+            return "Диверсия";
+        case Helper.FieldType.Arrow:
+            return "Стрелка";
+        default:
+            return "";
+        }
+    }
+
     function applyContrast(color, factor)
     {
         let red = color.r;

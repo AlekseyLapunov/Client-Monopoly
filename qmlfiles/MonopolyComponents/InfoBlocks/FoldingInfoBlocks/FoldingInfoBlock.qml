@@ -1,4 +1,5 @@
 import QtQuick 2.15
+import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
 import "../../../HelperSingletone"
 
@@ -17,6 +18,8 @@ Rectangle
     property double labelsOpacity: 1.0
     property double imageOpacity: 1.0
 
+    property string tooltipText: (state === "unfolded") ? "Свернуть вкладку"
+                                                        : "Развернуть вкладку"
 
     property int unfoldedHeight: 200
     property int unfoldedWidth: 100
@@ -36,6 +39,14 @@ Rectangle
     border.width: (height+width)*_win.componentsBorderCoeff/3
     border.color: Qt.lighter(root.color, 1.2)
 
+    ToolTip
+    {
+        parent: _mouseArea
+        visible: _hoverHandler.hovered
+        delay: tooltipDelayMs
+        text: root.tooltipText
+    }
+
     MouseArea
     {
         id: _mouseArea
@@ -46,6 +57,10 @@ Rectangle
             if(root.state === "folded")
                 root.state = "unfolded"
             else root.state = "folded"
+        }
+        HoverHandler
+        {
+            id: _hoverHandler
         }
     }
 

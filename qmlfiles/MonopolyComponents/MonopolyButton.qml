@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import Qt5Compat.GraphicalEffects
 import QtMultimedia
+import QtQuick.Controls
 import "../HelperSingletone"
 
 Rectangle
@@ -13,6 +14,7 @@ Rectangle
     property string imageSource: ""
     property double imageSizeCoeff: 0.8
     property string textContent: ""
+    property string tooltipText
 
     property bool hasText: textContent.length > 0
     property bool hasImage: imageSource.length > 0
@@ -28,6 +30,14 @@ Rectangle
     opacity: _hoverHandler.hovered ? opacityMaxBorder : opacityMinBorder
 
     signal clicked()
+
+    ToolTip
+    {
+        parent: _mouseArea
+        visible: (root.tooltipText !== "") ? _hoverHandler.hovered : false
+        delay: tooltipDelayMs
+        text: root.tooltipText
+    }
 
     SoundEffect
     {

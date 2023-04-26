@@ -14,6 +14,9 @@ FoldingInfoBlock
     imageColorOverlay: (whatPlayerNumber === Helper.PlayerNumber.NoPlayer) ? Qt.lighter(root.color, 1.4)
                                                                            : Helper.definePlayerColorByNumber(whatPlayerNumber);
 
+    tooltipText: (state === "unfolded") ? "Свернуть вкладку"
+                                        : "Развернуть информацию о текущем ходе"
+
     Rectangle
     {
         id: _overlayRectangleOnFolded
