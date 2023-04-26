@@ -5,13 +5,13 @@
         <file>qmlfiles/MonopolyComponents/SubComponents/GamingPiece.qml</file>
         <file>qmlfiles/MonopolyComponents/SubComponents/GamingPiecesDisplay.qml</file>
         <file>qmlfiles/MonopolyComponents/SubComponents/MyDice3D.qml</file>
-        <file>qmlfiles/MonopolyComponents/CurrentStageInfoBlock.qml</file>
         <file>qmlfiles/MonopolyComponents/DiceBlock.qml</file>
-        <file>qmlfiles/MonopolyComponents/EndConditionsInfoBlock.qml</file>
         <file>qmlfiles/MonopolyComponents/FieldsGrid.qml</file>
         <file>qmlfiles/MonopolyComponents/MonopolyButton.qml</file>
-        <file>qmlfiles/MonopolyComponents/PlayersInfoBlock.qml</file>
-        <file>qmlfiles/MonopolyComponents/WhosTurnInfoBlock.qml</file>
         <file>qmlfiles/HelperSingletone/Helper.qml</file>
+        <file>qmlfiles/MonopolyComponents/InfoBlocks/CurrentStageInfoBlock.qml</file>
+        <file>qmlfiles/MonopolyComponents/InfoBlocks/EndConditionsInfoBlock.qml</file>
+        <file>qmlfiles/MonopolyComponents/InfoBlocks/PlayersInfoBlock.qml</file>
+        <file>qmlfiles/MonopolyComponents/InfoBlocks/WhosTurnInfoBlock.qml</file>
     </qresource>
 </RCC>

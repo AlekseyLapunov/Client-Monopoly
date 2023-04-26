@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
 import "MonopolyComponents"
+import "MonopolyComponents/InfoBlocks"
 import "MonopolyComponents/SubComponents"
 import "HelperSingletone"
 
@@ -141,6 +142,12 @@ Window
         WhosTurnInfoBlock
         {
             id: _whosTurnInfoBlock
+            sharedColor: _displayField.shareGradColor1
+            anchors.left: _displayField.left
+            anchors.leftMargin: defaultMargin
+            height: sizeUnit*0.35
+            width: height*3.3
+            anchors.verticalCenter: _displayField.verticalCenter
         }
 
         PlayersInfoBlock
@@ -158,9 +165,9 @@ Window
         {
             id: _endConditionsBlock
             sharedColor: _displayField.shareGradColor1
-            state: "folded"
-            height: state === "unfolded" ? sizeUnit*0.35 : sizeUnit*0.25
-            width: state === "unfolded" ? height*3.3 : height
+            state: "unfolded"
+            height: state === "unfolded" ? _whosTurnInfoBlock.height : sizeUnit*0.25
+            width: state === "unfolded" ? _whosTurnInfoBlock.width : height
             anchors.top: _toggleVisibilityButton.bottom
             anchors.left: _displayField.left
             anchors.leftMargin: defaultMargin

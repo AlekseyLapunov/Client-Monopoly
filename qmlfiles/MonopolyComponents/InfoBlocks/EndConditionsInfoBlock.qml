@@ -1,6 +1,6 @@
 import QtQuick 2.15
 import Qt5Compat.GraphicalEffects
-import "../HelperSingletone"
+import "../../HelperSingletone"
 
 Rectangle
 {
@@ -75,6 +75,7 @@ Rectangle
     {
         id: _mouseArea
         anchors.fill: root
+        cursorShape: "PointingHandCursor"
         onClicked:
         {
             if(root.state === "folded")

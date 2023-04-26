@@ -1,6 +1,6 @@
 import QtQuick 2.15
 import QtMultimedia
-import "../HelperSingletone"
+import "../../HelperSingletone"
 
 Rectangle
 {
@@ -38,8 +38,8 @@ Rectangle
     SoundEffect
     {
         id: _energyKrendelsOvercomeSound
-        source: "../../assets/sounds/energy_krendels_overcome.wav"
-        volume: 0.25
+        source: "../../../assets/sounds/energy_krendels_overcome.wav"
+        volume: 0.33
     }
 
     Column
