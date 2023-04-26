@@ -140,20 +140,6 @@ Window
             height: sizeUnit/5
         }
 
-        WhosTurnInfoBlock
-        {
-            id: _whosTurnInfoBlock
-            sharedColor: _displayField.shareGradColor1
-            state: "unfolded"
-            unfoldedHeight: sizeUnit*0.35
-            unfoldedWidth: unfoldedHeight*3.3
-            foldedHeight: sizeUnit*0.25
-            foldedWidth: foldedHeight
-            anchors.left: _displayField.left
-            anchors.leftMargin: defaultMargin
-            anchors.verticalCenter: _displayField.verticalCenter
-        }
-
         PlayersInfoBlock
         {
             id: _playersInfoBlock
@@ -169,14 +155,28 @@ Window
             id: _endConditionsBlock
             sharedColor: _displayField.shareGradColor1
             state: "unfolded"
-            unfoldedHeight: _whosTurnInfoBlock.unfoldedHeight
-            unfoldedWidth: _whosTurnInfoBlock.unfoldedWidth
-            foldedHeight: _whosTurnInfoBlock.foldedHeight
-            foldedWidth: _whosTurnInfoBlock.foldedWidth
+            unfoldedHeight: sizeUnit*0.35
+            unfoldedWidth: unfoldedHeight*3.3
+            foldedHeight: sizeUnit*0.25
+            foldedWidth: foldedHeight
             anchors.top: _toggleVisibilityButton.bottom
             anchors.left: _displayField.left
             anchors.leftMargin: defaultMargin
             anchors.topMargin: defaultMargin
+        }
+
+        WhosTurnInfoBlock
+        {
+            id: _whosTurnInfoBlock
+            sharedColor: _displayField.shareGradColor1
+            state: "unfolded"
+            unfoldedHeight: _endConditionsBlock.unfoldedHeight
+            unfoldedWidth: _endConditionsBlock.unfoldedWidth
+            foldedHeight: _endConditionsBlock.foldedHeight
+            foldedWidth: _endConditionsBlock.foldedWidth
+            anchors.left: _displayField.left
+            anchors.top: _endConditionsBlock.bottom
+            anchors.margins: defaultMargin
         }
 
         // Most of these keys are debug only and they will be deleted soon!

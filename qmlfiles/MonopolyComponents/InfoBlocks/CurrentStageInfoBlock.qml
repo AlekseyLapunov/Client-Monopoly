@@ -19,7 +19,7 @@ Rectangle
         id: _currentStageLabel
         anchors.right: _separator.left
         anchors.verticalCenter: root.verticalCenter
-        color: Qt.darker(localShareGradColor1, 1.1)
+        color: Helper.applyContrast(localShareGradColor1, 1.5)
         font.family: "Bookman Old Style"
         font.pointSize: Helper.fontWarningPreventor(root.width*0.048)
         font.bold: true
@@ -38,7 +38,7 @@ Rectangle
         anchors.left: _separator.right
         anchors.leftMargin: _win.defaultMargin
         anchors.verticalCenter: root.verticalCenter
-        color: Qt.darker(localShareGradColor2, 1.1)
+        color: Helper.applyContrast(localShareGradColor2, 1.5)
         font.family: "Bookman Old Style"
         font.pointSize: Helper.fontWarningPreventor(root.width*0.048)
         font.bold: true
