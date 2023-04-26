@@ -56,6 +56,4 @@ FoldingInfoBlock
 
         Behavior on opacity { NumberAnimation { easing.type: Easing.InQuad} }
     }
-
-
 }

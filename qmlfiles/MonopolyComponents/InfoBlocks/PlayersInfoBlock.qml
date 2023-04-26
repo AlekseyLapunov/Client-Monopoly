@@ -38,7 +38,7 @@ Rectangle
     SoundEffect
     {
         id: _energyKrendelsOvercomeSound
-        source: "../../../assets/sounds/energy_krendels_overcome.wav"
+        source: "../../../assets/sounds/players_list/energy_krendels_overcome.wav"
         volume: 0.33
     }
 

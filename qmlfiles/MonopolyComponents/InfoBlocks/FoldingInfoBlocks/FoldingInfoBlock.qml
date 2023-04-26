@@ -24,6 +24,7 @@ Rectangle
     property int foldedWidth: 50
 
     property string foldedImagePath: ""
+    property color imageColorOverlay: Qt.lighter(root.color, 1.4)
 
     height: state === "unfolded" ? unfoldedHeight : foldedHeight
     width: state === "unfolded" ? unfoldedWidth : foldedWidth
@@ -56,8 +57,8 @@ Rectangle
         id: _foldedImage
         anchors.centerIn: root
         opacity: imageOpacity
-        sourceSize.width: root.width*0.75
-        sourceSize.height: root.height*0.75
+        sourceSize.width: root.width*0.65
+        sourceSize.height: root.height*0.65
         source: ((root.state === "folded") ? foldedImagePath
                                            : "")
         smooth: true
@@ -67,7 +68,7 @@ Rectangle
     {
         anchors.fill: _foldedImage
         source: _foldedImage
-        color: Qt.lighter(root.color, 1.4)
+        color: imageColorOverlay
     }
 
     states:

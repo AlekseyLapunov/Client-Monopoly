@@ -13,6 +13,8 @@ Window
     property double defaultMargin: sizeUnit*0.12
     property double componentsBorderCoeff: 0.015
     property double componentsRadiusCoeff: 0.035
+    property int hostPlayerNumber: Helper.PlayerNumber.Player2
+    property bool isTurnNotiEnabled: true
 
     // Delete later!
     property int debugCellsCount: 0
@@ -122,12 +124,32 @@ Window
             anchors.left: _displayField.left
             anchors.top: _displayField.top
             anchors.margins: defaultMargin
-            imageSource:  isWinFullScreen ? "../../assets/svgs/misc/window_mode.svg" :
-                                            "../../assets/svgs/misc/full_screen.svg"
+            imageSource:  isWinFullScreen ? "../../assets/svgs/misc/full_screen.svg" :
+                                            "../../assets/svgs/misc/window_mode.svg"
             opacityMinBorder: 0.5
             onClicked:
             {
                 isWinFullScreen = !isWinFullScreen;
+            }
+        }
+
+        MonopolyButton
+        {
+            id: _toggleTurnNotification
+            sharedColor: _displayField.shareGradColor1
+            state: "normal"
+            height: sizeUnit*0.25
+            width: height
+            anchors.left: _toggleVisibilityButton.right
+            anchors.top: _displayField.top
+            anchors.margins: defaultMargin
+            imageSource:  isTurnNotiEnabled ? "../../assets/svgs/misc/notification_bell_enabled.svg"
+                                            : "../../assets/svgs/misc/notification_bell_disabled.svg"
+            imageSizeCoeff: 0.6
+            opacityMinBorder: 0.5
+            onClicked:
+            {
+                isTurnNotiEnabled = !isTurnNotiEnabled;
             }
         }
 

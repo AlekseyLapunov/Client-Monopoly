@@ -11,6 +11,7 @@ Rectangle
                                       sharedColor.g-0.25,
                                       sharedColor.b-0.25)
     property string imageSource: ""
+    property double imageSizeCoeff: 0.8
     property string textContent: ""
 
     property bool hasText: textContent.length > 0
@@ -31,14 +32,14 @@ Rectangle
     SoundEffect
     {
         id: _buttonPressedSoundEffect
-        source: "../../assets/sounds/button_pressed.wav"
+        source: "../../assets/sounds/buttons/button_pressed.wav"
         volume: 0.2
     }
 
     SoundEffect
     {
         id: _buttonUnpressedSoundEffect
-        source: "../../assets/sounds/button_unpressed.wav"
+        source: "../../assets/sounds/buttons/button_unpressed.wav"
         volume: 0.2
     }
 
@@ -77,11 +78,10 @@ Rectangle
     Image
     {
         id: _image
-        //anchors.fill: root
         anchors.centerIn: root
         source: root.hasImage ? root.imageSource : ""
-        sourceSize.height: root.height*0.8
-        sourceSize.width: root.height*0.8
+        sourceSize.height: root.height*imageSizeCoeff
+        sourceSize.width: root.height*imageSizeCoeff
 
         smooth: true
     }
