@@ -5,6 +5,7 @@ import "../../HelperSingletone"
 
 Node
 {
+    id: root
     position: Qt.vector3d(0, 0, 0)
     property color diceColor: "white"
     property int whatDice
@@ -31,9 +32,11 @@ Node
     {
         id: _infiniteRotationAnimation
         property double rotationCoeff: 5
+        easing.amplitude: 2.5
+        easing.type: Easing.InOutExpo
+        from: root.eulerRotation
         to: Helper.getRandomQtVector(0, 360)
-        duration: Helper.getRandomInt(300, 600)
-        Behavior on duration { PropertyAnimation {}}
+        duration: Helper.getRandomInt(400, 750)
         onFinished:
         {
             if(_infiniteRotationAnimation.paused)
@@ -56,12 +59,12 @@ Node
 
     function stopInfiniteRotation()
     {
-        _infiniteRotationAnimation.pause();
+        _infiniteRotationAnimation.stop();
     }
 
     function resumeInfiniteRotation()
     {
-        _infiniteRotationAnimation.resume();
+        _infiniteRotationAnimation.restart();
     }
 
     function doDirectionalRotate(diceNumber: int)

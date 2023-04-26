@@ -54,7 +54,6 @@ Rectangle
             {
                 easing.type: Easing.OutQuint; properties: "x,y"; duration: 1400
             }
-
         }
 
         Repeater

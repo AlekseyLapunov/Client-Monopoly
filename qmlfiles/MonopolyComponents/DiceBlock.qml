@@ -69,9 +69,9 @@ Rectangle
             _rightDice.doDirectionalRotate(diceNumber);
     }
 
-    function diceGoRandomDirectionalRotation()
+    function diceRotateToNumbers(leftDiceVal: int, rightDiceVal: int)
     {
-        _leftDice.doDirectionalRotate(Helper.getRandomInt(1,6));
-        _rightDice.doDirectionalRotate(Helper.getRandomInt(1,6));
+        _leftDice.doDirectionalRotate(leftDiceVal);
+        _rightDice.doDirectionalRotate(rightDiceVal);
     }
 }

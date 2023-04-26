@@ -9,9 +9,10 @@
         <file>qmlfiles/MonopolyComponents/FieldsGrid.qml</file>
         <file>qmlfiles/MonopolyComponents/MonopolyButton.qml</file>
         <file>qmlfiles/HelperSingletone/Helper.qml</file>
-        <file>qmlfiles/MonopolyComponents/InfoBlocks/CurrentStageInfoBlock.qml</file>
-        <file>qmlfiles/MonopolyComponents/InfoBlocks/EndConditionsInfoBlock.qml</file>
         <file>qmlfiles/MonopolyComponents/InfoBlocks/PlayersInfoBlock.qml</file>
-        <file>qmlfiles/MonopolyComponents/InfoBlocks/WhosTurnInfoBlock.qml</file>
+        <file>qmlfiles/MonopolyComponents/InfoBlocks/FoldingInfoBlocks/EndConditionsInfoBlock.qml</file>
+        <file>qmlfiles/MonopolyComponents/InfoBlocks/FoldingInfoBlocks/FoldingInfoBlock.qml</file>
+        <file>qmlfiles/MonopolyComponents/InfoBlocks/FoldingInfoBlocks/WhosTurnInfoBlock.qml</file>
+        <file>qmlfiles/MonopolyComponents/InfoBlocks/CurrentStageInfoBlock.qml</file>
     </qresource>
 </RCC>

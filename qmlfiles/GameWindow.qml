@@ -3,6 +3,7 @@ import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
 import "MonopolyComponents"
 import "MonopolyComponents/InfoBlocks"
+import "MonopolyComponents/InfoBlocks/FoldingInfoBlocks"
 import "MonopolyComponents/SubComponents"
 import "HelperSingletone"
 
@@ -143,10 +144,13 @@ Window
         {
             id: _whosTurnInfoBlock
             sharedColor: _displayField.shareGradColor1
+            state: "unfolded"
+            unfoldedHeight: sizeUnit*0.35
+            unfoldedWidth: unfoldedHeight*3.3
+            foldedHeight: sizeUnit*0.25
+            foldedWidth: foldedHeight
             anchors.left: _displayField.left
             anchors.leftMargin: defaultMargin
-            height: sizeUnit*0.35
-            width: height*3.3
             anchors.verticalCenter: _displayField.verticalCenter
         }
 
@@ -158,7 +162,6 @@ Window
             anchors.margins: defaultMargin
             width: _endTurnButton.width
             sharedColor: _displayField.shareGradColor2
-
         }
 
         EndConditionsInfoBlock
@@ -166,14 +169,17 @@ Window
             id: _endConditionsBlock
             sharedColor: _displayField.shareGradColor1
             state: "unfolded"
-            height: state === "unfolded" ? _whosTurnInfoBlock.height : sizeUnit*0.25
-            width: state === "unfolded" ? _whosTurnInfoBlock.width : height
+            unfoldedHeight: _whosTurnInfoBlock.unfoldedHeight
+            unfoldedWidth: _whosTurnInfoBlock.unfoldedWidth
+            foldedHeight: _whosTurnInfoBlock.foldedHeight
+            foldedWidth: _whosTurnInfoBlock.foldedWidth
             anchors.top: _toggleVisibilityButton.bottom
             anchors.left: _displayField.left
             anchors.leftMargin: defaultMargin
             anchors.topMargin: defaultMargin
         }
 
+        // Most of these keys are debug only and they will be deleted soon!
         Keys.onPressed: (event) =>
         {
             switch(event.key)
@@ -230,7 +236,8 @@ Window
                 whatDice = (whatDice === Helper.Dice.Left) ? Helper.Dice.Right : Helper.Dice.Left;
                 break;
             case Qt.Key_7:
-                _diceBlock.diceGoRandomDirectionalRotation();
+                _diceBlock.diceRotateToNumbers(Helper.getRandomInt(1,6),
+                                               Helper.getRandomInt(1,6));
                 break;
             }
             if((event.key >= Qt.Key_1) && (event.key <= Qt.Key_6))
