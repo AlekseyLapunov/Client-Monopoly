@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import QtQuick3D
+import QtMultimedia
 import "SubComponents"
 import "../HelperSingletone"
 
@@ -19,23 +20,52 @@ Rectangle
 
     View3D
     {
+        id: _view3D
         anchors.fill: root
 
         PerspectiveCamera
         {
             id: _camera
-            position: Qt.vector3d(2.5, 0, 50);
+
+            property vector3d closePosition: Qt.vector3d(2.5, 0, 50)
+            property vector3d abovePosition: Qt.vector3d(30, 38, 45)
+            property vector3d closeLookRotation: Qt.vector3d(0, 0, 0)
+            property vector3d aboveLookRotation: Qt.vector3d(-37, 25, 0)
+
+            position: abovePosition
+            eulerRotation: aboveLookRotation
+
+            Behavior on position
+            {
+                PropertyAnimation
+                {
+                    easing.period: 0.42
+                    easing.type: Easing.OutElastic
+                    duration: 2000
+                }
+            }
+
+            Behavior on eulerRotation
+            {
+                PropertyAnimation
+                {
+                    easing.period: 0.42
+                    easing.type: Easing.OutElastic
+                    duration: 2000
+                }
+            }
         }
-        DirectionalLight
+
+        environment: SceneEnvironment
         {
-            id: _dl
-            brightness: 1
+            antialiasingMode: SceneEnvironment.MSAA
+            antialiasingQuality: SceneEnvironment.High
         }
 
         MyDice3D
         {
             id: _leftDice
-            position: Qt.vector3d(-16, 0, 0)
+            basePosition: Qt.vector3d(-16, 0, 0)
             diceColor: leftDiceColor
             whatDice: Helper.Dice.Left
         }
@@ -43,11 +73,74 @@ Rectangle
         MyDice3D
         {
             id: _rightDice
-            position: Qt.vector3d(22, 0, 0)
+            basePosition: Qt.vector3d(22, 0, 0)
             diceColor: rightDiceColor
             whatDice: Helper.Dice.Right
         }
-   }
+
+        property double pointLightBrightness: 0.85
+
+        PointLight
+        {
+            id: _lightPointXPos
+            x: 80; y: 0; z: 0
+            brightness: _view3D.pointLightBrightness
+        }
+
+        PointLight
+        {
+            id: _lightPointXNeg
+            x: -80; y: 0; z: 0
+            brightness: _view3D.pointLightBrightness
+        }
+
+        PointLight
+        {
+            id: _lightPointYPos
+            x: 0; y: 40; z: 0
+            brightness: _view3D.pointLightBrightness
+        }
+
+        PointLight
+        {
+            id: _lightPointYNeg
+            x: 0; y: -40; z: 0
+            brightness: _view3D.pointLightBrightness
+        }
+
+        PointLight
+        {
+            id: _lightPointZPos
+            x: 0; y: 0; z: 40
+            brightness: _view3D.pointLightBrightness
+        }
+
+        PointLight
+        {
+            id: _lightPointZNeg
+            x: 0; y: 0; z: -40
+            brightness: _view3D.pointLightBrightness
+        }
+    }
+
+    SoundEffect
+    {
+        id: _diceOutSoundEffect
+        source: "../../assets/sounds/dice/dice_out.wav"
+        volume: 0.30
+    }
+
+    function cameraClosePosition()
+    {
+        _camera.position = _camera.closePosition;
+        _camera.eulerRotation = _camera.closeLookRotation;
+    }
+
+    function cameraAbovePosition()
+    {
+        _camera.position = _camera.abovePosition;
+        _camera.eulerRotation = _camera.aboveLookRotation;
+    }
 
     function diceStop()
     {
@@ -57,6 +150,7 @@ Rectangle
 
     function diceGoInfiniteRotation()
     {
+        cameraAbovePosition();
         _leftDice.resumeInfiniteRotation();
         _rightDice.resumeInfiniteRotation();
     }
@@ -71,7 +165,9 @@ Rectangle
 
     function diceRotateToNumbers(leftDiceVal: int, rightDiceVal: int)
     {
+        cameraClosePosition();
         _leftDice.doDirectionalRotate(leftDiceVal);
         _rightDice.doDirectionalRotate(rightDiceVal);
+        _diceOutSoundEffect.play();
     }
 }

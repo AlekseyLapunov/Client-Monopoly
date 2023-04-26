@@ -6,7 +6,10 @@ import "../../HelperSingletone"
 Node
 {
     id: root
-    position: Qt.vector3d(0, 0, 0)
+
+    property vector3d basePosition: Qt.vector3d(0, 0, 0)
+
+    position: basePosition
     property color diceColor: "white"
     property int whatDice
 
@@ -57,19 +60,47 @@ Node
         duration: 0
     }
 
+    PropertyAnimation on position
+    {
+        id: _levitateAnimation
+        property vector3d levitateUpVector: Qt.vector3d(0, 3, 0)
+        property vector3d levitateDownVector: Qt.vector3d(0, -3, 0)
+        property bool toggler: (root.whatDice === Helper.Dice.Left)
+        easing.type: Easing.InOutQuad
+        duration: 600
+        from: position
+        to: toggler ? root.basePosition.plus(levitateUpVector)
+                    : root.basePosition.plus(levitateDownVector)
+        onFinished:
+        {
+            _levitateAnimation.toggler = !_levitateAnimation.toggler;
+            _levitateAnimation.start();
+        }
+    }
+
+    Behavior on position { PropertyAnimation { duration: 300 } }
+
     function stopInfiniteRotation()
     {
+        _levitateAnimation.stop();
+        root.position = root.basePosition;
         _infiniteRotationAnimation.stop();
     }
 
     function resumeInfiniteRotation()
     {
+        _levitateAnimation.restart();
         _infiniteRotationAnimation.restart();
     }
 
     function doDirectionalRotate(diceNumber: int)
     {
-        _infiniteRotationAnimation.pause();
+        if(_infiniteRotationAnimation.running)
+        {
+            _infiniteRotationAnimation.pause();
+            _levitateAnimation.stop();
+            root.position = root.basePosition;
+        }
         _directionalRotationAnimation.to = Helper.getDirectionalRotate(diceNumber,
                                                                        whatDice);
         _directionalRotationAnimation.duration = 2500;
