@@ -10,6 +10,8 @@ CONFIG += c++17
 
 SOURCES += \
     helpers/common/filemanager.cpp \
+    helpers/gamemodels/fieldsgrid.cpp \
+    helpers/gamemodels/gamestructs/gamestructs.cpp \
     helpers/usermetainfo.cpp \
     userinterface/lobbywindow.cpp \
     main.cpp \
@@ -24,6 +26,8 @@ HEADERS += \
     helpers/common/filemanager.h \
     helpers/common/sourcestrings.h \
     helpers/common/sourcestructs.h \
+    helpers/gamemodels/fieldsgrid.h \
+    helpers/gamemodels/gamestructs/gamestructs.h \
     helpers/usermetainfo.h \
     userinterface/lobbywindow.h \
     userinterface/loginwindow.h \

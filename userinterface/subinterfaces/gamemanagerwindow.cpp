@@ -20,8 +20,16 @@ GameManagerWindow::~GameManagerWindow()
     delete ui;
 }
 
+void GameManagerWindow::applyFirstGameContext()
+{
+    fillDebugMapContext();
+
+    FieldsGrid mapModel;
+}
+
 void GameManagerWindow::show()
 {
+    applyFirstGameContext();
     ui->setupUi(this);
     if(qmlEngine != nullptr)
     {

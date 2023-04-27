@@ -10,7 +10,7 @@ Rectangle
     property int fieldType: Helper.FieldType.Void
     property int cellNumber: -1
 
-    visible: fieldType === Helper.FieldType.Void ? false : true
+    visible: fieldType !== Helper.FieldType.Void
     color: Helper.defineFieldColorByType(fieldType)
 
     Image

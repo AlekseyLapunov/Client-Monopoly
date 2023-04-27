@@ -7,6 +7,8 @@
 #include <QtQml>
 
 #include "helpers/basewin.h"
+#include "helpers/gamemodels/fieldsgrid.h"
+#include "helpers/gamemodels/gamestructs/gamestructs.h"
 
 #define DEBUG
 
@@ -27,6 +29,9 @@ public:
     void show();
     void quitAppDialog();
     void closeEvent(QCloseEvent *event);
+
+private:
+    void applyFirstGameContext(/*GameContext& gameContext*/);
 
 private:
     Ui::GameManagerWindow *ui;

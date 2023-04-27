@@ -40,6 +40,7 @@ Rectangle
             border.width: root.border.width/3
             fieldType: fieldTypeSet
             cellNumber: index
+            //visible: index%2
 
             Connections
             {
