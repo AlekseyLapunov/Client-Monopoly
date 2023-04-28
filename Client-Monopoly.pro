@@ -9,9 +9,10 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    game/gamehelpers/gamestructs.cpp \
+    game/models/fieldsgridmodel.cpp \
+    game/models/lists/cellslist.cpp \
     helpers/common/filemanager.cpp \
-    helpers/gamemodels/fieldsgrid.cpp \
-    helpers/gamemodels/gamestructs/gamestructs.cpp \
     helpers/usermetainfo.cpp \
     userinterface/lobbywindow.cpp \
     main.cpp \
@@ -22,12 +23,14 @@ SOURCES += \
     userinterface/subinterfaces/menusubdialog.cpp
 
 HEADERS += \
+    game/gamehelpers/gamestructs.h \
+    game/gamehelpers/modelsroles.h \
+    game/models/fieldsgridmodel.h \
+    game/models/lists/cellslist.h \
     helpers/basewin.h \
     helpers/common/filemanager.h \
     helpers/common/sourcestrings.h \
     helpers/common/sourcestructs.h \
-    helpers/gamemodels/fieldsgrid.h \
-    helpers/gamemodels/gamestructs/gamestructs.h \
     helpers/usermetainfo.h \
     userinterface/lobbywindow.h \
     userinterface/loginwindow.h \

@@ -8,6 +8,7 @@ Rectangle
 
     property string backgroundColor: "transparent"
     property int fieldType: Helper.FieldType.Void
+    property int orderIndex: 0
     property int cellNumber: -1
 
     visible: fieldType !== Helper.FieldType.Void

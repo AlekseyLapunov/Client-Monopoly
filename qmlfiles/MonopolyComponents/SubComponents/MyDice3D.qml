@@ -34,12 +34,11 @@ Node
     PropertyAnimation on eulerRotation
     {
         id: _infiniteRotationAnimation
-        property double rotationCoeff: 5
-        easing.amplitude: 2.5
-        easing.type: Easing.InOutExpo
+        //easing.amplitude: 2.5
+        //easing.type: Easing.InOutExpo
         from: root.eulerRotation
         to: Helper.getRandomQtVector(0, 360)
-        duration: Helper.getRandomInt(400, 750)
+        duration: Helper.getRandomInt(300, 550)
         onFinished:
         {
             if(_infiniteRotationAnimation.paused)

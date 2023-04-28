@@ -6,9 +6,12 @@ import "MonopolyComponents/InfoBlocks"
 import "MonopolyComponents/InfoBlocks/FoldingInfoBlocks"
 import "MonopolyComponents/SubComponents"
 import "HelperSingletone"
+import GameMap 1.0
 
 Window
 {
+    id: _win
+
     property int sizeUnit: (_win.height + _win.width)*0.1
     property double defaultMargin: sizeUnit*0.12
     property double componentsBorderCoeff: 0.015
@@ -24,11 +27,8 @@ Window
     property int whatDice: Helper.Dice.Left
     // -------------
 
-    id: _win
     minimumWidth: 800
     minimumHeight: 600
-    width: minimumWidth
-    height: minimumHeight
     visible: true
     title: qsTr("Игра \"Монополия\"")
 
@@ -36,13 +36,14 @@ Window
 
     Rectangle
     {
+        id: _displayField
+
         property color backgroundColor1: Qt.lighter(Helper.makeRgb(90, 202, 255), 1.3)
         property color backgroundColor2: Qt.lighter(Helper.makeRgb(155, 255, 199), 1.1)
         property color shareGradColor1
         property color shareGradColor2
         readonly property int backgroundAnimationDuration: 10000
 
-        id: _displayField
         anchors.fill: parent
         color: "transparent"
         border.width: sizeUnit/40
@@ -212,7 +213,6 @@ Window
             id: _hostInfoBlock
             sharedColor: _displayField.shareGradColor1
             state: "unfolded"
-            //unfoldedHeight: _whosTurnInfoBlock.unfoldedHeight
             unfoldedWidth: _whosTurnInfoBlock.unfoldedWidth
             foldedHeight: _whosTurnInfoBlock.foldedHeight
             foldedWidth: _whosTurnInfoBlock.foldedWidth
@@ -221,7 +221,14 @@ Window
             anchors.margins: defaultMargin
         }
 
-        // Most of these keys are debug only and they will be deleted soon!
+        // Models
+        FieldsGridModel
+        {
+            id: _fieldsGridModel
+            list: _cellsList
+        }
+
+        // Hotkeys. Most of these keys are debug only and they will be deleted soon!
         Keys.onPressed: (event) =>
         {
             switch(event.key)
@@ -230,6 +237,7 @@ Window
                 _toggleVisibilityButton.isWinFullScreen = !_toggleVisibilityButton.isWinFullScreen;
                 event.accepted = true;
                 break;
+            /*
             case Qt.Key_F10:
                 _map.refresh()
                 event.accepted = true;
@@ -259,6 +267,7 @@ Window
                 if(debugPieceIter !== Helper.PlayerNumber.Player1)
                     debugPieceIter--;
                 break;
+            */
             case Qt.Key_F4:
                 _playersInfoBlock.addPlayerRow();
                 break;
@@ -294,6 +303,7 @@ Window
             }
         }
 
+        // Background and Share-gradient-color animations
         LinearGradient
         {
             id: _linearGradient

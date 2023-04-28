@@ -3,6 +3,8 @@ import QtQuick.Controls
 import "SubComponents"
 import "../HelperSingletone"
 
+import GameMap 1.0
+
 Rectangle
 {
     id: root
@@ -28,26 +30,26 @@ Rectangle
         anchors.centerIn: root
         interactive: false
 
-        cellHeight: _grid.width/Math.sqrt(_cellsList.count)
+        cellHeight: _grid.width/Math.sqrt(_fieldsGridModel.rowCount())
         cellWidth: cellHeight
 
-        model: _cellsList
+        model: _fieldsGridModel
         delegate: Cell
         {
             height: _grid.cellHeight
             width: _grid.cellWidth
             border.color: root.border.color
             border.width: root.border.width/3
-            fieldType: fieldTypeSet
+            orderIndex: model.orderIndex
+            fieldType: model.fieldType
             cellNumber: index
-            //visible: index%2
 
-            Connections
+            /*Connections
             {
                 target: root
                 function onPlaceNewPieceSig(cellId, playerNumber) { placeNewPiece(cellId, playerNumber); }
                 function onRemoveLastPieceSig(cellId) { removeLastPiece(cellId); }
-            }
+            }*/
 
             PropertyAnimation on opacity
             {
@@ -66,38 +68,39 @@ Rectangle
         opacity: 0.1
     }
 
+    /*
     function refresh()
     {
-        for(let i = 0; i < _cellsList.count; i++)
-            _cellsList.get(i).fieldTypeSet = Math.floor((Math.random() * 11 + 1));
+        for(let i = 0; i < _mapModel.count; i++)
+            _mapModel.get(i).fieldTypeSet = Math.floor((Math.random() * 11 + 1));
     }
 
     function addField()
     {
-        let adding = Math.pow(_win.debugCellsCount, 2) - _cellsList.count;
+        let adding = Math.pow(_win.debugCellsCount, 2) - _mapModel.count;
         for(let i = 0; i < adding; i++)
         {
             let cellItem = {};
             cellItem.fieldTypeSet = Math.floor((Math.random() * 11 + 1));
-            _cellsList.append(cellItem);
+            _mapModel.append(cellItem);
         }
     }
 
     function delField()
     {
-        let deleting = _cellsList.count - Math.pow(_win.debugCellsCount, 2);
+        let deleting = _mapModel.count - Math.pow(_win.debugCellsCount, 2);
         for(let i = 0; i < deleting; i++)
         {
-            if(_cellsList.count !== 0)
+            if(_mapModel.count !== 0)
             {
-                _cellsList.remove(_cellsList.count - 1);
+                _mapModel.remove(_mapModel.count - 1);
             }
         }
     }
 
     function resetField()
     {
-        _cellsList.clear();
+        _mapModel.clear();
         for(let i = 0; i < _win.debugCellsCount; i++)
             addField();
     }
@@ -115,10 +118,5 @@ Rectangle
     function delLastPiece(cellId)
     {
         removeLastPieceSig(cellId);
-    }
-
-    ListModel
-    {
-        id: _cellsList
-    }
+    }*/
 }

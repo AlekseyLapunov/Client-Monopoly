@@ -20,27 +20,12 @@ GameManagerWindow::~GameManagerWindow()
     delete ui;
 }
 
-void GameManagerWindow::applyFirstGameContext()
-{
-    fillDebugMapContext();
-
-    FieldsGrid mapModel;
-}
-
 void GameManagerWindow::show()
 {
-    applyFirstGameContext();
     ui->setupUi(this);
-    if(qmlEngine != nullptr)
-    {
-        qDebug() << "Already created, Deleting";
-        delete qmlEngine;
-        qmlEngine = nullptr;
-        return;
-    }
-    qmlEngine = new QQmlApplicationEngine;
-    qmlRegisterSingletonType(QUrl("qrc:/qmlfiles/HelperSingletone/Helper.qml"), "Helper", 1, 1, "Helper");
-    qmlEngine->load("qrc:/qmlfiles/GameWindow.qml");
+
+    startQmlEngine();
+
 #ifdef DEBUG
     QWidget::hide();
     return;
@@ -58,4 +43,38 @@ void GameManagerWindow::closeEvent(QCloseEvent *event)
 {
     quitAppDialog();
     event->ignore();
+}
+
+void GameManagerWindow::startQmlEngine()
+{
+    if(qmlEngine != nullptr)
+    {
+        qDebug().noquote() << "QML Engine: Already created. Reseting...";
+        qmlEngine->clearComponentCache();
+        qmlEngine->clearSingletons();
+        delete qmlEngine;
+        qmlEngine = nullptr;
+        qDebug().noquote() << "QML Engine: Reseting done successfully.";
+    }
+
+    qmlRegisterSingletonType(QUrl("qrc:/qmlfiles/HelperSingletone/Helper.qml"), "Helper", 1, 0, "Helper");
+    qmlRegisterType<FieldsGridModel>("GameMap", 1, 0, "FieldsGridModel");
+    qmlRegisterUncreatableType<FieldsGridModel>("GameMap", 1, 0, "CellsList",
+                                                QStringLiteral("Should NOT be created inside QML"));
+
+    qmlEngine = new QQmlApplicationEngine;
+
+    m_cellsList = new CellsList();
+    applyFirstGameContext();
+
+    qmlEngine->rootContext()->setContextProperty(QStringLiteral("_cellsList"), m_cellsList);
+
+    qmlEngine->load(QUrl("qrc:/qmlfiles/GameWindow.qml"));
+}
+
+void GameManagerWindow::applyFirstGameContext()
+{
+    fillDebugMapContext();
+
+    m_cellsList->setItems(debugMapContext);
 }
