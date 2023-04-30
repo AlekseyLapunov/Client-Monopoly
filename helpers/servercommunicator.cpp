@@ -318,15 +318,9 @@ void ServerCommunicator::oauthConfigure(uint8_t authType)
         auto status = connect(m_networkManager, &QNetworkAccessManager::finished,
                               this, &ServerCommunicator::parseAuthReply);
 
-        QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
-        QHttpPart textPart;
-        textPart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant(jsonContentType));
-        textPart.setBody(codeDoc.toJson());
-
-        multiPart->append(textPart);
-
-        m_networkManager->post(QNetworkRequest(makeAddress(m_host, m_port, m_authMethod[authType])),
-                               multiPart);
+        QNetworkRequest codeTransferRequest(makeAddress(m_host, m_port, m_authMethod[authType]));
+        codeTransferRequest.setHeader(QNetworkRequest::ContentTypeHeader, QVariant(jsonContentType));
+        m_networkManager->post(codeTransferRequest, codeDoc.toJson());
     });
 }
 
@@ -373,7 +367,7 @@ void ServerCommunicator::parseGetInfo(QNetworkReply *reply)
         }
         catch (std::exception &e)
         {
-            qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN]) << "Не удалось обновить токен доступа.";
+            qDebug().noquote() << e.what();
             return;
         }
 
