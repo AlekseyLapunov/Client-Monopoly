@@ -12,7 +12,7 @@
 #include "game/models/lists/cellslist.h"
 #include "game/gamehelpers/gamestructs.h"
 
-#define DEBUG
+//#define DEBUG
 
 namespace Ui {
 class GameManagerWindow;

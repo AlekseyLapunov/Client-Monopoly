@@ -22,6 +22,11 @@
     <height>314</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <family>Bookman Old Style</family>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Окно авторизации</string>
   </property>
@@ -91,20 +96,31 @@
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="bQuitApp">
-     <property name="font">
-      <font>
-       <family>Bookman Old Style</family>
-       <italic>false</italic>
-       <bold>false</bold>
-       <strikeout>false</strikeout>
-       <kerning>true</kerning>
-      </font>
-     </property>
-     <property name="text">
-      <string>Выйти из приложения</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="bGuestLogin">
+       <property name="text">
+        <string>Войти как гость</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="bQuitApp">
+       <property name="font">
+        <font>
+         <family>Bookman Old Style</family>
+         <italic>false</italic>
+         <bold>false</bold>
+         <strikeout>false</strikeout>
+         <kerning>true</kerning>
+        </font>
+       </property>
+       <property name="text">
+        <string>Выйти из приложения</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>

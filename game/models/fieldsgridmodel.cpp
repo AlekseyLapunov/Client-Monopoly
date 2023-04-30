@@ -44,6 +44,8 @@ QVariant FieldsGridModel::data(const QModelIndex &index, int role) const
         return QVariant(item.fieldIncome);
     case MapModelCellRole::PiecesOnCellMask:
         return QVariant(item.piecesOnCellMask);
+    case MapModelCellRole::Stage:
+        return QVariant(item.stage);
     default:
         return QVariant();
     }
@@ -53,14 +55,12 @@ QVariant FieldsGridModel::data(const QModelIndex &index, int role) const
 
 QHash<int, QByteArray> FieldsGridModel::roleNames() const
 {
-    QHash<int, QByteArray> roles /*= QAbstractListModel::roleNames()*/;
+    QHash<int, QByteArray> roles;
 
     for(int i = 0; i < mapModelCellRoleNames.size(); i++)
     {
         roles[MapModelCellRole::OrderIndex + i] = mapModelCellRoleNames[MapModelCellRole::OrderIndex + i].toUtf8();
     }
-
-    qDebug() << roles;
 
     return roles;
 }

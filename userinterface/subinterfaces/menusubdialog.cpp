@@ -28,7 +28,6 @@ void MenuSubDialog::selfConfig(const short configFlag, const QString &carrier)
     case SdConfigFlags::JoinById:
         setRegExps(LobbyUniqueIdRegExp);
         ui->leInput->setEchoMode(QLineEdit::Normal);
-        ui->leInput->setMaxLength(UNIQUE_ID_MAX_LEN);
         break;
     case SdConfigFlags::LobbyPasswordEnter:
         setRegExps(LobbyPasswordRegExp);
@@ -72,7 +71,7 @@ void MenuSubDialog::writeWidgetTexts(const QString &windowTitle,
     ui->leInput->setPlaceholderText(leInputString);
 }
 
-QString MenuSubDialog::uniqueIdValue() const
+int MenuSubDialog::uniqueIdValue() const
 {
     return m_uniqueIdValue;
 }
@@ -90,7 +89,7 @@ void MenuSubDialog::accept()
         m_nicknameValue = ui->leInput->text();
         break;
     case SdConfigFlags::JoinById:
-        m_uniqueIdValue = ui->leInput->text().toUpper();
+        m_uniqueIdValue = ui->leInput->text().toInt();
         break;
     case SdConfigFlags::LobbyPasswordEnter:
         m_lobbyPasswordValue = ui->leInput->text();

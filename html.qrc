@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>assets/html/successful_auth.html</file>
+    </qresource>
+</RCC>

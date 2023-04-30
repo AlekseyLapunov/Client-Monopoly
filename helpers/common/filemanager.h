@@ -21,13 +21,18 @@ class FileManager
 public:
     static void initLocalDirectory();
     static void saveLastSettingsToLocal(LobbySettings settingsToSave);
-    static void fillUserMetaJson(bool uses3dDice);
+    static void apply3dDiceStateToLocal(bool uses3dDice);
     static void manageSettingsExport(LobbySettings settingsToExport, QWidget *parent = nullptr);
     static LobbySettings manageSettingsImport(bool &gotSettings, QWidget *parent = nullptr);
     static LobbySettings getRankedSettingsFromLocal();
     static LobbySettings getLastSettingsFromLocal();
-    static bool get3dDicePrefFromLocal();
+    static QString getUserMetaFromLocal(short dataUnitFlag);
     static void checkLastSettingsIntegrity();
+    static QString getPageAsCallbackText();
+    static void commitTokens(QByteArray data);
+    static QString getToken(uint8_t tokenType);
+    static void commitHostUniqueId(int hostUserId);
+    static QString getHostUniqueId();
 
 private:
     static void createUserMetaJson(const QString &dir);
@@ -39,6 +44,7 @@ private:
     static bool isJsonIntegral(const QString &jsonString, const QString &name = "");
     static QString readJsonToQString(const QString &path);
     static LobbySettings loadSettingsFromFile(const QString &path);
+    static QString defaultUserJson();
 };
 
 #endif // FILEMANAGER_H

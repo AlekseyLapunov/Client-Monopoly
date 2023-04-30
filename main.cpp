@@ -11,13 +11,13 @@
 
 using std::unique_ptr;
 
-unique_ptr<ServerCommunicator> server(new ServerCommunicator());
-unique_ptr<UserMetaInfo> userMeta(new UserMetaInfo());
-
 int main(int argc, char *argv[])
 {
     FileManager::initLocalDirectory();
     QApplication a(argc, argv);
+
+    unique_ptr<ServerCommunicator> server(new ServerCommunicator(&a));
+    unique_ptr<UserMetaInfo> userMeta(new UserMetaInfo());
 
     unique_ptr<LoginWindow> loginWindow(new LoginWindow(&server, &userMeta));
     loginWindow->show();

@@ -72,7 +72,7 @@ private:
 
     LobbyFullInfo m_firstContext;
 
-    QString selectedLobbyUniqueId = "-1";
+    int selectedLobbyUniqueId = -1;
 };
 
 #endif // MENUWINDOW_H

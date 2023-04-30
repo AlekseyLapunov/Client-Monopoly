@@ -10,7 +10,7 @@
 #include "helpers/common/filemanager.h"
 #include "subinterfaces/gamemanagerwindow.h"
 
-#define DEBUG
+//#define DEBUG
 
 namespace Ui {
 class LobbyWindow;

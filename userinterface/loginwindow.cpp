@@ -30,6 +30,16 @@ void LoginWindow::show()
     return;
 #endif
     ui->setupUi(this);
+
+    try
+    {
+        pUserMetaInfo()->get()->setHostInfo(pServer()->get()->tryIfNoNeedToAuth());
+    }
+    catch (std::exception &e)
+    {
+        qDebug().noquote() << QString::fromStdString(ssClassNames[LoginWindowCN]) << "Need to login.";
+    }
+
     setDisabled(false);
     QWidget::show();
 }
@@ -67,14 +77,14 @@ void LoginWindow::closeEvent(QCloseEvent *event)
     event->ignore();
 }
 
-void LoginWindow::baseLogin(serviceFlag flag)
+void LoginWindow::baseLogin(short flag)
 {
     try
     {
         pUserMetaInfo()->get()->setHostInfo
             (
-                flag == LoginWindow::Google ? pServer()->get()->tryGoogleLogin()
-                                            : pServer()->get()->tryVkLogin()
+                flag == LoginWindow::Vk ? pServer()->get()->tryVkLogin()
+                                        : pServer()->get()->tryGoogleLogin()
             );
     }
     catch(const std::exception &e)

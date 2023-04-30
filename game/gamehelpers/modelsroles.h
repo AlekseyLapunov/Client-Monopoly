@@ -11,7 +11,8 @@ enum MapModelCellRole
     PlayerNumberOwner,
     FieldCost,
     FieldIncome,
-    PiecesOnCellMask
+    PiecesOnCellMask,
+    Stage
 };
 
 static QMap<short, QString> mapModelCellRoleNames { {OrderIndex, "orderIndex"},
@@ -19,6 +20,7 @@ static QMap<short, QString> mapModelCellRoleNames { {OrderIndex, "orderIndex"},
                                                     {PlayerNumberOwner, "playerNumberOwner"},
                                                     {FieldCost, "fieldCost"},
                                                     {FieldIncome, "fieldIncome"},
-                                                    {PiecesOnCellMask, "piecesOnCellMask"} };
+                                                    {PiecesOnCellMask, "piecesOnCellMask"},
+                                                    {Stage, "stage"} };
 
 #endif // MODELSROLES_H

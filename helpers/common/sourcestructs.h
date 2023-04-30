@@ -1,6 +1,7 @@
 #ifndef SOURCESTRUCTS_H
 #define SOURCESTRUCTS_H
 
+#include <stdint.h>
 #include <vector>
 
 #include <QString>
@@ -19,9 +20,8 @@
 
 // String lengths
 #define NICKNAME_MAX_LEN        32
-#define LOBBY_NAME_MAX_LEN      16
-#define LOBBY_PASSWORD_MAX_LEN  10
-#define UNIQUE_ID_MAX_LEN       6
+#define LOBBY_NAME_MAX_LEN      32
+#define LOBBY_PASSWORD_MAX_LEN  32
 
 // LobbyWindow: parameters of table with users
 #define USERS_TABLE_COLS        4
@@ -29,6 +29,11 @@
 #define USER_RP_COL             1
 #define READY_COL               2
 #define PLAYER_UNIQUE_ID_COL    3
+
+// Lobby's types
+#define LOBBY_TYPE_PUBLIC  "PUBLIC"
+#define LOBBY_TYPE_RPIVATE "PRIVATE"
+#define LOBBY_TYPE_RANKED  "RANKED"
 
 // bools
 #define IS_READY                true
@@ -41,7 +46,7 @@
 #define NOT_USING_3D_DICES      false
 
 // True ranked settings source values
-#define RS_UNIQUE_ID         ""
+#define RS_UNIQUE_ID         -1
 #define RS_LOBBY_NAME        ""
 #define RS_LOBBY_PASSWORD    ""
 #define RS_MAX_PLAYERS_COUNT -1
@@ -50,13 +55,14 @@
 #define RS_SESSION_ADDRESS   ""
 #define RS_SESSION_PORT      0
 #define RS_TURN_TIME         8
-#define RS_MAX_MONEY         2.000
+#define RS_MAX_MONEY         2000
 #define RS_IS_MAX_MONEY_INF  true
 #define RS_MAX_TURNS         72
 #define RS_ARE_MAX_TURNS_INF false
+#define RS_TYPE              LOBBY_TYPE_PUBLIC
 
 // Default lobby settings source values
-#define DS_UNIQUE_ID         ""
+#define DS_UNIQUE_ID         -1
 #define DS_LOBBY_NAME        ""
 #define DS_LOBBY_PASSWORD    ""
 #define DS_MAX_PLAYERS_COUNT 4
@@ -65,10 +71,11 @@
 #define DS_SESSION_ADDRESS   ""
 #define DS_SESSION_PORT      0
 #define DS_TURN_TIME         10
-#define DS_MAX_MONEY         0.400
+#define DS_MAX_MONEY         2000
 #define DS_IS_MAX_MONEY_INF  false
 #define DS_MAX_TURNS         72
 #define DS_ARE_MAX_TURNS_INF false
+#define DS_TYPE              LOBBY_TYPE_PUBLIC
 
 // Set by game rules
 #define MIN_PLAYERS_COUNT 2
@@ -79,11 +86,11 @@ using std::count_if;
 // Lobbies short information inside MenuWindow's center table
 struct LobbyShortInfo
 {
-    QString uniqueId;
+    int uniqueId;
     QString name;
     bool isPassworded;
-    short curPlayersCount;
-    short maxPlayersCount;
+    int8_t curPlayersCount;
+    int8_t maxPlayersCount;
 };
 
 // Users short information inside LobbyWindow's table of users
@@ -98,20 +105,22 @@ struct UserShortInfo
 // All lobby settings
 struct LobbySettings
 {
-    QString uniqueId;
+    int uniqueId;
     QString lobbyName;
     QString lobbyPassword;
-    short maxPlayersCount;
+    int8_t maxPlayersCount;
     int ownerUniqueId;
     bool isTimerActive;
+
     QString sessionAddress;
     int sessionPort;
 
-    short turnTime;
-    float maxMoney; // represents billions
+    int8_t turnTime;
+    int maxMoney; // represents millions e.g. maxMoney = 1000 millions
     bool isMaxMoneyInfinite;
-    short maxTurns;
+    unsigned short maxTurns;
     bool areMaxTurnsInfinite;
+    QString type;
 
     bool softEquals(LobbySettings& other)
     {
@@ -181,6 +190,7 @@ struct LobbySettings
         settingsObject.insert(ssJsonKeysLobbySettingsIds[IsMaxMoneyInfinite],  this->isMaxMoneyInfinite);
         settingsObject.insert(ssJsonKeysLobbySettingsIds[MaxTurns],            this->maxTurns);
         settingsObject.insert(ssJsonKeysLobbySettingsIds[AreMaxTurnsInfinite], this->areMaxTurnsInfinite);
+        settingsObject.insert(ssJsonKeysLobbySettingsIds[Type], this->type);
         QJsonDocument doc(settingsObject);
         return doc.toJson(QJsonDocument::Indented);
     }
@@ -199,6 +209,7 @@ struct HostUserData
     int uniqueId;
     QString nickname;
     int rpCount;
+    bool isGuest;
 };
 
 static const LobbySettings TrueRankedSettings
@@ -215,7 +226,8 @@ static const LobbySettings TrueRankedSettings
     RS_MAX_MONEY,
     RS_IS_MAX_MONEY_INF,
     RS_MAX_TURNS,
-    RS_ARE_MAX_TURNS_INF
+    RS_ARE_MAX_TURNS_INF,
+    RS_TYPE
 };
 
 static const LobbySettings DefaultLobbySettings
@@ -232,7 +244,8 @@ static const LobbySettings DefaultLobbySettings
     DS_MAX_MONEY,
     DS_IS_MAX_MONEY_INF,
     DS_MAX_TURNS,
-    DS_ARE_MAX_TURNS_INF
+    DS_ARE_MAX_TURNS_INF,
+    RS_TYPE
 };
 
 #endif // SOURCESTRUCTS_H

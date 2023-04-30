@@ -29,7 +29,7 @@ public:
 
     QString lobbyPasswordValue() const;
     QString nicknameValue() const;
-    QString uniqueIdValue() const;
+    int uniqueIdValue() const;
 
 private slots:
     void accept() override;
@@ -47,7 +47,7 @@ private:
 
     QString m_lobbyPasswordValue;
     QString m_nicknameValue;
-    QString m_uniqueIdValue;
+    int m_uniqueIdValue;
 
     Ui::MenuSubDialog *ui;
 };

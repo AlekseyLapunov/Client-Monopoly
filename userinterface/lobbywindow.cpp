@@ -141,14 +141,14 @@ void LobbyWindow::setSettingsInputsAccessibility(bool areAccessible)
     ui->sbMaxPlayers->setReadOnly(!areAccessible);
     ui->sbMaxTurns->setReadOnly(!areAccessible);
     ui->sbTurnTime->setReadOnly(!areAccessible);
-    ui->dsbMaxBalance->setReadOnly(!areAccessible);
+    ui->sbMaxBalance->setReadOnly(!areAccessible);
     ui->chbIsBalanceInfinite->setEnabled(areAccessible);
     ui->chbAreTurnsInfinite->setEnabled(areAccessible);
 }
 
 void LobbyWindow::setUpSettingsInputs()
 {
-    ui->lLobbyUniqueId->setText(ssLobbyIdPrefix + m_context.settings.uniqueId);
+    ui->lLobbyUniqueId->setText(ssLobbyIdPrefix + QString::number(m_context.settings.uniqueId));
 
     overwriteSettingsInputs(m_context.settings);
 
@@ -169,8 +169,8 @@ void LobbyWindow::setUpSettingsInputs()
     ui->sbMaxTurns->setReadOnly(true);
     ui->sbMaxTurns->setDisabled(m_context.settings.areMaxTurnsInfinite);
 
-    ui->dsbMaxBalance->setReadOnly(true);
-    ui->dsbMaxBalance->setDisabled(m_context.settings.isMaxMoneyInfinite);
+    ui->sbMaxBalance->setReadOnly(true);
+    ui->sbMaxBalance->setDisabled(m_context.settings.isMaxMoneyInfinite);
 }
 
 void LobbyWindow::setUpRegExps()
@@ -351,17 +351,18 @@ LobbySettings LobbyWindow::makeSettingsObjectByInputs()
                 m_context.settings.uniqueId,
                 ui->leLobbyName->text(),
                 ui->lePassword->text(),
-                (short) ui->sbMaxPlayers->value(),
+                (int8_t) ui->sbMaxPlayers->value(),
                 m_context.settings.ownerUniqueId,
                 m_context.settings.isTimerActive,
                 m_context.settings.sessionAddress,
                 m_context.settings.sessionPort,
 
-                (short)ui->sbTurnTime->value(),
-                (float)ui->dsbMaxBalance->value(),
+                (int8_t) ui->sbTurnTime->value(),
+                ui->sbMaxBalance->value(),
                 ui->chbIsBalanceInfinite->isChecked(),
-                (short)ui->sbMaxTurns->value(),
-                ui->chbAreTurnsInfinite->isChecked()
+                (uint8_t)ui->sbMaxTurns->value(),
+                ui->chbAreTurnsInfinite->isChecked(),
+                m_context.settings.type
             };
 }
 
@@ -375,7 +376,7 @@ void LobbyWindow::overwriteSettingsInputs(LobbySettings &overwriteBy)
         ui->sbMaxPlayers->setValue(overwriteBy.maxPlayersCount);
 
     ui->sbTurnTime->setValue(overwriteBy.turnTime);
-    ui->dsbMaxBalance->setValue(overwriteBy.maxMoney);
+    ui->sbMaxBalance->setValue(overwriteBy.maxMoney);
     ui->chbIsBalanceInfinite->setChecked(overwriteBy.isMaxMoneyInfinite);
     ui->sbMaxTurns->setValue(overwriteBy.maxTurns);
     ui->chbAreTurnsInfinite->setChecked(overwriteBy.areMaxTurnsInfinite);
@@ -447,7 +448,7 @@ void LobbyWindow::settingsChangesDetected()
 
 void LobbyWindow::toggleMaxBalanceAccessibility()
 {
-    ui->dsbMaxBalance->setDisabled(ui->chbIsBalanceInfinite->isChecked());
+    ui->sbMaxBalance->setDisabled(ui->chbIsBalanceInfinite->isChecked());
 }
 
 void LobbyWindow::toggleMaxTurnsAccessibility()

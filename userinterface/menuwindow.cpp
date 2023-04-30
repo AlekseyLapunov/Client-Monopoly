@@ -50,19 +50,18 @@ void MenuWindow::changeAcc()
 
 void MenuWindow::apply3dDiceState()
 {
-    pUserMetaInfo()->get()->apply3dDiceChoise(ui->aDiceIf3D->isChecked());
-    FileManager::fillUserMetaJson(pUserMetaInfo()->get()->get3dDiceChoise());
+    FileManager::apply3dDiceStateToLocal(ui->aDiceIf3D->isChecked());
 }
 
 void MenuWindow::lobbyClicked(QTableWidgetItem *itemClicked)
 {
-    selectedLobbyUniqueId = ui->tLobbies->item(ui->tLobbies->row(itemClicked), UNIQUE_ID_COL)->text();
+    selectedLobbyUniqueId = ui->tLobbies->item(ui->tLobbies->row(itemClicked), UNIQUE_ID_COL)->text().toInt();
     ui->statusbar->showMessage
                 (
                     ui->tLobbies->item(ui->tLobbies->row(itemClicked),
                                        LOBBY_NAME_COL)->text() +
                                        ssStatusBarSubMessage +
-                                       selectedLobbyUniqueId, 0
+                                       QString::number(selectedLobbyUniqueId), 0
                 );
 }
 
@@ -194,8 +193,8 @@ void MenuWindow::show()
     setupLobbiesFilter();
     pUserMetaInfo()->get()->setHostInfo(pServer()->get()->getCurrentHostInfo());
     displayHostShortInfo();
-    ui->aDiceIf3D->setChecked(FileManager::get3dDicePrefFromLocal());
-    FileManager::fillUserMetaJson(ui->aDiceIf3D->isChecked());
+    ui->aDiceIf3D->setChecked(FileManager::getUserMetaFromLocal(JsonKeysUserMeta::Uses3dDice).toInt());
+    FileManager::apply3dDiceStateToLocal(ui->aDiceIf3D->isChecked());
     setEnabled(true);
     windowDataRefresh();
     QMainWindow::show();
@@ -266,7 +265,7 @@ void MenuWindow::tableSetupFill(QTableWidget &table, const vector<LobbyShortInfo
     int row = 0;
     for(auto &lsiItem : contentVec)
     {
-        const QString uniqueId = lsiItem.uniqueId;
+        const int uniqueId = lsiItem.uniqueId;
         const QString lobbyName = lsiItem.name;
         if(!lobbyName.toLower().contains(filter.toLower()))
             continue;

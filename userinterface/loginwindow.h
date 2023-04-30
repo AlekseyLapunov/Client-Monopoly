@@ -7,11 +7,9 @@
 #include "helpers/basewin.h"
 #include "menuwindow.h"
 
-#define DEBUG
+//#define DEBUG
 
 namespace Ui { class LoginWindow; }
-
-typedef short serviceFlag;
 
 class LoginWindow : public QWidget, public BaseWin
 {
@@ -35,7 +33,7 @@ private slots:
 private:
     void closeEvent(QCloseEvent *event);
     enum ServiceFlags { Google, Vk };
-    void baseLogin(serviceFlag flag);
+    void baseLogin(short flag);
     void switchToMenuWindow();
 
 private:

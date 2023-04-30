@@ -2,11 +2,10 @@
 #define GAMESTRUCTS_H
 
 #include <memory>
+#include <stdint.h>
 #include <vector>
 
 using std::vector;
-
-typedef unsigned short ushort;
 
 #define DEFAULT_MAP_DIMENSION 9
 
@@ -16,11 +15,12 @@ struct Cell
     bool operator==(Cell &cellContext);
 
     int orderIndex;
-    ushort fieldTypeSet;
-    ushort playerNumberOwner;
+    uint8_t fieldTypeSet;
+    uint8_t playerNumberOwner;
     int fieldCost;
     int fieldIncome;
-    ushort piecesOnCellMask;
+    uint8_t piecesOnCellMask;
+    uint8_t stage;
 };
 
 enum FieldType

@@ -11,12 +11,12 @@ using std::string;
 
 // Regular expressions
 enum RegExpFlags {LobbyNameRegExp, NicknameRegExp, LobbyPasswordRegExp, LobbyUniqueIdRegExp};
-static const QMap<short, QString> ssRegExps = {
-                                                {LobbyNameRegExp,       "^((\\S+)(\\s?(\\S+))*)$"},
-                                                {NicknameRegExp,        "^((\\S+)(\\s?(\\S+))*)$"},
-                                                {LobbyPasswordRegExp,   "^(\\S|\\s)+$"},
-                                                {LobbyUniqueIdRegExp,   "^[a-zA-Z0-9]*$"}
-                                              };
+static const QMap<uint8_t, QString> ssRegExps = {
+                                                    {LobbyNameRegExp,       "^((\\S+)(\\s?(\\S+))*)$"},
+                                                    {NicknameRegExp,        "^((\\S+)(\\s?(\\S+))*)$"},
+                                                    {LobbyPasswordRegExp,   "^(\\S|\\s)+$"},
+                                                    {LobbyUniqueIdRegExp,   "^[0-9]*$"}
+                                                };
 
 // QMessageBox
 static const QString ssErrorTitle       = "Ошибка";
@@ -91,13 +91,15 @@ static const SubDialogStrings ssSubDialogPasswordedJoin = {
                                                             "Введите пароль комнаты",
                                                             "Пароль"
                                                           };
-static const QMap<short, SubDialogStrings> ssSdStrings  = {
+static const QMap<uint8_t, SubDialogStrings> ssSdStrings  = {
                                                             {SdNickname, ssSubDialogChangeNickname},
                                                             {SdDirectJoin, ssSubDialogJoinById},
                                                             {SdPasswordJoin, ssSubDialogPasswordedJoin}
                                                           };
 
 // filemanager.h
+enum TokenType { Access, Refresh };
+
 static const QString ssLocalDirPath           = "local/";
 static const QString ssUserMetaFileName       = "usermeta.json";
 static const QString ssRankedSettingsFileName = "default_ranked_settings.json";
@@ -107,33 +109,43 @@ static const QString ssCaptionExportSettings  = "Экспортировать н
 static const QString ssJsonFilter             = "JSON file (*.json)";
 
 // JSON keys
-enum JsonKeysUserMeta        { Uses3dDice };
+enum JsonKeysUserMeta        { AccessToken, RefreshToken, Uses3dDice };
+enum JsonKeysHostDisplayData { HostId, HostNickname, HostRpCount, HostIsGuest };
 enum JsonKeysLobbySettingsId { UniqueId, LobbyName, LobbyPassword, MaxPlayersCount, OwnerUniqueId, IsTimerActive,
-                               SessionAddress, SessionPort, TurnTime, MaxMoney, IsMaxMoneyInfinite, MaxTurns, AreMaxTurnsInfinite };
-static const QMap<short, QString> ssJsonKeysLobbySettingsIds  = {
-                                                                    {UniqueId,              "uniqueId"},
-                                                                    {LobbyName,             "lobbyName"},
-                                                                    {LobbyPassword,         "lobbyPassword"},
-                                                                    {MaxPlayersCount,       "maxPlayersCount"},
-                                                                    {OwnerUniqueId,         "ownerUniqueId"},
-                                                                    {IsTimerActive,         "isTimerActive"},
-                                                                    {SessionAddress,        "sessionAddress"},
-                                                                    {SessionPort,           "sessionPort"},
-                                                                    {TurnTime,              "turnTime"},
-                                                                    {MaxMoney,              "maxMoney"},
-                                                                    {IsMaxMoneyInfinite,    "isMaxMoneyInfinite"},
-                                                                    {MaxTurns,              "maxTurns"},
-                                                                    {AreMaxTurnsInfinite,   "areMaxTurnsInfinite"}
-                                                                };
-static const QMap<short, QString> ssJsonUserMeta              = {
-                                                                    {Uses3dDice, "uses3dDice"}
-                                                                };
-
+                               SessionAddress, SessionPort, TurnTime, MaxMoney, IsMaxMoneyInfinite, MaxTurns, AreMaxTurnsInfinite,
+                               Type };
+static const QMap<uint8_t, QString> ssJsonKeysLobbySettingsIds  = {
+                                                                        {UniqueId,              "uniqueId"},
+                                                                        {LobbyName,             "lobbyName"},
+                                                                        {LobbyPassword,         "lobbyPassword"},
+                                                                        {MaxPlayersCount,       "maxPlayersCount"},
+                                                                        {OwnerUniqueId,         "ownerUniqueId"},
+                                                                        {IsTimerActive,         "isTimerActive"},
+                                                                        {SessionAddress,        "sessionAddress"},
+                                                                        {SessionPort,           "sessionPort"},
+                                                                        {TurnTime,              "turnTime"},
+                                                                        {MaxMoney,              "maxMoney"},
+                                                                        {IsMaxMoneyInfinite,    "isMaxMoneyInfinite"},
+                                                                        {MaxTurns,              "maxTurns"},
+                                                                        {AreMaxTurnsInfinite,   "areMaxTurnsInfinite"},
+                                                                        {Type,                  "type"}
+                                                                  };
+static const QMap<uint8_t, QString> ssJsonUserMeta              = {
+                                                                        {AccessToken,   "accessToken"},
+                                                                        {RefreshToken,  "refreshToken"},
+                                                                        {Uses3dDice,    "uses3dDice"}
+                                                                  };
+static const QMap<uint8_t, QString> ssJsonHostDisplayData       = {
+                                                                        {HostId,        "ID"},
+                                                                        {HostNickname,  "nickname"},
+                                                                        {HostRpCount,   "rating"},
+                                                                        {HostIsGuest,   "is_guest"}
+                                                                  };
 
 // Classes Names for the exception thrower specifying
 enum ClassesNames { LoginWindowCN, MenuWindowCN, LobbiesSubDialogCN, LobbyWindowCN,
                     ServerCommCN, GameManagerCN, FileManagerCN };
-static const QMap<short, string> ssClassNames = {
+static const QMap<uint8_t, string> ssClassNames = {
                                                     {LoginWindowCN,      "LoginWindow: "},
                                                     {MenuWindowCN,       "MenuWindow: "},
                                                     {LobbiesSubDialogCN, "LobbiesSubDialog: "},
@@ -148,7 +160,7 @@ enum RunTimeErrorId { PtrLinkFail, LobbyNotFound, GoogleAuthFail, VkAuthFail,
                       AlreadyHasLobby, AlreadyInQueue, ApplySettingsFail,
                       ToggleReadyFail, StartGameFail, JsonParseError, KickPlayerFail,
                       PromotePlayerFail, LastSettingsFileDoesNotExist };
-static const QMap<short, string> ssRuntimeErrors  = {
+static const QMap<uint8_t, string> ssRuntimeErrors  = {
                                                         {PtrLinkFail,                   "Проблема при передаче указателей"},
                                                         {LobbyNotFound,                 "Лобби не найдено"},
                                                         {GoogleAuthFail,                "Не удалось войти через Google аккаунт"},
