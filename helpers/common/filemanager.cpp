@@ -59,7 +59,7 @@ QString FileManager::getUserMetaFromLocal(short dataUnitFlag)
 void FileManager::createUserMetaJson(const QString &dir)
 {
     QFile userMeta(dir + ssUserMetaFileName);
-    if(!userMeta.exists())
+    if(!userMeta.exists() || !isJsonFileIntegral(dir + ssUserMetaFileName))
     {
         userMeta.open(QIODevice::WriteOnly);
         writeFile(userMeta, defaultUserJson());
@@ -139,6 +139,10 @@ QString FileManager::defaultUserJson()
     QJsonObject mainObject;
     mainObject.insert(ssJsonUserMeta[AccessToken], "");
     mainObject.insert(ssJsonUserMeta[RefreshToken], "");
+    mainObject.insert(ssJsonUserMeta[HostId], -1);
+    mainObject.insert(ssJsonUserMeta[HostNickname], "Пользователь");
+    mainObject.insert(ssJsonUserMeta[HostRpCount], "0");
+    mainObject.insert(ssJsonUserMeta[HostIsGuest], false);
     mainObject.insert(ssJsonUserMeta[Uses3dDice], true);
 
     QJsonDocument doc(mainObject);
@@ -263,15 +267,15 @@ void FileManager::commitTokens(QByteArray data)
 
     QJsonDocument tokensDoc = QJsonDocument::fromJson(data);
 
-    if(!tokensDoc.object().value(ssJsonUserMeta[AccessToken]).toString().isEmpty())
+    if(!tokensDoc.object()[ssJsonUserMeta[AccessToken]].toString().isEmpty())
     {
         jsonObj.remove(ssJsonUserMeta[AccessToken]);
-        jsonObj.insert(ssJsonUserMeta[AccessToken], tokensDoc.object().value(ssJsonUserMeta[AccessToken]));
+        jsonObj.insert(ssJsonUserMeta[AccessToken], tokensDoc.object()[ssJsonUserMeta[AccessToken]]);
     }
-    if(!tokensDoc.object().value(ssJsonUserMeta[RefreshToken]).toString().isEmpty())
+    if(!tokensDoc.object()[ssJsonUserMeta[RefreshToken]].toString().isEmpty())
     {
         jsonObj.remove(ssJsonUserMeta[RefreshToken]);
-        jsonObj.insert(ssJsonUserMeta[RefreshToken], tokensDoc.object().value(ssJsonUserMeta[RefreshToken]));
+        jsonObj.insert(ssJsonUserMeta[RefreshToken], tokensDoc.object()[ssJsonUserMeta[RefreshToken]]);
     }
 
     QJsonDocument newJsonDoc(jsonObj);
@@ -287,14 +291,38 @@ QString FileManager::getToken(uint8_t tokenType)
 
     QJsonObject jsonObj = jsonDoc.object();
 
-    QString token = jsonObj.value(ssJsonUserMeta[tokenType]).toString();
+    QString token = jsonObj[ssJsonUserMeta[tokenType]].toString();
 
     if(token.isEmpty())
         return "";
     else return token;
 }
 
-void FileManager::commitHostUniqueId(int hostUserId)
+void FileManager::commitHostData(int uniqueId, QString nickname, int rpCount, bool isGuest)
+{
+    initLocalDirectory();
+
+    QString oldContent = readJsonToQString(ssLocalDirPath + ssUserMetaFileName);
+
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(oldContent.toUtf8());
+
+    QJsonObject jsonObj = jsonDoc.object();
+
+    jsonObj.remove(ssJsonUserMeta[HostId]);
+    jsonObj.insert(ssJsonUserMeta[HostId], uniqueId);
+    jsonObj.remove(ssJsonUserMeta[HostNickname]);
+    jsonObj.insert(ssJsonUserMeta[HostNickname], nickname);
+    jsonObj.remove(ssJsonUserMeta[HostRpCount]);
+    jsonObj.insert(ssJsonUserMeta[HostRpCount], rpCount);
+    jsonObj.remove(ssJsonUserMeta[HostIsGuest]);
+    jsonObj.insert(ssJsonUserMeta[HostIsGuest], isGuest);
+
+    QJsonDocument newJsonDoc(jsonObj);
+
+    writeFile(ssLocalDirPath + ssUserMetaFileName, newJsonDoc.toJson(QJsonDocument::Indented));
+}
+
+void FileManager::commitHostData(int hostUserId)
 {
     initLocalDirectory();
 
@@ -320,7 +348,7 @@ QString FileManager::getHostUniqueId()
 
     QJsonObject jsonObj = jsonDoc.object();
 
-    QString hostUniqueId = jsonObj.value(ssJsonUserMeta[HostId]).toString();
+    QString hostUniqueId = jsonObj[ssJsonUserMeta[HostId]].toString();
 
     if(hostUniqueId.isEmpty())
         return "";

@@ -34,7 +34,12 @@ void LobbyWindow::windowDataRefresh()
 {
     if(!isEnabled())
         return;
-    pUserMetaInfo()->get()->setHostInfo(pServer()->get()->getCurrentHostInfo());
+    bool ok = false;
+    pUserMetaInfo()->get()->setHostInfo(pServer()->get()->getCurrentHostInfo(ok));
+    if(!ok)
+    {
+        execErrorBox(QString::fromStdString(ssClassNames[ServerCommCN] + ssRuntimeErrors[GetHostInfoFail]), this);
+    }
     ///m_context = pServer()->get()->getCurrentLobbyContext(m_context.lobbySystem.uniqueId);
     setUpUsersInTable(*ui->tUsers, m_context.usersInLobby);
     setUpByPrivilege();

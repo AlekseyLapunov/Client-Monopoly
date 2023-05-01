@@ -191,7 +191,7 @@ void MenuWindow::show()
 #endif
     ui->setupUi(this);
     setupLobbiesFilter();
-    pUserMetaInfo()->get()->setHostInfo(pServer()->get()->getCurrentHostInfo());
+    //pUserMetaInfo()->get()->setHostInfo(pServer()->get()->getCurrentHostInfo());
     displayHostShortInfo();
     ui->aDiceIf3D->setChecked(FileManager::getUserMetaFromLocal(JsonKeysUserMeta::Uses3dDice).toInt());
     FileManager::apply3dDiceStateToLocal(ui->aDiceIf3D->isChecked());

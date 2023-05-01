@@ -40,12 +40,12 @@ public:
     ~ServerCommunicator();
 
     // Logins
-    HostUserData tryVkLogin();
-    HostUserData tryGoogleLogin();
-    HostUserData tryIfNoNeedToAuth();
+    HostUserData doVkLogin(bool &ok);
+    HostUserData doGoogleLogin(bool &ok);
+    HostUserData checkIfNoNeedToAuth(bool &ok);
 
     // Host info
-    HostUserData getCurrentHostInfo();
+    HostUserData getCurrentHostInfo(bool &ok);
 
     // Lobbies
     vector<LobbyShortInfo>& getLobbiesShortInfo();
@@ -67,7 +67,6 @@ signals:
     void authorizationProcessOver();
     void getInfoProcessOver();
     void refreshTokenProcessOver();
-    void accessTokenRefreshed();
 
 private slots:
     void parseAuthReply(QNetworkReply *reply);
@@ -77,14 +76,12 @@ private slots:
 private:
     void oauthConfigure(uint8_t authType);
     QUrl makeAddress(QString host, int port, QString additionalParameters = {});
-    void doRefreshAccessToken();
+    bool doRefreshAccessToken();
 
 private:
     QNetworkAccessManager *m_networkManager;
     QOAuth2AuthorizationCodeFlow *m_oauth;
     QOAuthHttpServerReplyHandler* m_replyHandler;
-    QTimer *m_eventTimer;
-    QEventLoop *m_eventLoop;
 
     QString m_host = "ppcd.fun";
     int m_port = 6543;
@@ -114,7 +111,7 @@ private:
     HostUserData m_temporaryHostData;
     vector<LobbyShortInfo> m_lobbiesShortInfoVec;
 
-    bool retryIfNotNeedToAuth = false;
+    bool retryMethod = false;
 };
 
 #endif // SERVERCOMMUNICATOR_H

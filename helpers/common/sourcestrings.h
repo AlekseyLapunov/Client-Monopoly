@@ -109,8 +109,7 @@ static const QString ssCaptionExportSettings  = "Экспортировать н
 static const QString ssJsonFilter             = "JSON file (*.json)";
 
 // JSON keys
-enum JsonKeysUserMeta        { AccessToken, RefreshToken, Uses3dDice };
-enum JsonKeysHostDisplayData { HostId, HostNickname, HostRpCount, HostIsGuest };
+enum JsonKeysUserMeta        { AccessToken, RefreshToken, HostId, HostNickname, HostRpCount, HostIsGuest, Uses3dDice };
 enum JsonKeysLobbySettingsId { UniqueId, LobbyName, LobbyPassword, MaxPlayersCount, OwnerUniqueId, IsTimerActive,
                                SessionAddress, SessionPort, TurnTime, MaxMoney, IsMaxMoneyInfinite, MaxTurns, AreMaxTurnsInfinite,
                                Type };
@@ -133,13 +132,11 @@ static const QMap<uint8_t, QString> ssJsonKeysLobbySettingsIds  = {
 static const QMap<uint8_t, QString> ssJsonUserMeta              = {
                                                                         {AccessToken,   "accessToken"},
                                                                         {RefreshToken,  "refreshToken"},
-                                                                        {Uses3dDice,    "uses3dDice"}
-                                                                  };
-static const QMap<uint8_t, QString> ssJsonHostDisplayData       = {
                                                                         {HostId,        "ID"},
                                                                         {HostNickname,  "nickname"},
                                                                         {HostRpCount,   "rating"},
-                                                                        {HostIsGuest,   "is_guest"}
+                                                                        {HostIsGuest,   "is_guest"},
+                                                                        {Uses3dDice,    "uses3dDice"},
                                                                   };
 
 // Classes Names for the exception thrower specifying
@@ -159,7 +156,7 @@ static const QMap<uint8_t, string> ssClassNames = {
 enum RunTimeErrorId { PtrLinkFail, LobbyNotFound, GoogleAuthFail, VkAuthFail,
                       AlreadyHasLobby, AlreadyInQueue, ApplySettingsFail,
                       ToggleReadyFail, StartGameFail, JsonParseError, KickPlayerFail,
-                      PromotePlayerFail, LastSettingsFileDoesNotExist };
+                      PromotePlayerFail, LastSettingsFileDoesNotExist, GetHostInfoFail };
 static const QMap<uint8_t, string> ssRuntimeErrors  = {
                                                         {PtrLinkFail,                   "Проблема при передаче указателей"},
                                                         {LobbyNotFound,                 "Лобби не найдено"},
@@ -173,7 +170,8 @@ static const QMap<uint8_t, string> ssRuntimeErrors  = {
                                                         {JsonParseError,                "Не удалось обработать JSON-файл"},
                                                         {KickPlayerFail,                "Не удалось исключить игрока"},
                                                         {PromotePlayerFail,             "Не удалось сделать игрока владельцем"},
-                                                        {LastSettingsFileDoesNotExist,  "Файл с последними настройками не существует"}
+                                                        {LastSettingsFileDoesNotExist,  "Файл с последними настройками не существует"},
+                                                        {GetHostInfoFail,               "Не удалось обновить данные пользователя"}
                                                     };
 
 #endif // SOURCESTRINGS_H

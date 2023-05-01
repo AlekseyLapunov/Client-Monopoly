@@ -31,13 +31,13 @@ void LoginWindow::show()
 #endif
     ui->setupUi(this);
 
-    try
+    bool ok = false;
+
+    pUserMetaInfo()->get()->setHostInfo(pServer()->get()->checkIfNoNeedToAuth(ok));
+
+    if(ok)
     {
-        pUserMetaInfo()->get()->setHostInfo(pServer()->get()->tryIfNoNeedToAuth());
-    }
-    catch (std::exception &e)
-    {
-        qDebug().noquote() << QString::fromStdString(ssClassNames[LoginWindowCN]) << "Need to login.";
+        switchToMenuWindow();
     }
 
     setDisabled(false);
@@ -79,17 +79,18 @@ void LoginWindow::closeEvent(QCloseEvent *event)
 
 void LoginWindow::baseLogin(short flag)
 {
-    try
+    bool ok = false;
+    pUserMetaInfo()->get()->setHostInfo
+    (
+        flag == LoginWindow::Vk ? pServer()->get()->doVkLogin(ok)
+                                : pServer()->get()->doGoogleLogin(ok)
+    );
+    if(!ok)
     {
-        pUserMetaInfo()->get()->setHostInfo
-            (
-                flag == LoginWindow::Vk ? pServer()->get()->tryVkLogin()
-                                        : pServer()->get()->tryGoogleLogin()
-            );
-    }
-    catch(const std::exception &e)
-    {
-        execErrorBox(e.what(), this);
+        execErrorBox((QString::fromStdString(ssClassNames[ServerCommCN] +
+                     (flag == LoginWindow::Vk ? ssRuntimeErrors[VkAuthFail]
+                                              : ssRuntimeErrors[VkAuthFail]))),
+                     this);
         return;
     }
     switchToMenuWindow();

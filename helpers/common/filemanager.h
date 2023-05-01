@@ -31,7 +31,11 @@ public:
     static QString getPageAsCallbackText();
     static void commitTokens(QByteArray data);
     static QString getToken(uint8_t tokenType);
-    static void commitHostUniqueId(int hostUserId);
+    static void commitHostData(int uniqueId,
+                               QString nickname,
+                               int rpCount,
+                               bool isGuest);
+    static void commitHostData(int hostUserId);
     static QString getHostUniqueId();
 
 private:

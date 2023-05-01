@@ -5,8 +5,6 @@ ServerCommunicator::ServerCommunicator(QObject* parent) : QObject(parent)
     m_oauth = new QOAuth2AuthorizationCodeFlow(this);
     m_networkManager = new QNetworkAccessManager(this);
     m_replyHandler = new QOAuthHttpServerReplyHandler(m_port, this);
-    m_eventTimer = new QTimer(this);
-    m_eventLoop = new QEventLoop(this);
 }
 
 ServerCommunicator::~ServerCommunicator()
@@ -19,127 +17,151 @@ ServerCommunicator::~ServerCommunicator()
     m_networkManager = nullptr;
     delete m_replyHandler;
     m_replyHandler = nullptr;
-    delete m_eventTimer;
-    m_eventTimer = nullptr;
-    delete m_eventLoop;
-    m_eventLoop = nullptr;
 }
 
-HostUserData ServerCommunicator::tryVkLogin()
+HostUserData ServerCommunicator::doVkLogin(bool &ok)
 {
 #ifdef AUTH_STUB
-    // !!! STUB !!!
-    if(false)
-        throw std::runtime_error(ssClassNames[ServerCommCN] + ssRuntimeErrors[VkAuthFail]);
-
     m_temporaryHostData = {11, "VK STUB", 1110};
 #else
     oauthConfigure(AuthType::VK);
 
-    m_eventTimer->setSingleShot(true);
+    QTimer eventTimer;
+    QEventLoop eventLoop;
 
-    connect( this, &ServerCommunicator::authorizationProcessOver, m_eventLoop, &QEventLoop::quit );
-    connect( m_eventTimer, &QTimer::timeout, m_eventLoop, &QEventLoop::quit );
+    eventTimer.setSingleShot(true);
 
-    m_eventTimer->start(MS_TIMEOUT);
+    connect( this, &ServerCommunicator::authorizationProcessOver, &eventLoop, &QEventLoop::quit );
+    connect( &eventTimer, &QTimer::timeout, &eventLoop, &QEventLoop::quit );
+
+    eventTimer.start(MS_TIMEOUT);
 
     m_oauth->grant();
 
-    m_eventLoop->exec();
+    eventLoop.exec();
 
-    if(m_eventTimer->isActive())
+    if(eventTimer.isActive())
+    {
+        ok = true;
         return m_temporaryHostData;
+    }
     else
-        throw std::runtime_error(ssClassNames[ServerCommCN] + ssRuntimeErrors[VkAuthFail]);
+    {
+        ok = false;
+        return {};
+    }
 #endif
 
     return m_temporaryHostData;
 }
 
-HostUserData ServerCommunicator::tryGoogleLogin()
+HostUserData ServerCommunicator::doGoogleLogin(bool &ok)
 {
 #ifdef AUTH_STUB
-    // !!! STUB !!!
-    if(false)
-        throw std::runtime_error(ssClassNames[ServerCommCN] + ssRuntimeErrors[GoogleAuthFail]);
-
     m_temporaryHostData = {13, "GOOGLE STUB", 1200};
 #else
     oauthConfigure(AuthType::Google);
 
-    m_eventTimer->setSingleShot(true);
+    QTimer eventTimer;
+    QEventLoop eventLoop;
 
-    connect( this, &ServerCommunicator::authorizationProcessOver, m_eventLoop, &QEventLoop::quit );
-    connect( m_eventTimer, &QTimer::timeout, m_eventLoop, &QEventLoop::quit );
+    eventTimer.setSingleShot(true);
 
-    m_eventTimer->start(MS_TIMEOUT);
+    connect( this, &ServerCommunicator::authorizationProcessOver, &eventLoop, &QEventLoop::quit );
+    connect( &eventTimer, &QTimer::timeout, &eventLoop, &QEventLoop::quit );
+
+    eventTimer.start(MS_TIMEOUT);
 
     m_oauth->grant();
 
-    m_eventLoop->exec();
+    eventLoop.exec();
 
-    if(m_eventTimer->isActive())
+    if(eventTimer.isActive())
+    {
+        ok = true;
         return m_temporaryHostData;
+    }
     else
-        throw std::runtime_error(ssClassNames[ServerCommCN] + ssRuntimeErrors[GoogleAuthFail]);
+    {
+        ok = false;
+        return {};
+    }
 #endif
 
     return m_temporaryHostData;
 }
 
-HostUserData ServerCommunicator::tryIfNoNeedToAuth()
+HostUserData ServerCommunicator::checkIfNoNeedToAuth(bool &ok)
 {
 #ifdef AUTH_STUB
     m_temporaryHostData = {17, "NO AUTH STUB", 2200};
 #else
-    QString gotAccessToken = FileManager::getToken(TokenType::Access);
-    QString gotHostUniqueId = FileManager::getHostUniqueId();
-
-    if(gotAccessToken.isEmpty() || gotHostUniqueId.isEmpty())
-        throw std::runtime_error("Токен доступа отсутствует.");
-
-    m_eventTimer->setSingleShot(true);
-
-    connect( this, &ServerCommunicator::getInfoProcessOver, m_eventLoop, &QEventLoop::quit );
-    connect( m_eventTimer, &QTimer::timeout, m_eventLoop, &QEventLoop::quit);
-
-    m_eventTimer->start(MS_TIMEOUT);
-
-    auto status = connect(m_networkManager, &QNetworkAccessManager::finished,
-                          this, &ServerCommunicator::parseGetInfo);
-
-    QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
-    QHttpPart textPart;
-    textPart.setRawHeader("Authorization", ("Bearer " + gotAccessToken).toUtf8());
-
-    multiPart->append(textPart);
-
-    m_networkManager->post(QNetworkRequest(makeAddress(m_host, m_port,
-                                                       (m_getInfoMethodPrefix +
-                                                        gotHostUniqueId +
-                                                        m_getInfoMethodPostfix))),
-                           multiPart);
-
-    m_eventLoop->exec();
-
-    if(retryIfNotNeedToAuth)
+    if(!doRefreshAccessToken())
     {
-        retryIfNotNeedToAuth = false;
-        return m_temporaryHostData = tryIfNoNeedToAuth();
+        ok = false;
+        return {};
     }
 
-    if(m_eventTimer->isActive())
+    getCurrentHostInfo(ok);
+
+    if(ok)
         return m_temporaryHostData;
     else
-        throw std::runtime_error(ssClassNames[ServerCommCN] + ssRuntimeErrors[GoogleAuthFail]);
+        return {};
+
 #endif
     return m_temporaryHostData;
 }
 
-HostUserData ServerCommunicator::getCurrentHostInfo()
+HostUserData ServerCommunicator::getCurrentHostInfo(bool &ok)
 {
-    // Need to request Host Data from server data base
-    return m_temporaryHostData;
+    retryMethod = false;
+
+    QString gotAccessToken = FileManager::getToken(TokenType::Access);
+    QString gotHostUniqueId = FileManager::getHostUniqueId();
+
+    if(gotAccessToken.isEmpty() || gotHostUniqueId.isEmpty())
+    {
+        ok = false;
+        return {};
+    }
+
+    QTimer eventTimer;
+    QEventLoop eventLoop;
+
+    eventTimer.setSingleShot(true);
+
+    connect( this, &ServerCommunicator::getInfoProcessOver, &eventLoop, &QEventLoop::quit );
+    connect( &eventTimer, &QTimer::timeout, &eventLoop, &QEventLoop::quit);
+
+    eventTimer.start(MS_TIMEOUT);
+
+    auto status = connect(m_networkManager, &QNetworkAccessManager::finished,
+                         this, &ServerCommunicator::parseGetInfo);
+
+    QNetworkRequest request(QUrl(makeAddress(m_host, m_port,
+                                            (m_getInfoMethodPrefix +
+                                             gotHostUniqueId +
+                                             m_getInfoMethodPostfix))));
+    request.setRawHeader("Authorization", ("Bearer " + gotAccessToken).toUtf8());
+
+    m_networkManager->get(request);
+
+    eventLoop.exec();
+
+    if(retryMethod)
+        return m_temporaryHostData = checkIfNoNeedToAuth(ok);
+
+    if(eventTimer.isActive())
+    {
+        ok = true;
+        return m_temporaryHostData;
+    }
+    else
+    {
+        ok = false;
+        return {};
+    }
 }
 
 vector<LobbyShortInfo> &ServerCommunicator::getLobbiesShortInfo()
@@ -339,12 +361,15 @@ void ServerCommunicator::parseAuthReply(QNetworkReply *reply)
 
     QJsonObject jsonObj = QJsonDocument::fromJson(reply->readAll()).object();
 
-    m_temporaryHostData.uniqueId = jsonObj.value(ssJsonHostDisplayData[HostId]).toInt();
-    m_temporaryHostData.nickname = jsonObj.value(ssJsonHostDisplayData[HostNickname]).toString();
-    m_temporaryHostData.rpCount  = jsonObj.value(ssJsonHostDisplayData[HostRpCount]).toInt();
-    m_temporaryHostData.isGuest  = jsonObj.value(ssJsonHostDisplayData[HostIsGuest]).toBool();
+    m_temporaryHostData.uniqueId = jsonObj[ssJsonUserMeta[HostId]].toInt();
+    m_temporaryHostData.nickname = jsonObj[ssJsonUserMeta[HostNickname]].toString();
+    m_temporaryHostData.rpCount  = jsonObj[ssJsonUserMeta[HostRpCount]].toInt();
+    m_temporaryHostData.isGuest  = jsonObj[ssJsonUserMeta[HostIsGuest]].toBool();
 
-    FileManager::commitHostUniqueId(m_temporaryHostData.uniqueId);
+    FileManager::commitHostData(m_temporaryHostData.uniqueId,
+                                m_temporaryHostData.nickname,
+                                m_temporaryHostData.rpCount,
+                                m_temporaryHostData.isGuest);
 
     emit authorizationProcessOver();
 
@@ -361,18 +386,14 @@ void ServerCommunicator::parseGetInfo(QNetworkReply *reply)
         throw std::runtime_error(ssClassNames[ServerCommCN] + "Полученный код не валиден");
     else if(statusCode.toInt() == CODE_NOT_AUTHORIZED)
     {
-        try
+        if(!doRefreshAccessToken())
         {
-            doRefreshAccessToken();
-        }
-        catch (std::exception &e)
-        {
-            qDebug().noquote() << e.what();
+            qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
+                               << "Refresh Access Token: Can not provide";
             return;
         }
 
-        retryIfNotNeedToAuth = true;
-        emit accessTokenRefreshed();
+        retryMethod = true;
         emit getInfoProcessOver();
         return;
     }
@@ -381,12 +402,15 @@ void ServerCommunicator::parseGetInfo(QNetworkReply *reply)
 
     QJsonObject jsonObj = QJsonDocument::fromJson(reply->readAll()).object();
 
-    m_temporaryHostData.uniqueId = jsonObj.value(ssJsonHostDisplayData[HostId]).toInt();
-    m_temporaryHostData.nickname = jsonObj.value(ssJsonHostDisplayData[HostNickname]).toString();
-    m_temporaryHostData.rpCount  = jsonObj.value(ssJsonHostDisplayData[HostRpCount]).toInt();
-    m_temporaryHostData.isGuest  = jsonObj.value(ssJsonHostDisplayData[HostIsGuest]).toBool();
+    m_temporaryHostData.uniqueId = jsonObj[ssJsonUserMeta[HostId]].toInt();
+    m_temporaryHostData.nickname = jsonObj[ssJsonUserMeta[HostNickname]].toString();
+    m_temporaryHostData.rpCount  = jsonObj[ssJsonUserMeta[HostRpCount]].toInt();
+    m_temporaryHostData.isGuest  = jsonObj[ssJsonUserMeta[HostIsGuest]].toBool();
 
-    FileManager::commitHostUniqueId(m_temporaryHostData.uniqueId);
+    FileManager::commitHostData(m_temporaryHostData.uniqueId,
+                                m_temporaryHostData.nickname,
+                                m_temporaryHostData.rpCount,
+                                m_temporaryHostData.isGuest);
 
     emit getInfoProcessOver();
 
@@ -400,16 +424,23 @@ void ServerCommunicator::parseRefreshAccessToken(QNetworkReply *reply)
     qDebug().noquote() << "Refresh Access Token code: " << statusCode.toString();
 
     if(!statusCode.isValid())
-        throw std::runtime_error(ssClassNames[ServerCommCN] + "Полученный код не валиден");
+    {
+        qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
+                           << "Refresh Access Token: Status code not valid.";
+        return;
+    }
     else if(statusCode.toInt() == CODE_NOT_AUTHORIZED)
     {
         qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
-                           << "Токен доступа не действителен. Необходима авторизация.";
+                           << "Refresh Access Token: Need to authorize";
         return;
     }
     else if(statusCode.toInt() != CODE_SUCCESS)
-        throw std::runtime_error(ssClassNames[ServerCommCN] + "Полученный код не равен 200 ("
-                                 + statusCode.toString().toStdString() + ")");
+    {
+        qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
+                           << "Refresh Access Token: Code is not 200";
+        return;
+    }
 
     FileManager::commitTokens(reply->readAll());
 
@@ -423,13 +454,13 @@ QUrl ServerCommunicator::makeAddress(QString host, int port, QString additionalP
     return ("https://" + host + ":" + QString::number(port) + (!additionalParameters.isEmpty() ? ("/" + additionalParameters) : ""));
 }
 
-void ServerCommunicator::doRefreshAccessToken()
+bool ServerCommunicator::doRefreshAccessToken()
 {
     QTimer localTimer;
     QEventLoop localEventLoop;
 
-    connect( this, &ServerCommunicator::refreshTokenProcessOver, &localEventLoop, &QEventLoop::quit );
-    connect( &localTimer, &QTimer::timeout, &localEventLoop, &QEventLoop::quit);
+    connect(this, &ServerCommunicator::refreshTokenProcessOver, &localEventLoop, &QEventLoop::quit);
+    connect(&localTimer, &QTimer::timeout, &localEventLoop, &QEventLoop::quit);
 
     localTimer.start(MS_TIMEOUT);
 
@@ -439,23 +470,18 @@ void ServerCommunicator::doRefreshAccessToken()
     QString gotRefreshToken = FileManager::getToken(TokenType::Refresh);
 
     if(gotRefreshToken.isEmpty())
-        return;
+        return false;
 
-    QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
-    QHttpPart textPart;
-    textPart.setRawHeader("Authorization", ("Bearer " + gotRefreshToken.toUtf8()));
-
-    multiPart->append(textPart);
-
-    m_networkManager->post(QNetworkRequest(makeAddress(m_host, m_port, m_refreshAccessTokenMethod)),
-                           multiPart);
+    QNetworkRequest request(QUrl(makeAddress(m_host, m_port, m_refreshAccessTokenMethod)));
+    request.setRawHeader("Authorization", ("Bearer " + gotRefreshToken.toUtf8()));
+    m_networkManager->post(request, "");
 
     localEventLoop.exec();
 
     if(localTimer.isActive())
-        return;
+        return true;
     else
-        throw std::runtime_error("Не удалось обновить токен.");
+        return false;
 }
 
 
