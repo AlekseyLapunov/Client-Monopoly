@@ -92,6 +92,7 @@ void LoginWindow::baseLogin(short flag)
                      (flag == LoginWindow::Vk ? ssRuntimeErrors[VkAuthFail]
                                               : ssRuntimeErrors[VkAuthFail]))),
                      this);
+        setDisabled(false);
         return;
     }
     setDisabled(false);
