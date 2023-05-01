@@ -32,6 +32,8 @@
 // Event timer timeout
 #define MS_TIMEOUT                   2500
 
+#define LOCAL_COUNTER_MAX            1
+
 class ServerCommunicator : public QObject
 {
     Q_OBJECT
@@ -42,10 +44,10 @@ public:
     // Logins
     HostUserData doVkLogin(bool &ok);
     HostUserData doGoogleLogin(bool &ok);
-    HostUserData checkIfNoNeedToAuth(bool &ok);
+    HostUserData checkIfNoNeedToAuth(bool &ok, uint8_t localCounter = 0);
 
     // Host info
-    HostUserData getCurrentHostInfo(bool &ok);
+    HostUserData getCurrentHostInfo(bool &ok, bool retryCheckIfNoNeedToAuth, uint8_t localCounter = 0);
 
     // Lobbies
     vector<LobbyShortInfo>& getLobbiesShortInfo();
@@ -61,7 +63,7 @@ public:
     void deleteLobby(const int lobbyUniqueId);
 
     // Miscelanious
-    void changeNickname(const QString newNickname);
+    void changeNickname(const QString newNickname, uint8_t localCounter = 0);
 
 signals:
     void authorizationProcessOver();
@@ -72,6 +74,7 @@ private slots:
     void parseAuthReply(QNetworkReply *reply);
     void parseGetInfo(QNetworkReply *reply);
     void parseRefreshAccessToken(QNetworkReply *reply);
+    void parseChangeNickname(QNetworkReply *reply);
 
 private:
     void oauthConfigure(uint8_t authType);

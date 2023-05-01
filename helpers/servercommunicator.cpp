@@ -24,6 +24,8 @@ HostUserData ServerCommunicator::doVkLogin(bool &ok)
 #ifdef AUTH_STUB
     m_temporaryHostData = {11, "VK STUB", 1110};
 #else
+    m_networkManager->disconnect();
+
     oauthConfigure(AuthType::VK);
 
     QTimer eventTimer;
@@ -60,6 +62,8 @@ HostUserData ServerCommunicator::doGoogleLogin(bool &ok)
 #ifdef AUTH_STUB
     m_temporaryHostData = {13, "GOOGLE STUB", 1200};
 #else
+    m_networkManager->disconnect();
+
     oauthConfigure(AuthType::Google);
 
     QTimer eventTimer;
@@ -91,18 +95,24 @@ HostUserData ServerCommunicator::doGoogleLogin(bool &ok)
     return m_temporaryHostData;
 }
 
-HostUserData ServerCommunicator::checkIfNoNeedToAuth(bool &ok)
+HostUserData ServerCommunicator::checkIfNoNeedToAuth(bool &ok, uint8_t localCounter)
 {
+    if(localCounter >= LOCAL_COUNTER_MAX)
+    {
+        ok = false;
+        return {};
+    }
 #ifdef AUTH_STUB
     m_temporaryHostData = {17, "NO AUTH STUB", 2200};
 #else
+
     if(!doRefreshAccessToken())
     {
         ok = false;
         return {};
     }
 
-    getCurrentHostInfo(ok);
+    m_temporaryHostData = getCurrentHostInfo(ok, true, localCounter);
 
     if(ok)
         return m_temporaryHostData;
@@ -113,8 +123,15 @@ HostUserData ServerCommunicator::checkIfNoNeedToAuth(bool &ok)
     return m_temporaryHostData;
 }
 
-HostUserData ServerCommunicator::getCurrentHostInfo(bool &ok)
+HostUserData ServerCommunicator::getCurrentHostInfo(bool &ok, bool retryCheckIfNoNeedToAuth, uint8_t localCounter)
 {
+    if(localCounter >= LOCAL_COUNTER_MAX)
+    {
+        ok = false;
+        return {};
+    }
+
+    m_networkManager->disconnect();
     retryMethod = false;
 
     QString gotAccessToken = FileManager::getToken(TokenType::Access);
@@ -136,8 +153,8 @@ HostUserData ServerCommunicator::getCurrentHostInfo(bool &ok)
 
     eventTimer.start(MS_TIMEOUT);
 
-    auto status = connect(m_networkManager, &QNetworkAccessManager::finished,
-                         this, &ServerCommunicator::parseGetInfo);
+    connect(m_networkManager, &QNetworkAccessManager::finished,
+            this, &ServerCommunicator::parseGetInfo);
 
     QNetworkRequest request(makeAddress(m_host, m_port,
                                         m_httpMethods[GetUsersGetInfoById].arg(gotHostUniqueId)));
@@ -147,8 +164,17 @@ HostUserData ServerCommunicator::getCurrentHostInfo(bool &ok)
 
     eventLoop.exec();
 
-    if(retryMethod)
-        return m_temporaryHostData = checkIfNoNeedToAuth(ok);
+    if(retryMethod && retryCheckIfNoNeedToAuth)
+    {
+        localCounter++;
+        return m_temporaryHostData = checkIfNoNeedToAuth(ok, localCounter);
+    }
+
+    if(retryMethod && !retryCheckIfNoNeedToAuth)
+    {
+        localCounter++;
+        return getCurrentHostInfo(ok, retryCheckIfNoNeedToAuth, localCounter);
+    }
 
     if(eventTimer.isActive())
     {
@@ -308,9 +334,30 @@ void ServerCommunicator::tryPromotePlayer(const int lobbyUniqueId, const int pla
 #endif
 }
 
-void ServerCommunicator::changeNickname(const QString newNickname)
+void ServerCommunicator::changeNickname(const QString newNickname, uint8_t localCounter)
 {
-    // !!! STUB !!!
+    if(localCounter >= LOCAL_COUNTER_MAX)
+        return;
+
+    retryMethod = false;
+    m_networkManager->disconnect();
+
+    QString gotAccessToken = FileManager::getToken(TokenType::Access);
+
+    connect(m_networkManager, &QNetworkAccessManager::finished,
+            this, &ServerCommunicator::parseChangeNickname);
+
+    QNetworkRequest request(makeAddress(m_host, m_port,
+                                        m_httpMethods[PostUsersChangeNickname]));
+    request.setRawHeader(m_authorizationRawHeader.toUtf8(), m_authorizationHeaderContent.arg(gotAccessToken).toUtf8());
+
+    m_networkManager->post(request, QString("{\"newNickname\": \"%1\"}").arg(newNickname).toUtf8());
+
+    if(retryMethod)
+    {
+        localCounter++;
+        return changeNickname(newNickname, localCounter);
+    }
 }
 
 void ServerCommunicator::oauthConfigure(uint8_t authType)
@@ -339,8 +386,8 @@ void ServerCommunicator::oauthConfigure(uint8_t authType)
         QJsonDocument codeDoc(codeObj);
         codeDoc.toJson(QJsonDocument::Compact);
 
-        auto status = connect(m_networkManager, &QNetworkAccessManager::finished,
-                              this, &ServerCommunicator::parseAuthReply);
+        connect(m_networkManager, &QNetworkAccessManager::finished,
+               this, &ServerCommunicator::parseAuthReply);
 
         QNetworkRequest request(makeAddress(m_host, m_port,
                                             m_httpMethods[authType]));
@@ -352,7 +399,11 @@ void ServerCommunicator::oauthConfigure(uint8_t authType)
 
 void ServerCommunicator::parseAuthReply(QNetworkReply *reply)
 {
+    disconnect(m_networkManager, &QNetworkAccessManager::finished,
+               this, &ServerCommunicator::parseAuthReply);
+
     QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+    QByteArray bytes = reply->readAll();
 
     qDebug().noquote() << "Auth: HTTP code " << statusCode.toString();
 
@@ -366,9 +417,11 @@ void ServerCommunicator::parseAuthReply(QNetworkReply *reply)
         qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
                            << QString("Status code is not success (%1)").arg(statusCode.toString());
 
-    FileManager::commitTokens(reply->readAll());
+    qDebug().noquote() << "Auth reply body: " << QString::fromUtf8(bytes.data(), bytes.size());
 
-    QJsonObject jsonObj = QJsonDocument::fromJson(reply->readAll()).object();
+    FileManager::commitTokens(bytes.data());
+
+    QJsonObject jsonObj = QJsonDocument::fromJson(bytes.data()).object();
 
     QJsonValue jsonValue = jsonObj.value(ssJsonUserMeta[UserInfoObj]);
 
@@ -398,14 +451,24 @@ void ServerCommunicator::parseAuthReply(QNetworkReply *reply)
 
 void ServerCommunicator::parseGetInfo(QNetworkReply *reply)
 {
-    QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+    disconnect(m_networkManager, &QNetworkAccessManager::finished,
+               this, &ServerCommunicator::parseGetInfo);
 
-    qDebug().noquote() << "Get info code: " << statusCode.toString();
+    QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+    QByteArray bytes = reply->readAll();
+
+    qDebug().noquote() << "Get Info: HTTP code " << statusCode.toString();
 
     if(!statusCode.isValid())
-        throw std::runtime_error(ssClassNames[ServerCommCN] + "Полученный код не валиден");
+    {
+        qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
+                           << "Get Info: code is not valid";
+        return;
+    }
     else if(statusCode.toInt() == CODE_NOT_AUTHORIZED)
     {
+        qDebug().noquote() << "Get Info NOT AUTHORIZED reply body: "
+                           << QString::fromUtf8(bytes.data(), bytes.size());
         if(!doRefreshAccessToken())
         {
             qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
@@ -418,14 +481,31 @@ void ServerCommunicator::parseGetInfo(QNetworkReply *reply)
         return;
     }
     else if((statusCode.toInt() != CODE_SUCCESS) && (statusCode.toInt() != CODE_NOT_AUTHORIZED))
-        throw std::runtime_error(ssClassNames[ServerCommCN] + "Полученный код не подходит к выборке (" + statusCode.toString().toStdString() + ")");
+    {
+        qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
+                           << QString("Get Info: Not allowed code (%1)").arg(statusCode.toString());
+        return;
+    }
 
-    QJsonObject jsonObj = QJsonDocument::fromJson(reply->readAll()).object();
+    qDebug().noquote() << "Get Info reply body: " << QString::fromUtf8(bytes.data(), bytes.size());
 
-    m_temporaryHostData.uniqueId = jsonObj[ssJsonUserMeta[HostId]].toInt();
-    m_temporaryHostData.nickname = jsonObj[ssJsonUserMeta[HostNickname]].toString();
-    m_temporaryHostData.rpCount  = jsonObj[ssJsonUserMeta[HostRpCount]].toInt();
-    m_temporaryHostData.isGuest  = jsonObj[ssJsonUserMeta[HostIsGuest]].toBool();
+    QJsonObject jsonObj = QJsonDocument::fromJson(bytes.data()).object();
+
+    QJsonValue jsonValue = jsonObj.value(ssJsonUserMeta[UserInfoObj]);
+
+    if(!jsonValue.isObject())
+    {
+        qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
+                           << "userInfo object is fractured";
+        return;
+    }
+
+    QJsonObject jsonUserInfoObj = jsonValue.toObject();
+
+    m_temporaryHostData.uniqueId = jsonUserInfoObj[ssJsonUserMeta[HostId]].toInt();
+    m_temporaryHostData.nickname = jsonUserInfoObj[ssJsonUserMeta[HostNickname]].toString();
+    m_temporaryHostData.rpCount  = jsonUserInfoObj[ssJsonUserMeta[HostRpCount]].toInt();
+    m_temporaryHostData.isGuest  = jsonUserInfoObj[ssJsonUserMeta[HostIsGuest]].toBool();
 
     FileManager::commitHostData(m_temporaryHostData.uniqueId,
                                 m_temporaryHostData.nickname,
@@ -439,7 +519,11 @@ void ServerCommunicator::parseGetInfo(QNetworkReply *reply)
 
 void ServerCommunicator::parseRefreshAccessToken(QNetworkReply *reply)
 {
+    disconnect(m_networkManager, &QNetworkAccessManager::finished,
+               this, &ServerCommunicator::parseRefreshAccessToken);
+
     QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+    QByteArray bytes = reply->readAll();
 
     qDebug().noquote() << "Refresh Access Token: HTTP code " << statusCode.toString();
 
@@ -453,6 +537,9 @@ void ServerCommunicator::parseRefreshAccessToken(QNetworkReply *reply)
     {
         qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
                            << "Refresh Access Token: Need to authorize";
+
+        qDebug().noquote() << "Refresh Access Token NOT AUTHORIZED reply body: "
+                           << QString::fromUtf8(bytes.data(), bytes.size());
         return;
     }
     else if(statusCode.toInt() != CODE_SUCCESS)
@@ -462,7 +549,10 @@ void ServerCommunicator::parseRefreshAccessToken(QNetworkReply *reply)
         return;
     }
 
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll());
+    qDebug().noquote() << "Refresh Access Token reply body: "
+                       << QString::fromUtf8(bytes.data(), bytes.size());
+
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(bytes.data());
     QJsonObject jsonObj = jsonDoc.object();
 
     QString accessToken = jsonObj[ssJsonUserMeta[AccessToken]].toString();
@@ -473,14 +563,58 @@ void ServerCommunicator::parseRefreshAccessToken(QNetworkReply *reply)
     reply->deleteLater();
 }
 
+void ServerCommunicator::parseChangeNickname(QNetworkReply *reply)
+{
+    disconnect(m_networkManager, &QNetworkAccessManager::finished,
+               this, &ServerCommunicator::parseChangeNickname);
+
+    QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+    QByteArray bytes = reply->readAll();
+
+    qDebug().noquote() << "Change Nickname: HTTP code " << statusCode.toString();
+
+    if(!statusCode.isValid())
+    {
+        qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
+                           << "Get Info: code is not valid";
+        return;
+    }
+    else if(statusCode.toInt() == CODE_NOT_AUTHORIZED)
+    {
+        qDebug().noquote() << "Change Nickname NOT AUTHORIZED reply body: "
+                           << QString::fromUtf8(bytes.data(), bytes.size());
+        if(!doRefreshAccessToken())
+        {
+            qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
+                               << "Refresh Access Token: Can not provide";
+            return;
+        }
+
+        retryMethod = true;
+        return;
+    }
+    else if((statusCode.toInt() != CODE_SUCCESS) && (statusCode.toInt() != CODE_NOT_AUTHORIZED))
+    {
+        qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
+                           << QString("Change Nickname: Not allowed code (%1)").arg(statusCode.toString());
+        return;
+    }
+
+    qDebug().noquote() << "Change Nickname reply body: " << QString::fromUtf8(bytes.data(), bytes.size());
+
+    reply->deleteLater();
+}
+
 QUrl ServerCommunicator::makeAddress(QString host, int port, QString additionalParameters)
 {
-    return QUrl(QString("https://1%:%2").arg(host).arg(port)
+    return QUrl(QString("https://%1:%2").arg(host).arg(port)
                 + QString(!additionalParameters.isEmpty() ? "/%1" : "").arg(additionalParameters));
 }
 
 bool ServerCommunicator::doRefreshAccessToken()
 {
+    m_networkManager->disconnect();
+
     QTimer localTimer;
     QEventLoop localEventLoop;
 
@@ -488,9 +622,8 @@ bool ServerCommunicator::doRefreshAccessToken()
     connect(&localTimer, &QTimer::timeout, &localEventLoop, &QEventLoop::quit);
 
     localTimer.start(MS_TIMEOUT);
-
-    auto status = connect(m_networkManager, &QNetworkAccessManager::finished,
-                          this, &ServerCommunicator::parseRefreshAccessToken);
+    connect(m_networkManager, &QNetworkAccessManager::finished,
+           this, &ServerCommunicator::parseRefreshAccessToken);
 
     QString gotRefreshToken = FileManager::getToken(TokenType::Refresh);
 
@@ -509,12 +642,3 @@ bool ServerCommunicator::doRefreshAccessToken()
     else
         return false;
 }
-
-
-
-
-
-
-
-
-

@@ -38,6 +38,7 @@ void LoginWindow::show()
     if(ok)
     {
         switchToMenuWindow();
+        return;
     }
     else
     {

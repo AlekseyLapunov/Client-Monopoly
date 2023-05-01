@@ -340,9 +340,7 @@ QString FileManager::getToken(uint8_t tokenType)
 
     QString token = jsonObj[ssJsonUserMeta[tokenType]].toString();
 
-    if(token.isEmpty())
-        return "";
-    else return token;
+    return token;
 }
 
 void FileManager::commitHostData(int uniqueId, QString nickname, int rpCount, bool isGuest)
@@ -395,11 +393,9 @@ QString FileManager::getHostUniqueId()
 
     QJsonObject jsonObj = jsonDoc.object();
 
-    QString hostUniqueId = jsonObj[ssJsonUserMeta[HostId]].toString();
+    QString hostUniqueId = QString::number(jsonObj[ssJsonUserMeta[HostId]].toInt());
 
-    if(hostUniqueId.isEmpty())
-        return "";
-    else return hostUniqueId;
+    return hostUniqueId;
 }
 
 LobbySettings FileManager::getLastSettingsFromLocal()

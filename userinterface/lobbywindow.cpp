@@ -35,7 +35,7 @@ void LobbyWindow::windowDataRefresh()
     if(!isEnabled())
         return;
     bool ok = false;
-    pUserMetaInfo()->get()->setHostInfo(pServer()->get()->getCurrentHostInfo(ok));
+    pUserMetaInfo()->get()->setHostInfo(pServer()->get()->getCurrentHostInfo(ok, false));
     if(!ok)
     {
         execErrorBox(QString::fromStdString(ssClassNames[ServerCommCN] + ssRuntimeErrors[GetHostInfoFail]), this);

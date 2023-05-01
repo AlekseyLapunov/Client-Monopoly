@@ -14,9 +14,6 @@ public:
     void setHostInfo(HostUserData newHostInfo);
 
 private:
-    void resetHostInfo();
-
-private:
     HostUserData m_hostInfo;
 };
 
