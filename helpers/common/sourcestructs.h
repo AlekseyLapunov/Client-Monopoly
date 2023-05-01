@@ -19,9 +19,9 @@
 #define UNIQUE_ID_COL           3
 
 // String lengths
-#define NICKNAME_MAX_LEN        32
-#define LOBBY_NAME_MAX_LEN      32
-#define LOBBY_PASSWORD_MAX_LEN  32
+#define NICKNAME_MAX_LEN        16
+#define LOBBY_NAME_MAX_LEN      16
+#define LOBBY_PASSWORD_MAX_LEN  16
 
 // LobbyWindow: parameters of table with users
 #define USERS_TABLE_COLS        4

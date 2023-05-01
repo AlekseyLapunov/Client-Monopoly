@@ -326,8 +326,13 @@ void ServerCommunicator::oauthConfigure(uint8_t authType)
     QObject::connect(m_oauth, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser, &QDesktopServices::openUrl);
     connect(m_oauth, &QOAuth2AuthorizationCodeFlow::authorizationCallbackReceived, [=](const QVariantMap data)
     {
+        qDebug().noquote() << "Got auth-code from service: " << data.value("code");
         if(data.value("code").toString().isEmpty())
+        {
+            qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
+                               << "Got empty code";
             return;
+        }
 
         QJsonObject codeObj;
         codeObj.insert("code", data.value("code").toString());
@@ -349,7 +354,7 @@ void ServerCommunicator::parseAuthReply(QNetworkReply *reply)
 {
     QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
 
-    qDebug().noquote() << "Auth code: " << statusCode.toString();
+    qDebug().noquote() << "Auth: HTTP code " << statusCode.toString();
 
     if(!statusCode.isValid())
     {
@@ -470,7 +475,7 @@ void ServerCommunicator::parseRefreshAccessToken(QNetworkReply *reply)
 
 QUrl ServerCommunicator::makeAddress(QString host, int port, QString additionalParameters)
 {
-    return QUrl(QString("https://1%:%2").arg(host, port)
+    return QUrl(QString("https://1%:%2").arg(host).arg(port)
                 + QString(!additionalParameters.isEmpty() ? "/%1" : "").arg(additionalParameters));
 }
 

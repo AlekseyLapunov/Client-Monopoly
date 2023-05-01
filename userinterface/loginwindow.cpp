@@ -39,6 +39,10 @@ void LoginWindow::show()
     {
         switchToMenuWindow();
     }
+    else
+    {
+        qDebug().noquote() << "Need to login";
+    }
 
     setDisabled(false);
     QWidget::show();
