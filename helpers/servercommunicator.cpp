@@ -139,11 +139,9 @@ HostUserData ServerCommunicator::getCurrentHostInfo(bool &ok)
     auto status = connect(m_networkManager, &QNetworkAccessManager::finished,
                          this, &ServerCommunicator::parseGetInfo);
 
-    QNetworkRequest request(QUrl(makeAddress(m_host, m_port,
-                                            (m_getInfoMethodPrefix +
-                                             gotHostUniqueId +
-                                             m_getInfoMethodPostfix))));
-    request.setRawHeader("Authorization", ("Bearer " + gotAccessToken).toUtf8());
+    QNetworkRequest request(makeAddress(m_host, m_port,
+                                        m_httpMethods[GetUsersGetInfoById].arg(gotHostUniqueId)));
+    request.setRawHeader(m_authorizationRawHeader.toUtf8(), m_authorizationHeaderContent.arg(gotAccessToken).toUtf8());
 
     m_networkManager->get(request);
 
@@ -329,8 +327,7 @@ void ServerCommunicator::oauthConfigure(uint8_t authType)
     connect(m_oauth, &QOAuth2AuthorizationCodeFlow::authorizationCallbackReceived, [=](const QVariantMap data)
     {
         if(data.value("code").toString().isEmpty())
-            throw std::runtime_error(ssClassNames[ServerCommCN] + (authType == AuthType::VK ? ssRuntimeErrors[VkAuthFail]
-                                                                                        : ssRuntimeErrors[GoogleAuthFail]));
+            return;
 
         QJsonObject codeObj;
         codeObj.insert("code", data.value("code").toString());
@@ -340,9 +337,11 @@ void ServerCommunicator::oauthConfigure(uint8_t authType)
         auto status = connect(m_networkManager, &QNetworkAccessManager::finished,
                               this, &ServerCommunicator::parseAuthReply);
 
-        QNetworkRequest codeTransferRequest(makeAddress(m_host, m_port, m_authMethod[authType]));
-        codeTransferRequest.setHeader(QNetworkRequest::ContentTypeHeader, QVariant(jsonContentType));
-        m_networkManager->post(codeTransferRequest, codeDoc.toJson());
+        QNetworkRequest request(makeAddress(m_host, m_port,
+                                            m_httpMethods[authType]));
+        request.setHeader(QNetworkRequest::ContentTypeHeader, m_jsonContentType.toUtf8());
+
+        m_networkManager->post(request, codeDoc.toJson());
     });
 }
 
@@ -353,18 +352,34 @@ void ServerCommunicator::parseAuthReply(QNetworkReply *reply)
     qDebug().noquote() << "Auth code: " << statusCode.toString();
 
     if(!statusCode.isValid())
-        throw std::runtime_error(ssClassNames[ServerCommCN] + "Полученный код не валиден");
+    {
+        qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
+                           << "Status code is not valid";
+        return;
+    }
     else if(statusCode.toInt() != CODE_SUCCESS)
-        throw std::runtime_error(ssClassNames[ServerCommCN] + "Полученный код не 200 (" + statusCode.toString().toStdString() + ")");
+        qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
+                           << QString("Status code is not success (%1)").arg(statusCode.toString());
 
     FileManager::commitTokens(reply->readAll());
 
     QJsonObject jsonObj = QJsonDocument::fromJson(reply->readAll()).object();
 
-    m_temporaryHostData.uniqueId = jsonObj[ssJsonUserMeta[HostId]].toInt();
-    m_temporaryHostData.nickname = jsonObj[ssJsonUserMeta[HostNickname]].toString();
-    m_temporaryHostData.rpCount  = jsonObj[ssJsonUserMeta[HostRpCount]].toInt();
-    m_temporaryHostData.isGuest  = jsonObj[ssJsonUserMeta[HostIsGuest]].toBool();
+    QJsonValue jsonValue = jsonObj.value(ssJsonUserMeta[UserInfoObj]);
+
+    if(!jsonValue.isObject())
+    {
+        qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
+                           << "userInfo object is fractured";
+        return;
+    }
+
+    QJsonObject jsonUserInfoObj = jsonValue.toObject();
+
+    m_temporaryHostData.uniqueId = jsonUserInfoObj[ssJsonUserMeta[HostId]].toInt();
+    m_temporaryHostData.nickname = jsonUserInfoObj[ssJsonUserMeta[HostNickname]].toString();
+    m_temporaryHostData.rpCount  = jsonUserInfoObj[ssJsonUserMeta[HostRpCount]].toInt();
+    m_temporaryHostData.isGuest  = jsonUserInfoObj[ssJsonUserMeta[HostIsGuest]].toBool();
 
     FileManager::commitHostData(m_temporaryHostData.uniqueId,
                                 m_temporaryHostData.nickname,
@@ -421,7 +436,7 @@ void ServerCommunicator::parseRefreshAccessToken(QNetworkReply *reply)
 {
     QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
 
-    qDebug().noquote() << "Refresh Access Token code: " << statusCode.toString();
+    qDebug().noquote() << "Refresh Access Token: HTTP code " << statusCode.toString();
 
     if(!statusCode.isValid())
     {
@@ -442,7 +457,11 @@ void ServerCommunicator::parseRefreshAccessToken(QNetworkReply *reply)
         return;
     }
 
-    FileManager::commitTokens(reply->readAll());
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll());
+    QJsonObject jsonObj = jsonDoc.object();
+
+    QString accessToken = jsonObj[ssJsonUserMeta[AccessToken]].toString();
+    FileManager::commitToken(TokenType::Access, accessToken);
 
     emit refreshTokenProcessOver();
 
@@ -451,7 +470,8 @@ void ServerCommunicator::parseRefreshAccessToken(QNetworkReply *reply)
 
 QUrl ServerCommunicator::makeAddress(QString host, int port, QString additionalParameters)
 {
-    return ("https://" + host + ":" + QString::number(port) + (!additionalParameters.isEmpty() ? ("/" + additionalParameters) : ""));
+    return QUrl(QString("https://1%:%2").arg(host, port)
+                + QString(!additionalParameters.isEmpty() ? "/%1" : "").arg(additionalParameters));
 }
 
 bool ServerCommunicator::doRefreshAccessToken()
@@ -472,8 +492,9 @@ bool ServerCommunicator::doRefreshAccessToken()
     if(gotRefreshToken.isEmpty())
         return false;
 
-    QNetworkRequest request(QUrl(makeAddress(m_host, m_port, m_refreshAccessTokenMethod)));
-    request.setRawHeader("Authorization", ("Bearer " + gotRefreshToken.toUtf8()));
+    QNetworkRequest request(makeAddress(m_host, m_port, m_httpMethods[PostAuthRefreshAccessToken]));
+    request.setRawHeader(m_authorizationRawHeader.toUtf8(),
+                         m_authorizationHeaderContent.arg(gotRefreshToken).toUtf8());
     m_networkManager->post(request, "");
 
     localEventLoop.exec();

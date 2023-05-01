@@ -109,7 +109,8 @@ static const QString ssCaptionExportSettings  = "Экспортировать н
 static const QString ssJsonFilter             = "JSON file (*.json)";
 
 // JSON keys
-enum JsonKeysUserMeta        { AccessToken, RefreshToken, HostId, HostNickname, HostRpCount, HostIsGuest, Uses3dDice };
+enum JsonKeysUserMeta        { AccessToken, RefreshToken, HostId, HostNickname, HostRpCount, HostIsGuest, Uses3dDice,
+                               TokensObj, UserInfoObj };
 enum JsonKeysLobbySettingsId { UniqueId, LobbyName, LobbyPassword, MaxPlayersCount, OwnerUniqueId, IsTimerActive,
                                SessionAddress, SessionPort, TurnTime, MaxMoney, IsMaxMoneyInfinite, MaxTurns, AreMaxTurnsInfinite,
                                Type };
@@ -135,8 +136,10 @@ static const QMap<uint8_t, QString> ssJsonUserMeta              = {
                                                                         {HostId,        "ID"},
                                                                         {HostNickname,  "nickname"},
                                                                         {HostRpCount,   "rating"},
-                                                                        {HostIsGuest,   "is_guest"},
+                                                                        {HostIsGuest,   "isGuest"},
                                                                         {Uses3dDice,    "uses3dDice"},
+                                                                        {TokensObj,     "tokens"},
+                                                                        {UserInfoObj,   "userInfo"}
                                                                   };
 
 // Classes Names for the exception thrower specifying

@@ -86,7 +86,6 @@ private:
     QString m_host = "ppcd.fun";
     int m_port = 6543;
 
-    // Auth constants
     enum AuthType {VK, Google};
 
     const QUrl m_authUrl[2]       = { {"https://oauth.vk.com/authorize"},
@@ -99,14 +98,39 @@ private:
                                       {"213758799186-64fvk6kgmol67a69du9mkddaccd71lb1.apps.googleusercontent.com"} };
     const uint32_t m_scopeMask[2] = { 0, 0 };
 
-    const QString m_authMethod[2] = { {"auth/authFromVK"},
-                                      {"auth/authFromGoogle"} };
+    enum MethodKey { PostAuthVK, PostAuthGoogle, PostAuthAsGuest, PostAuthRefreshAccessToken,
+                     PostUsersChangeNickname, GetUsersGetInfoById,
+                     PostLobbiesCreate, GetLobbiesGetList, GetLobbiesCheckMe,
+                     PostLobbiesConnectById, GetLobbiesGetInfoById,
+                     PostLobbiesUpdateSettingsById, PostLobbiesDisconnectById,
+                     PostLobbiesSwitchReadinessById, PostLobbiesTransferRightsById,
+                     PostLobbiesKickPlayerById, PostLobbiesRunGameById,
+                     DeleteLobbiesById };
+    \
+    QMap<uint8_t, QString> m_httpMethods = {
+                                                {PostAuthVK,                     "auth/authFromVK"},
+                                                {PostAuthGoogle,                 "auth/authFromGoogle"},
+                                                {PostAuthAsGuest,                "auth/authAsGuest"},
+                                                {PostAuthRefreshAccessToken,     "auth/refreshAccessToken"},
+                                                {PostUsersChangeNickname,        "users/changeNickname"},
+                                                {GetUsersGetInfoById,            "users/%1/getInfo"},
+                                                {PostLobbiesCreate,              "lobbies/create"},
+                                                {GetLobbiesGetList,              "lobbies/getList"},
+                                                {GetLobbiesCheckMe,              "lobbies/checkMeInActiveGame"},
+                                                {PostLobbiesConnectById,         "lobbies/%1/connect"},
+                                                {GetLobbiesGetInfoById,          "lobbies/%1/getInfo"},
+                                                {PostLobbiesUpdateSettingsById,  "lobbies/%1/updateSettings"},
+                                                {PostLobbiesDisconnectById,      "lobbies/%1/disconnect"},
+                                                {PostLobbiesSwitchReadinessById, "lobbies/%1/switchReadiness"},
+                                                {PostLobbiesTransferRightsById,  "lobbies/%1/transferRights"},
+                                                {PostLobbiesKickPlayerById,      "lobbies/%1/kickPlayer"},
+                                                {PostLobbiesRunGameById,         "lobbies/%1/runGame"},
+                                                {DeleteLobbiesById,              "lobbies/%1"}
+                                           };
 
-    const QString m_getInfoMethodPrefix      = { "users/" };
-    const QString m_getInfoMethodPostfix     = { "/getInfo" };
-    const QString m_refreshAccessTokenMethod = { "users/refreshAccessToken" };
-
-    const QString jsonContentType = "application/json";
+    const QString m_jsonContentType            = "application/json";
+    const QString m_authorizationRawHeader     = "Authorization";
+    const QString m_authorizationHeaderContent = "Bearer %1";
 
     HostUserData m_temporaryHostData;
     vector<LobbyShortInfo> m_lobbiesShortInfoVec;

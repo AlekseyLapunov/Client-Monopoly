@@ -30,6 +30,7 @@ public:
     static void checkLastSettingsIntegrity();
     static QString getPageAsCallbackText();
     static void commitTokens(QByteArray data);
+    static void commitToken(uint8_t tokenType, QString token);
     static QString getToken(uint8_t tokenType);
     static void commitHostData(int uniqueId,
                                QString nickname,

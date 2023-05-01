@@ -260,23 +260,70 @@ void FileManager::commitTokens(QByteArray data)
     initLocalDirectory();
 
     QString oldContent = readJsonToQString(ssLocalDirPath + ssUserMetaFileName);
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(oldContent.toUtf8());
+    QJsonObject jsonObj = jsonDoc.object();
+
+    QJsonDocument tokensDoc = QJsonDocument::fromJson(data);
+
+    if(!tokensDoc.isObject())
+    {
+        qDebug().noquote() << QString::fromStdString(ssClassNames[FileManagerCN])
+                           << "tokensDoc is not an object";
+        return;
+    }
+
+    QJsonObject tokensObj = tokensDoc.object();
+    QJsonValue tokensValue = tokensObj.value(ssJsonUserMeta[TokensObj]);
+
+    if(!tokensValue.isObject())
+    {
+        qDebug().noquote() << QString::fromStdString(ssClassNames[FileManagerCN])
+                           << "tokensValue is not an object";
+        return;
+    }
+
+    QJsonObject jsonTokensObj = tokensValue.toObject();
+
+    QString accessToken  = jsonTokensObj[ssJsonUserMeta[AccessToken]].toString();
+    QString refreshToken = jsonTokensObj[ssJsonUserMeta[RefreshToken]].toString();
+
+    if(!accessToken.isEmpty())
+    {
+        jsonObj.remove(ssJsonUserMeta[AccessToken]);
+        jsonObj.insert(ssJsonUserMeta[AccessToken],
+                       accessToken);
+    }
+    if(!refreshToken.isEmpty())
+    {
+        jsonObj.remove(ssJsonUserMeta[RefreshToken]);
+        jsonObj.insert(ssJsonUserMeta[RefreshToken],
+                       refreshToken);
+    }
+
+    QJsonDocument newJsonDoc(jsonObj);
+
+    writeFile(ssLocalDirPath + ssUserMetaFileName, newJsonDoc.toJson(QJsonDocument::Indented));
+}
+
+void FileManager::commitToken(uint8_t tokenType, QString token)
+{
+    if(token.isEmpty())
+    {
+        qDebug().noquote() << QString::fromStdString(ssClassNames[FileManagerCN])
+                           << "Commiting empty token is not allowed";
+        return;
+    }
+
+    initLocalDirectory();
+
+    QString oldContent = readJsonToQString(ssLocalDirPath + ssUserMetaFileName);
 
     QJsonDocument jsonDoc = QJsonDocument::fromJson(oldContent.toUtf8());
 
     QJsonObject jsonObj = jsonDoc.object();
 
-    QJsonDocument tokensDoc = QJsonDocument::fromJson(data);
-
-    if(!tokensDoc.object()[ssJsonUserMeta[AccessToken]].toString().isEmpty())
-    {
-        jsonObj.remove(ssJsonUserMeta[AccessToken]);
-        jsonObj.insert(ssJsonUserMeta[AccessToken], tokensDoc.object()[ssJsonUserMeta[AccessToken]]);
-    }
-    if(!tokensDoc.object()[ssJsonUserMeta[RefreshToken]].toString().isEmpty())
-    {
-        jsonObj.remove(ssJsonUserMeta[RefreshToken]);
-        jsonObj.insert(ssJsonUserMeta[RefreshToken], tokensDoc.object()[ssJsonUserMeta[RefreshToken]]);
-    }
+    jsonObj.remove(ssJsonUserMeta[tokenType]);
+    jsonObj.insert(ssJsonUserMeta[tokenType], token);
 
     QJsonDocument newJsonDoc(jsonObj);
 

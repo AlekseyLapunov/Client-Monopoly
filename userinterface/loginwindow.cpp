@@ -79,6 +79,7 @@ void LoginWindow::closeEvent(QCloseEvent *event)
 
 void LoginWindow::baseLogin(short flag)
 {
+    setDisabled(true);
     bool ok = false;
     pUserMetaInfo()->get()->setHostInfo
     (
@@ -93,6 +94,7 @@ void LoginWindow::baseLogin(short flag)
                      this);
         return;
     }
+    setDisabled(false);
     switchToMenuWindow();
 }
 
