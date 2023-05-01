@@ -36,7 +36,7 @@ HostUserData ServerCommunicator::doVkLogin(bool &ok)
     connect( this, &ServerCommunicator::authorizationProcessOver, &eventLoop, &QEventLoop::quit );
     connect( &eventTimer, &QTimer::timeout, &eventLoop, &QEventLoop::quit );
 
-    eventTimer.start(MS_TIMEOUT);
+    eventTimer.start(MS_TIMEOUT*6);
 
     m_oauth->grant();
 
