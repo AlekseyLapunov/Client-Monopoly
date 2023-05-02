@@ -2,7 +2,7 @@
 
 ServerCommunicator::ServerCommunicator(QObject* parent) : QObject(parent)
 {
-    m_oauth = new QOAuth2AuthorizationCodeFlow(this);
+    m_oauthCodeFlow = new QOAuth2AuthorizationCodeFlow(this);
     m_networkManager = new QNetworkAccessManager(this);
     m_replyHandler = new QOAuthHttpServerReplyHandler(m_port, this);
 }
@@ -11,8 +11,8 @@ ServerCommunicator::~ServerCommunicator()
 {
     m_lobbiesShortInfoVec.clear();
     m_lobbiesShortInfoVec.resize(0);
-    delete m_oauth;
-    m_oauth = nullptr;
+    delete m_oauthCodeFlow;
+    m_oauthCodeFlow = nullptr;
     delete m_networkManager;
     m_networkManager = nullptr;
     delete m_replyHandler;
@@ -38,7 +38,7 @@ HostUserData ServerCommunicator::doVkLogin(bool &ok)
 
     eventTimer.start(MS_TIMEOUT*6);
 
-    m_oauth->grant();
+    m_oauthCodeFlow->grant();
 
     eventLoop.exec();
 
@@ -76,7 +76,48 @@ HostUserData ServerCommunicator::doGoogleLogin(bool &ok)
 
     eventTimer.start(MS_TIMEOUT);
 
-    m_oauth->grant();
+    m_oauthCodeFlow->grant();
+
+    eventLoop.exec();
+
+    if(eventTimer.isActive())
+    {
+        ok = true;
+        return m_temporaryHostData;
+    }
+    else
+    {
+        ok = false;
+        return {};
+    }
+#endif
+
+    return m_temporaryHostData;
+}
+
+HostUserData ServerCommunicator::doGuestLogin(bool &ok)
+{
+#ifdef AUTH_STUB
+    m_temporaryHostData = {21, "GUEST STUB", 0};
+#else
+    m_networkManager->disconnect();
+
+    QTimer eventTimer;
+    QEventLoop eventLoop;
+
+    eventTimer.setSingleShot(true);
+
+    connect( this, &ServerCommunicator::authorizationProcessOver, &eventLoop, &QEventLoop::quit );
+    connect( &eventTimer, &QTimer::timeout, &eventLoop, &QEventLoop::quit );
+
+    eventTimer.start(MS_TIMEOUT);
+
+    connect(m_networkManager, &QNetworkAccessManager::finished,
+            this, &ServerCommunicator::catchReplyAuth);
+
+    QNetworkRequest request(makeAddress(m_host, m_port, m_httpMethods[PostAuthAsGuest]));
+
+    m_networkManager->post(request, "");
 
     eventLoop.exec();
 
@@ -154,7 +195,7 @@ HostUserData ServerCommunicator::getCurrentHostInfo(bool &ok, bool retryCheckIfN
     eventTimer.start(MS_TIMEOUT);
 
     connect(m_networkManager, &QNetworkAccessManager::finished,
-            this, &ServerCommunicator::parseGetInfo);
+            this, &ServerCommunicator::catchReplyGetInfo);
 
     QNetworkRequest request(makeAddress(m_host, m_port,
                                         m_httpMethods[GetUsersGetInfoById].arg(gotHostUniqueId)));
@@ -229,7 +270,7 @@ LobbyFullInfo ServerCommunicator::tryJoinById(const int lobbyUniqueId)
 
 #ifdef LOBBIES_STUB
     if(lobbyUniqueId != 0)
-        throw std::runtime_error(ssClassNames[ServerCommCN] + ssRuntimeErrors[LobbyNotFound]);
+        throw std::runtime_error(ssClassNames[ServerCommCN] + ssErrorsContent[LobbyNotFound]);
 
     return
     {
@@ -251,7 +292,7 @@ LobbyFullInfo ServerCommunicator::tryJoinById(const int lobbyUniqueId, const QSt
 {
     // Make request
 #ifdef LOBBIES_STUB
-    throw std::runtime_error(ssClassNames[ServerCommCN] + ssRuntimeErrors[LobbyNotFound]);
+    throw std::runtime_error(ssClassNames[ServerCommCN] + ssErrorsContent[LobbyNotFound]);
 #endif
 }
 
@@ -260,7 +301,7 @@ LobbyFullInfo ServerCommunicator::tryCreateLobby(const int hostUserId, LobbySett
 #ifdef LOBBIES_STUB
     // Need to check if user already has created lobby. If does - throw exception
     if(false)
-        throw std::runtime_error(ssClassNames[ServerCommCN] + ssRuntimeErrors[AlreadyHasLobby]);
+        throw std::runtime_error(ssClassNames[ServerCommCN] + ssErrorsContent[AlreadyHasLobby]);
 
     return
     {
@@ -280,7 +321,7 @@ LobbyFullInfo ServerCommunicator::tryRankedQueue(const int hostUserId)
 
 #ifdef LOBBIES_STUB
     if(false)
-        throw std::runtime_error(ssClassNames[ServerCommCN] + ssRuntimeErrors[AlreadyInQueue]);
+        throw std::runtime_error(ssClassNames[ServerCommCN] + ssErrorsContent[AlreadyInQueue]);
 
     return
     {
@@ -306,7 +347,7 @@ void ServerCommunicator::tryToggleReady(const int lobbyUniqueId)
 {
 #ifdef LOBBIES_INSIDE_STUB
     if(false)
-        throw std::runtime_error(ssClassNames[ServerCommCN] + ssRuntimeErrors[ToggleReadyFail]);
+        throw std::runtime_error(ssClassNames[ServerCommCN] + ssErrorsContent[ToggleReadyFail]);
 #endif
 }
 
@@ -314,7 +355,7 @@ void ServerCommunicator::tryLobbySettingsApply(const int lobbyUniqueId, LobbySet
 {
 #ifdef LOBBIES_INSIDE_STUB
     if(false)
-        throw std::runtime_error(ssClassNames[ServerCommCN] + ssRuntimeErrors[ApplySettingsFail]);
+        throw std::runtime_error(ssClassNames[ServerCommCN] + ssErrorsContent[ApplySettingsFail]);
 #endif
 }
 
@@ -322,7 +363,7 @@ void ServerCommunicator::tryStartGame(const int lobbyUniqueId)
 {
 #ifdef LOBBIES_INSIDE_STUB
     if(false)
-        throw std::runtime_error(ssClassNames[ServerCommCN] + ssRuntimeErrors[StartGameFail]);
+        throw std::runtime_error(ssClassNames[ServerCommCN] + ssErrorsContent[StartGameFail]);
 #endif
 }
 
@@ -330,7 +371,7 @@ void ServerCommunicator::tryKickPlayer(const int lobbyUniqueId, const int player
 {
 #ifdef LOBBIES_INSIDE_STUB
     if(false)
-        throw std::runtime_error(ssClassNames[ServerCommCN] + ssRuntimeErrors[KickPlayerFail]);
+        throw std::runtime_error(ssClassNames[ServerCommCN] + ssErrorsContent[KickPlayerFail]);
 #endif
 }
 
@@ -338,7 +379,7 @@ void ServerCommunicator::tryPromotePlayer(const int lobbyUniqueId, const int pla
 {
 #ifdef LOBBIES_INSIDE_STUB
     if(false)
-        throw std::runtime_error(ssClassNames[ServerCommCN] + ssRuntimeErrors[PromotePlayerFail]);
+        throw std::runtime_error(ssClassNames[ServerCommCN] + ssErrorsContent[PromotePlayerFail]);
 #endif
 }
 
@@ -353,7 +394,7 @@ void ServerCommunicator::changeNickname(const QString newNickname, uint8_t local
     QString gotAccessToken = FileManager::getToken(TokenType::Access);
 
     connect(m_networkManager, &QNetworkAccessManager::finished,
-            this, &ServerCommunicator::parseChangeNickname);
+            this, &ServerCommunicator::catchReplyChangeNickname);
 
     QNetworkRequest request(makeAddress(m_host, m_port,
                                         m_httpMethods[PostUsersChangeNickname]));
@@ -373,13 +414,13 @@ void ServerCommunicator::oauthConfigure(uint8_t authType)
     m_replyHandler->setCallbackPath(m_redirectUri[authType].toString());
     QString callbackText = FileManager::getPageAsCallbackText();
     m_replyHandler->setCallbackText(callbackText);
-    m_oauth->setReplyHandler(m_replyHandler);
-    m_oauth->setAccessTokenUrl(m_tokenUrl[authType]);
-    m_oauth->setAuthorizationUrl(m_authUrl[authType]);
-    m_oauth->setClientIdentifier(m_clientId[authType]);
-    m_oauth->setScope(QString::number(m_scopeMask[authType]));
-    QObject::connect(m_oauth, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser, &QDesktopServices::openUrl);
-    connect(m_oauth, &QOAuth2AuthorizationCodeFlow::authorizationCallbackReceived, [=](const QVariantMap data)
+    m_oauthCodeFlow->setReplyHandler(m_replyHandler);
+    m_oauthCodeFlow->setAccessTokenUrl(m_tokenUrl[authType]);
+    m_oauthCodeFlow->setAuthorizationUrl(m_authUrl[authType]);
+    m_oauthCodeFlow->setClientIdentifier(m_clientId[authType]);
+    m_oauthCodeFlow->setScope(QString::number(m_scopeMask[authType]));
+    QObject::connect(m_oauthCodeFlow, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser, &QDesktopServices::openUrl);
+    connect(m_oauthCodeFlow, &QOAuth2AuthorizationCodeFlow::authorizationCallbackReceived, [=](const QVariantMap data)
     {
         qDebug().noquote() << "Got auth-code from service: " << data.value("code");
         if(data.value("code").toString().isEmpty())
@@ -395,7 +436,7 @@ void ServerCommunicator::oauthConfigure(uint8_t authType)
         codeDoc.toJson(QJsonDocument::Compact);
 
         connect(m_networkManager, &QNetworkAccessManager::finished,
-               this, &ServerCommunicator::parseAuthReply);
+               this, &ServerCommunicator::catchReplyAuth);
 
         QNetworkRequest request(makeAddress(m_host, m_port,
                                             m_httpMethods[authType]));
@@ -405,10 +446,10 @@ void ServerCommunicator::oauthConfigure(uint8_t authType)
     });
 }
 
-void ServerCommunicator::parseAuthReply(QNetworkReply *reply)
+void ServerCommunicator::catchReplyAuth(QNetworkReply *reply)
 {
     disconnect(m_networkManager, &QNetworkAccessManager::finished,
-               this, &ServerCommunicator::parseAuthReply);
+               this, &ServerCommunicator::catchReplyAuth);
 
     QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
     QByteArray bytes = reply->readAll();
@@ -457,10 +498,10 @@ void ServerCommunicator::parseAuthReply(QNetworkReply *reply)
     reply->deleteLater();
 }
 
-void ServerCommunicator::parseGetInfo(QNetworkReply *reply)
+void ServerCommunicator::catchReplyGetInfo(QNetworkReply *reply)
 {
     disconnect(m_networkManager, &QNetworkAccessManager::finished,
-               this, &ServerCommunicator::parseGetInfo);
+               this, &ServerCommunicator::catchReplyGetInfo);
 
     QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
     QByteArray bytes = reply->readAll();
@@ -525,10 +566,10 @@ void ServerCommunicator::parseGetInfo(QNetworkReply *reply)
     reply->deleteLater();
 }
 
-void ServerCommunicator::parseRefreshAccessToken(QNetworkReply *reply)
+void ServerCommunicator::catchReplyRefreshAccessToken(QNetworkReply *reply)
 {
     disconnect(m_networkManager, &QNetworkAccessManager::finished,
-               this, &ServerCommunicator::parseRefreshAccessToken);
+               this, &ServerCommunicator::catchReplyRefreshAccessToken);
 
     QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
     QByteArray bytes = reply->readAll();
@@ -571,10 +612,10 @@ void ServerCommunicator::parseRefreshAccessToken(QNetworkReply *reply)
     reply->deleteLater();
 }
 
-void ServerCommunicator::parseChangeNickname(QNetworkReply *reply)
+void ServerCommunicator::catchReplyChangeNickname(QNetworkReply *reply)
 {
     disconnect(m_networkManager, &QNetworkAccessManager::finished,
-               this, &ServerCommunicator::parseChangeNickname);
+               this, &ServerCommunicator::catchReplyChangeNickname);
 
     QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
     QByteArray bytes = reply->readAll();
@@ -631,7 +672,7 @@ bool ServerCommunicator::doRefreshAccessToken()
 
     localTimer.start(MS_TIMEOUT);
     connect(m_networkManager, &QNetworkAccessManager::finished,
-           this, &ServerCommunicator::parseRefreshAccessToken);
+           this, &ServerCommunicator::catchReplyRefreshAccessToken);
 
     QString gotRefreshToken = FileManager::getToken(TokenType::Refresh);
 

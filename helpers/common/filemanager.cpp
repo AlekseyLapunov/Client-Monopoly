@@ -109,27 +109,27 @@ LobbySettings FileManager::loadSettingsFromFile(const QString &path)
     QString jsonString = readJsonToQString(path);
 
     if(!isJsonIntegral(jsonString, path))
-        throw std::runtime_error(ssClassNames[FileManagerCN] + ssRuntimeErrors[JsonParseError]);
+        throw std::runtime_error(ssClassNames[FileManagerCN] + ssErrorsContent[JsonParseError]);
 
     QJsonDocument doc = QJsonDocument::fromJson(jsonString.toUtf8());
 
     QJsonObject settingsObj = doc.object();
 
-    settingsOutput.uniqueId            = settingsObj[ssJsonKeysLobbySettingsIds[UniqueId]].toInt();
-    settingsOutput.lobbyName           = settingsObj[ssJsonKeysLobbySettingsIds[LobbyName]].toString();
-    settingsOutput.lobbyPassword       = settingsObj[ssJsonKeysLobbySettingsIds[LobbyPassword]].toString();
-    settingsOutput.maxPlayersCount     = settingsObj[ssJsonKeysLobbySettingsIds[MaxPlayersCount]].toInt();
-    settingsOutput.ownerUniqueId       = settingsObj[ssJsonKeysLobbySettingsIds[OwnerUniqueId]].toInt();
-    settingsOutput.isTimerActive       = settingsObj[ssJsonKeysLobbySettingsIds[IsTimerActive]].toBool();
-    settingsOutput.sessionAddress      = settingsObj[ssJsonKeysLobbySettingsIds[SessionAddress]].toString();
-    settingsOutput.sessionPort         = settingsObj[ssJsonKeysLobbySettingsIds[SessionPort]].toInt();
+    settingsOutput.uniqueId            = settingsObj[ssJsonLobbySettings[UniqueId]].toInt();
+    settingsOutput.lobbyName           = settingsObj[ssJsonLobbySettings[LobbyName]].toString();
+    settingsOutput.lobbyPassword       = settingsObj[ssJsonLobbySettings[LobbyPassword]].toString();
+    settingsOutput.maxPlayersCount     = settingsObj[ssJsonLobbySettings[MaxPlayersCount]].toInt();
+    settingsOutput.ownerUniqueId       = settingsObj[ssJsonLobbySettings[OwnerUniqueId]].toInt();
+    settingsOutput.isTimerActive       = settingsObj[ssJsonLobbySettings[IsTimerActive]].toBool();
+    settingsOutput.sessionAddress      = settingsObj[ssJsonLobbySettings[SessionAddress]].toString();
+    settingsOutput.sessionPort         = settingsObj[ssJsonLobbySettings[SessionPort]].toInt();
 
-    settingsOutput.turnTime            = settingsObj[ssJsonKeysLobbySettingsIds[TurnTime]].toInt();
-    settingsOutput.maxMoney            = settingsObj[ssJsonKeysLobbySettingsIds[MaxMoney]].toDouble();
-    settingsOutput.isMaxMoneyInfinite  = settingsObj[ssJsonKeysLobbySettingsIds[IsMaxMoneyInfinite]].toBool();
-    settingsOutput.maxTurns            = settingsObj[ssJsonKeysLobbySettingsIds[MaxTurns]].toInt();
-    settingsOutput.areMaxTurnsInfinite = settingsObj[ssJsonKeysLobbySettingsIds[AreMaxTurnsInfinite]].toBool();
-    settingsOutput.type                = settingsObj[ssJsonKeysLobbySettingsIds[Type]].toString();
+    settingsOutput.turnTime            = settingsObj[ssJsonLobbySettings[TurnTime]].toInt();
+    settingsOutput.maxMoney            = settingsObj[ssJsonLobbySettings[MaxMoney]].toDouble();
+    settingsOutput.isMaxMoneyInfinite  = settingsObj[ssJsonLobbySettings[IsMaxMoneyInfinite]].toBool();
+    settingsOutput.maxTurns            = settingsObj[ssJsonLobbySettings[MaxTurns]].toInt();
+    settingsOutput.areMaxTurnsInfinite = settingsObj[ssJsonLobbySettings[AreMaxTurnsInfinite]].toBool();
+    settingsOutput.type                = settingsObj[ssJsonLobbySettings[LobbyType]].toString();
 
     return settingsOutput;
 }
@@ -393,6 +393,8 @@ void FileManager::clearUserMetaForNewLogin()
 
     QJsonObject jsonOldContentObj = jsonOldContentDoc.object();
 
+    jsonOldContentObj.remove(ssJsonUserMeta[HostId]);
+    jsonOldContentObj.insert(ssJsonUserMeta[HostId], -1);
     jsonOldContentObj.remove(ssJsonUserMeta[AccessToken]);
     jsonOldContentObj.insert(ssJsonUserMeta[AccessToken], "");
     jsonOldContentObj.remove(ssJsonUserMeta[RefreshToken]);

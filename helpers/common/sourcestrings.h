@@ -113,34 +113,34 @@ enum JsonKeysUserMeta        { AccessToken, RefreshToken, HostId, HostNickname, 
                                TokensObj, UserInfoObj };
 enum JsonKeysLobbySettingsId { UniqueId, LobbyName, LobbyPassword, MaxPlayersCount, OwnerUniqueId, IsTimerActive,
                                SessionAddress, SessionPort, TurnTime, MaxMoney, IsMaxMoneyInfinite, MaxTurns, AreMaxTurnsInfinite,
-                               Type };
-static const QMap<uint8_t, QString> ssJsonKeysLobbySettingsIds  = {
-                                                                        {UniqueId,              "uniqueId"},
-                                                                        {LobbyName,             "lobbyName"},
-                                                                        {LobbyPassword,         "lobbyPassword"},
-                                                                        {MaxPlayersCount,       "maxPlayersCount"},
-                                                                        {OwnerUniqueId,         "ownerUniqueId"},
-                                                                        {IsTimerActive,         "isTimerActive"},
-                                                                        {SessionAddress,        "sessionAddress"},
-                                                                        {SessionPort,           "sessionPort"},
-                                                                        {TurnTime,              "turnTime"},
-                                                                        {MaxMoney,              "maxMoney"},
-                                                                        {IsMaxMoneyInfinite,    "isMaxMoneyInfinite"},
-                                                                        {MaxTurns,              "maxTurns"},
-                                                                        {AreMaxTurnsInfinite,   "areMaxTurnsInfinite"},
-                                                                        {Type,                  "type"}
-                                                                  };
-static const QMap<uint8_t, QString> ssJsonUserMeta              = {
-                                                                        {AccessToken,   "accessToken"},
-                                                                        {RefreshToken,  "refreshToken"},
-                                                                        {HostId,        "ID"},
-                                                                        {HostNickname,  "nickname"},
-                                                                        {HostRpCount,   "rating"},
-                                                                        {HostIsGuest,   "isGuest"},
-                                                                        {Uses3dDice,    "uses3dDice"},
-                                                                        {TokensObj,     "tokens"},
-                                                                        {UserInfoObj,   "userInfo"}
-                                                                  };
+                               LobbyType };
+static const QMap<uint8_t, QString> ssJsonLobbySettings  = {
+                                                                {UniqueId,              "uniqueId"},
+                                                                {LobbyName,             "lobbyName"},
+                                                                {LobbyPassword,         "lobbyPassword"},
+                                                                {MaxPlayersCount,       "maxPlayersCount"},
+                                                                {OwnerUniqueId,         "ownerUniqueId"},
+                                                                {IsTimerActive,         "isTimerActive"},
+                                                                {SessionAddress,        "sessionAddress"},
+                                                                {SessionPort,           "sessionPort"},
+                                                                {TurnTime,              "turnTime"},
+                                                                {MaxMoney,              "maxMoney"},
+                                                                {IsMaxMoneyInfinite,    "isMaxMoneyInfinite"},
+                                                                {MaxTurns,              "maxTurns"},
+                                                                {AreMaxTurnsInfinite,   "areMaxTurnsInfinite"},
+                                                                {LobbyType,             "type"}
+                                                           };
+static const QMap<uint8_t, QString> ssJsonUserMeta       = {
+                                                                {AccessToken,   "accessToken"},
+                                                                {RefreshToken,  "refreshToken"},
+                                                                {HostId,        "ID"},
+                                                                {HostNickname,  "nickname"},
+                                                                {HostRpCount,   "rating"},
+                                                                {HostIsGuest,   "isGuest"},
+                                                                {Uses3dDice,    "uses3dDice"},
+                                                                {TokensObj,     "tokens"},
+                                                                {UserInfoObj,   "userInfo"}
+                                                           };
 
 // Classes Names for the exception thrower specifying
 enum ClassesNames { LoginWindowCN, MenuWindowCN, LobbiesSubDialogCN, LobbyWindowCN,
@@ -156,15 +156,16 @@ static const QMap<uint8_t, string> ssClassNames = {
                                                 };
 
 // runtime_error
-enum RunTimeErrorId { PtrLinkFail, LobbyNotFound, GoogleAuthFail, VkAuthFail,
+enum RunTimeErrorId { PtrLinkFail, LobbyNotFound, GoogleAuthFail, VkAuthFail, GuestAuthFail,
                       AlreadyHasLobby, AlreadyInQueue, ApplySettingsFail,
                       ToggleReadyFail, StartGameFail, JsonParseError, KickPlayerFail,
                       PromotePlayerFail, LastSettingsFileDoesNotExist, GetHostInfoFail };
-static const QMap<uint8_t, string> ssRuntimeErrors  = {
+static const QMap<uint8_t, string> ssErrorsContent  = {
                                                         {PtrLinkFail,                   "Проблема при передаче указателей"},
                                                         {LobbyNotFound,                 "Лобби не найдено"},
                                                         {GoogleAuthFail,                "Не удалось войти через Google аккаунт"},
                                                         {VkAuthFail,                    "Не удалось войти через VK аккаунт"},
+                                                        {GuestAuthFail,                 "Не удалось войти как гость"},
                                                         {AlreadyHasLobby,               "Лобби уже существует"},
                                                         {AlreadyInQueue,                "Вы уже находитесь в очереди"},
                                                         {ApplySettingsFail,             "Не удалось применить настройки"},

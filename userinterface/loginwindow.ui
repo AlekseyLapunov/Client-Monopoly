@@ -174,10 +174,27 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>bGuestLogin</sender>
+   <signal>clicked()</signal>
+   <receiver>LoginWindow</receiver>
+   <slot>guestLogin()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>84</x>
+     <y>179</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>161</x>
+     <y>112</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>googleLogin()</slot>
   <slot>vkLogin()</slot>
   <slot>quitApp()</slot>
+  <slot>guestLogin()</slot>
  </slots>
 </ui>

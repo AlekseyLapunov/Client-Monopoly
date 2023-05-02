@@ -8,7 +8,7 @@ MenuWindow::MenuWindow(unique_ptr<ServerCommunicator> *newServerPtr,
     ui(new Ui::MenuWindow)
 {
     if(!*newServerPtr || !*newMetaInfoPtr)
-        throw std::runtime_error(ssClassNames[MenuWindowCN] + ssRuntimeErrors[PtrLinkFail]);
+        throw std::runtime_error(ssClassNames[MenuWindowCN] + ssErrorsContent[PtrLinkFail]);
 
     setupPointers(*newServerPtr, *newMetaInfoPtr);
 
@@ -186,7 +186,7 @@ void MenuWindow::quitAppDialog()
 
 void MenuWindow::show()
 {
-#ifdef DEBUG
+#ifdef DEBUG_FAST_LOAD_INTO_THE_GAME
     pGameManagerWindow->show();
     this->hide();
     return;

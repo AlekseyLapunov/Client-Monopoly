@@ -9,7 +9,7 @@ LobbyWindow::LobbyWindow(unique_ptr<ServerCommunicator> *newServerPtr,
     ui(new Ui::LobbyWindow)
 {
     if(!*newServerPtr || !*newMetaInfoPtr || !newGameManagerPtr)
-        throw std::runtime_error(ssClassNames[LobbyWindowCN] + ssRuntimeErrors[PtrLinkFail]);
+        throw std::runtime_error(ssClassNames[LobbyWindowCN] + ssErrorsContent[PtrLinkFail]);
 
     setupPointers(*newServerPtr, *newMetaInfoPtr);
     this->m_pGameManager = &newGameManagerPtr;
@@ -38,7 +38,7 @@ void LobbyWindow::windowDataRefresh()
     pUserMetaInfo()->get()->setHostInfo(pServer()->get()->getCurrentHostInfo(ok, false));
     if(!ok)
     {
-        execErrorBox(QString::fromStdString(ssClassNames[ServerCommCN] + ssRuntimeErrors[GetHostInfoFail]), this);
+        execErrorBox(QString::fromStdString(ssClassNames[ServerCommCN] + ssErrorsContent[GetHostInfoFail]), this);
     }
     ///m_context = pServer()->get()->getCurrentLobbyContext(m_context.lobbySystem.uniqueId);
     setUpUsersInTable(*ui->tUsers, m_context.usersInLobby);
@@ -284,7 +284,7 @@ QString LobbyWindow::findOwnerNickname(int ownerId)
 
 void LobbyWindow::startGame()
 {
-#ifdef DEBUG
+#ifdef DEBUG_FAST_GAME_START
     hide();
     m_pGameManager->get()->show();
     return;

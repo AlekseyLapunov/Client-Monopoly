@@ -8,7 +8,7 @@ GameManagerWindow::GameManagerWindow(unique_ptr<ServerCommunicator> *newServerPt
     ui(new Ui::GameManagerWindow)
 {
     if(!*newServerPtr || !*newMetaInfoPtr)
-        throw std::runtime_error(ssClassNames[GameManagerCN] + ssRuntimeErrors[PtrLinkFail]);
+        throw std::runtime_error(ssClassNames[GameManagerCN] + ssErrorsContent[PtrLinkFail]);
 
     setupPointers(*newServerPtr, *newMetaInfoPtr);
 }
@@ -26,7 +26,7 @@ void GameManagerWindow::show()
 
     startQmlEngine();
 
-#ifdef DEBUG
+#ifdef DEBUG_HIDE_GAME_MANAGER_WINDOW
     QWidget::hide();
     return;
 #endif

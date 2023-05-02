@@ -12,6 +12,8 @@
 #include "helpers/basewin.h"
 #include "lobbywindow.h"
 
+//#define DEBUG_FAST_LOAD_INTO_THE_GAME
+
 typedef short dialogCode;
 
 namespace Ui {

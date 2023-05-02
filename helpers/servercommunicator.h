@@ -45,6 +45,7 @@ public:
     // Logins
     HostUserData doVkLogin(bool &ok);
     HostUserData doGoogleLogin(bool &ok);
+    HostUserData doGuestLogin(bool &ok);
     HostUserData checkIfNoNeedToAuth(bool &ok, uint8_t localCounter = 0);
 
     // Host info
@@ -73,10 +74,10 @@ signals:
     void refreshTokenProcessOver();
 
 private slots:
-    void parseAuthReply(QNetworkReply *reply);
-    void parseGetInfo(QNetworkReply *reply);
-    void parseRefreshAccessToken(QNetworkReply *reply);
-    void parseChangeNickname(QNetworkReply *reply);
+    void catchReplyAuth(QNetworkReply *reply);
+    void catchReplyGetInfo(QNetworkReply *reply);
+    void catchReplyRefreshAccessToken(QNetworkReply *reply);
+    void catchReplyChangeNickname(QNetworkReply *reply);
 
 private:
     void oauthConfigure(uint8_t authType);
@@ -85,7 +86,7 @@ private:
 
 private:
     QNetworkAccessManager *m_networkManager;
-    QOAuth2AuthorizationCodeFlow *m_oauth;
+    QOAuth2AuthorizationCodeFlow *m_oauthCodeFlow;
     QOAuthHttpServerReplyHandler* m_replyHandler;
 
     QString m_host = "ppcd.fun";

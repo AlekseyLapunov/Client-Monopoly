@@ -8,7 +8,7 @@ LoginWindow::LoginWindow(unique_ptr<ServerCommunicator> *newServerPtr,
     , ui(new Ui::LoginWindow)
 {
     if(!*newServerPtr || !*newMetaInfoPtr)
-        throw std::runtime_error(ssClassNames[LoginWindowCN] + ssRuntimeErrors[PtrLinkFail]);
+        throw std::runtime_error(ssClassNames[LoginWindowCN] + ssErrorsContent[PtrLinkFail]);
 
     setupPointers(*newServerPtr, *newMetaInfoPtr);
 
@@ -27,7 +27,7 @@ LoginWindow::~LoginWindow()
 
 void LoginWindow::show()
 {
-#ifdef DEBUG
+#ifdef DEBUG_SKIP_LOGIN
     switchToMenuWindow();
     return;
 #endif
@@ -66,12 +66,17 @@ void LoginWindow::quitAppDialog()
 
 void LoginWindow::googleLogin()
 {
-    baseLogin(LoginWindow::Google);
+    baseLogin(LoginType::Google);
 }
 
 void LoginWindow::vkLogin()
 {
-    baseLogin(LoginWindow::Vk);
+    baseLogin(LoginType::Vk);
+}
+
+void LoginWindow::guestLogin()
+{
+    baseLogin(LoginType::Guest);
 }
 
 void LoginWindow::quitApp()
@@ -91,15 +96,19 @@ void LoginWindow::baseLogin(short flag)
     bool ok = false;
     pUserMetaInfo()->get()->setHostInfo
     (
-        flag == LoginWindow::Vk ? pServer()->get()->doVkLogin(ok)
-                                : pServer()->get()->doGoogleLogin(ok)
+        (flag == LoginType::Vk)     ? pServer()->get()->doVkLogin(ok)     :
+        (flag == LoginType::Google) ? pServer()->get()->doGoogleLogin(ok) :
+                                      pServer()->get()->doGuestLogin(ok)
     );
     if(!ok)
     {
-        execErrorBox((QString::fromStdString(ssClassNames[ServerCommCN] +
-                     (flag == LoginWindow::Vk ? ssRuntimeErrors[VkAuthFail]
-                                              : ssRuntimeErrors[VkAuthFail]))),
-                     this);
+        execErrorBox
+        (
+            (QString::fromStdString(ssClassNames[ServerCommCN] +
+            ((flag == LoginType::Vk)     ? ssErrorsContent[VkAuthFail]     :
+             (flag == LoginType::Google) ? ssErrorsContent[GoogleAuthFail] :
+                                           ssErrorsContent[GuestAuthFail]))
+        ), this);
         setDisabled(false);
         return;
     }

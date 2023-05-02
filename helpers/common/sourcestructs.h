@@ -31,9 +31,9 @@
 #define PLAYER_UNIQUE_ID_COL    3
 
 // Lobby's types
-#define LOBBY_TYPE_PUBLIC  "PUBLIC"
-#define LOBBY_TYPE_RPIVATE "PRIVATE"
-#define LOBBY_TYPE_RANKED  "RANKED"
+#define LOBBY_TYPE_PUBLIC  "PUBLIC"  // without password
+#define LOBBY_TYPE_RPIVATE "PRIVATE" // with password
+#define LOBBY_TYPE_RANKED  "RANKED"  // ranked
 
 // bools
 #define IS_READY                true
@@ -177,20 +177,20 @@ struct LobbySettings
     QString toJsonQString()
     {
         QJsonObject settingsObject;
-        settingsObject.insert(ssJsonKeysLobbySettingsIds[UniqueId],            this->uniqueId);
-        settingsObject.insert(ssJsonKeysLobbySettingsIds[LobbyName],           this->lobbyName);
-        settingsObject.insert(ssJsonKeysLobbySettingsIds[LobbyPassword],       this->lobbyPassword);
-        settingsObject.insert(ssJsonKeysLobbySettingsIds[MaxPlayersCount],     this->maxPlayersCount);
-        settingsObject.insert(ssJsonKeysLobbySettingsIds[OwnerUniqueId],       this->ownerUniqueId);
-        settingsObject.insert(ssJsonKeysLobbySettingsIds[IsTimerActive],       this->isTimerActive);
-        settingsObject.insert(ssJsonKeysLobbySettingsIds[SessionAddress],      this->sessionAddress);
-        settingsObject.insert(ssJsonKeysLobbySettingsIds[SessionPort],         this->sessionPort);
-        settingsObject.insert(ssJsonKeysLobbySettingsIds[TurnTime],            this->turnTime);
-        settingsObject.insert(ssJsonKeysLobbySettingsIds[MaxMoney],            this->maxMoney);
-        settingsObject.insert(ssJsonKeysLobbySettingsIds[IsMaxMoneyInfinite],  this->isMaxMoneyInfinite);
-        settingsObject.insert(ssJsonKeysLobbySettingsIds[MaxTurns],            this->maxTurns);
-        settingsObject.insert(ssJsonKeysLobbySettingsIds[AreMaxTurnsInfinite], this->areMaxTurnsInfinite);
-        settingsObject.insert(ssJsonKeysLobbySettingsIds[Type], this->type);
+        settingsObject.insert(ssJsonLobbySettings[UniqueId],            this->uniqueId);
+        settingsObject.insert(ssJsonLobbySettings[LobbyName],           this->lobbyName);
+        settingsObject.insert(ssJsonLobbySettings[LobbyPassword],       this->lobbyPassword);
+        settingsObject.insert(ssJsonLobbySettings[MaxPlayersCount],     this->maxPlayersCount);
+        settingsObject.insert(ssJsonLobbySettings[OwnerUniqueId],       this->ownerUniqueId);
+        settingsObject.insert(ssJsonLobbySettings[IsTimerActive],       this->isTimerActive);
+        settingsObject.insert(ssJsonLobbySettings[SessionAddress],      this->sessionAddress);
+        settingsObject.insert(ssJsonLobbySettings[SessionPort],         this->sessionPort);
+        settingsObject.insert(ssJsonLobbySettings[TurnTime],            this->turnTime);
+        settingsObject.insert(ssJsonLobbySettings[MaxMoney],            this->maxMoney);
+        settingsObject.insert(ssJsonLobbySettings[IsMaxMoneyInfinite],  this->isMaxMoneyInfinite);
+        settingsObject.insert(ssJsonLobbySettings[MaxTurns],            this->maxTurns);
+        settingsObject.insert(ssJsonLobbySettings[AreMaxTurnsInfinite], this->areMaxTurnsInfinite);
+        settingsObject.insert(ssJsonLobbySettings[LobbyType],           this->type);
         QJsonDocument doc(settingsObject);
         return doc.toJson(QJsonDocument::Indented);
     }

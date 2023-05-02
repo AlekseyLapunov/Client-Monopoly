@@ -7,7 +7,7 @@
 #include "helpers/basewin.h"
 #include "menuwindow.h"
 
-//#define DEBUG
+#define DEBUG_SKIP_LOGIN
 
 namespace Ui { class LoginWindow; }
 
@@ -28,11 +28,12 @@ public:
 private slots:
     void googleLogin();
     void vkLogin();
+    void guestLogin();
     void quitApp();
 
 private:
     void closeEvent(QCloseEvent *event);
-    enum ServiceFlags { Google, Vk };
+    enum LoginType { Google, Vk, Guest };
     void baseLogin(short flag);
     void switchToMenuWindow();
 
