@@ -33,6 +33,7 @@
 #define MS_TIMEOUT                   2500
 
 #define LOCAL_COUNTER_MAX            2
+#define MIN_VALID_UNIQUE_ID          1
 
 class ServerCommunicator : public QObject
 {
@@ -48,6 +49,7 @@ public:
 
     // Host info
     HostUserData getCurrentHostInfo(bool &ok, bool retryCheckIfNoNeedToAuth, uint8_t localCounter = 0);
+    void clearTemporaryHostData();
 
     // Lobbies
     vector<LobbyShortInfo>& getLobbiesShortInfo();
@@ -109,27 +111,27 @@ private:
                      PostLobbiesSwitchReadinessById, PostLobbiesTransferRightsById,
                      PostLobbiesKickPlayerById, PostLobbiesRunGameById,
                      DeleteLobbiesById };
-    \
-    QMap<uint8_t, QString> m_httpMethods = {
-                                                {PostAuthVK,                     "auth/authFromVK"},
-                                                {PostAuthGoogle,                 "auth/authFromGoogle"},
-                                                {PostAuthAsGuest,                "auth/authAsGuest"},
-                                                {PostAuthRefreshAccessToken,     "auth/refreshAccessToken"},
-                                                {PostUsersChangeNickname,        "users/changeNickname"},
-                                                {GetUsersGetInfoById,            "users/%1/getInfo"},
-                                                {PostLobbiesCreate,              "lobbies/create"},
-                                                {GetLobbiesGetList,              "lobbies/getList"},
-                                                {GetLobbiesCheckMe,              "lobbies/checkMeInActiveGame"},
-                                                {PostLobbiesConnectById,         "lobbies/%1/connect"},
-                                                {GetLobbiesGetInfoById,          "lobbies/%1/getInfo"},
-                                                {PostLobbiesUpdateSettingsById,  "lobbies/%1/updateSettings"},
-                                                {PostLobbiesDisconnectById,      "lobbies/%1/disconnect"},
-                                                {PostLobbiesSwitchReadinessById, "lobbies/%1/switchReadiness"},
-                                                {PostLobbiesTransferRightsById,  "lobbies/%1/transferRights"},
-                                                {PostLobbiesKickPlayerById,      "lobbies/%1/kickPlayer"},
-                                                {PostLobbiesRunGameById,         "lobbies/%1/runGame"},
-                                                {DeleteLobbiesById,              "lobbies/%1"}
-                                           };
+
+    const QMap<uint8_t, QString> m_httpMethods = {
+                                                    {PostAuthVK,                     "auth/authFromVK"},
+                                                    {PostAuthGoogle,                 "auth/authFromGoogle"},
+                                                    {PostAuthAsGuest,                "auth/authAsGuest"},
+                                                    {PostAuthRefreshAccessToken,     "auth/refreshAccessToken"},
+                                                    {PostUsersChangeNickname,        "users/changeNickname"},
+                                                    {GetUsersGetInfoById,            "users/%1/getInfo"},
+                                                    {PostLobbiesCreate,              "lobbies/create"},
+                                                    {GetLobbiesGetList,              "lobbies/getList"},
+                                                    {GetLobbiesCheckMe,              "lobbies/checkMeInActiveGame"},
+                                                    {PostLobbiesConnectById,         "lobbies/%1/connect"},
+                                                    {GetLobbiesGetInfoById,          "lobbies/%1/getInfo"},
+                                                    {PostLobbiesUpdateSettingsById,  "lobbies/%1/updateSettings"},
+                                                    {PostLobbiesDisconnectById,      "lobbies/%1/disconnect"},
+                                                    {PostLobbiesSwitchReadinessById, "lobbies/%1/switchReadiness"},
+                                                    {PostLobbiesTransferRightsById,  "lobbies/%1/transferRights"},
+                                                    {PostLobbiesKickPlayerById,      "lobbies/%1/kickPlayer"},
+                                                    {PostLobbiesRunGameById,         "lobbies/%1/runGame"},
+                                                    {DeleteLobbiesById,              "lobbies/%1"}
+                                                 };
 
     const QString m_jsonContentType            = "application/json";
     const QString m_authorizationRawHeader     = "Authorization";

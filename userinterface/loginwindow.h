@@ -41,5 +41,7 @@ private:
 
     unique_ptr<MenuWindow> pMenuWindow;
 
+    bool dontCheckIfAuthorized = false;
+
 };
 #endif // LOGINWINDOW_H

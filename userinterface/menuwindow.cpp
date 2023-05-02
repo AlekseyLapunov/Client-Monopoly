@@ -44,6 +44,8 @@ void MenuWindow::changeAcc()
     if(makeDialog(BaseWin::ChangeAcc, "", this) == 0)
     {
         hide();
+        pServer()->get()->clearTemporaryHostData();
+        FileManager::clearUserMetaForNewLogin();
         emit goToLoginWindow();
     }
 }

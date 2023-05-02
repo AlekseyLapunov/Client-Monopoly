@@ -137,7 +137,7 @@ HostUserData ServerCommunicator::getCurrentHostInfo(bool &ok, bool retryCheckIfN
     QString gotAccessToken = FileManager::getToken(TokenType::Access);
     QString gotHostUniqueId = FileManager::getHostUniqueId();
 
-    if(gotAccessToken.isEmpty() || gotHostUniqueId.isEmpty())
+    if(gotAccessToken.isEmpty() || gotHostUniqueId.isEmpty() || !(gotHostUniqueId.toInt() >= MIN_VALID_UNIQUE_ID))
     {
         ok = false;
         return {};
@@ -186,6 +186,14 @@ HostUserData ServerCommunicator::getCurrentHostInfo(bool &ok, bool retryCheckIfN
         ok = false;
         return {};
     }
+}
+
+void ServerCommunicator::clearTemporaryHostData()
+{
+    m_temporaryHostData.uniqueId = -1;
+    m_temporaryHostData.nickname = "";
+    m_temporaryHostData.rpCount = 0;
+    m_temporaryHostData.isGuest = false;
 }
 
 vector<LobbyShortInfo> &ServerCommunicator::getLobbiesShortInfo()

@@ -38,6 +38,7 @@ public:
                                bool isGuest);
     static void commitHostData(int hostUserId);
     static QString getHostUniqueId();
+    static void clearUserMetaForNewLogin();
 
 private:
     static void createUserMetaJson(const QString &dir);
