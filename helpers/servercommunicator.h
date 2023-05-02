@@ -32,7 +32,7 @@
 // Event timer timeout
 #define MS_TIMEOUT                   2500
 
-#define LOCAL_COUNTER_MAX            1
+#define LOCAL_COUNTER_MAX            2
 
 class ServerCommunicator : public QObject
 {
