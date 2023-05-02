@@ -60,11 +60,7 @@ void FileManager::createUserMetaJson(const QString &dir)
 {
     QFile userMeta(dir + ssUserMetaFileName);
     if(!userMeta.exists() || !isJsonFileIntegral(dir + ssUserMetaFileName))
-    {
-        userMeta.open(QIODevice::WriteOnly);
         writeFile(userMeta, defaultUserJson());
-        userMeta.close();
-    }
 }
 
 void FileManager::createRankedSettingsJson(const QString &dir)
