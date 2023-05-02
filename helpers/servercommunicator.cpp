@@ -22,6 +22,7 @@ ServerCommunicator::~ServerCommunicator()
 HostUserData ServerCommunicator::doVkLogin(bool &ok)
 {
 #ifdef AUTH_STUB
+    ok = true;
     m_temporaryHostData = {11, "VK STUB", 1110};
 #else
     m_networkManager->disconnect();
@@ -49,6 +50,7 @@ HostUserData ServerCommunicator::doVkLogin(bool &ok)
     }
     else
     {
+        qDebug().noquote() << "VK Login: timed out";
         ok = false;
         return {};
     }
@@ -60,6 +62,7 @@ HostUserData ServerCommunicator::doVkLogin(bool &ok)
 HostUserData ServerCommunicator::doGoogleLogin(bool &ok)
 {
 #ifdef AUTH_STUB
+    ok = true;
     m_temporaryHostData = {13, "GOOGLE STUB", 1200};
 #else
     m_networkManager->disconnect();
@@ -74,7 +77,7 @@ HostUserData ServerCommunicator::doGoogleLogin(bool &ok)
     connect( this, &ServerCommunicator::authorizationProcessOver, &eventLoop, &QEventLoop::quit );
     connect( &eventTimer, &QTimer::timeout, &eventLoop, &QEventLoop::quit );
 
-    eventTimer.start(MS_TIMEOUT);
+    eventTimer.start(MS_TIMEOUT*6);
 
     m_oauthCodeFlow->grant();
 
@@ -87,6 +90,7 @@ HostUserData ServerCommunicator::doGoogleLogin(bool &ok)
     }
     else
     {
+        qDebug().noquote() << "Google Login: timed out";
         ok = false;
         return {};
     }
@@ -98,6 +102,7 @@ HostUserData ServerCommunicator::doGoogleLogin(bool &ok)
 HostUserData ServerCommunicator::doGuestLogin(bool &ok)
 {
 #ifdef AUTH_STUB
+    ok = true;
     m_temporaryHostData = {21, "GUEST STUB", 0};
 #else
     m_networkManager->disconnect();
@@ -128,6 +133,7 @@ HostUserData ServerCommunicator::doGuestLogin(bool &ok)
     }
     else
     {
+        qDebug().noquote() << "Guest Login: timed out";
         ok = false;
         return {};
     }
@@ -138,14 +144,18 @@ HostUserData ServerCommunicator::doGuestLogin(bool &ok)
 
 HostUserData ServerCommunicator::checkIfNoNeedToAuth(bool &ok, uint8_t localCounter)
 {
+#ifdef AUTH_STUB
+    ok = true; Q_UNUSED(localCounter);
+    m_temporaryHostData = {17, "NO AUTH STUB", 2200};
+    return m_temporaryHostData;
+#else
+
     if(localCounter >= LOCAL_COUNTER_MAX)
     {
+        qDebug().noquote() << "Check If No Need To Auth: Reached max local counter";
         ok = false;
         return {};
     }
-#ifdef AUTH_STUB
-    m_temporaryHostData = {17, "NO AUTH STUB", 2200};
-#else
 
     if(!doRefreshAccessToken())
     {
@@ -161,13 +171,18 @@ HostUserData ServerCommunicator::checkIfNoNeedToAuth(bool &ok, uint8_t localCoun
         return {};
 
 #endif
-    return m_temporaryHostData;
 }
 
 HostUserData ServerCommunicator::getCurrentHostInfo(bool &ok, bool retryCheckIfNoNeedToAuth, uint8_t localCounter)
 {
+#ifdef USERS_STUB
+    ok = true; Q_UNUSED(retryCheckIfNoNeedToAuth); Q_UNUSED(localCounter);
+    m_temporaryHostData = {17, "NO AUTH STUB", 2200, false};
+    return m_temporaryHostData;
+#else
     if(localCounter >= LOCAL_COUNTER_MAX)
     {
+        qDebug().noquote() << "Get Host Info: Reached max local counter";
         ok = false;
         return {};
     }
@@ -178,8 +193,16 @@ HostUserData ServerCommunicator::getCurrentHostInfo(bool &ok, bool retryCheckIfN
     QString gotAccessToken = FileManager::getToken(TokenType::Access);
     QString gotHostUniqueId = FileManager::getHostUniqueId();
 
-    if(gotAccessToken.isEmpty() || gotHostUniqueId.isEmpty() || !(gotHostUniqueId.toInt() >= MIN_VALID_UNIQUE_ID))
+    if(gotAccessToken.isEmpty())
+        if(!doRefreshAccessToken())
+        {
+            ok = false;
+            return {};
+        }
+
+    if(gotHostUniqueId.isEmpty() || !(gotHostUniqueId.toInt() >= MIN_VALID_UNIQUE_ID))
     {
+        qDebug().noquote() << "Get Host Info: Sending not valid Host Unique ID is not allowed";
         ok = false;
         return {};
     }
@@ -224,9 +247,11 @@ HostUserData ServerCommunicator::getCurrentHostInfo(bool &ok, bool retryCheckIfN
     }
     else
     {
+        qDebug().noquote() << "Get Current Host Info: timed out";
         ok = false;
         return {};
     }
+#endif
 }
 
 void ServerCommunicator::clearTemporaryHostData()
@@ -237,7 +262,7 @@ void ServerCommunicator::clearTemporaryHostData()
     m_temporaryHostData.isGuest = false;
 }
 
-vector<LobbyShortInfo> &ServerCommunicator::getLobbiesShortInfo()
+vector<LobbyShortInfo> &ServerCommunicator::getLobbiesShortInfo(bool &ok, uint8_t localCounter)
 {
     m_lobbiesShortInfoVec.clear();
     m_lobbiesShortInfoVec.resize(0);
@@ -259,15 +284,63 @@ vector<LobbyShortInfo> &ServerCommunicator::getLobbiesShortInfo()
 
     for(int i = 0; i < 10; i++)
         m_lobbiesShortInfoVec.push_back(stubLobbiesShortInfo[i]);
-#endif
 
     return m_lobbiesShortInfoVec;
+#else
+    if(localCounter >= LOCAL_COUNTER_MAX)
+    {
+        qDebug().noquote() << "Get Lobbies Short Info: Reached max local counter";
+        ok = false;
+        return m_lobbiesShortInfoVec;
+    }
+
+    m_networkManager->disconnect();
+    retryMethod = false;
+
+    QString gotAccessToken = FileManager::getToken(TokenType::Access);
+
+    if(gotAccessToken.isEmpty())
+        if(!doRefreshAccessToken())
+        {
+            ok = false;
+            return m_lobbiesShortInfoVec;
+        }
+
+    QTimer eventTimer;
+    QEventLoop eventLoop;
+
+    eventTimer.setSingleShot(true);
+
+    connect( this, &ServerCommunicator::getLobbiesShortInfoProcessOver, &eventLoop, &QEventLoop::quit );
+    connect( &eventTimer, &QTimer::timeout, &eventLoop, &QEventLoop::quit);
+
+    eventTimer.start(MS_TIMEOUT);
+
+    connect(m_networkManager, &QNetworkAccessManager::finished,
+            this, &ServerCommunicator::catchReplyLobbiesGetList);
+
+    QNetworkRequest request(makeAddress(m_host, m_port, m_httpMethods[GetLobbiesGetList]));
+    request.setRawHeader(m_authorizationRawHeader.toUtf8(), m_authorizationHeaderContent.arg(gotAccessToken).toUtf8());
+
+    m_networkManager->get(request);
+
+    eventLoop.exec();
+
+    if(retryMethod)
+    {
+        localCounter++;
+        return m_lobbiesShortInfoVec = getLobbiesShortInfo(ok, localCounter);
+    }
+
+    ok = eventTimer.isActive();
+    if(!ok)
+        qDebug().noquote() << "Get Lobbies Short Info: timed out";
+    return m_lobbiesShortInfoVec;
+#endif
 }
 
 LobbyFullInfo ServerCommunicator::tryJoinById(const int lobbyUniqueId)
 {
-    // Make request
-
 #ifdef LOBBIES_STUB
     if(lobbyUniqueId != 0)
         throw std::runtime_error(ssClassNames[ServerCommCN] + ssErrorsContent[LobbyNotFound]);
@@ -285,6 +358,10 @@ LobbyFullInfo ServerCommunicator::tryJoinById(const int lobbyUniqueId)
           {"Роман Заглушевич", 11111, NOT_READY, 63},
         }
     };
+#else
+    LobbyFullInfo lfiObject;
+
+    return lfiObject;
 #endif
 }
 
@@ -388,8 +465,18 @@ void ServerCommunicator::changeNickname(const QString newNickname, uint8_t local
     if(localCounter >= LOCAL_COUNTER_MAX)
         return;
 
-    retryMethod = false;
     m_networkManager->disconnect();
+    retryMethod = false;
+
+    QTimer eventTimer;
+    QEventLoop eventLoop;
+
+    eventTimer.setSingleShot(true);
+
+    connect( this, &ServerCommunicator::changeNicknameProcessOver, &eventLoop, &QEventLoop::quit );
+    connect( &eventTimer, &QTimer::timeout, &eventLoop, &QEventLoop::quit);
+
+    eventTimer.start(MS_TIMEOUT);
 
     QString gotAccessToken = FileManager::getToken(TokenType::Access);
 
@@ -401,6 +488,8 @@ void ServerCommunicator::changeNickname(const QString newNickname, uint8_t local
     request.setRawHeader(m_authorizationRawHeader.toUtf8(), m_authorizationHeaderContent.arg(gotAccessToken).toUtf8());
 
     m_networkManager->post(request, QString("{\"newNickname\": \"%1\"}").arg(newNickname).toUtf8());
+
+    eventLoop.exec();
 
     if(retryMethod)
     {
@@ -625,7 +714,7 @@ void ServerCommunicator::catchReplyChangeNickname(QNetworkReply *reply)
     if(!statusCode.isValid())
     {
         qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
-                           << "Get Info: code is not valid";
+                           << "Change Nickname: code is not valid";
         return;
     }
     else if(statusCode.toInt() == CODE_NOT_AUTHORIZED)
@@ -640,6 +729,7 @@ void ServerCommunicator::catchReplyChangeNickname(QNetworkReply *reply)
         }
 
         retryMethod = true;
+        emit changeNicknameProcessOver();
         return;
     }
     else if((statusCode.toInt() != CODE_SUCCESS) && (statusCode.toInt() != CODE_NOT_AUTHORIZED))
@@ -650,6 +740,53 @@ void ServerCommunicator::catchReplyChangeNickname(QNetworkReply *reply)
     }
 
     qDebug().noquote() << "Change Nickname reply body: " << QString::fromUtf8(bytes.data(), bytes.size());
+
+    reply->deleteLater();
+}
+
+void ServerCommunicator::catchReplyLobbiesGetList(QNetworkReply *reply)
+{
+    disconnect(m_networkManager, &QNetworkAccessManager::finished,
+               this, &ServerCommunicator::catchReplyLobbiesGetList);
+
+    QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+    QByteArray bytes = reply->readAll();
+
+    qDebug().noquote() << "Lobbies Get List: HTTP code " << statusCode.toString();
+
+    if(!statusCode.isValid())
+    {
+        qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
+                           << "Lobbies Get List: code is not valid";
+        return;
+    }
+    else if(statusCode.toInt() == CODE_NOT_AUTHORIZED)
+    {
+        qDebug().noquote() << "Lobbies Get List NOT AUTHORIZED reply body: "
+                           << QString::fromUtf8(bytes.data(), bytes.size());
+        if(!doRefreshAccessToken())
+        {
+            qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
+                               << "Refresh Access Token: Can not provide";
+            return;
+        }
+
+        retryMethod = true;
+        emit getLobbiesShortInfoProcessOver();
+        return;
+    }
+    else if((statusCode.toInt() != CODE_SUCCESS) && (statusCode.toInt() != CODE_NOT_AUTHORIZED))
+    {
+        qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
+                           << QString("Lobbies Get List: Not allowed code (%1)").arg(statusCode.toString());
+        return;
+    }
+
+    //qDebug().noquote() << "Lobbies Get List reply body: " << QString::fromUtf8(bytes.data(), bytes.size());
+    QString shortedReply = QString::fromUtf8(bytes.data(), bytes.size()).first(40);
+    qDebug().noquote() << "Lobbies Get List reply body (shorted): " << shortedReply;
+
+
 
     reply->deleteLater();
 }

@@ -19,7 +19,8 @@
 #include "common/sourcestrings.h"
 
 //#define AUTH_STUB
-#define LOBBIES_STUB
+//#define USERS_STUB
+//#define LOBBIES_STUB
 #define LOBBIES_INSIDE_STUB
 
 // HTTP codes
@@ -53,7 +54,7 @@ public:
     void clearTemporaryHostData();
 
     // Lobbies
-    vector<LobbyShortInfo>& getLobbiesShortInfo();
+    vector<LobbyShortInfo>& getLobbiesShortInfo(bool &ok, uint8_t localCounter = 0);
     LobbyFullInfo tryJoinById(const int lobbyUniqueId);
     LobbyFullInfo tryJoinById(const int lobbyUniqueId, const QString &enteredPassword);
     LobbyFullInfo tryCreateLobby(const int hostUserId, LobbySettings priorSettings);
@@ -72,12 +73,15 @@ signals:
     void authorizationProcessOver();
     void getInfoProcessOver();
     void refreshTokenProcessOver();
+    void changeNicknameProcessOver();
+    void getLobbiesShortInfoProcessOver();
 
 private slots:
     void catchReplyAuth(QNetworkReply *reply);
     void catchReplyGetInfo(QNetworkReply *reply);
     void catchReplyRefreshAccessToken(QNetworkReply *reply);
     void catchReplyChangeNickname(QNetworkReply *reply);
+    void catchReplyLobbiesGetList(QNetworkReply *reply);
 
 private:
     void oauthConfigure(uint8_t authType);
@@ -118,8 +122,10 @@ private:
                                                     {PostAuthGoogle,                 "auth/authFromGoogle"},
                                                     {PostAuthAsGuest,                "auth/authAsGuest"},
                                                     {PostAuthRefreshAccessToken,     "auth/refreshAccessToken"},
+
                                                     {PostUsersChangeNickname,        "users/changeNickname"},
                                                     {GetUsersGetInfoById,            "users/%1/getInfo"},
+
                                                     {PostLobbiesCreate,              "lobbies/create"},
                                                     {GetLobbiesGetList,              "lobbies/getList"},
                                                     {GetLobbiesCheckMe,              "lobbies/checkMeInActiveGame"},
