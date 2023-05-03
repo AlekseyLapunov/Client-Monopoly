@@ -68,7 +68,7 @@ void FileManager::createRankedSettingsJson(const QString &dir)
     QFile rankedSettingsJsonFile(dir + ssRankedSettingsFileName);
 
     LobbySettings rankedSettingsCopy = TrueRankedSettings;
-    const QString trueRankedSettingsJson = rankedSettingsCopy.toJsonQString();
+    const QString trueRankedSettingsJson = rankedSettingsCopy.toJsonQStringForFileSave();
 
     if(!rankedSettingsJsonFile.exists())
     {
@@ -89,12 +89,12 @@ void FileManager::createLastSettingsJson(const QString &dir)
     LobbySettings defaultSettingsCopy = DefaultLobbySettings;
     if(!lastSettingsJsonFile.exists())
     {
-        writeFile(lastSettingsJsonFile, defaultSettingsCopy.toJsonQString());
+        writeFile(lastSettingsJsonFile, defaultSettingsCopy.toJsonQStringForFileSave());
     }
     else
     {
         if(!isJsonFileIntegral(dir + ssLastSettingsFileName))
-            writeFile(lastSettingsJsonFile, defaultSettingsCopy.toJsonQString());
+            writeFile(lastSettingsJsonFile, defaultSettingsCopy.toJsonQStringForFileSave());
     }
 }
 
@@ -215,7 +215,7 @@ bool FileManager::isJsonIntegral(const QString &jsonString, const QString &name)
 
 void FileManager::saveLastSettingsToLocal(LobbySettings settingsToSave)
 {
-    const QString content = settingsToSave.toJsonQString();
+    const QString content = settingsToSave.toJsonQStringForFileSave();
     writeFile(ssLocalDirPath + ssLastSettingsFileName, content);
 }
 
@@ -232,7 +232,7 @@ void FileManager::checkLastSettingsIntegrity()
     if(!isJsonFileIntegral(ssLocalDirPath + ssLastSettingsFileName))
     {
         LobbySettings defaultSettingsCopy = DefaultLobbySettings;
-        writeFile(ssLocalDirPath + ssLastSettingsFileName, defaultSettingsCopy.toJsonQString());
+        writeFile(ssLocalDirPath + ssLastSettingsFileName, defaultSettingsCopy.toJsonQStringForFileSave());
     }
     else return;
 }
@@ -436,5 +436,5 @@ void FileManager::manageSettingsExport(LobbySettings settingsToExport, QWidget *
     if(filePath.isEmpty())
         return;
 
-    writeFile(filePath, settingsToExport.toJsonQString());
+    writeFile(filePath, settingsToExport.toJsonQStringForFileSave());
 }

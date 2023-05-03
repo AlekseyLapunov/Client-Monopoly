@@ -83,7 +83,8 @@ static const QMap<short, QString> codeShortDescription =  {
                                                             };
 
 enum ServerCommSubModule { AuthSubModule, GetInfoSubModule, GetLobbiesListSubModule, ChangeNicknameSubModule,
-                           RefreshTokenSubModule, SwitchReadinessSubModule, DeleteLobbySubModule };
+                           RefreshTokenSubModule, SwitchReadinessSubModule, DeleteLobbySubModule,
+                           CreateLobbySubModule };
 static const QMap<uint8_t, QString> serverCommSubModule = {
                                                                 {AuthSubModule,             "Auth: "},
                                                                 {GetInfoSubModule,          "Get Info: "},
@@ -91,7 +92,8 @@ static const QMap<uint8_t, QString> serverCommSubModule = {
                                                                 {ChangeNicknameSubModule,   "Change Nickname: "},
                                                                 {RefreshTokenSubModule,     "Refresh Token: "},
                                                                 {SwitchReadinessSubModule,  "Switch Readiness: "},
-                                                                {DeleteLobbySubModule,      "Delete Lobby: "}
+                                                                {DeleteLobbySubModule,      "Delete Lobby: "},
+                                                                {CreateLobbySubModule,      "Lobby Create: "}
                                                             };
 
 static QMap<uint8_t, bool> serverCommSubModuleRepeat = {
@@ -101,7 +103,8 @@ static QMap<uint8_t, bool> serverCommSubModuleRepeat = {
                                                             {ChangeNicknameSubModule,   false},
                                                             {RefreshTokenSubModule,     false},
                                                             {SwitchReadinessSubModule,  false},
-                                                            {DeleteLobbySubModule,      false}
+                                                            {DeleteLobbySubModule,      false},
+                                                            {CreateLobbySubModule,      false}
                                                        };
 
 #endif // SERVERCOMMSTRINGS_H

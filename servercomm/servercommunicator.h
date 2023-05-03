@@ -49,13 +49,13 @@ public:
     vector<LobbyShortInfo>& getStableLobbiesList();
     LobbyFullInfo connectToLobby(const int lobbyUniqueId, bool &ok, bool &isPassworded, uint8_t localCounter = 0);
     LobbyFullInfo connectToLobby(const int lobbyUniqueId, const QString &enteredPassword, bool &ok, uint8_t localCounter = 0);
-    LobbyFullInfo createLobby(const int hostUserId, LobbySettings priorSettings, bool &ok, uint8_t localCounter = 0);
-    LobbyFullInfo connectToRankedLobby(const int hostUserId, bool &ok, uint8_t localCounter = 0);
-    void switchReadiness(const int lobbyUniqueId, bool &ok, uint8_t localCounter = 0);
-    void updateLobbySettings(const int lobbyUniqueId, LobbySettings newSettings, bool &ok, uint8_t localCounter = 0);
-    void runGame(const int lobbyUniqueId, bool &ok, uint8_t localCounter = 0);
-    void kickPlayer(const int lobbyUniqueId, const int playerUniqueId, bool &ok, uint8_t localCounter = 0);
-    void raisePlayer(const int lobbyUniqueId, const int playerUniqueId, bool &ok, uint8_t localCounter = 0);
+    LobbyFullInfo createLobby(LobbySettings priorSettings, bool &ok, uint8_t localCounter = 0);
+    LobbyFullInfo connectToRankedLobby(bool &ok, uint8_t localCounter = 0);
+    void switchReadiness(bool &ok, uint8_t localCounter = 0);
+    void updateLobbySettings(LobbySettings newSettings, bool &ok, uint8_t localCounter = 0);
+    void runGame(bool &ok, uint8_t localCounter = 0);
+    void kickPlayer(const int playerUniqueId, bool &ok, uint8_t localCounter = 0);
+    void raisePlayer(const int playerUniqueId, bool &ok, uint8_t localCounter = 0);
     void deleteLobby(const int lobbyUniqueId, bool &ok, uint8_t localCounter = 0);
 
 signals:
@@ -66,6 +66,7 @@ signals:
     void getLobbiesShortInfoProcessOver();
     void switchReadinessProcessOver();
     void deleteLobbyProcessOver();
+    void createLobbyProcessOver();
 
 private slots:
     void catchReplyAuth(QNetworkReply *reply);
@@ -75,6 +76,7 @@ private slots:
     void catchReplyLobbiesGetList(QNetworkReply *reply);
     void catchReplySwitchReadiness(QNetworkReply *reply);
     void catchReplyDeleteLobby(QNetworkReply *reply);
+    void catchReplyCreateLobby(QNetworkReply *reply);
 
 private:
     void oauthConfigure(uint8_t authType);
@@ -95,12 +97,16 @@ private:
 
     void emitSignalBySubModuleId(uint8_t subModuleId);
 
+    QString makeServerFullLobbyJson(LobbySettings &lobbySettingsBase);
+    LobbyFullInfo parseLobbyFullInfoFromServer(QJsonObject &jsonMainObject);
+
 private:
     QNetworkAccessManager        *m_oauthNetworkManager;
     QOAuth2AuthorizationCodeFlow *m_oauthCodeFlow;
     QOAuthHttpServerReplyHandler *m_oauthReplyHandler;
 
     HostUserData m_temporaryHostData;
+    LobbyFullInfo m_temporaryLobbyFullInfo;
     vector<LobbyShortInfo> m_lobbiesShortInfoVec;
 };
 

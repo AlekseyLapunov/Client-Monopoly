@@ -143,15 +143,43 @@ static const QMap<uint8_t, QString> ssJsonUserMeta       = {
                                                                 {UserInfoObj,   "userInfo"}
                                                            };
 
-enum JsonKeysServerLobbies         { ServLobbiesList, ServLobbyID, ServLobbyName, ServLobbyIsPrivate,
-                                     ServLobbyMaxPlayers, ServLobbyPlayersNow};
+enum JsonKeysServerLobbies         { ServLobbiesListObj, ServLobbyID, ServLobbyName, ServLobbyIsPrivate,
+                                     ServLobbyMaxPlayers, ServLobbyPlayersNow, ServLobbyInfoObj,
+                                     ServOwnerID, ServSettingsObj, ServLobbyType,
+                                     ServLobbyPassword, ServTimeForTurn,
+                                     ServVictoryType, ServScoreVictoryValue,
+                                     ServTurnVictoryValue, ServPlayersObj,
+                                     ServUserEntityObj, ServUserID, ServUserNickname,
+                                     ServUserIsGuest, ServUserRpCount,
+                                     ServUserIsReady, ServLobbyTimerIsActivate,
+                                     ServConnectionObj, ServSessionAddress, ServSessionPort};
 static const QMap<uint8_t, QString> ssJsonServerLobbiesKeys    = {
-                                                                    {ServLobbiesList,     "lobbies"},
-                                                                    {ServLobbyID,         "lobbyID"},
-                                                                    {ServLobbyName,       "name"},
-                                                                    {ServLobbyIsPrivate,  "isPrivate"},
-                                                                    {ServLobbyMaxPlayers, "maxPlayers"},
-                                                                    {ServLobbyPlayersNow, "playersNow"}
+                                                                    {ServLobbiesListObj,        "lobbies"},
+                                                                    {ServLobbyID,               "lobbyID"},
+                                                                    {ServLobbyName,             "name"},
+                                                                    {ServLobbyIsPrivate,        "isPrivate"},
+                                                                    {ServLobbyMaxPlayers,       "maxPlayers"},
+                                                                    {ServLobbyPlayersNow,       "playersNow"},
+                                                                    {ServLobbyInfoObj,          "lobbyInfo"},
+                                                                    {ServOwnerID,               "ownerID"},
+                                                                    {ServSettingsObj,           "settings"},
+                                                                    {ServLobbyType,             "type"},
+                                                                    {ServLobbyPassword,         "password"},
+                                                                    {ServTimeForTurn,           "timeForTurn"},
+                                                                    {ServVictoryType,           "victoryType"},
+                                                                    {ServScoreVictoryValue,     "scoreVictoryValue"},
+                                                                    {ServTurnVictoryValue,      "turnVictoryValue"},
+                                                                    {ServPlayersObj,            "players"},
+                                                                    {ServUserEntityObj,         "userEntity"},
+                                                                    {ServUserID,                "ID"},
+                                                                    {ServUserNickname,          "nickname"},
+                                                                    {ServUserIsGuest,           "isGuest"},
+                                                                    {ServUserRpCount,           "rating"},
+                                                                    {ServUserIsReady,           "isReady"},
+                                                                    {ServLobbyTimerIsActivate,  "timerIsActivate"},
+                                                                    {ServConnectionObj,         "connection"},
+                                                                    {ServSessionAddress,        "address"},
+                                                                    {ServSessionPort,           "port"}
                                                                  };
 
 

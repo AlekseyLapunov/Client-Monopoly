@@ -329,7 +329,7 @@ LobbyFullInfo ServerCommunicator::connectToLobby(const int lobbyUniqueId, bool &
 {
 #ifdef LOBBIES_STUB
     if(lobbyUniqueId != 0)
-        throw std::runtime_error(ssClassNames[ServerCommCN] + ssErrorsContent[LobbyNotFound]);
+        return;
 
     return
     {
@@ -345,9 +345,8 @@ LobbyFullInfo ServerCommunicator::connectToLobby(const int lobbyUniqueId, bool &
         }
     };
 #else
-    LobbyFullInfo lfiObject;
 
-    return lfiObject;
+    return {};
 #endif
 }
 
@@ -362,7 +361,7 @@ LobbyFullInfo ServerCommunicator::connectToLobby(const int lobbyUniqueId, const 
 #endif
 }
 
-LobbyFullInfo ServerCommunicator::createLobby(const int hostUserId, LobbySettings priorSettings,
+LobbyFullInfo ServerCommunicator::createLobby(LobbySettings priorSettings,
                                               bool &ok, uint8_t localCounter)
 {
 #ifdef LOBBIES_STUB
@@ -380,12 +379,51 @@ LobbyFullInfo ServerCommunicator::createLobby(const int hostUserId, LobbySetting
         {}
     };
 #else
-    return {};
+    uint8_t thisSubModuleId = CreateLobbySubModule;
+    QString usingHttpMethod = httpMethods[PostLobbiesCreate];
+
+    if(localCounter >= LOCAL_COUNTER_MAX)
+    {
+        qDebug().noquote() << QString("%1: Reached max local counter")
+                              .arg(serverCommSubModule[thisSubModuleId]);
+        ok = false;
+        return {};
+    }
+
+    serverCommSubModuleRepeat[thisSubModuleId] = false;
+    QString gotAccessToken = FileManager::getToken(TokenType::Access);
+
+    if(gotAccessToken.isEmpty())
+        if(!doRefreshAccessToken())
+        {
+            ok = false;
+            return {};
+        }
+
+    QString requestBody = makeServerFullLobbyJson(priorSettings);
+
+    if(basicRequestManage(thisSubModuleId, usingHttpMethod,
+                          HttpMethodType::HttpPost, authorizationRawHeader,
+                          authorizationHeaderContent.arg(gotAccessToken),
+                          requestBody) == RequestManagerAnswer::RequestAllGood)
+    {
+        if(serverCommSubModuleRepeat[thisSubModuleId])
+        {
+            localCounter++;
+            return createLobby(priorSettings, ok, localCounter);
+        }
+        ok = true;
+        return m_temporaryLobbyFullInfo;
+    }
+    else
+    {
+        ok = false;
+        return m_temporaryLobbyFullInfo;
+    }
 #endif
 }
 
-LobbyFullInfo ServerCommunicator::connectToRankedLobby(const int hostUserId, bool &ok,
-                                                       uint8_t localCounter)
+LobbyFullInfo ServerCommunicator::connectToRankedLobby(bool &ok, uint8_t localCounter)
 {
 #ifdef LOBBIES_STUB
     if(false)
@@ -443,7 +481,7 @@ void ServerCommunicator::deleteLobby(const int lobbyUniqueId, bool &ok, uint8_t 
         if(serverCommSubModuleRepeat[thisSubModuleId])
         {
             localCounter++;
-            return switchReadiness(lobbyUniqueId, ok, localCounter);
+            return deleteLobby(lobbyUniqueId, ok, localCounter);
         }
         ok = true;
         return;
@@ -456,7 +494,7 @@ void ServerCommunicator::deleteLobby(const int lobbyUniqueId, bool &ok, uint8_t 
 #endif
 }
 
-void ServerCommunicator::switchReadiness(const int lobbyUniqueId, bool &ok, uint8_t localCounter)
+void ServerCommunicator::switchReadiness(bool &ok, uint8_t localCounter)
 {
 #ifdef LOBBIES_INSIDE_STUB
     return;
@@ -490,7 +528,7 @@ void ServerCommunicator::switchReadiness(const int lobbyUniqueId, bool &ok, uint
         if(serverCommSubModuleRepeat[thisSubModuleId])
         {
             localCounter++;
-            return switchReadiness(lobbyUniqueId, ok, localCounter);
+            return switchReadiness(ok, localCounter);
         }
         ok = true;
         return;
@@ -503,7 +541,7 @@ void ServerCommunicator::switchReadiness(const int lobbyUniqueId, bool &ok, uint
 #endif
 }
 
-void ServerCommunicator::updateLobbySettings(const int lobbyUniqueId, LobbySettings newSettings,
+void ServerCommunicator::updateLobbySettings(LobbySettings newSettings,
                                              bool &ok, uint8_t localCounter)
 {
 #ifdef LOBBIES_INSIDE_STUB
@@ -513,7 +551,7 @@ void ServerCommunicator::updateLobbySettings(const int lobbyUniqueId, LobbySetti
 #endif
 }
 
-void ServerCommunicator::runGame(const int lobbyUniqueId, bool &ok, uint8_t localCounter)
+void ServerCommunicator::runGame(bool &ok, uint8_t localCounter)
 {
 #ifdef LOBBIES_INSIDE_STUB
     return;
@@ -522,7 +560,7 @@ void ServerCommunicator::runGame(const int lobbyUniqueId, bool &ok, uint8_t loca
 #endif
 }
 
-void ServerCommunicator::kickPlayer(const int lobbyUniqueId, const int playerUniqueId,
+void ServerCommunicator::kickPlayer(const int playerUniqueId,
                                     bool &ok, uint8_t localCounter)
 {
 #ifdef LOBBIES_INSIDE_STUB
@@ -532,7 +570,7 @@ void ServerCommunicator::kickPlayer(const int lobbyUniqueId, const int playerUni
 #endif
 }
 
-void ServerCommunicator::raisePlayer(const int lobbyUniqueId, const int playerUniqueId,
+void ServerCommunicator::raisePlayer(const int playerUniqueId,
                                      bool &ok, uint8_t localCounter)
 {
 #ifdef LOBBIES_INSIDE_STUB
@@ -637,6 +675,8 @@ void ServerCommunicator::catchReplyChangeNickname(QNetworkReply *reply)
     if(basicReplyManage(reply, ChangeNicknameSubModule) != ReplyManagerAnswer::ReplyAllGood)
         return;
 
+    emit getInfoProcessOver();
+
     reply->deleteLater();
 }
 
@@ -649,14 +689,17 @@ void ServerCommunicator::catchReplyLobbiesGetList(QNetworkReply *reply)
 
     QJsonObject jsonObj = QJsonDocument::fromJson(bytes.data()).object();
 
-    QJsonArray jsonArray = jsonObj[ssJsonServerLobbiesKeys[ServLobbiesList]].toArray();
+    QJsonArray jsonArray = jsonObj[ssJsonServerLobbiesKeys[ServLobbiesListObj]].toArray();
 
-    foreach (const QJsonValue &value, jsonArray)
+    foreach (const QJsonValue &jsonLobbyValue, jsonArray)
     {
-        if(!value.isObject())
+        if(!jsonLobbyValue.isObject())
+        {
+            qDebug().noquote() << "jsonLobbyValue is fractured";
             continue;
+        }
 
-        QJsonObject obj = value.toObject();
+        QJsonObject obj = jsonLobbyValue.toObject();
 
         m_lobbiesShortInfoVec.push_back
         (
@@ -670,6 +713,8 @@ void ServerCommunicator::catchReplyLobbiesGetList(QNetworkReply *reply)
         );
     }
 
+    emit getLobbiesShortInfoProcessOver();
+
     reply->deleteLater();
 }
 
@@ -678,6 +723,8 @@ void ServerCommunicator::catchReplySwitchReadiness(QNetworkReply *reply)
     if(basicReplyManage(reply, SwitchReadinessSubModule) != ReplyManagerAnswer::ReplyAllGood)
         return;
 
+    emit switchReadinessProcessOver();
+
     reply->deleteLater();
 }
 
@@ -685,6 +732,26 @@ void ServerCommunicator::catchReplyDeleteLobby(QNetworkReply *reply)
 {
     if(basicReplyManage(reply, DeleteLobbySubModule) != ReplyManagerAnswer::ReplyAllGood)
         return;
+
+    emit deleteLobbyProcessOver();
+
+    reply->deleteLater();
+}
+
+void ServerCommunicator::catchReplyCreateLobby(QNetworkReply *reply)
+{
+    if(basicReplyManage(reply, CreateLobbySubModule) != ReplyManagerAnswer::ReplyAllGood)
+        return;
+
+    QByteArray bytes = reply->readAll();
+
+    QJsonObject jsonObj = QJsonDocument::fromJson(bytes.data()).object();
+
+    m_temporaryLobbyFullInfo.usersInLobby.clear();
+    m_temporaryLobbyFullInfo.usersInLobby.resize(0);
+    m_temporaryLobbyFullInfo = parseLobbyFullInfoFromServer(jsonObj);
+
+    emit createLobbyProcessOver();
 
     reply->deleteLater();
 }
@@ -766,7 +833,6 @@ uint8_t ServerCommunicator::basicReplyManage(QNetworkReply *pReply, uint8_t serv
         case CODE_SUCCESS:
         {
             serverCommSubModuleRepeat[serverCommSubModuleId] = false;
-            emitSignalBySubModuleId(serverCommSubModuleId);
             return ReplyManagerAnswer::ReplyAllGood;
         }
         case CODE_FORBIDDEN:
@@ -872,6 +938,11 @@ void ServerCommunicator::makeConnectionBySubModuleId(uint8_t subModuleId, QNetwo
         connect(localManager, &QNetworkAccessManager::finished,
                 this, &ServerCommunicator::catchReplyDeleteLobby);
         return;
+    case CreateLobbySubModule:
+        connect(this, &ServerCommunicator::createLobbyProcessOver, localEventLoop, &QEventLoop::quit);
+        connect(localManager, &QNetworkAccessManager::finished,
+                this, &ServerCommunicator::catchReplyCreateLobby);
+        return;
     default:
         return;
     }
@@ -901,6 +972,9 @@ void ServerCommunicator::emitSignalBySubModuleId(uint8_t subModuleId)
         return;
     case DeleteLobbySubModule:
         emit deleteLobbyProcessOver();
+        return;
+    case CreateLobbySubModule:
+        emit createLobbyProcessOver();
         return;
     default:
         return;
@@ -949,3 +1023,124 @@ QUrl ServerCommunicator::makeAddress(QString host, int port, QString additionalP
     return QUrl(QString("https://%1:%2").arg(host, QString::number(port))
                 + QString(!additionalParameters.isEmpty() ? "/%1" : "").arg(additionalParameters));
 }
+
+QString ServerCommunicator::makeServerFullLobbyJson(LobbySettings &lobbySettingsBase)
+{
+    return QString("{"
+                   "\"settings\":{"
+                     "\"name\": \"%1\","
+                     "\"type\": \"%2\","
+                     "\"password\": \"%3\","
+                     "\"maxPlayers\": %4"
+                     "\"timeForTurn\": %5,"
+                     "\"victoryType\": \"%6\","
+                     "\"scoreVictoryValue\": %7,"
+                     "\"turnVictoryValue\": %8"
+                   "}"
+                  "}").arg(lobbySettingsBase.lobbyName,
+                           lobbySettingsBase.defineLobbyTypeForServer(),
+                           lobbySettingsBase.lobbyPassword,
+                           QString::number(lobbySettingsBase.maxPlayersCount),
+                           QString::number(lobbySettingsBase.turnTime),
+                           lobbySettingsBase.defineVictoryTypeForServer(),
+                           QString::number(lobbySettingsBase.maxMoney),
+                           QString::number(lobbySettingsBase.maxTurns));
+}
+
+LobbyFullInfo ServerCommunicator::parseLobbyFullInfoFromServer(QJsonObject &jsonMainObject)
+{
+    LobbyFullInfo returningLFI;
+    returningLFI.usersInLobby.clear();
+    returningLFI.usersInLobby.resize(0);
+
+    QJsonValue jsonLobbyInfoValue = jsonMainObject[ssJsonServerLobbiesKeys[ServLobbyInfoObj]];
+
+    if(!jsonLobbyInfoValue.isObject())
+    {
+        qDebug().noquote() << QString("%1 is fractured").arg(ssJsonServerLobbiesKeys[ServLobbyInfoObj]);
+        return {};
+    }
+
+    QJsonObject jsonLobbyInfoObject = jsonLobbyInfoValue.toObject();
+
+    returningLFI.settings.uniqueId      = jsonLobbyInfoObject[ssJsonServerLobbiesKeys[ServLobbyID]].toInt();
+    returningLFI.settings.ownerUniqueId = jsonLobbyInfoObject[ssJsonServerLobbiesKeys[ServOwnerID]].toInt();
+
+    QJsonValue jsonLobbySettingsValue = jsonLobbyInfoObject[ssJsonLobbySettings[ServSettingsObj]];
+
+    if(!jsonLobbySettingsValue.isObject())
+    {
+        qDebug().noquote() << QString("%1 is fractured").arg(ssJsonServerLobbiesKeys[ServSettingsObj]);
+        return {};
+    }
+
+    QJsonObject jsonLobbySettingsObject = jsonLobbySettingsValue.toObject();
+
+    returningLFI.settings.lobbyName         = jsonLobbySettingsObject[ssJsonServerLobbiesKeys[ServLobbyName]].toString();
+    returningLFI.settings.type              = jsonLobbySettingsObject[ssJsonServerLobbiesKeys[ServLobbyType]].toString();
+    returningLFI.settings.lobbyPassword     = jsonLobbySettingsObject[ssJsonServerLobbiesKeys[ServLobbyPassword]].toString();
+    returningLFI.settings.maxPlayersCount   = jsonLobbySettingsObject[ssJsonServerLobbiesKeys[ServLobbyMaxPlayers]].toInt();
+    returningLFI.settings.turnTime          = jsonLobbySettingsObject[ssJsonServerLobbiesKeys[ServTimeForTurn]].toInt();
+    returningLFI.settings.setupByVictoryType(jsonLobbySettingsObject[ssJsonServerLobbiesKeys[ServLobbyPassword]].toString());
+    returningLFI.settings.maxMoney          = jsonLobbySettingsObject[ssJsonServerLobbiesKeys[ServScoreVictoryValue]].toInt();
+    returningLFI.settings.maxTurns          = jsonLobbySettingsObject[ssJsonServerLobbiesKeys[ServTurnVictoryValue]].toInt();
+
+    QJsonArray jsonPlayersArray = jsonLobbyInfoObject[ssJsonServerLobbiesKeys[ServPlayersObj]].toArray();
+
+    foreach (const QJsonValue &jsonPlayerValue, jsonPlayersArray)
+    {
+        if(!jsonPlayerValue.isObject())
+        {
+            qDebug().noquote() << "jsonPlayerValue is fractured";
+            continue;
+        }
+
+        QJsonObject jsonPlayerObj = jsonPlayerValue.toObject();
+
+        QJsonValue jsonPlayerSubValue = jsonPlayerObj[ssJsonServerLobbiesKeys[ServUserEntityObj]];
+
+        if(!jsonPlayerSubValue.isObject())
+        {
+            qDebug().noquote() << QString("%1 is fractured").arg(ssJsonServerLobbiesKeys[ServUserEntityObj]);
+            continue;
+        }
+
+        QJsonObject jsonPlayerSubObj = jsonPlayerSubValue.toObject();
+
+        returningLFI.usersInLobby.push_back
+        (
+            {
+                jsonPlayerSubObj[ssJsonServerLobbiesKeys[ServUserNickname]].toString(),
+                jsonPlayerSubObj[ssJsonServerLobbiesKeys[ServUserRpCount]].toInt(),
+                jsonPlayerObj[ssJsonServerLobbiesKeys[ServUserIsReady]].toBool(),
+                jsonPlayerSubObj[ssJsonServerLobbiesKeys[ServUserID]].toInt()
+            }
+        );
+    }
+
+    returningLFI.settings.isTimerActive     = jsonLobbyInfoObject[ssJsonServerLobbiesKeys[ServLobbyTimerIsActivate]].toBool();
+
+    QJsonValue jsonConnectionValue = jsonLobbyInfoObject[ssJsonServerLobbiesKeys[ServConnectionObj]];
+
+    if(!jsonConnectionValue.isObject())
+    {
+        qDebug().noquote() << QString("%1 is fractured").arg(ssJsonServerLobbiesKeys[ServConnectionObj]);
+        return {};
+    }
+
+    QJsonObject jsonConnectionObj = jsonConnectionValue.toObject();
+
+    returningLFI.settings.sessionAddress    = jsonConnectionObj[ssJsonServerLobbiesKeys[ServSessionAddress]].toString();
+    returningLFI.settings.sessionPort       = jsonConnectionObj[ssJsonServerLobbiesKeys[ServSessionPort]].toInt();
+
+    return returningLFI;
+}
+
+
+
+
+
+
+
+
+

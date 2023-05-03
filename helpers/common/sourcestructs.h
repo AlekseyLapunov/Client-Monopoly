@@ -143,16 +143,20 @@ struct LobbySettings
 
     bool operator==(LobbySettings& other)
     {
-        if(this->uniqueId            != other.uniqueId           ||
-           this->lobbyName           != other.lobbyName          ||
-           this->lobbyPassword       != other.lobbyPassword      ||
-           this->maxPlayersCount     != other.maxPlayersCount    ||
-           this->ownerUniqueId       != other.ownerUniqueId      ||
-           this->turnTime            != other.turnTime           ||
-           this->maxMoney            != other.maxMoney           ||
-           this->isMaxMoneyInfinite  != other.isMaxMoneyInfinite ||
-           this->maxTurns            != other.maxTurns           ||
-           this->areMaxTurnsInfinite != other.areMaxTurnsInfinite)
+        if(this->uniqueId            != other.uniqueId            ||
+           this->lobbyName           != other.lobbyName           ||
+           this->lobbyPassword       != other.lobbyPassword       ||
+           this->maxPlayersCount     != other.maxPlayersCount     ||
+           this->ownerUniqueId       != other.ownerUniqueId       ||
+           this->turnTime            != other.turnTime            ||
+           this->maxMoney            != other.maxMoney            ||
+           this->isMaxMoneyInfinite  != other.isMaxMoneyInfinite  ||
+           this->maxTurns            != other.maxTurns            ||
+           this->areMaxTurnsInfinite != other.areMaxTurnsInfinite ||
+           this->isTimerActive       != other.isTimerActive       ||
+           this->sessionAddress      != other.sessionAddress      ||
+           this->sessionPort         != other.sessionPort         ||
+           this->type                != other.type)
             return false;
         return true;
     }
@@ -174,7 +178,7 @@ struct LobbySettings
         this->areMaxTurnsInfinite = other.areMaxTurnsInfinite;
     }
 
-    QString toJsonQString()
+    QString toJsonQStringForFileSave()
     {
         QJsonObject settingsObject;
         settingsObject.insert(ssJsonLobbySettings[UniqueId],            this->uniqueId);
@@ -193,6 +197,45 @@ struct LobbySettings
         settingsObject.insert(ssJsonLobbySettings[LobbyType],           this->type);
         QJsonDocument doc(settingsObject);
         return doc.toJson(QJsonDocument::Indented);
+    }
+
+    QString defineLobbyTypeForServer()
+    {
+        if(this->lobbyPassword.isEmpty())
+            return "PUBLIC";
+        else if (!this->lobbyPassword.isEmpty())
+            return "PRIVATE";
+        else
+            return "RANKED";
+    }
+
+    QString defineVictoryTypeForServer()
+    {
+        if(!this->isMaxMoneyInfinite && !this->areMaxTurnsInfinite)
+            return "BOTH";
+        else if(this->isMaxMoneyInfinite && !this->areMaxTurnsInfinite)
+            return "TURN";
+        else
+            return "SCORE";
+    }
+
+    void setupByVictoryType(QString victoryTypeFromServer)
+    {
+        if(victoryTypeFromServer == "BOTH")
+        {
+            this->isMaxMoneyInfinite = false;
+            this->areMaxTurnsInfinite = false;
+        }
+        else if(victoryTypeFromServer == "TURN")
+        {
+            this->isMaxMoneyInfinite = true;
+            this->areMaxTurnsInfinite = false;
+        }
+        else
+        {
+            this->isMaxMoneyInfinite = false;
+            this->areMaxTurnsInfinite = true;
+        }
     }
 };
 
