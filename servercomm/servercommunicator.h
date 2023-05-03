@@ -14,6 +14,7 @@
 #include <QTimer>
 #include <QEventLoop>
 #include <QMetaMethod>
+#include <QJsonArray>
 
 #include "helpers/common/filemanager.h"
 #include "helpers/common/sourcestructs.h"
@@ -63,6 +64,8 @@ signals:
     void refreshTokenProcessOver();
     void changeNicknameProcessOver();
     void getLobbiesShortInfoProcessOver();
+    void switchReadinessProcessOver();
+    void deleteLobbyProcessOver();
 
 private slots:
     void catchReplyAuth(QNetworkReply *reply);
@@ -70,13 +73,15 @@ private slots:
     void catchReplyRefreshAccessToken(QNetworkReply *reply);
     void catchReplyChangeNickname(QNetworkReply *reply);
     void catchReplyLobbiesGetList(QNetworkReply *reply);
+    void catchReplySwitchReadiness(QNetworkReply *reply);
+    void catchReplyDeleteLobby(QNetworkReply *reply);
 
 private:
     void oauthConfigure(uint8_t authType);
     QUrl makeAddress(QString host, int port, QString additionalParameters = {});
     bool doRefreshAccessToken();
 
-    enum HttpMethodType { HttpGet, HttpPost };
+    enum HttpMethodType { HttpGet, HttpPost, HttpDelete, SpecAuth };
     enum RequestManagerAnswer { RequestNeedToAbort, RequestTimedOut, RequestAllGood };
     uint8_t basicRequestManage(uint8_t subModuleId, QString method, uint8_t methodType,
                                QString headerName, QString headerValue, QString requestBody);

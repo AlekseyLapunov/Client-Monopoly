@@ -29,28 +29,18 @@ HostUserData ServerCommunicator::doVkLogin(bool &ok)
     m_oauthNetworkManager->disconnect();
     oauthConfigure(AuthType::VK);
 
-    QTimer eventTimer;
-    QEventLoop eventLoop;
+    uint8_t thisSubModuleId = AuthSubModule;
+    QString usingHttpMethod = "";
 
-    eventTimer.setSingleShot(true);
-
-    connect( this, &ServerCommunicator::authorizationProcessOver, &eventLoop, &QEventLoop::quit );
-    connect( &eventTimer, &QTimer::timeout, &eventLoop, &QEventLoop::quit );
-
-    eventTimer.start(MS_TIMEOUT*6);
-
-    m_oauthCodeFlow->grant();
-
-    eventLoop.exec();
-
-    if(eventTimer.isActive())
+    if(basicRequestManage(thisSubModuleId, usingHttpMethod,
+                          HttpMethodType::SpecAuth, "",
+                          "", "") == RequestManagerAnswer::RequestAllGood)
     {
         ok = true;
         return m_temporaryHostData;
     }
     else
     {
-        qDebug().noquote() << "VK Login: timed out";
         ok = false;
         return {};
     }
@@ -67,28 +57,18 @@ HostUserData ServerCommunicator::doGoogleLogin(bool &ok)
     m_oauthNetworkManager->disconnect();
     oauthConfigure(AuthType::Google);
 
-    QTimer eventTimer;
-    QEventLoop eventLoop;
+    uint8_t thisSubModuleId = AuthSubModule;
+    QString usingHttpMethod = "";
 
-    eventTimer.setSingleShot(true);
-
-    connect( this, &ServerCommunicator::authorizationProcessOver, &eventLoop, &QEventLoop::quit );
-    connect( &eventTimer, &QTimer::timeout, &eventLoop, &QEventLoop::quit );
-
-    eventTimer.start(MS_TIMEOUT*6);
-
-    m_oauthCodeFlow->grant();
-
-    eventLoop.exec();
-
-    if(eventTimer.isActive())
+    if(basicRequestManage(thisSubModuleId, usingHttpMethod,
+                          HttpMethodType::SpecAuth, "",
+                          "", "") == RequestManagerAnswer::RequestAllGood)
     {
         ok = true;
         return m_temporaryHostData;
     }
     else
     {
-        qDebug().noquote() << "Google Login: timed out";
         ok = false;
         return {};
     }
@@ -100,42 +80,24 @@ HostUserData ServerCommunicator::doGuestLogin(bool &ok)
 #ifdef AUTH_STUB
     ok = true;
     m_temporaryHostData = {21, "GUEST STUB", 0};
+    return m_temporaryHostData;
 #else
-    QNetworkAccessManager localNetworkAccessManager(this);
+    uint8_t thisSubModuleId = AuthSubModule;
+    QString usingHttpMethod = httpMethods[PostAuthAsGuest];
 
-    QTimer eventTimer;
-    QEventLoop eventLoop;
-
-    eventTimer.setSingleShot(true);
-
-    connect( this, &ServerCommunicator::authorizationProcessOver, &eventLoop, &QEventLoop::quit );
-    connect( &eventTimer, &QTimer::timeout, &eventLoop, &QEventLoop::quit );
-
-    eventTimer.start(MS_TIMEOUT);
-
-    connect(&localNetworkAccessManager, &QNetworkAccessManager::finished,
-            this, &ServerCommunicator::catchReplyAuth);
-
-    QNetworkRequest request(makeAddress(host, port, httpMethods[PostAuthAsGuest]));
-
-    localNetworkAccessManager.post(request, "");
-
-    eventLoop.exec();
-
-    if(eventTimer.isActive())
+    if(basicRequestManage(thisSubModuleId, usingHttpMethod,
+                          HttpMethodType::HttpPost, "",
+                          "", "") == RequestManagerAnswer::RequestAllGood)
     {
         ok = true;
         return m_temporaryHostData;
     }
     else
     {
-        qDebug().noquote() << "Guest Login: timed out";
         ok = false;
         return {};
     }
 #endif
-
-    return m_temporaryHostData;
 }
 
 HostUserData ServerCommunicator::checkIfNoNeedToAuth(bool &ok, uint8_t localCounter)
@@ -176,6 +138,8 @@ HostUserData ServerCommunicator::getCurrentHostInfo(bool &ok, bool retryCheckIfN
     m_temporaryHostData = {17, "NO AUTH STUB", 2200, false};
     return m_temporaryHostData;
 #else
+    uint8_t thisSubModuleId = GetInfoSubModule;
+
     if(localCounter >= LOCAL_COUNTER_MAX)
     {
         qDebug().noquote() << QString("%1: Reached max local counter").arg(serverCommSubModule[GetInfoSubModule]);
@@ -183,7 +147,7 @@ HostUserData ServerCommunicator::getCurrentHostInfo(bool &ok, bool retryCheckIfN
         return {};
     }
 
-    serverCommSubModuleRepeat[GetInfoSubModule] = false;
+    serverCommSubModuleRepeat[thisSubModuleId] = false;
 
     QString gotAccessToken = FileManager::getToken(TokenType::Access);
     QString gotHostUniqueId = FileManager::getHostUniqueId();
@@ -198,40 +162,49 @@ HostUserData ServerCommunicator::getCurrentHostInfo(bool &ok, bool retryCheckIfN
     if(gotHostUniqueId.isEmpty() || !(gotHostUniqueId.toInt() >= MIN_VALID_UNIQUE_ID))
     {
         qDebug().noquote() << QString("%1: Sending not valid Host Unique ID is not allowed")
-                              .arg(serverCommSubModule[GetInfoSubModule]);
+                              .arg(serverCommSubModule[thisSubModuleId]);
         ok = false;
         return {};
     }
 
-    if(basicRequestManage(GetInfoSubModule, httpMethods[GetUsersGetInfoByUserId].arg(gotHostUniqueId),
+    QString usingHttpMethod = httpMethods[GetUsersGetInfoByUserId].arg(gotHostUniqueId);
+
+    if(basicRequestManage(thisSubModuleId, usingHttpMethod,
                           HttpMethodType::HttpGet, authorizationRawHeader,
                           authorizationHeaderContent.arg(gotAccessToken), "") == RequestManagerAnswer::RequestAllGood)
     {
-        if(serverCommSubModuleRepeat[GetInfoSubModule] && retryCheckIfNoNeedToAuth)
+        if(serverCommSubModuleRepeat[thisSubModuleId] && retryCheckIfNoNeedToAuth)
         {
             localCounter++;
             return m_temporaryHostData = checkIfNoNeedToAuth(ok, localCounter);
         }
-        if(serverCommSubModuleRepeat[GetInfoSubModule] && !retryCheckIfNoNeedToAuth)
+        if(serverCommSubModuleRepeat[thisSubModuleId] && !retryCheckIfNoNeedToAuth)
         {
             localCounter++;
             return getCurrentHostInfo(ok, retryCheckIfNoNeedToAuth, localCounter);
         }
+        ok = true;
         return m_temporaryHostData;
     }
     else
+    {
+        ok = false;
         return {};
+    }
 #endif
 }
 
 bool ServerCommunicator::doRefreshAccessToken()
 {
+    uint8_t thisSubModuleId = RefreshTokenSubModule;
+    QString usingHttpMethod = httpMethods[PostAuthRefreshAccessToken];
+
     QString gotRefreshToken = FileManager::getToken(TokenType::Refresh);
 
     if(gotRefreshToken.isEmpty())
         return false;
 
-    if(basicRequestManage(RefreshTokenSubModule, httpMethods[PostAuthRefreshAccessToken],
+    if(basicRequestManage(thisSubModuleId, usingHttpMethod,
                           HttpMethodType::HttpPost, authorizationRawHeader,
                           authorizationHeaderContent.arg(gotRefreshToken), "") == RequestManagerAnswer::RequestAllGood)
         return true;
@@ -249,19 +222,26 @@ void ServerCommunicator::clearTemporaryHostData()
 
 void ServerCommunicator::changeNickname(const QString newNickname, uint8_t localCounter)
 {
+    uint8_t thisSubModuleId = ChangeNicknameSubModule;
+    QString usingHttpMethod = httpMethods[PostUsersMeChangeNickname];
+
     if(localCounter >= LOCAL_COUNTER_MAX)
         return;
 
-    serverCommSubModuleRepeat[ChangeNicknameSubModule] = false;
+    serverCommSubModuleRepeat[thisSubModuleId] = false;
     QString gotAccessToken = FileManager::getToken(TokenType::Access);
 
-    if(basicRequestManage(ChangeNicknameSubModule, httpMethods[PostUsersMeChangeNickname],
+    if(gotAccessToken.isEmpty())
+        if(!doRefreshAccessToken())
+            return;
+
+    if(basicRequestManage(thisSubModuleId, usingHttpMethod,
                           HttpMethodType::HttpPost, authorizationRawHeader,
                           authorizationHeaderContent.arg(gotAccessToken),
                           QString("{\"newNickname\": \"%1\"}")
                           .arg(newNickname)) == RequestManagerAnswer::RequestAllGood)
     {
-        if(serverCommSubModuleRepeat[ChangeNicknameSubModule])
+        if(serverCommSubModuleRepeat[thisSubModuleId])
         {
             localCounter++;
             return changeNickname(newNickname, localCounter);
@@ -297,15 +277,18 @@ vector<LobbyShortInfo> &ServerCommunicator::getLobbiesShortInfo(bool &ok, uint8_
 
     return m_lobbiesShortInfoVec;
 #else
+    uint8_t thisSubModuleId = GetLobbiesListSubModule;
+    QString usingHttpMethod = httpMethods[GetLobbiesGetList];
+
     if(localCounter >= LOCAL_COUNTER_MAX)
     {
         qDebug().noquote() << QString("%1: Reached max local counter")
-                              .arg(serverCommSubModule[GetLobbiesListSubModule]);
+                              .arg(serverCommSubModule[thisSubModuleId]);
         ok = false;
         return m_lobbiesShortInfoVec;
     }
 
-    serverCommSubModuleRepeat[GetLobbiesListSubModule] = false;
+    serverCommSubModuleRepeat[thisSubModuleId] = false;
     QString gotAccessToken = FileManager::getToken(TokenType::Access);
 
     if(gotAccessToken.isEmpty())
@@ -315,20 +298,24 @@ vector<LobbyShortInfo> &ServerCommunicator::getLobbiesShortInfo(bool &ok, uint8_
             return m_lobbiesShortInfoVec;
         }
 
-    if(basicRequestManage(GetLobbiesListSubModule, httpMethods[PostUsersMeChangeNickname],
+    if(basicRequestManage(thisSubModuleId, usingHttpMethod,
                           HttpMethodType::HttpPost, authorizationRawHeader,
                           authorizationHeaderContent.arg(gotAccessToken),
                           "") == RequestManagerAnswer::RequestAllGood)
     {
-        if(serverCommSubModuleRepeat[GetLobbiesListSubModule])
+        if(serverCommSubModuleRepeat[thisSubModuleId])
         {
             localCounter++;
             return m_lobbiesShortInfoVec = getLobbiesShortInfo(ok, localCounter);
         }
+        ok = true;
         return m_lobbiesShortInfoVec;
     }
     else
+    {
+        ok = false;
         return m_lobbiesShortInfoVec;
+    }
 #endif
 }
 
@@ -400,8 +387,6 @@ LobbyFullInfo ServerCommunicator::createLobby(const int hostUserId, LobbySetting
 LobbyFullInfo ServerCommunicator::connectToRankedLobby(const int hostUserId, bool &ok,
                                                        uint8_t localCounter)
 {
-    // Need to check if user already in the queue
-
 #ifdef LOBBIES_STUB
     if(false)
         throw std::runtime_error(ssClassNames[ServerCommCN] + ssErrorsContent[AlreadyInQueue]);
@@ -429,7 +414,45 @@ void ServerCommunicator::deleteLobby(const int lobbyUniqueId, bool &ok, uint8_t 
 #ifdef LOBBIES_INSIDE_STUB
     return;
 #else
+    uint8_t thisSubModuleId = DeleteLobbySubModule;
+    QString usingHttpMethod = httpMethods[DeleteLobbiesById].arg(QString::number(lobbyUniqueId));
 
+    if(localCounter >= LOCAL_COUNTER_MAX)
+    {
+        qDebug().noquote() << QString("%1: Reached max local counter")
+                              .arg(serverCommSubModule[thisSubModuleId]);
+        ok = false;
+        return;
+    }
+
+    serverCommSubModuleRepeat[thisSubModuleId] = false;
+    QString gotAccessToken = FileManager::getToken(TokenType::Access);
+
+    if(gotAccessToken.isEmpty())
+        if(!doRefreshAccessToken())
+        {
+            ok = false;
+            return;
+        }
+
+    if(basicRequestManage(thisSubModuleId, usingHttpMethod,
+                          HttpMethodType::HttpPost, authorizationRawHeader,
+                          authorizationHeaderContent.arg(gotAccessToken),
+                          "") == RequestManagerAnswer::RequestAllGood)
+    {
+        if(serverCommSubModuleRepeat[thisSubModuleId])
+        {
+            localCounter++;
+            return switchReadiness(lobbyUniqueId, ok, localCounter);
+        }
+        ok = true;
+        return;
+    }
+    else
+    {
+        ok = false;
+        return;
+    }
 #endif
 }
 
@@ -438,7 +461,45 @@ void ServerCommunicator::switchReadiness(const int lobbyUniqueId, bool &ok, uint
 #ifdef LOBBIES_INSIDE_STUB
     return;
 #else
+    uint8_t thisSubModuleId = SwitchReadinessSubModule;
+    QString usingHttpMethod = httpMethods[PostLobbiesCurrentSwitchReadiness];
 
+    if(localCounter >= LOCAL_COUNTER_MAX)
+    {
+        qDebug().noquote() << QString("%1: Reached max local counter")
+                              .arg(serverCommSubModule[thisSubModuleId]);
+        ok = false;
+        return;
+    }
+
+    serverCommSubModuleRepeat[thisSubModuleId] = false;
+    QString gotAccessToken = FileManager::getToken(TokenType::Access);
+
+    if(gotAccessToken.isEmpty())
+        if(!doRefreshAccessToken())
+        {
+            ok = false;
+            return;
+        }
+
+    if(basicRequestManage(thisSubModuleId, usingHttpMethod,
+                          HttpMethodType::HttpPost, authorizationRawHeader,
+                          authorizationHeaderContent.arg(gotAccessToken),
+                          "") == RequestManagerAnswer::RequestAllGood)
+    {
+        if(serverCommSubModuleRepeat[thisSubModuleId])
+        {
+            localCounter++;
+            return switchReadiness(lobbyUniqueId, ok, localCounter);
+        }
+        ok = true;
+        return;
+    }
+    else
+    {
+        ok = false;
+        return;
+    }
 #endif
 }
 
@@ -586,7 +647,44 @@ void ServerCommunicator::catchReplyLobbiesGetList(QNetworkReply *reply)
 
     QByteArray bytes = reply->readAll();
 
+    QJsonObject jsonObj = QJsonDocument::fromJson(bytes.data()).object();
 
+    QJsonArray jsonArray = jsonObj[ssJsonServerLobbiesKeys[ServLobbiesList]].toArray();
+
+    foreach (const QJsonValue &value, jsonArray)
+    {
+        if(!value.isObject())
+            continue;
+
+        QJsonObject obj = value.toObject();
+
+        m_lobbiesShortInfoVec.push_back
+        (
+            {
+                obj[ssJsonServerLobbiesKeys[ServLobbyID]].toInt(),
+                obj[ssJsonServerLobbiesKeys[ServLobbyName]].toString(),
+                obj[ssJsonServerLobbiesKeys[ServLobbyIsPrivate]].toBool(),
+                static_cast<int8_t>(obj[ssJsonServerLobbiesKeys[ServLobbyPlayersNow]].toInt()),
+                static_cast<int8_t>(obj[ssJsonServerLobbiesKeys[ServLobbyMaxPlayers]].toInt())
+            }
+        );
+    }
+
+    reply->deleteLater();
+}
+
+void ServerCommunicator::catchReplySwitchReadiness(QNetworkReply *reply)
+{
+    if(basicReplyManage(reply, SwitchReadinessSubModule) != ReplyManagerAnswer::ReplyAllGood)
+        return;
+
+    reply->deleteLater();
+}
+
+void ServerCommunicator::catchReplyDeleteLobby(QNetworkReply *reply)
+{
+    if(basicReplyManage(reply, DeleteLobbySubModule) != ReplyManagerAnswer::ReplyAllGood)
+        return;
 
     reply->deleteLater();
 }
@@ -671,6 +769,12 @@ uint8_t ServerCommunicator::basicReplyManage(QNetworkReply *pReply, uint8_t serv
             emitSignalBySubModuleId(serverCommSubModuleId);
             return ReplyManagerAnswer::ReplyAllGood;
         }
+        case CODE_FORBIDDEN:
+        {
+            serverCommSubModuleRepeat[serverCommSubModuleId] = false;
+            emitSignalBySubModuleId(serverCommSubModuleId);
+            return ReplyManagerAnswer::ReplyNeedToAbort;
+        }
         default:
         {
             serverCommSubModuleRepeat[serverCommSubModuleId] = false;
@@ -690,16 +794,30 @@ uint8_t ServerCommunicator::basicRequestManage(uint8_t subModuleId, QString meth
     makeConnectionBySubModuleId(subModuleId, &localNetworkAccessManager, &localEventLoop);
     connect(&localTimer, &QTimer::timeout, &localEventLoop, &QEventLoop::quit);
 
-    localTimer.start(MS_TIMEOUT);
+    localTimer.start(MS_TIMEOUT * ((methodType == HttpMethodType::SpecAuth) ? AUTH_ADDITIONAL_TIME_COEFF
+                                                                            : 1));
 
     QNetworkRequest request(makeAddress(host, port, method));
 
     request.setRawHeader(headerName.toUtf8(), headerValue.toUtf8());
 
-    if(methodType == HttpMethodType::HttpPost)
+    switch (methodType)
+    {
+    case HttpMethodType::HttpPost:
         localNetworkAccessManager.post(request, requestBody.toUtf8());
-    else
+        break;
+    case HttpMethodType::HttpGet:
         localNetworkAccessManager.get(request);
+        break;
+    case HttpMethodType::HttpDelete:
+        localNetworkAccessManager.deleteResource(request);
+        break;
+    case HttpMethodType::SpecAuth:
+        m_oauthCodeFlow->grant();
+        break;
+    default:
+        return RequestManagerAnswer::RequestTimedOut;
+    }
 
     localEventLoop.exec();
 
@@ -707,8 +825,9 @@ uint8_t ServerCommunicator::basicRequestManage(uint8_t subModuleId, QString meth
         return RequestManagerAnswer::RequestAllGood;
     else
     {
-        qDebug().noquote() << QString("%1%2 request timed out").arg(QString::fromStdString(ssClassNames[ServerCommCN]),
-                                                                    serverCommSubModule[subModuleId]);
+        qDebug().noquote() << QString("%1%2 request timed out")
+                              .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
+                                   serverCommSubModule[subModuleId]);
         return RequestManagerAnswer::RequestTimedOut;
     }
 }
@@ -719,6 +838,9 @@ void ServerCommunicator::makeConnectionBySubModuleId(uint8_t subModuleId, QNetwo
     switch (subModuleId)
     {
     case AuthSubModule:
+        connect(this, &ServerCommunicator::authorizationProcessOver, localEventLoop, &QEventLoop::quit);
+        connect(m_oauthNetworkManager, &QNetworkAccessManager::finished,
+                this, &ServerCommunicator::catchReplyAuth);
         return;
     case GetInfoSubModule:
         connect(this, &ServerCommunicator::getInfoProcessOver, localEventLoop, &QEventLoop::quit);
@@ -740,6 +862,16 @@ void ServerCommunicator::makeConnectionBySubModuleId(uint8_t subModuleId, QNetwo
         connect(localManager, &QNetworkAccessManager::finished,
                 this, &ServerCommunicator::catchReplyRefreshAccessToken);
         return;
+    case SwitchReadinessSubModule:
+        connect(this, &ServerCommunicator::switchReadinessProcessOver, localEventLoop, &QEventLoop::quit);
+        connect(localManager, &QNetworkAccessManager::finished,
+                this, &ServerCommunicator::catchReplySwitchReadiness);
+        return;
+    case DeleteLobbySubModule:
+        connect(this, &ServerCommunicator::deleteLobbyProcessOver, localEventLoop, &QEventLoop::quit);
+        connect(localManager, &QNetworkAccessManager::finished,
+                this, &ServerCommunicator::catchReplyDeleteLobby);
+        return;
     default:
         return;
     }
@@ -750,6 +882,7 @@ void ServerCommunicator::emitSignalBySubModuleId(uint8_t subModuleId)
     switch (subModuleId)
     {
     case AuthSubModule:
+        emit authorizationProcessOver();
         return;
     case GetInfoSubModule:
         emit getInfoProcessOver();
@@ -762,6 +895,12 @@ void ServerCommunicator::emitSignalBySubModuleId(uint8_t subModuleId)
         return;
     case RefreshTokenSubModule:
         emit refreshTokenProcessOver();
+        return;
+    case SwitchReadinessSubModule:
+        emit switchReadinessProcessOver();
+        return;
+    case DeleteLobbySubModule:
+        emit deleteLobbyProcessOver();
         return;
     default:
         return;

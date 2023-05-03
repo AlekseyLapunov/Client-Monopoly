@@ -109,8 +109,6 @@ static const QString ssCaptionExportSettings  = "Экспортировать н
 static const QString ssJsonFilter             = "JSON file (*.json)";
 
 // JSON keys
-enum JsonKeysUserMeta        { AccessToken, RefreshToken, HostId, HostNickname, HostRpCount, HostIsGuest, Uses3dDice,
-                               TokensObj, UserInfoObj };
 enum JsonKeysLobbySettingsId { UniqueId, LobbyName, LobbyPassword, MaxPlayersCount, OwnerUniqueId, IsTimerActive,
                                SessionAddress, SessionPort, TurnTime, MaxMoney, IsMaxMoneyInfinite, MaxTurns, AreMaxTurnsInfinite,
                                LobbyType };
@@ -130,6 +128,9 @@ static const QMap<uint8_t, QString> ssJsonLobbySettings  = {
                                                                 {AreMaxTurnsInfinite,   "areMaxTurnsInfinite"},
                                                                 {LobbyType,             "type"}
                                                            };
+
+enum JsonKeysUserMeta        { AccessToken, RefreshToken, HostId, HostNickname, HostRpCount, HostIsGuest, Uses3dDice,
+                               TokensObj, UserInfoObj };
 static const QMap<uint8_t, QString> ssJsonUserMeta       = {
                                                                 {AccessToken,   "accessToken"},
                                                                 {RefreshToken,  "refreshToken"},
@@ -141,6 +142,18 @@ static const QMap<uint8_t, QString> ssJsonUserMeta       = {
                                                                 {TokensObj,     "tokens"},
                                                                 {UserInfoObj,   "userInfo"}
                                                            };
+
+enum JsonKeysServerLobbies         { ServLobbiesList, ServLobbyID, ServLobbyName, ServLobbyIsPrivate,
+                                     ServLobbyMaxPlayers, ServLobbyPlayersNow};
+static const QMap<uint8_t, QString> ssJsonServerLobbiesKeys    = {
+                                                                    {ServLobbiesList,     "lobbies"},
+                                                                    {ServLobbyID,         "lobbyID"},
+                                                                    {ServLobbyName,       "name"},
+                                                                    {ServLobbyIsPrivate,  "isPrivate"},
+                                                                    {ServLobbyMaxPlayers, "maxPlayers"},
+                                                                    {ServLobbyPlayersNow, "playersNow"}
+                                                                 };
+
 
 // Classes Names for the exception thrower specifying
 enum ClassesNames { LoginWindowCN, MenuWindowCN, LobbiesSubDialogCN, LobbyWindowCN,

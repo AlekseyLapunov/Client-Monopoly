@@ -8,11 +8,13 @@
 // HTTP possible codes
 #define CODE_BAD_REQUEST             400
 #define CODE_NOT_AUTHORIZED          401
+#define CODE_FORBIDDEN               403
 #define CODE_METHOD_NOT_ALLOWED      405
 #define CODE_INTERNAL_SERVER_ERROR   500
 #define CODE_SUCCESS                 200
 
 #define MS_TIMEOUT                   2500
+#define AUTH_ADDITIONAL_TIME_COEFF   6
 #define LOCAL_COUNTER_MAX            2
 #define MIN_VALID_UNIQUE_ID          1
 #define SHOW_FIRST_N_OF_REPLY        60
@@ -70,23 +72,26 @@ static const QString authorizationRawHeader     = "Authorization";
 static const QString authorizationHeaderContent = "Bearer %1";
 
 enum HttpCodes { BadRequest = 400, NotAuthorized = 401, MethodNotAllowed = 405,
-                 InternalServerError = 500, CodeSuccess = 200 };
+                 InternalServerError = 500, CodeSuccess = 200, Forbidden = 403 };
 static const QMap<short, QString> codeShortDescription =  {
                                                                 {BadRequest,            "bad request"},
                                                                 {NotAuthorized,         "not authorized"},
                                                                 {MethodNotAllowed ,     "method not allowed"},
                                                                 {InternalServerError,   "internal server error"},
-                                                                {CodeSuccess,           "success"}
+                                                                {CodeSuccess,           "success"},
+                                                                {Forbidden,             "forbidden"}
                                                             };
 
 enum ServerCommSubModule { AuthSubModule, GetInfoSubModule, GetLobbiesListSubModule, ChangeNicknameSubModule,
-                           RefreshTokenSubModule };
+                           RefreshTokenSubModule, SwitchReadinessSubModule, DeleteLobbySubModule };
 static const QMap<uint8_t, QString> serverCommSubModule = {
                                                                 {AuthSubModule,             "Auth: "},
                                                                 {GetInfoSubModule,          "Get Info: "},
                                                                 {GetLobbiesListSubModule,   "Get Lobbies List: "},
                                                                 {ChangeNicknameSubModule,   "Change Nickname: "},
-                                                                {RefreshTokenSubModule,     "Refresh Token: "}
+                                                                {RefreshTokenSubModule,     "Refresh Token: "},
+                                                                {SwitchReadinessSubModule,  "Switch Readiness: "},
+                                                                {DeleteLobbySubModule,      "Delete Lobby: "}
                                                             };
 
 static QMap<uint8_t, bool> serverCommSubModuleRepeat = {
@@ -94,7 +99,9 @@ static QMap<uint8_t, bool> serverCommSubModuleRepeat = {
                                                             {GetInfoSubModule,          false},
                                                             {GetLobbiesListSubModule,   false},
                                                             {ChangeNicknameSubModule,   false},
-                                                            {RefreshTokenSubModule,     false}
+                                                            {RefreshTokenSubModule,     false},
+                                                            {SwitchReadinessSubModule,  false},
+                                                            {DeleteLobbySubModule,      false}
                                                        };
 
 #endif // SERVERCOMMSTRINGS_H
