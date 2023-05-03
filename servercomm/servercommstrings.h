@@ -5,6 +5,18 @@
 #include <QUrl>
 #include <QMap>
 
+// HTTP possible codes
+#define CODE_BAD_REQUEST             400
+#define CODE_NOT_AUTHORIZED          401
+#define CODE_METHOD_NOT_ALLOWED      405
+#define CODE_INTERNAL_SERVER_ERROR   500
+#define CODE_SUCCESS                 200
+
+#define MS_TIMEOUT                   2500
+#define LOCAL_COUNTER_MAX            2
+#define MIN_VALID_UNIQUE_ID          1
+#define SHOW_FIRST_N_OF_REPLY        60
+
 static const QString host = "ppcd.fun";
 static const int port = 6543;
 
@@ -21,36 +33,36 @@ static const QString clientId[2]   = { {"51617193"},
 static const uint32_t scopeMask[2] = { 0, 0 };
 
 enum MethodKey { PostAuthVK, PostAuthGoogle, PostAuthAsGuest, PostAuthRefreshAccessToken,
-                 PostUsersChangeNickname, GetUsersGetInfoById,
-                 PostLobbiesCreate, GetLobbiesGetList, GetLobbiesCheckMe,
-                 PostLobbiesConnectById, PostLobbiesConnectToRanked, GetLobbiesGetInfoById,
-                 PostLobbiesUpdateSettingsById, PostLobbiesDisconnectById,
-                 PostLobbiesSwitchReadinessById, PostLobbiesTransferRightsById,
-                 PostLobbiesKickPlayerById, PostLobbiesRunGameById,
+                 PostUsersMeChangeNickname, GetUsersGetInfoByUserId,
+                 PostLobbiesCreate, GetLobbiesGetList, GetLobbiesActiveCheck,
+                 PostLobbiesConnectById, PostLobbiesRankedConnect, GetLobbiesCurrentGetInfo,
+                 PostLobbiesCurrentUpdateSettings, PostLobbiesCurrentDisconnect,
+                 PostLobbiesCurrentSwitchReadiness, PostLobbiesCurrentPlayersRaiseById,
+                 PostLobbiesCurrentPlayersKickById, PostLobbiesCurrentRun,
                  DeleteLobbiesById };
 
 static const QMap<uint8_t, QString> httpMethods = {
-                                                        {PostAuthVK,                     "auth/authFromVK"},
-                                                        {PostAuthGoogle,                 "auth/authFromGoogle"},
-                                                        {PostAuthAsGuest,                "auth/authAsGuest"},
-                                                        {PostAuthRefreshAccessToken,     "auth/refreshAccessToken"},
+                                                        {PostAuthVK,                            "auth/authFromVK"},
+                                                        {PostAuthGoogle,                        "auth/authFromGoogle"},
+                                                        {PostAuthAsGuest,                       "auth/authAsGuest"},
+                                                        {PostAuthRefreshAccessToken,            "auth/refreshAccessToken"},
 
-                                                        {PostUsersChangeNickname,        "users/changeNickname"},
-                                                        {GetUsersGetInfoById,            "users/%1/getInfo"},
+                                                        {PostUsersMeChangeNickname,             "users/me/changeNickname"},
+                                                        {GetUsersGetInfoByUserId,               "users/%1/getInfo"},
 
-                                                        {PostLobbiesCreate,              "lobbies/create"},
-                                                        {GetLobbiesGetList,              "lobbies/getList"},
-                                                        {GetLobbiesCheckMe,              "lobbies/checkMeInActiveGame"},
-                                                        {PostLobbiesConnectById,         "lobbies/%1/connect"},
-                                                        {PostLobbiesConnectToRanked,     "lobbies/connectToRating"},
-                                                        {GetLobbiesGetInfoById,          "lobbies/%1/getInfo"},
-                                                        {PostLobbiesUpdateSettingsById,  "lobbies/%1/updateSettings"},
-                                                        {PostLobbiesDisconnectById,      "lobbies/%1/disconnect"},
-                                                        {PostLobbiesSwitchReadinessById, "lobbies/%1/switchReadiness"},
-                                                        {PostLobbiesTransferRightsById,  "lobbies/%1/transferRights"},
-                                                        {PostLobbiesKickPlayerById,      "lobbies/%1/kickPlayer"},
-                                                        {PostLobbiesRunGameById,         "lobbies/%1/runGame"},
-                                                        {DeleteLobbiesById,              "lobbies/%1"}
+                                                        {PostLobbiesCreate,                     "lobbies/create"},
+                                                        {GetLobbiesGetList,                     "lobbies/getList"},
+                                                        {PostLobbiesConnectById,                "lobbies/%1/connect"},
+                                                        {PostLobbiesRankedConnect,              "lobbies/ranked/connect"},
+                                                        {GetLobbiesActiveCheck,                 "lobbies/active/check"},
+                                                        {GetLobbiesCurrentGetInfo,              "lobbies/current/getInfo"},
+                                                        {PostLobbiesCurrentUpdateSettings,      "lobbies/current/updateSettings"},
+                                                        {PostLobbiesCurrentDisconnect,          "lobbies/current/disconnect"},
+                                                        {PostLobbiesCurrentSwitchReadiness,     "lobbies/current/switchReadiness"},
+                                                        {PostLobbiesCurrentPlayersRaiseById,    "lobbies/current/players/%1/raise"},
+                                                        {PostLobbiesCurrentPlayersKickById,     "lobbies/current/players/%1/kick"},
+                                                        {PostLobbiesCurrentRun,                 "lobbies/current/run"},
+                                                        {DeleteLobbiesById,                     "lobbies/%1"}
                                                     };
 
 static const QString jsonContentType            = "application/json";

@@ -25,20 +25,6 @@
 //#define LOBBIES_STUB
 #define LOBBIES_INSIDE_STUB
 
-// HTTP codes
-#define CODE_BAD_REQUEST             400
-#define CODE_NOT_AUTHORIZED          401
-#define CODE_METHOD_NOT_ALLOWED      405
-#define CODE_INTERNAL_SERVER_ERROR   500
-#define CODE_SUCCESS                 200
-
-// Event timer timeout
-#define MS_TIMEOUT                   2500
-
-#define LOCAL_COUNTER_MAX            2
-#define MIN_VALID_UNIQUE_ID          1
-#define SHOW_FIRST_N_OF_REPLY        60
-
 class ServerCommunicator : public QObject
 {
     Q_OBJECT

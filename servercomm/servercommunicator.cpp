@@ -203,7 +203,7 @@ HostUserData ServerCommunicator::getCurrentHostInfo(bool &ok, bool retryCheckIfN
         return {};
     }
 
-    if(basicRequestManage(GetInfoSubModule, httpMethods[GetUsersGetInfoById].arg(gotHostUniqueId),
+    if(basicRequestManage(GetInfoSubModule, httpMethods[GetUsersGetInfoByUserId].arg(gotHostUniqueId),
                           HttpMethodType::HttpGet, authorizationRawHeader,
                           authorizationHeaderContent.arg(gotAccessToken), "") == RequestManagerAnswer::RequestAllGood)
     {
@@ -255,7 +255,7 @@ void ServerCommunicator::changeNickname(const QString newNickname, uint8_t local
     serverCommSubModuleRepeat[ChangeNicknameSubModule] = false;
     QString gotAccessToken = FileManager::getToken(TokenType::Access);
 
-    if(basicRequestManage(ChangeNicknameSubModule, httpMethods[PostUsersChangeNickname],
+    if(basicRequestManage(ChangeNicknameSubModule, httpMethods[PostUsersMeChangeNickname],
                           HttpMethodType::HttpPost, authorizationRawHeader,
                           authorizationHeaderContent.arg(gotAccessToken),
                           QString("{\"newNickname\": \"%1\"}")
@@ -315,7 +315,7 @@ vector<LobbyShortInfo> &ServerCommunicator::getLobbiesShortInfo(bool &ok, uint8_
             return m_lobbiesShortInfoVec;
         }
 
-    if(basicRequestManage(GetLobbiesListSubModule, httpMethods[PostUsersChangeNickname],
+    if(basicRequestManage(GetLobbiesListSubModule, httpMethods[PostUsersMeChangeNickname],
                           HttpMethodType::HttpPost, authorizationRawHeader,
                           authorizationHeaderContent.arg(gotAccessToken),
                           "") == RequestManagerAnswer::RequestAllGood)
