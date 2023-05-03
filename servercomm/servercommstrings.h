@@ -80,31 +80,45 @@ static const QMap<short, QString> codeShortDescription =  {
                                                                 {InternalServerError,   "internal server error"},
                                                                 {CodeSuccess,           "success"},
                                                                 {Forbidden,             "forbidden"}
-                                                            };
+                                                          };
 
-enum ServerCommSubModule { AuthSubModule, GetInfoSubModule, GetLobbiesListSubModule, ChangeNicknameSubModule,
+enum ServerCommSubModule { AuthSubModule, GetUserInfoSubModule, GetLobbiesListSubModule, ChangeNicknameSubModule,
                            RefreshTokenSubModule, SwitchReadinessSubModule, DeleteLobbySubModule,
-                           CreateLobbySubModule };
+                           CreateLobbySubModule, ConnectLobbySubModule, GetInfoLobbySubModule,
+                           ConnectRankedLobbySubModule, UpdateLobbySettingsSubModule,
+                           KickPlayerSubModule, RaisePlayerSubModule};
 static const QMap<uint8_t, QString> serverCommSubModule = {
-                                                                {AuthSubModule,             "Auth: "},
-                                                                {GetInfoSubModule,          "Get Info: "},
-                                                                {GetLobbiesListSubModule,   "Get Lobbies List: "},
-                                                                {ChangeNicknameSubModule,   "Change Nickname: "},
-                                                                {RefreshTokenSubModule,     "Refresh Token: "},
-                                                                {SwitchReadinessSubModule,  "Switch Readiness: "},
-                                                                {DeleteLobbySubModule,      "Delete Lobby: "},
-                                                                {CreateLobbySubModule,      "Lobby Create: "}
-                                                            };
+                                                                {AuthSubModule,                 "Auth: "},
+                                                                {GetUserInfoSubModule,          "Get User Info: "},
+                                                                {GetLobbiesListSubModule,       "Get Lobbies List: "},
+                                                                {ChangeNicknameSubModule,       "Change Nickname: "},
+                                                                {RefreshTokenSubModule,         "Refresh Token: "},
+                                                                {SwitchReadinessSubModule,      "Switch Readiness: "},
+                                                                {DeleteLobbySubModule,          "Delete Lobby: "},
+                                                                {CreateLobbySubModule,          "Create Lobby: "},
+                                                                {ConnectLobbySubModule,         "Connect Lobby: "},
+                                                                {GetInfoLobbySubModule,         "Get Info Lobby: "},
+                                                                {ConnectRankedLobbySubModule,   "Connect Ranked Lobby: "},
+                                                                {UpdateLobbySettingsSubModule,  "Update Lobby Settings: "},
+                                                                {KickPlayerSubModule,           "Kick Player: "},
+                                                                {RaisePlayerSubModule,          "Raise Player: "}
+                                                          };
 
 static QMap<uint8_t, bool> serverCommSubModuleRepeat = {
-                                                            {AuthSubModule,             false},
-                                                            {GetInfoSubModule,          false},
-                                                            {GetLobbiesListSubModule,   false},
-                                                            {ChangeNicknameSubModule,   false},
-                                                            {RefreshTokenSubModule,     false},
-                                                            {SwitchReadinessSubModule,  false},
-                                                            {DeleteLobbySubModule,      false},
-                                                            {CreateLobbySubModule,      false}
+                                                            {AuthSubModule,                 false},
+                                                            {GetUserInfoSubModule,          false},
+                                                            {GetLobbiesListSubModule,       false},
+                                                            {ChangeNicknameSubModule,       false},
+                                                            {RefreshTokenSubModule,         false},
+                                                            {SwitchReadinessSubModule,      false},
+                                                            {DeleteLobbySubModule,          false},
+                                                            {CreateLobbySubModule,          false},
+                                                            {ConnectLobbySubModule,         false},
+                                                            {GetInfoLobbySubModule,         false},
+                                                            {ConnectRankedLobbySubModule,   false},
+                                                            {UpdateLobbySettingsSubModule,  false},
+                                                            {KickPlayerSubModule,           false},
+                                                            {RaisePlayerSubModule,          false}
                                                        };
 
 #endif // SERVERCOMMSTRINGS_H

@@ -138,11 +138,11 @@ HostUserData ServerCommunicator::getCurrentHostInfo(bool &ok, bool retryCheckIfN
     m_temporaryHostData = {17, "NO AUTH STUB", 2200, false};
     return m_temporaryHostData;
 #else
-    uint8_t thisSubModuleId = GetInfoSubModule;
+    uint8_t thisSubModuleId = GetUserInfoSubModule;
 
     if(localCounter >= LOCAL_COUNTER_MAX)
     {
-        qDebug().noquote() << QString("%1: Reached max local counter").arg(serverCommSubModule[GetInfoSubModule]);
+        qDebug().noquote() << QString("%1: Reached max local counter").arg(serverCommSubModule[GetUserInfoSubModule]);
         ok = false;
         return {};
     }
@@ -324,43 +324,6 @@ vector<LobbyShortInfo> &ServerCommunicator::getStableLobbiesList()
     return m_lobbiesShortInfoVec;
 }
 
-LobbyFullInfo ServerCommunicator::connectToLobby(const int lobbyUniqueId, bool &ok,
-                                                 bool &isPassworded, uint8_t localCounter)
-{
-#ifdef LOBBIES_STUB
-    if(lobbyUniqueId != 0)
-        return;
-
-    return
-    {
-        {
-            0, "A STUB LOBBY", "", 6, 23, false, "", 0,
-            8, 1000, IS_INFINITE, 72, NOT_INFINITE, LOBBY_TYPE_PUBLIC
-        },
-        // vector<UserShortInfo>
-        {
-          {"monk", 800, IS_READY, 23},
-          {"Kisl Jsji", 2400, IS_READY, 67},
-          {"Роман Заглушевич", 11111, NOT_READY, 63},
-        }
-    };
-#else
-
-    return {};
-#endif
-}
-
-LobbyFullInfo ServerCommunicator::connectToLobby(const int lobbyUniqueId, const QString &enteredPassword,
-                                                 bool &ok, uint8_t localCounter)
-{
-    // Make request
-#ifdef LOBBIES_STUB
-    return {};
-#else
-    return {};
-#endif
-}
-
 LobbyFullInfo ServerCommunicator::createLobby(LobbySettings priorSettings,
                                               bool &ok, uint8_t localCounter)
 {
@@ -418,7 +381,129 @@ LobbyFullInfo ServerCommunicator::createLobby(LobbySettings priorSettings,
     else
     {
         ok = false;
+        return {};
+    }
+#endif
+}
+
+LobbyFullInfo ServerCommunicator::connectToLobby(const int lobbyUniqueId, bool &ok,
+                                                 bool &isPassworded, uint8_t localCounter)
+{
+#ifdef LOBBIES_STUB
+    if(lobbyUniqueId != 0)
+        return;
+
+    return
+    {
+        {
+            0, "A STUB LOBBY", "", 6, 23, false, "", 0,
+            8, 1000, IS_INFINITE, 72, NOT_INFINITE, LOBBY_TYPE_PUBLIC
+        },
+        // vector<UserShortInfo>
+        {
+          {"monk", 800, IS_READY, 23},
+          {"Kisl Jsji", 2400, IS_READY, 67},
+          {"Роман Заглушевич", 11111, NOT_READY, 63},
+        }
+    };
+#else
+    uint8_t thisSubModuleId = ConnectLobbySubModule;
+    QString usingHttpMethod = httpMethods[PostLobbiesConnectById].arg(QString::number(lobbyUniqueId));
+
+    globalIsPassworded = false;
+
+    if(localCounter >= LOCAL_COUNTER_MAX)
+    {
+        qDebug().noquote() << QString("%1: Reached max local counter")
+                              .arg(serverCommSubModule[thisSubModuleId]);
+        ok = false;
+        return {};
+    }
+
+    serverCommSubModuleRepeat[thisSubModuleId] = false;
+    QString gotAccessToken = FileManager::getToken(TokenType::Access);
+
+    if(gotAccessToken.isEmpty())
+        if(!doRefreshAccessToken())
+        {
+            ok = false;
+            return {};
+        }
+
+    if(basicRequestManage(thisSubModuleId, usingHttpMethod,
+                          HttpMethodType::HttpPost, authorizationRawHeader,
+                          authorizationHeaderContent.arg(gotAccessToken),
+                          "") == RequestManagerAnswer::RequestAllGood)
+    {
+        if(serverCommSubModuleRepeat[thisSubModuleId])
+        {
+            localCounter++;
+            return connectToLobby(lobbyUniqueId, ok, isPassworded, localCounter);
+        }
+        if(globalIsPassworded)
+        {
+            isPassworded = true;
+            ok = false;
+            return {};
+        }
+        ok = true;
         return m_temporaryLobbyFullInfo;
+    }
+    else
+    {
+        ok = false;
+        return {};
+    }
+#endif
+}
+
+LobbyFullInfo ServerCommunicator::connectToLobby(const int lobbyUniqueId, const QString &enteredPassword,
+                                                 bool &ok, uint8_t localCounter)
+{
+    // Make request
+#ifdef LOBBIES_STUB
+    return {};
+#else
+    uint8_t thisSubModuleId = ConnectLobbySubModule;
+    QString usingHttpMethod = httpMethods[PostLobbiesConnectById].arg(QString::number(lobbyUniqueId));
+
+    if(localCounter >= LOCAL_COUNTER_MAX)
+    {
+        qDebug().noquote() << QString("%1: Reached max local counter")
+                              .arg(serverCommSubModule[thisSubModuleId]);
+        ok = false;
+        return {};
+    }
+
+    serverCommSubModuleRepeat[thisSubModuleId] = false;
+    QString gotAccessToken = FileManager::getToken(TokenType::Access);
+
+    if(gotAccessToken.isEmpty())
+        if(!doRefreshAccessToken())
+        {
+            ok = false;
+            return {};
+        }
+
+    QString requestBody = QString("\"password\": \"%1\"").arg(enteredPassword);
+
+    if(basicRequestManage(thisSubModuleId, usingHttpMethod,
+                          HttpMethodType::HttpPost, authorizationRawHeader,
+                          authorizationHeaderContent.arg(gotAccessToken),
+                          requestBody) == RequestManagerAnswer::RequestAllGood)
+    {
+        if(serverCommSubModuleRepeat[thisSubModuleId])
+        {
+            localCounter++;
+            return connectToLobby(lobbyUniqueId, enteredPassword, ok, localCounter);
+        }
+        ok = true;
+        return m_temporaryLobbyFullInfo;
+    }
+    else
+    {
+        ok = false;
+        return {};
     }
 #endif
 }
@@ -443,8 +528,90 @@ LobbyFullInfo ServerCommunicator::connectToRankedLobby(bool &ok, uint8_t localCo
         }
     };
 #else
+    uint8_t thisSubModuleId = ConnectRankedLobbySubModule;
+    QString usingHttpMethod = httpMethods[PostLobbiesRankedConnect];
 
+    if(localCounter >= LOCAL_COUNTER_MAX)
+    {
+        qDebug().noquote() << QString("%1: Reached max local counter")
+                              .arg(serverCommSubModule[thisSubModuleId]);
+        ok = false;
+        return {};
+    }
+
+    serverCommSubModuleRepeat[thisSubModuleId] = false;
+    QString gotAccessToken = FileManager::getToken(TokenType::Access);
+
+    if(gotAccessToken.isEmpty())
+        if(!doRefreshAccessToken())
+        {
+            ok = false;
+            return {};
+        }
+
+    if(basicRequestManage(thisSubModuleId, usingHttpMethod,
+                          HttpMethodType::HttpPost, authorizationRawHeader,
+                          authorizationHeaderContent.arg(gotAccessToken),
+                          "") == RequestManagerAnswer::RequestAllGood)
+    {
+        if(serverCommSubModuleRepeat[thisSubModuleId])
+        {
+            localCounter++;
+            return connectToRankedLobby(ok, localCounter);
+        }
+        ok = true;
+        return m_temporaryLobbyFullInfo;
+    }
+    else
+    {
+        ok = false;
+        return {};
+    }
 #endif
+}
+
+LobbyFullInfo ServerCommunicator::getInfoLobby(bool &ok, uint8_t localCounter)
+{
+    uint8_t thisSubModuleId = GetInfoLobbySubModule;
+    QString usingHttpMethod = httpMethods[GetLobbiesCurrentGetInfo];
+
+    if(localCounter >= LOCAL_COUNTER_MAX)
+    {
+        qDebug().noquote() << QString("%1: Reached max local counter")
+                              .arg(serverCommSubModule[thisSubModuleId]);
+        ok = false;
+        return {};
+    }
+
+    serverCommSubModuleRepeat[thisSubModuleId] = false;
+    QString gotAccessToken = FileManager::getToken(TokenType::Access);
+
+    if(gotAccessToken.isEmpty())
+        if(!doRefreshAccessToken())
+        {
+            ok = false;
+            return {};
+        }
+
+    if(basicRequestManage(thisSubModuleId, usingHttpMethod,
+                          HttpMethodType::HttpGet, authorizationRawHeader,
+                          authorizationHeaderContent.arg(gotAccessToken),
+                          "") == RequestManagerAnswer::RequestAllGood)
+    {
+        if(serverCommSubModuleRepeat[thisSubModuleId])
+        {
+            localCounter++;
+            return getInfoLobby(ok, localCounter);
+        }
+        ok = true;
+        return m_temporaryLobbyFullInfo;
+    }
+    else
+    {
+        ok = false;
+        return {};
+    }
+
 }
 
 void ServerCommunicator::deleteLobby(const int lobbyUniqueId, bool &ok, uint8_t localCounter)
@@ -547,7 +714,47 @@ void ServerCommunicator::updateLobbySettings(LobbySettings newSettings,
 #ifdef LOBBIES_INSIDE_STUB
     return;
 #else
+    uint8_t thisSubModuleId = UpdateLobbySettingsSubModule;
+    QString usingHttpMethod = httpMethods[PostLobbiesCurrentUpdateSettings];
 
+    if(localCounter >= LOCAL_COUNTER_MAX)
+    {
+        qDebug().noquote() << QString("%1: Reached max local counter")
+                              .arg(serverCommSubModule[thisSubModuleId]);
+        ok = false;
+        return;
+    }
+
+    serverCommSubModuleRepeat[thisSubModuleId] = false;
+    QString gotAccessToken = FileManager::getToken(TokenType::Access);
+
+    if(gotAccessToken.isEmpty())
+        if(!doRefreshAccessToken())
+        {
+            ok = false;
+            return;
+        }
+
+    QString requestBody = makeServerFullLobbyJson(newSettings);
+
+    if(basicRequestManage(thisSubModuleId, usingHttpMethod,
+                          HttpMethodType::HttpPost, authorizationRawHeader,
+                          authorizationHeaderContent.arg(gotAccessToken),
+                          requestBody) == RequestManagerAnswer::RequestAllGood)
+    {
+        if(serverCommSubModuleRepeat[thisSubModuleId])
+        {
+            localCounter++;
+            return updateLobbySettings(newSettings, ok, localCounter);
+        }
+        ok = true;
+        return;
+    }
+    else
+    {
+        ok = false;
+        return;
+    }
 #endif
 }
 
@@ -566,7 +773,46 @@ void ServerCommunicator::kickPlayer(const int playerUniqueId,
 #ifdef LOBBIES_INSIDE_STUB
     return;
 #else
+    uint8_t thisSubModuleId = KickPlayerSubModule;
+    QString usingHttpMethod = httpMethods[PostLobbiesCurrentPlayersKickById]
+                              .arg(QString::number(playerUniqueId));
 
+    if(localCounter >= LOCAL_COUNTER_MAX)
+    {
+        qDebug().noquote() << QString("%1: Reached max local counter")
+                              .arg(serverCommSubModule[thisSubModuleId]);
+        ok = false;
+        return;
+    }
+
+    serverCommSubModuleRepeat[thisSubModuleId] = false;
+    QString gotAccessToken = FileManager::getToken(TokenType::Access);
+
+    if(gotAccessToken.isEmpty())
+        if(!doRefreshAccessToken())
+        {
+            ok = false;
+            return;
+        }
+
+    if(basicRequestManage(thisSubModuleId, usingHttpMethod,
+                          HttpMethodType::HttpPost, authorizationRawHeader,
+                          authorizationHeaderContent.arg(gotAccessToken),
+                          "") == RequestManagerAnswer::RequestAllGood)
+    {
+        if(serverCommSubModuleRepeat[thisSubModuleId])
+        {
+            localCounter++;
+            return kickPlayer(playerUniqueId, ok, localCounter);
+        }
+        ok = true;
+        return;
+    }
+    else
+    {
+        ok = false;
+        return;
+    }
 #endif
 }
 
@@ -576,7 +822,46 @@ void ServerCommunicator::raisePlayer(const int playerUniqueId,
 #ifdef LOBBIES_INSIDE_STUB
     return;
 #else
+    uint8_t thisSubModuleId = RaisePlayerSubModule;
+    QString usingHttpMethod = httpMethods[PostLobbiesCurrentPlayersRaiseById]
+                              .arg(QString::number(playerUniqueId));
 
+    if(localCounter >= LOCAL_COUNTER_MAX)
+    {
+        qDebug().noquote() << QString("%1: Reached max local counter")
+                              .arg(serverCommSubModule[thisSubModuleId]);
+        ok = false;
+        return;
+    }
+
+    serverCommSubModuleRepeat[thisSubModuleId] = false;
+    QString gotAccessToken = FileManager::getToken(TokenType::Access);
+
+    if(gotAccessToken.isEmpty())
+        if(!doRefreshAccessToken())
+        {
+            ok = false;
+            return;
+        }
+
+    if(basicRequestManage(thisSubModuleId, usingHttpMethod,
+                          HttpMethodType::HttpPost, authorizationRawHeader,
+                          authorizationHeaderContent.arg(gotAccessToken),
+                          "") == RequestManagerAnswer::RequestAllGood)
+    {
+        if(serverCommSubModuleRepeat[thisSubModuleId])
+        {
+            localCounter++;
+            return raisePlayer(playerUniqueId, ok, localCounter);
+        }
+        ok = true;
+        return;
+    }
+    else
+    {
+        ok = false;
+        return;
+    }
 #endif
 }
 
@@ -617,9 +902,9 @@ void ServerCommunicator::catchReplyAuth(QNetworkReply *reply)
     reply->deleteLater();
 }
 
-void ServerCommunicator::catchReplyGetInfo(QNetworkReply *reply)
+void ServerCommunicator::catchReplyGetUserInfo(QNetworkReply *reply)
 {
-    if(basicReplyManage(reply, GetInfoSubModule) != ReplyManagerAnswer::ReplyAllGood)
+    if(basicReplyManage(reply, GetUserInfoSubModule) != ReplyManagerAnswer::ReplyAllGood)
         return;
 
     QByteArray bytes = reply->readAll();
@@ -647,7 +932,7 @@ void ServerCommunicator::catchReplyGetInfo(QNetworkReply *reply)
                                 m_temporaryHostData.rpCount,
                                 m_temporaryHostData.isGuest);
 
-    emit getInfoProcessOver();
+    emit getUserInfoProcessOver();
 
     reply->deleteLater();
 }
@@ -675,7 +960,7 @@ void ServerCommunicator::catchReplyChangeNickname(QNetworkReply *reply)
     if(basicReplyManage(reply, ChangeNicknameSubModule) != ReplyManagerAnswer::ReplyAllGood)
         return;
 
-    emit getInfoProcessOver();
+    emit getUserInfoProcessOver();
 
     reply->deleteLater();
 }
@@ -752,6 +1037,90 @@ void ServerCommunicator::catchReplyCreateLobby(QNetworkReply *reply)
     m_temporaryLobbyFullInfo = parseLobbyFullInfoFromServer(jsonObj);
 
     emit createLobbyProcessOver();
+
+    reply->deleteLater();
+}
+
+void ServerCommunicator::catchReplyConnectLobby(QNetworkReply *reply)
+{
+    if(basicReplyManage(reply, ConnectLobbySubModule) != ReplyManagerAnswer::ReplyAllGood)
+        return;
+
+    QByteArray bytes = reply->readAll();
+
+    QJsonObject jsonObj = QJsonDocument::fromJson(bytes.data()).object();
+
+    m_temporaryLobbyFullInfo.usersInLobby.clear();
+    m_temporaryLobbyFullInfo.usersInLobby.resize(0);
+    m_temporaryLobbyFullInfo = parseLobbyFullInfoFromServer(jsonObj);
+
+    emit connectLobbyProcessOver();
+
+    reply->deleteLater();
+}
+
+void ServerCommunicator::catchReplyGetInfoLobby(QNetworkReply *reply)
+{
+    if(basicReplyManage(reply, GetInfoLobbySubModule) != ReplyManagerAnswer::ReplyAllGood)
+        return;
+
+    QByteArray bytes = reply->readAll();
+
+    QJsonObject jsonObj = QJsonDocument::fromJson(bytes.data()).object();
+
+    m_temporaryLobbyFullInfo.usersInLobby.clear();
+    m_temporaryLobbyFullInfo.usersInLobby.resize(0);
+    m_temporaryLobbyFullInfo = parseLobbyFullInfoFromServer(jsonObj);
+
+    emit getInfoLobbyProcessOver();
+
+    reply->deleteLater();
+}
+
+void ServerCommunicator::catchReplyConnectRankedLobby(QNetworkReply *reply)
+{
+    if(basicReplyManage(reply, ConnectRankedLobbySubModule) != ReplyManagerAnswer::ReplyAllGood)
+        return;
+
+    QByteArray bytes = reply->readAll();
+
+    QJsonObject jsonObj = QJsonDocument::fromJson(bytes.data()).object();
+
+    m_temporaryLobbyFullInfo.usersInLobby.clear();
+    m_temporaryLobbyFullInfo.usersInLobby.resize(0);
+    m_temporaryLobbyFullInfo = parseLobbyFullInfoFromServer(jsonObj);
+
+    emit connectRankedLobbyProcessOver();
+
+    reply->deleteLater();
+}
+
+void ServerCommunicator::catchReplyUpdateLobbySettings(QNetworkReply *reply)
+{
+    if(basicReplyManage(reply, UpdateLobbySettingsSubModule) != ReplyManagerAnswer::ReplyAllGood)
+        return;
+
+    emit updateLobbySettingsProcessOver();
+
+    reply->deleteLater();
+}
+
+void ServerCommunicator::catchReplyRaisePlayer(QNetworkReply *reply)
+{
+    if(basicReplyManage(reply, RaisePlayerSubModule) != ReplyManagerAnswer::ReplyAllGood)
+        return;
+
+    emit raisePlayerProcessOver();
+
+    reply->deleteLater();
+}
+
+void ServerCommunicator::catchReplyKickPlayer(QNetworkReply *reply)
+{
+    if(basicReplyManage(reply, KickPlayerSubModule) != ReplyManagerAnswer::ReplyAllGood)
+        return;
+
+    emit kickPlayerProcessOver();
 
     reply->deleteLater();
 }
@@ -838,6 +1207,8 @@ uint8_t ServerCommunicator::basicReplyManage(QNetworkReply *pReply, uint8_t serv
         case CODE_FORBIDDEN:
         {
             serverCommSubModuleRepeat[serverCommSubModuleId] = false;
+            if(serverCommSubModuleId == ConnectLobbySubModule)
+                globalIsPassworded = true;
             emitSignalBySubModuleId(serverCommSubModuleId);
             return ReplyManagerAnswer::ReplyNeedToAbort;
         }
@@ -908,10 +1279,10 @@ void ServerCommunicator::makeConnectionBySubModuleId(uint8_t subModuleId, QNetwo
         connect(m_oauthNetworkManager, &QNetworkAccessManager::finished,
                 this, &ServerCommunicator::catchReplyAuth);
         return;
-    case GetInfoSubModule:
-        connect(this, &ServerCommunicator::getInfoProcessOver, localEventLoop, &QEventLoop::quit);
+    case GetUserInfoSubModule:
+        connect(this, &ServerCommunicator::getUserInfoProcessOver, localEventLoop, &QEventLoop::quit);
         connect(localManager, &QNetworkAccessManager::finished,
-                this, &ServerCommunicator::catchReplyGetInfo);
+                this, &ServerCommunicator::catchReplyGetUserInfo);
         return;
     case GetLobbiesListSubModule:
         connect(this, &ServerCommunicator::getLobbiesShortInfoProcessOver, localEventLoop, &QEventLoop::quit);
@@ -943,6 +1314,36 @@ void ServerCommunicator::makeConnectionBySubModuleId(uint8_t subModuleId, QNetwo
         connect(localManager, &QNetworkAccessManager::finished,
                 this, &ServerCommunicator::catchReplyCreateLobby);
         return;
+    case ConnectLobbySubModule:
+        connect(this, &ServerCommunicator::connectLobbyProcessOver, localEventLoop, &QEventLoop::quit);
+        connect(localManager, &QNetworkAccessManager::finished,
+                this, &ServerCommunicator::catchReplyConnectLobby);
+        return;
+    case GetInfoLobbySubModule:
+        connect(this, &ServerCommunicator::getInfoLobbyProcessOver, localEventLoop, &QEventLoop::quit);
+        connect(localManager, &QNetworkAccessManager::finished,
+                this, &ServerCommunicator::catchReplyGetInfoLobby);
+        return;
+    case ConnectRankedLobbySubModule:
+        connect(this, &ServerCommunicator::connectRankedLobbyProcessOver, localEventLoop, &QEventLoop::quit);
+        connect(localManager, &QNetworkAccessManager::finished,
+                this, &ServerCommunicator::catchReplyConnectRankedLobby);
+        return;
+    case UpdateLobbySettingsSubModule:
+        connect(this, &ServerCommunicator::updateLobbySettingsProcessOver, localEventLoop, &QEventLoop::quit);
+        connect(localManager, &QNetworkAccessManager::finished,
+                this, &ServerCommunicator::catchReplyUpdateLobbySettings);
+        return;
+    case RaisePlayerSubModule:
+        connect(this, &ServerCommunicator::raisePlayerProcessOver, localEventLoop, &QEventLoop::quit);
+        connect(localManager, &QNetworkAccessManager::finished,
+                this, &ServerCommunicator::catchReplyRaisePlayer);
+        return;
+    case KickPlayerSubModule:
+        connect(this, &ServerCommunicator::kickPlayerProcessOver, localEventLoop, &QEventLoop::quit);
+        connect(localManager, &QNetworkAccessManager::finished,
+                this, &ServerCommunicator::catchReplyKickPlayer);
+        return;
     default:
         return;
     }
@@ -955,8 +1356,8 @@ void ServerCommunicator::emitSignalBySubModuleId(uint8_t subModuleId)
     case AuthSubModule:
         emit authorizationProcessOver();
         return;
-    case GetInfoSubModule:
-        emit getInfoProcessOver();
+    case GetUserInfoSubModule:
+        emit getUserInfoProcessOver();
         return;
     case GetLobbiesListSubModule:
         emit getLobbiesShortInfoProcessOver();
@@ -975,6 +1376,24 @@ void ServerCommunicator::emitSignalBySubModuleId(uint8_t subModuleId)
         return;
     case CreateLobbySubModule:
         emit createLobbyProcessOver();
+        return;
+    case ConnectLobbySubModule:
+        emit connectLobbyProcessOver();
+        return;
+    case GetInfoLobbySubModule:
+        emit getInfoLobbyProcessOver();
+        return;
+    case ConnectRankedLobbySubModule:
+        emit connectRankedLobbyProcessOver();
+        return;
+    case UpdateLobbySettingsSubModule:
+        emit updateLobbySettingsProcessOver();
+        return;
+    case RaisePlayerSubModule:
+        emit raisePlayerProcessOver();
+        return;
+    case KickPlayerSubModule:
+        emit kickPlayerProcessOver();
         return;
     default:
         return;

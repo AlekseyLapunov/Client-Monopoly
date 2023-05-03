@@ -51,6 +51,7 @@ public:
     LobbyFullInfo connectToLobby(const int lobbyUniqueId, const QString &enteredPassword, bool &ok, uint8_t localCounter = 0);
     LobbyFullInfo createLobby(LobbySettings priorSettings, bool &ok, uint8_t localCounter = 0);
     LobbyFullInfo connectToRankedLobby(bool &ok, uint8_t localCounter = 0);
+    LobbyFullInfo getInfoLobby(bool &ok, uint8_t localCounter = 0);
     void switchReadiness(bool &ok, uint8_t localCounter = 0);
     void updateLobbySettings(LobbySettings newSettings, bool &ok, uint8_t localCounter = 0);
     void runGame(bool &ok, uint8_t localCounter = 0);
@@ -60,23 +61,35 @@ public:
 
 signals:
     void authorizationProcessOver();
-    void getInfoProcessOver();
+    void getUserInfoProcessOver();
     void refreshTokenProcessOver();
     void changeNicknameProcessOver();
     void getLobbiesShortInfoProcessOver();
     void switchReadinessProcessOver();
     void deleteLobbyProcessOver();
     void createLobbyProcessOver();
+    void connectLobbyProcessOver();
+    void getInfoLobbyProcessOver();
+    void connectRankedLobbyProcessOver();
+    void updateLobbySettingsProcessOver();
+    void raisePlayerProcessOver();
+    void kickPlayerProcessOver();
 
 private slots:
     void catchReplyAuth(QNetworkReply *reply);
-    void catchReplyGetInfo(QNetworkReply *reply);
+    void catchReplyGetUserInfo(QNetworkReply *reply);
     void catchReplyRefreshAccessToken(QNetworkReply *reply);
     void catchReplyChangeNickname(QNetworkReply *reply);
     void catchReplyLobbiesGetList(QNetworkReply *reply);
     void catchReplySwitchReadiness(QNetworkReply *reply);
     void catchReplyDeleteLobby(QNetworkReply *reply);
     void catchReplyCreateLobby(QNetworkReply *reply);
+    void catchReplyConnectLobby(QNetworkReply *reply);
+    void catchReplyGetInfoLobby(QNetworkReply *reply);
+    void catchReplyConnectRankedLobby(QNetworkReply *reply);
+    void catchReplyUpdateLobbySettings(QNetworkReply *reply);
+    void catchReplyRaisePlayer(QNetworkReply *reply);
+    void catchReplyKickPlayer(QNetworkReply *reply);
 
 private:
     void oauthConfigure(uint8_t authType);
@@ -108,6 +121,8 @@ private:
     HostUserData m_temporaryHostData;
     LobbyFullInfo m_temporaryLobbyFullInfo;
     vector<LobbyShortInfo> m_lobbiesShortInfoVec;
+
+    bool globalIsPassworded = false;
 };
 
 #endif // SERVERCOMMUNICATOR_H
