@@ -6,6 +6,7 @@
 #include <QString>
 #include <QMessageBox>
 #include <QCloseEvent>
+#include <QTimer>
 
 #include "servercommunicator.h"
 #include "usermetainfo.h"
@@ -15,6 +16,8 @@
 using std::unique_ptr;
 
 typedef short dialogBoxRole;
+
+#define REFRESH_DATA_EVERY_N_MS 5000
 
 class BaseWin
 {
@@ -43,6 +46,8 @@ protected:
     {
         return m_pUserMetaInfo;
     }
+
+    QTimer refreshDataTimer;
 
     int makeDialog(dialogBoxRole role, const QString &carrier = "", QWidget *parent = nullptr)
     {
@@ -147,7 +152,6 @@ private:
 private:
     unique_ptr<ServerCommunicator> *m_pServer;
     unique_ptr<UserMetaInfo> *m_pUserMetaInfo;
-
 };
 
 #endif // BASEWIN_H

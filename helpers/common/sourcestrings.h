@@ -92,10 +92,10 @@ static const SubDialogStrings ssSubDialogPasswordedJoin = {
                                                             "Пароль"
                                                           };
 static const QMap<uint8_t, SubDialogStrings> ssSdStrings  = {
-                                                            {SdNickname, ssSubDialogChangeNickname},
-                                                            {SdDirectJoin, ssSubDialogJoinById},
-                                                            {SdPasswordJoin, ssSubDialogPasswordedJoin}
-                                                          };
+                                                                {SdNickname, ssSubDialogChangeNickname},
+                                                                {SdDirectJoin, ssSubDialogJoinById},
+                                                                {SdPasswordJoin, ssSubDialogPasswordedJoin}
+                                                            };
 
 // filemanager.h
 enum TokenType { Access, Refresh };
@@ -146,14 +146,14 @@ static const QMap<uint8_t, QString> ssJsonUserMeta       = {
 enum ClassesNames { LoginWindowCN, MenuWindowCN, LobbiesSubDialogCN, LobbyWindowCN,
                     ServerCommCN, GameManagerCN, FileManagerCN };
 static const QMap<uint8_t, string> ssClassNames = {
-                                                    {LoginWindowCN,      "LoginWindow: "},
-                                                    {MenuWindowCN,       "MenuWindow: "},
-                                                    {LobbiesSubDialogCN, "LobbiesSubDialog: "},
-                                                    {LobbyWindowCN,      "LobbyWindow: "},
-                                                    {ServerCommCN,       "ServerCommunicator: "},
-                                                    {GameManagerCN,      "GameManagerWindow: "},
-                                                    {FileManagerCN,      "FileManager: "}
-                                                };
+                                                        {LoginWindowCN,      "LoginWindow: "},
+                                                        {MenuWindowCN,       "MenuWindow: "},
+                                                        {LobbiesSubDialogCN, "LobbiesSubDialog: "},
+                                                        {LobbyWindowCN,      "LobbyWindow: "},
+                                                        {ServerCommCN,       "ServerCommunicator: "},
+                                                        {GameManagerCN,      "GameManagerWindow: "},
+                                                        {FileManagerCN,      "FileManager: "}
+                                                  };
 
 // runtime_error
 enum RunTimeErrorId { PtrLinkFail, LobbyNotFound, GoogleAuthFail, VkAuthFail, GuestAuthFail,
@@ -161,21 +161,49 @@ enum RunTimeErrorId { PtrLinkFail, LobbyNotFound, GoogleAuthFail, VkAuthFail, Gu
                       ToggleReadyFail, StartGameFail, JsonParseError, KickPlayerFail,
                       PromotePlayerFail, LastSettingsFileDoesNotExist, GetHostInfoFail };
 static const QMap<uint8_t, string> ssErrorsContent  = {
-                                                        {PtrLinkFail,                   "Проблема при передаче указателей"},
-                                                        {LobbyNotFound,                 "Лобби не найдено"},
-                                                        {GoogleAuthFail,                "Не удалось войти через Google аккаунт"},
-                                                        {VkAuthFail,                    "Не удалось войти через VK аккаунт"},
-                                                        {GuestAuthFail,                 "Не удалось войти как гость"},
-                                                        {AlreadyHasLobby,               "Лобби уже существует"},
-                                                        {AlreadyInQueue,                "Вы уже находитесь в очереди"},
-                                                        {ApplySettingsFail,             "Не удалось применить настройки"},
-                                                        {ToggleReadyFail,               "Не удалось переключить готовность"},
-                                                        {StartGameFail,                 "Не удалось запустить матч"},
-                                                        {JsonParseError,                "Не удалось обработать JSON-файл"},
-                                                        {KickPlayerFail,                "Не удалось исключить игрока"},
-                                                        {PromotePlayerFail,             "Не удалось сделать игрока владельцем"},
-                                                        {LastSettingsFileDoesNotExist,  "Файл с последними настройками не существует"},
-                                                        {GetHostInfoFail,               "Не удалось обновить данные пользователя"}
-                                                    };
+                                                          {PtrLinkFail,                   "Проблема при передаче указателей"},
+                                                          {LobbyNotFound,                 "Лобби не найдено"},
+                                                          {GoogleAuthFail,                "Не удалось войти через Google аккаунт"},
+                                                          {VkAuthFail,                    "Не удалось войти через VK аккаунт"},
+                                                          {GuestAuthFail,                 "Не удалось войти как гость"},
+                                                          {AlreadyHasLobby,               "Лобби уже существует"},
+                                                          {AlreadyInQueue,                "Вы уже находитесь в очереди"},
+                                                          {ApplySettingsFail,             "Не удалось применить настройки"},
+                                                          {ToggleReadyFail,               "Не удалось переключить готовность"},
+                                                          {StartGameFail,                 "Не удалось запустить матч"},
+                                                          {JsonParseError,                "Не удалось обработать JSON-файл"},
+                                                          {KickPlayerFail,                "Не удалось исключить игрока"},
+                                                          {PromotePlayerFail,             "Не удалось сделать игрока владельцем"},
+                                                          {LastSettingsFileDoesNotExist,  "Файл с последними настройками не существует"},
+                                                          {GetHostInfoFail,               "Не удалось обновить данные пользователя"}
+                                                      };
+
+// ServerCommunicator
+
+enum HttpCodes { BadRequest = 400, NotAuthorized = 401, MethodNotAllowed = 405,
+                 InternalServerError = 500, CodeSuccess = 200 };
+static const QMap<short, QString> ssCodeShortDescription =  {
+                                                                {BadRequest,            "bad request"},
+                                                                {NotAuthorized,         "not authorized"},
+                                                                {MethodNotAllowed ,     "method not allowed"},
+                                                                {InternalServerError,   "internal server error"},
+                                                                {CodeSuccess,           "success"}
+                                                            };
+
+enum ServerCommSubModule { AuthSubModule, GetInfoSubModule, GetLobbiesListSubModule, ChangeNicknameSubModule,
+                           RefreshTokenSubModule };
+static const QMap<uint8_t, QString> ssServerCommSubModule =
+                                                            {
+                                                                {AuthSubModule,             "Auth: "},
+                                                                {GetInfoSubModule,          "Get Info: "},
+                                                                {GetLobbiesListSubModule,   "Get Lobbies List: "},
+                                                                {ChangeNicknameSubModule,   "Change Nickname: "},
+                                                                {RefreshTokenSubModule,     "Refresh Token: "}
+                                                            };
 
 #endif // SOURCESTRINGS_H
+
+
+
+
+

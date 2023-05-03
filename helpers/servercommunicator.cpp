@@ -339,6 +339,11 @@ vector<LobbyShortInfo> &ServerCommunicator::getLobbiesShortInfo(bool &ok, uint8_
 #endif
 }
 
+vector<LobbyShortInfo> &ServerCommunicator::getStableLobbiesList()
+{
+    return m_lobbiesShortInfoVec;
+}
+
 LobbyFullInfo ServerCommunicator::tryJoinById(const int lobbyUniqueId)
 {
 #ifdef LOBBIES_STUB
@@ -540,22 +545,24 @@ void ServerCommunicator::catchReplyAuth(QNetworkReply *reply)
     disconnect(m_networkManager, &QNetworkAccessManager::finished,
                this, &ServerCommunicator::catchReplyAuth);
 
-    QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-    QByteArray bytes = reply->readAll();
-
-    qDebug().noquote() << "Auth: HTTP code " << statusCode.toString();
-
-    if(!statusCode.isValid())
+    switch (basicReplyManage(reply, ssServerCommSubModule[AuthSubModule], false))
     {
-        qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
-                           << "Status code is not valid";
+    case ReplyParserAnswer::NeedToAbort:
+        retryMethod = false;
+        return;
+    case ReplyParserAnswer::NeedToRepeatMethod:
+        retryMethod = true;
+        emit authorizationProcessOver();
+        return;
+    case ReplyParserAnswer::AllGood:
+        retryMethod = false;
+        break;
+    default:
+        retryMethod = false;
         return;
     }
-    else if(statusCode.toInt() != CODE_SUCCESS)
-        qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
-                           << QString("Status code is not success (%1)").arg(statusCode.toString());
 
-    qDebug().noquote() << "Auth reply body: " << QString::fromUtf8(bytes.data(), bytes.size());
+    QByteArray bytes = reply->readAll();
 
     FileManager::commitTokens(bytes.data());
 
@@ -592,40 +599,24 @@ void ServerCommunicator::catchReplyGetInfo(QNetworkReply *reply)
     disconnect(m_networkManager, &QNetworkAccessManager::finished,
                this, &ServerCommunicator::catchReplyGetInfo);
 
-    QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-    QByteArray bytes = reply->readAll();
-
-    qDebug().noquote() << "Get Info: HTTP code " << statusCode.toString();
-
-    if(!statusCode.isValid())
+    switch (basicReplyManage(reply, ssServerCommSubModule[GetInfoSubModule]))
     {
-        qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
-                           << "Get Info: code is not valid";
+    case ReplyParserAnswer::NeedToAbort:
+        retryMethod = false;
         return;
-    }
-    else if(statusCode.toInt() == CODE_NOT_AUTHORIZED)
-    {
-        qDebug().noquote() << "Get Info NOT AUTHORIZED reply body: "
-                           << QString::fromUtf8(bytes.data(), bytes.size());
-        if(!doRefreshAccessToken())
-        {
-            qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
-                               << "Refresh Access Token: Can not provide";
-            return;
-        }
-
+    case ReplyParserAnswer::NeedToRepeatMethod:
         retryMethod = true;
         emit getInfoProcessOver();
         return;
-    }
-    else if((statusCode.toInt() != CODE_SUCCESS) && (statusCode.toInt() != CODE_NOT_AUTHORIZED))
-    {
-        qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
-                           << QString("Get Info: Not allowed code (%1)").arg(statusCode.toString());
+    case ReplyParserAnswer::AllGood:
+        retryMethod = false;
+        break;
+    default:
+        retryMethod = false;
         return;
     }
 
-    qDebug().noquote() << "Get Info reply body: " << QString::fromUtf8(bytes.data(), bytes.size());
+    QByteArray bytes = reply->readAll();
 
     QJsonObject jsonObj = QJsonDocument::fromJson(bytes.data()).object();
 
@@ -660,35 +651,24 @@ void ServerCommunicator::catchReplyRefreshAccessToken(QNetworkReply *reply)
     disconnect(m_networkManager, &QNetworkAccessManager::finished,
                this, &ServerCommunicator::catchReplyRefreshAccessToken);
 
-    QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+    switch (basicReplyManage(reply, ssServerCommSubModule[RefreshTokenSubModule], false))
+    {
+    case ReplyParserAnswer::NeedToAbort:
+        retryMethod = false;
+        return;
+    case ReplyParserAnswer::NeedToRepeatMethod:
+        retryMethod = true;
+        emit refreshTokenProcessOver();
+        return;
+    case ReplyParserAnswer::AllGood:
+        retryMethod = false;
+        break;
+    default:
+        retryMethod = false;
+        return;
+    }
+
     QByteArray bytes = reply->readAll();
-
-    qDebug().noquote() << "Refresh Access Token: HTTP code " << statusCode.toString();
-
-    if(!statusCode.isValid())
-    {
-        qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
-                           << "Refresh Access Token: Status code not valid.";
-        return;
-    }
-    else if(statusCode.toInt() == CODE_NOT_AUTHORIZED)
-    {
-        qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
-                           << "Refresh Access Token: Need to authorize";
-
-        qDebug().noquote() << "Refresh Access Token NOT AUTHORIZED reply body: "
-                           << QString::fromUtf8(bytes.data(), bytes.size());
-        return;
-    }
-    else if(statusCode.toInt() != CODE_SUCCESS)
-    {
-        qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
-                           << "Refresh Access Token: Code is not 200";
-        return;
-    }
-
-    qDebug().noquote() << "Refresh Access Token reply body: "
-                       << QString::fromUtf8(bytes.data(), bytes.size());
 
     QJsonDocument jsonDoc = QJsonDocument::fromJson(bytes.data());
     QJsonObject jsonObj = jsonDoc.object();
@@ -706,40 +686,22 @@ void ServerCommunicator::catchReplyChangeNickname(QNetworkReply *reply)
     disconnect(m_networkManager, &QNetworkAccessManager::finished,
                this, &ServerCommunicator::catchReplyChangeNickname);
 
-    QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-    QByteArray bytes = reply->readAll();
-
-    qDebug().noquote() << "Change Nickname: HTTP code " << statusCode.toString();
-
-    if(!statusCode.isValid())
+    switch (basicReplyManage(reply, ssServerCommSubModule[ChangeNicknameSubModule]))
     {
-        qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
-                           << "Change Nickname: code is not valid";
+    case ReplyParserAnswer::NeedToAbort:
+        retryMethod = false;
         return;
-    }
-    else if(statusCode.toInt() == CODE_NOT_AUTHORIZED)
-    {
-        qDebug().noquote() << "Change Nickname NOT AUTHORIZED reply body: "
-                           << QString::fromUtf8(bytes.data(), bytes.size());
-        if(!doRefreshAccessToken())
-        {
-            qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
-                               << "Refresh Access Token: Can not provide";
-            return;
-        }
-
+    case ReplyParserAnswer::NeedToRepeatMethod:
         retryMethod = true;
         emit changeNicknameProcessOver();
         return;
-    }
-    else if((statusCode.toInt() != CODE_SUCCESS) && (statusCode.toInt() != CODE_NOT_AUTHORIZED))
-    {
-        qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
-                           << QString("Change Nickname: Not allowed code (%1)").arg(statusCode.toString());
+    case ReplyParserAnswer::AllGood:
+        retryMethod = false;
+        break;
+    default:
+        retryMethod = false;
         return;
     }
-
-    qDebug().noquote() << "Change Nickname reply body: " << QString::fromUtf8(bytes.data(), bytes.size());
 
     reply->deleteLater();
 }
@@ -749,42 +711,24 @@ void ServerCommunicator::catchReplyLobbiesGetList(QNetworkReply *reply)
     disconnect(m_networkManager, &QNetworkAccessManager::finished,
                this, &ServerCommunicator::catchReplyLobbiesGetList);
 
-    QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-    QByteArray bytes = reply->readAll();
-
-    qDebug().noquote() << "Lobbies Get List: HTTP code " << statusCode.toString();
-
-    if(!statusCode.isValid())
+    switch (basicReplyManage(reply, ssServerCommSubModule[GetLobbiesListSubModule]))
     {
-        qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
-                           << "Lobbies Get List: code is not valid";
+    case ReplyParserAnswer::NeedToAbort:
+        retryMethod = false;
         return;
-    }
-    else if(statusCode.toInt() == CODE_NOT_AUTHORIZED)
-    {
-        qDebug().noquote() << "Lobbies Get List NOT AUTHORIZED reply body: "
-                           << QString::fromUtf8(bytes.data(), bytes.size());
-        if(!doRefreshAccessToken())
-        {
-            qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
-                               << "Refresh Access Token: Can not provide";
-            return;
-        }
-
+    case ReplyParserAnswer::NeedToRepeatMethod:
         retryMethod = true;
         emit getLobbiesShortInfoProcessOver();
         return;
-    }
-    else if((statusCode.toInt() != CODE_SUCCESS) && (statusCode.toInt() != CODE_NOT_AUTHORIZED))
-    {
-        qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
-                           << QString("Lobbies Get List: Not allowed code (%1)").arg(statusCode.toString());
+    case ReplyParserAnswer::AllGood:
+        retryMethod = false;
+        break;
+    default:
+        retryMethod = false;
         return;
     }
 
-    //qDebug().noquote() << "Lobbies Get List reply body: " << QString::fromUtf8(bytes.data(), bytes.size());
-    QString shortedReply = QString::fromUtf8(bytes.data(), bytes.size()).first(40);
-    qDebug().noquote() << "Lobbies Get List reply body (shorted): " << shortedReply;
+    QByteArray bytes = reply->readAll();
 
 
 
@@ -793,7 +737,7 @@ void ServerCommunicator::catchReplyLobbiesGetList(QNetworkReply *reply)
 
 QUrl ServerCommunicator::makeAddress(QString host, int port, QString additionalParameters)
 {
-    return QUrl(QString("https://%1:%2").arg(host).arg(port)
+    return QUrl(QString("https://%1:%2").arg(host, QString::number(port))
                 + QString(!additionalParameters.isEmpty() ? "/%1" : "").arg(additionalParameters));
 }
 
@@ -827,4 +771,64 @@ bool ServerCommunicator::doRefreshAccessToken()
         return true;
     else
         return false;
+}
+
+uint8_t ServerCommunicator::basicReplyManage(QNetworkReply *pReply, QString serverCommSubModuleName,
+                                             bool canCallRefreshToken, bool showReplyBody)
+{
+    QVariant httpReplyCode = pReply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+    if(!httpReplyCode.isValid())
+    {
+        qDebug().noquote() << QString("%1%2 HTTP code is not valid")
+                              .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
+                                   serverCommSubModuleName);
+        return ReplyParserAnswer::NeedToAbort;
+    }
+    else
+    {
+        short code = httpReplyCode.toInt();
+
+        qDebug().noquote() << QString("%1%2 HTTP code %3 (%4)")
+                              .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
+                                   serverCommSubModuleName,
+                                   QString::number(code),
+                                   (ssCodeShortDescription[code].isEmpty() ? "not specified"
+                                                                           : ssCodeShortDescription[code]));
+
+        if(showReplyBody)
+        {
+            QByteArray bytes = pReply->readAll();
+            qDebug().noquote() << QString("%1%2 reply body (shorted): %3")
+                                  .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
+                                       serverCommSubModuleName,
+                                       (QString::fromUtf8(bytes.data(), bytes.size()).first(SHOW_FIRST_N_OF_REPLY) + "..."));
+        }
+
+        switch (code)
+        {
+        case CODE_BAD_REQUEST:
+            return ReplyParserAnswer::NeedToAbort;
+
+        case CODE_NOT_AUTHORIZED:
+        {
+            if(canCallRefreshToken)
+            {
+                if(!doRefreshAccessToken())
+                    return ReplyParserAnswer::NeedToAbort;
+            }
+            else return ReplyParserAnswer::NeedToRepeatMethod;
+        }
+        case CODE_METHOD_NOT_ALLOWED:
+            return ReplyParserAnswer::NeedToAbort;
+
+        case CODE_INTERNAL_SERVER_ERROR:
+            return ReplyParserAnswer::NeedToAbort;
+
+        case CODE_SUCCESS:
+            return ReplyParserAnswer::AllGood;
+
+        default:
+            return ReplyParserAnswer::NeedToAbort;
+        }
+    }
 }

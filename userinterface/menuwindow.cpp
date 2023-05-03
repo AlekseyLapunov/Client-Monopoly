@@ -20,6 +20,8 @@ MenuWindow::MenuWindow(unique_ptr<ServerCommunicator> *newServerPtr,
 
     connect(pLobbyWindow.get(), &LobbyWindow::goToMenuWindow,
             this, &MenuWindow::show);
+
+    connect(&refreshDataTimer, &QTimer::timeout, this, &MenuWindow::windowDataRefresh);
 }
 
 MenuWindow::~MenuWindow()
@@ -31,6 +33,10 @@ void MenuWindow::windowDataRefresh()
 {
     if(!isEnabled())
         return;
+
+    bool ok = false;
+    pServer()->get()->getLobbiesShortInfo(ok);
+
     setupLobbiesTable();
 }
 
@@ -70,7 +76,7 @@ void MenuWindow::lobbyClicked(QTableWidgetItem *itemClicked)
 void MenuWindow::applyLobbyFilter(QString textChanged)
 {
     tableClear(*ui->tLobbies);
-    tableSetupFill(*ui->tLobbies, pServer()->get()->getLobbiesShortInfo(), textChanged);
+    tableSetupFill(*ui->tLobbies, pServer()->get()->getStableLobbiesList(), textChanged);
 }
 
 void MenuWindow::joinToLobby(QTableWidgetItem *itemActivated)
@@ -191,26 +197,38 @@ void MenuWindow::show()
     this->hide();
     return;
 #endif
+    refreshDataTimer.stop();
     ui->setupUi(this);
+
     setupLobbiesFilter();
-    //pUserMetaInfo()->get()->setHostInfo(pServer()->get()->getCurrentHostInfo());
+
+    bool ok = false;
+    pUserMetaInfo()->get()->setHostInfo(pServer()->get()->getCurrentHostInfo(ok, false));
+    if(!ok)
+    {
+        execErrorBox(ssErrorBody[GetHostInfoFail], this);
+    }
+
     displayHostShortInfo();
     ui->aDiceIf3D->setChecked(FileManager::getUserMetaFromLocal(JsonKeysUserMeta::Uses3dDice).toInt());
     FileManager::apply3dDiceStateToLocal(ui->aDiceIf3D->isChecked());
+
     setEnabled(true);
     windowDataRefresh();
+    refreshDataTimer.start(REFRESH_DATA_EVERY_N_MS*2);
     QMainWindow::show();
 }
 
 void MenuWindow::hide()
 {
+    refreshDataTimer.stop();
     setDisabled(true);
     QMainWindow::hide();
 }
 
 void MenuWindow::setupLobbiesTable()
 {
-    const std::vector<LobbyShortInfo>* pLobbiesVec = &pServer()->get()->getLobbiesShortInfo();
+    const std::vector<LobbyShortInfo>* pLobbiesVec = &pServer()->get()->getStableLobbiesList();
 
     tableClear(*ui->tLobbies);
 

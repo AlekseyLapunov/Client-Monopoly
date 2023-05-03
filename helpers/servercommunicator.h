@@ -35,6 +35,7 @@
 
 #define LOCAL_COUNTER_MAX            2
 #define MIN_VALID_UNIQUE_ID          1
+#define SHOW_FIRST_N_OF_REPLY        60
 
 class ServerCommunicator : public QObject
 {
@@ -55,6 +56,7 @@ public:
 
     // Lobbies
     vector<LobbyShortInfo>& getLobbiesShortInfo(bool &ok, uint8_t localCounter = 0);
+    vector<LobbyShortInfo>& getStableLobbiesList();
     LobbyFullInfo tryJoinById(const int lobbyUniqueId);
     LobbyFullInfo tryJoinById(const int lobbyUniqueId, const QString &enteredPassword);
     LobbyFullInfo tryCreateLobby(const int hostUserId, LobbySettings priorSettings);
@@ -87,6 +89,10 @@ private:
     void oauthConfigure(uint8_t authType);
     QUrl makeAddress(QString host, int port, QString additionalParameters = {});
     bool doRefreshAccessToken();
+
+    enum ReplyParserAnswer { NeedToAbort, NeedToRepeatMethod, AllGood };
+    uint8_t basicReplyManage(QNetworkReply *pReply, QString serverCommSubModuleName,
+                             bool canCallRefreshToken = true, bool showReplyBody = true);
 
 private:
     QNetworkAccessManager *m_networkManager;
