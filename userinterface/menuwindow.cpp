@@ -112,7 +112,7 @@ void MenuWindow::joinIdDialog()
         // !!! STUB !!! NEED TO CHECK IF PASSWORDED!
         try
         {
-            m_firstContext = pServer()->get()->tryJoinById(pSubDialog.get()->uniqueIdValue());
+            m_firstContext = pServer()->get()->connectToLobby(pSubDialog.get()->uniqueIdValue());
         }
         catch (std::exception &e)
         {
@@ -127,7 +127,7 @@ void MenuWindow::createLobby()
 {
     try
     {
-        m_firstContext = pServer()->get()->tryCreateLobby(pUserMetaInfo()->get()->getHostInfo().uniqueId,
+        m_firstContext = pServer()->get()->createLobby(pUserMetaInfo()->get()->getHostInfo().uniqueId,
                                                           FileManager::getLastSettingsFromLocal());
     }
     catch (std::exception &e)
@@ -142,7 +142,7 @@ void MenuWindow::findRanked()
 {
     try
     {
-        m_firstContext = pServer()->get()->tryRankedQueue(pUserMetaInfo()->get()->getHostInfo().uniqueId);
+        m_firstContext = pServer()->get()->connectToRankedLobby(pUserMetaInfo()->get()->getHostInfo().uniqueId);
     }
     catch (std::exception &e)
     {
@@ -318,7 +318,7 @@ void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
     case DialogCodes::PassEntered:
         try
         {
-            m_firstContext = pServer()->get()->tryJoinById(selectedLobbyUniqueId, pSubDialog.get()->lobbyPasswordValue());
+            m_firstContext = pServer()->get()->connectToLobby(selectedLobbyUniqueId, pSubDialog.get()->lobbyPasswordValue());
         }
         catch (std::exception &e)
         {
@@ -329,7 +329,7 @@ void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
     case DialogCodes::NoPassword:
         try
         {
-            m_firstContext = pServer()->get()->tryJoinById(selectedLobbyUniqueId);
+            m_firstContext = pServer()->get()->connectToLobby(selectedLobbyUniqueId);
         }
         catch (std::exception &e)
         {

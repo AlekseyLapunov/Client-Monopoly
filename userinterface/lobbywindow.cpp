@@ -316,7 +316,7 @@ void LobbyWindow::startGame()
 
     try
     {
-        pServer()->get()->tryStartGame(m_context.settings.uniqueId);
+        pServer()->get()->runGame(m_context.settings.uniqueId);
         m_context.settings.softOverride(m_lastSettings);
         setDisabled(true);
     }
@@ -337,7 +337,7 @@ void LobbyWindow::applySettings()
     FileManager::saveLastSettingsToLocal(tempSettings);
     try
     {
-        pServer()->get()->tryLobbySettingsApply(m_context.settings.uniqueId, tempSettings);
+        pServer()->get()->updateLobbySettings(m_context.settings.uniqueId, tempSettings);
         ui->bApplySettings->setDisabled(true);
         ui->bRestoreLastSettings->setDisabled(true);
         m_lastSettings.softOverride(tempSettings);
@@ -428,7 +428,7 @@ void LobbyWindow::toggleReadyStatus()
     }
     try
     {
-        pServer()->get()->tryToggleReady(m_context.settings.uniqueId);
+        pServer()->get()->switchReadiness(m_context.settings.uniqueId);
         setUpUsersInTable(*ui->tUsers, m_context.usersInLobby);
     }
     catch (std::exception &e)
@@ -547,12 +547,12 @@ void LobbyWindow::reactToUserSelect(QTableWidgetItem *item)
         switch (dialogAnswer)
         {
         case DialogAnswerCodes::Kick:
-            pServer()->get()->tryKickPlayer(m_context.settings.uniqueId, selectedUniqueId);
+            pServer()->get()->kickPlayer(m_context.settings.uniqueId, selectedUniqueId);
             break;
         case DialogAnswerCodes::Promote:
             if(makeDialog(BaseWin::PlayerPromoteConfirmation, selectedNickname, this) != 0)
                 return;
-            pServer()->get()->tryPromotePlayer(m_context.settings.uniqueId, selectedUniqueId);
+            pServer()->get()->raisePlayer(m_context.settings.uniqueId, selectedUniqueId);
             break;
         case DialogAnswerCodes::Cancel:
             return;

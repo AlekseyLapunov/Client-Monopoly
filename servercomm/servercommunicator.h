@@ -23,7 +23,7 @@
 //#define AUTH_STUB
 //#define USERS_STUB
 //#define LOBBIES_STUB
-#define LOBBIES_INSIDE_STUB
+//#define LOBBIES_INSIDE_STUB
 
 class ServerCommunicator : public QObject
 {
@@ -40,24 +40,22 @@ public:
 
     // Host info
     HostUserData getCurrentHostInfo(bool &ok, bool retryCheckIfNoNeedToAuth, uint8_t localCounter = 0);
+    void changeNickname(const QString newNickname, uint8_t localCounter = 0);
     void clearTemporaryHostData();
 
     // Lobbies
     vector<LobbyShortInfo>& getLobbiesShortInfo(bool &ok, uint8_t localCounter = 0);
     vector<LobbyShortInfo>& getStableLobbiesList();
-    LobbyFullInfo tryJoinById(const int lobbyUniqueId);
-    LobbyFullInfo tryJoinById(const int lobbyUniqueId, const QString &enteredPassword);
-    LobbyFullInfo tryCreateLobby(const int hostUserId, LobbySettings priorSettings);
-    LobbyFullInfo tryRankedQueue(const int hostUserId);
-    void tryToggleReady(const int lobbyUniqueId);
-    void tryLobbySettingsApply(const int lobbyUniqueId, LobbySettings newSettings);
-    void tryStartGame(const int lobbyUniqueId);
-    void tryKickPlayer(const int lobbyUniqueId, const int playerUniqueId);
-    void tryPromotePlayer(const int lobbyUniqueId, const int playerUniqueId);
-    void deleteLobby(const int lobbyUniqueId);
-
-    // Miscelanious
-    void changeNickname(const QString newNickname, uint8_t localCounter = 0);
+    LobbyFullInfo connectToLobby(const int lobbyUniqueId, bool &ok, bool &isPassworded, uint8_t localCounter = 0);
+    LobbyFullInfo connectToLobby(const int lobbyUniqueId, const QString &enteredPassword, bool &ok, uint8_t localCounter = 0);
+    LobbyFullInfo createLobby(const int hostUserId, LobbySettings priorSettings, bool &ok, uint8_t localCounter = 0);
+    LobbyFullInfo connectToRankedLobby(const int hostUserId, bool &ok, uint8_t localCounter = 0);
+    void switchReadiness(const int lobbyUniqueId, bool &ok, uint8_t localCounter = 0);
+    void updateLobbySettings(const int lobbyUniqueId, LobbySettings newSettings, bool &ok, uint8_t localCounter = 0);
+    void runGame(const int lobbyUniqueId, bool &ok, uint8_t localCounter = 0);
+    void kickPlayer(const int lobbyUniqueId, const int playerUniqueId, bool &ok, uint8_t localCounter = 0);
+    void raisePlayer(const int lobbyUniqueId, const int playerUniqueId, bool &ok, uint8_t localCounter = 0);
+    void deleteLobby(const int lobbyUniqueId, bool &ok, uint8_t localCounter = 0);
 
 signals:
     void authorizationProcessOver();

@@ -337,7 +337,8 @@ vector<LobbyShortInfo> &ServerCommunicator::getStableLobbiesList()
     return m_lobbiesShortInfoVec;
 }
 
-LobbyFullInfo ServerCommunicator::tryJoinById(const int lobbyUniqueId)
+LobbyFullInfo ServerCommunicator::connectToLobby(const int lobbyUniqueId, bool &ok,
+                                                 bool &isPassworded, uint8_t localCounter)
 {
 #ifdef LOBBIES_STUB
     if(lobbyUniqueId != 0)
@@ -363,15 +364,19 @@ LobbyFullInfo ServerCommunicator::tryJoinById(const int lobbyUniqueId)
 #endif
 }
 
-LobbyFullInfo ServerCommunicator::tryJoinById(const int lobbyUniqueId, const QString &enteredPassword)
+LobbyFullInfo ServerCommunicator::connectToLobby(const int lobbyUniqueId, const QString &enteredPassword,
+                                                 bool &ok, uint8_t localCounter)
 {
     // Make request
 #ifdef LOBBIES_STUB
-    throw std::runtime_error(ssClassNames[ServerCommCN] + ssErrorsContent[LobbyNotFound]);
+    return {};
+#else
+    return {};
 #endif
 }
 
-LobbyFullInfo ServerCommunicator::tryCreateLobby(const int hostUserId, LobbySettings priorSettings)
+LobbyFullInfo ServerCommunicator::createLobby(const int hostUserId, LobbySettings priorSettings,
+                                              bool &ok, uint8_t localCounter)
 {
 #ifdef LOBBIES_STUB
     // Need to check if user already has created lobby. If does - throw exception
@@ -392,7 +397,8 @@ LobbyFullInfo ServerCommunicator::tryCreateLobby(const int hostUserId, LobbySett
 #endif
 }
 
-LobbyFullInfo ServerCommunicator::tryRankedQueue(const int hostUserId)
+LobbyFullInfo ServerCommunicator::connectToRankedLobby(const int hostUserId, bool &ok,
+                                                       uint8_t localCounter)
 {
     // Need to check if user already in the queue
 
@@ -413,50 +419,65 @@ LobbyFullInfo ServerCommunicator::tryRankedQueue(const int hostUserId)
           {"PPCD", 1215, IS_READY, 77}
         }
     };
+#else
+
 #endif
 }
 
-void ServerCommunicator::deleteLobby(const int lobbyUniqueId)
-{
-}
-
-void ServerCommunicator::tryToggleReady(const int lobbyUniqueId)
+void ServerCommunicator::deleteLobby(const int lobbyUniqueId, bool &ok, uint8_t localCounter)
 {
 #ifdef LOBBIES_INSIDE_STUB
-    if(false)
-        throw std::runtime_error(ssClassNames[ServerCommCN] + ssErrorsContent[ToggleReadyFail]);
+    return;
+#else
+
 #endif
 }
 
-void ServerCommunicator::tryLobbySettingsApply(const int lobbyUniqueId, LobbySettings newSettings)
+void ServerCommunicator::switchReadiness(const int lobbyUniqueId, bool &ok, uint8_t localCounter)
 {
 #ifdef LOBBIES_INSIDE_STUB
-    if(false)
-        throw std::runtime_error(ssClassNames[ServerCommCN] + ssErrorsContent[ApplySettingsFail]);
+    return;
+#else
+
 #endif
 }
 
-void ServerCommunicator::tryStartGame(const int lobbyUniqueId)
+void ServerCommunicator::updateLobbySettings(const int lobbyUniqueId, LobbySettings newSettings,
+                                             bool &ok, uint8_t localCounter)
 {
 #ifdef LOBBIES_INSIDE_STUB
-    if(false)
-        throw std::runtime_error(ssClassNames[ServerCommCN] + ssErrorsContent[StartGameFail]);
+    return;
+#else
+
 #endif
 }
 
-void ServerCommunicator::tryKickPlayer(const int lobbyUniqueId, const int playerUniqueId)
+void ServerCommunicator::runGame(const int lobbyUniqueId, bool &ok, uint8_t localCounter)
 {
 #ifdef LOBBIES_INSIDE_STUB
-    if(false)
-        throw std::runtime_error(ssClassNames[ServerCommCN] + ssErrorsContent[KickPlayerFail]);
+    return;
+#else
+
 #endif
 }
 
-void ServerCommunicator::tryPromotePlayer(const int lobbyUniqueId, const int playerUniqueId)
+void ServerCommunicator::kickPlayer(const int lobbyUniqueId, const int playerUniqueId,
+                                    bool &ok, uint8_t localCounter)
 {
 #ifdef LOBBIES_INSIDE_STUB
-    if(false)
-        throw std::runtime_error(ssClassNames[ServerCommCN] + ssErrorsContent[PromotePlayerFail]);
+    return;
+#else
+
+#endif
+}
+
+void ServerCommunicator::raisePlayer(const int lobbyUniqueId, const int playerUniqueId,
+                                     bool &ok, uint8_t localCounter)
+{
+#ifdef LOBBIES_INSIDE_STUB
+    return;
+#else
+
 #endif
 }
 
