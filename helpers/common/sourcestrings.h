@@ -178,29 +178,6 @@ static const QMap<uint8_t, string> ssErrorsContent  = {
                                                           {GetHostInfoFail,               "Не удалось обновить данные пользователя"}
                                                       };
 
-// ServerCommunicator
-
-enum HttpCodes { BadRequest = 400, NotAuthorized = 401, MethodNotAllowed = 405,
-                 InternalServerError = 500, CodeSuccess = 200 };
-static const QMap<short, QString> ssCodeShortDescription =  {
-                                                                {BadRequest,            "bad request"},
-                                                                {NotAuthorized,         "not authorized"},
-                                                                {MethodNotAllowed ,     "method not allowed"},
-                                                                {InternalServerError,   "internal server error"},
-                                                                {CodeSuccess,           "success"}
-                                                            };
-
-enum ServerCommSubModule { AuthSubModule, GetInfoSubModule, GetLobbiesListSubModule, ChangeNicknameSubModule,
-                           RefreshTokenSubModule };
-static const QMap<uint8_t, QString> ssServerCommSubModule =
-                                                            {
-                                                                {AuthSubModule,             "Auth: "},
-                                                                {GetInfoSubModule,          "Get Info: "},
-                                                                {GetLobbiesListSubModule,   "Get Lobbies List: "},
-                                                                {ChangeNicknameSubModule,   "Change Nickname: "},
-                                                                {RefreshTokenSubModule,     "Refresh Token: "}
-                                                            };
-
 #endif // SOURCESTRINGS_H
 
 

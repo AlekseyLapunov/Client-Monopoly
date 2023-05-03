@@ -16,7 +16,7 @@ SOURCES += \
     helpers/usermetainfo.cpp \
     userinterface/lobbywindow.cpp \
     main.cpp \
-    helpers/servercommunicator.cpp \
+    servercomm/servercommunicator.cpp \
     userinterface/loginwindow.cpp \
     userinterface/menuwindow.cpp \
     userinterface/subinterfaces/gamemanagerwindow.cpp \
@@ -32,9 +32,10 @@ HEADERS += \
     helpers/common/sourcestrings.h \
     helpers/common/sourcestructs.h \
     helpers/usermetainfo.h \
+    servercomm/servercommstrings.h \
     userinterface/lobbywindow.h \
     userinterface/loginwindow.h \
-    helpers/servercommunicator.h \
+    servercomm/servercommunicator.h \
     userinterface/menuwindow.h \
     userinterface/subinterfaces/gamemanagerwindow.h \
     userinterface/subinterfaces/menusubdialog.h

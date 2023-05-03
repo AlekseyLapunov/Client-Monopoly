@@ -8,7 +8,7 @@
 #include <QCloseEvent>
 #include <QTimer>
 
-#include "servercommunicator.h"
+#include "servercomm/servercommunicator.h"
 #include "usermetainfo.h"
 #include "helpers/common/sourcestrings.h"
 #include "helpers/common/sourcestructs.h"

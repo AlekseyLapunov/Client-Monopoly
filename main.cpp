@@ -5,7 +5,7 @@
 #include <QDebug>
 
 #include "userinterface/loginwindow.h"
-#include "helpers/servercommunicator.h"
+#include "servercomm/servercommunicator.h"
 #include "helpers/usermetainfo.h"
 #include "helpers/common/filemanager.h"
 
