@@ -1483,7 +1483,8 @@ void ServerCommunicator::oauthConfigure(uint8_t authType)
     QObject::connect(m_oauthCodeFlow, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser, &QDesktopServices::openUrl);
     connect(m_oauthCodeFlow, &QOAuth2AuthorizationCodeFlow::authorizationCallbackReceived, [=](const QVariantMap data)
     {
-        qDebug().noquote() << "Got auth-code from service: " << data.value("code");
+        qDebug().noquote() << QString("Got auth-code from service: %1..." ).arg((data.value("code").toString()).first(5));
+
         if(data.value("code").toString().isEmpty())
         {
             qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
@@ -1496,9 +1497,6 @@ void ServerCommunicator::oauthConfigure(uint8_t authType)
         QJsonDocument codeDoc(codeObj);
         codeDoc.toJson(QJsonDocument::Compact);
 
-//        connect(m_oauthNetworkManager, &QNetworkAccessManager::finished,
-//               this, &ServerCommunicator::catchReplyAuth);
-
         QNetworkRequest request(makeAddress(host, port,
                                             httpMethods[authType]));
         request.setHeader(QNetworkRequest::ContentTypeHeader, jsonContentType.toUtf8());
@@ -1510,7 +1508,8 @@ void ServerCommunicator::oauthConfigure(uint8_t authType)
 QUrl ServerCommunicator::makeAddress(QString host, int port, QString additionalParameters)
 {
     return QUrl(QString("https://%1:%2").arg(host, QString::number(port))
-                + QString(!additionalParameters.isEmpty() ? "/%1" : "").arg(additionalParameters));
+                + QString(!additionalParameters.isEmpty() ? QString("/%1").arg(additionalParameters)
+                                                          : ""));
 }
 
 QString ServerCommunicator::makeServerFullLobbyJson(LobbySettings &lobbySettingsBase)
