@@ -287,6 +287,8 @@ void MenuWindow::displayHostShortInfo()
 
     ui->lSubVertBar->setHidden(hostUserData.isGuest);
     ui->lRpCount->setHidden(hostUserData.isGuest);
+
+    ui->bRankedSearch->setDisabled(hostUserData.isGuest);
 }
 
 void MenuWindow::tableClear(QTableWidget &table)
@@ -299,7 +301,7 @@ void MenuWindow::tableClear(QTableWidget &table)
 
 void MenuWindow::tableSetupFill(QTableWidget &table, const vector<LobbyShortInfo> &contentVec, const QString &filter)
 {
-    const short int tCols = LOBBIES_TABLE_COLS;
+    const short tCols = LOBBIES_TABLE_COLS;
     const int tRows = count_if(contentVec.begin(),
                                contentVec.end(),
                                [filter](const LobbyShortInfo &lobby)

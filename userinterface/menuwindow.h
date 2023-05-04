@@ -62,6 +62,7 @@ private:
     void tableSetupFill(QTableWidget &table, const vector<LobbyShortInfo> &contentVec, const QString &filter = "");
     void switchJoinByItem(const QTableWidgetItem &item);
     void showLobbyWindow();
+    void logoutBackToLoginWindow();
 
     enum DialogCodes { NoPassword, PassRejected, PassEntered };
     dialogCode checkIfPassworded(const QTableWidgetItem &item);
