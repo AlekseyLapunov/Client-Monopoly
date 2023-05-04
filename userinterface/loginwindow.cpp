@@ -14,9 +14,9 @@ LoginWindow::LoginWindow(unique_ptr<ServerCommunicator> *newServerPtr,
 
     pMenuWindow = unique_ptr<MenuWindow>(new MenuWindow(pServer(), pUserMetaInfo()));
 
-    connect(pMenuWindow.get(), &MenuWindow::goToLoginWindow,
+    connect(pMenuWindow.get(), &MenuWindow::switchToLoginWindow,
             this, &LoginWindow::show);
-    connect(pMenuWindow.get(), &MenuWindow::goToLoginWindow,
+    connect(pMenuWindow.get(), &MenuWindow::switchToLoginWindow,
             this, [=](){ dontCheckIfAuthorized = true; });
 }
 
@@ -32,11 +32,13 @@ void LoginWindow::show()
     return;
 #endif
     ui->setupUi(this);
+    setDisabled(true);
 
     bool ok = false;
     if(!dontCheckIfAuthorized)
         pUserMetaInfo()->get()->setHostInfo(pServer()->get()->checkIfNoNeedToAuth(ok));
-    else dontCheckIfAuthorized = false;
+    else
+        dontCheckIfAuthorized = false;
 
     if(ok)
     {

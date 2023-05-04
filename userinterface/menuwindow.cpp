@@ -49,10 +49,7 @@ void MenuWindow::changeAcc()
 {
     if(makeDialog(BaseWin::ChangeAcc, "", this) == 0)
     {
-        hide();
-        pServer()->get()->clearTemporaryHostData();
-        FileManager::clearUserMetaForNewLogin();
-        emit goToLoginWindow();
+        logoutBackToLoginWindow();
     }
 }
 
@@ -83,7 +80,8 @@ void MenuWindow::joinToLobby(QTableWidgetItem *itemActivated)
 {
     QTableWidgetItem &lobbyItem = *ui->tLobbies->selectedItems().at(0);
     lobbyClicked(&lobbyItem);
-    int answer = makeDialog(BaseWin::JoinLobby, ui->tLobbies->item(ui->tLobbies->row(itemActivated), LOBBY_NAME_COL)->text(), this);
+    int answer = makeDialog(BaseWin::JoinLobby, ui->tLobbies->item(ui->tLobbies->row(itemActivated),
+                                                                   LOBBY_NAME_COL)->text(), this);
 
     if(answer != 0)
         return;
@@ -109,44 +107,71 @@ void MenuWindow::joinIdDialog()
     pSubDialog.get()->selfConfig(MenuSubDialog::JoinById);
     if(pSubDialog.get()->exec() == QDialog::Accepted)
     {
-        // !!! STUB !!! NEED TO CHECK IF PASSWORDED!
-        try
+        int enteredUniqueId = pSubDialog.get()->uniqueIdValue();
+
+        bool ok = false; bool isPassworded = false;
+
+        m_firstContext = pServer()->get()->connectToLobby(enteredUniqueId, ok, isPassworded);
+
+        if(isPassworded)
         {
-            m_firstContext = pServer()->get()->connectToLobby(pSubDialog.get()->uniqueIdValue());
+            pSubDialog->selfConfig(MenuSubDialog::LobbyPasswordEnter);
+            if(pSubDialog.get()->exec() == QDialog::Accepted)
+            {
+                m_firstContext = pServer()->get()->connectToLobby(enteredUniqueId,
+                                                                  pSubDialog.get()->lobbyPasswordValue(),
+                                                                  ok);
+            }
+            else
+                return;
         }
-        catch (std::exception &e)
+
+        if(!ok)
         {
-            execErrorBox(e.what(), this);
+            execErrorBox(QString("%1%2")
+                         .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
+                              QString::fromStdString(ssErrorsContent[LobbyNotFound])),
+                         this);
+            logoutBackToLoginWindow();
             return;
         }
-    } else return;
+    }
+    else
+        return;
+
     showLobbyWindow();
 }
 
 void MenuWindow::createLobby()
 {
-    try
+    bool ok = false;
+    m_firstContext = pServer()->get()->createLobby(FileManager::getLastSettingsFromLocal(),
+                                                   ok);
+    if(!ok)
     {
-        m_firstContext = pServer()->get()->createLobby(pUserMetaInfo()->get()->getHostInfo().uniqueId,
-                                                          FileManager::getLastSettingsFromLocal());
-    }
-    catch (std::exception &e)
-    {
-        execErrorBox(e.what(), this);
+        execErrorBox(QString("%1%2")
+                     .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
+                          QString::fromStdString(ssErrorsContent[LobbyCreateFail])),
+                     this);
+        logoutBackToLoginWindow();
         return;
     }
+
     showLobbyWindow();
 }
 
 void MenuWindow::findRanked()
 {
-    try
+    bool ok = false;
+    m_firstContext = pServer()->get()->connectToRankedLobby(ok);
+
+    if(!ok)
     {
-        m_firstContext = pServer()->get()->connectToRankedLobby(pUserMetaInfo()->get()->getHostInfo().uniqueId);
-    }
-    catch (std::exception &e)
-    {
-        execErrorBox(e.what(), this);
+        execErrorBox(QString("%1%2")
+                     .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
+                          QString::fromStdString(ssErrorsContent[RankedSearchFail])),
+                     this);
+        logoutBackToLoginWindow();
         return;
     }
     showLobbyWindow();
@@ -207,6 +232,8 @@ void MenuWindow::show()
     if(!ok)
     {
         execErrorBox(ssErrorBody[GetHostInfoFail], this);
+        logoutBackToLoginWindow();
+        return;
     }
 
     displayHostShortInfo();
@@ -215,7 +242,7 @@ void MenuWindow::show()
 
     setEnabled(true);
     windowDataRefresh();
-    refreshDataTimer.start(REFRESH_DATA_EVERY_N_MS*2);
+    refreshDataTimer.start(REFRESH_LOBBIES_LIST_EVERY_N_MS);
     QMainWindow::show();
 }
 
@@ -254,8 +281,12 @@ void MenuWindow::setupLobbiesFilter()
 
 void MenuWindow::displayHostShortInfo()
 {
-    ui->lNickname->setText(pUserMetaInfo()->get()->getHostInfo().nickname);
-    ui->lRpCount->setText(QString::number(pUserMetaInfo()->get()->getHostInfo().rpCount) + " RP");
+    HostUserData hostUserData = pUserMetaInfo()->get()->getHostInfo();
+    ui->lNickname->setText(hostUserData.nickname);
+    ui->lRpCount->setText(QString::number(hostUserData.rpCount) + " RP");
+
+    ui->lSubVertBar->setHidden(hostUserData.isGuest);
+    ui->lRpCount->setHidden(hostUserData.isGuest);
 }
 
 void MenuWindow::tableClear(QTableWidget &table)
@@ -316,27 +347,53 @@ void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
     switch (checkIfPassworded(item))
     {
     case DialogCodes::PassEntered:
-        try
+    {
+        bool ok = false;
+        m_firstContext = pServer()->get()->connectToLobby(selectedLobbyUniqueId,
+                                                          pSubDialog.get()->lobbyPasswordValue(),
+                                                          ok);
+        if(!ok)
         {
-            m_firstContext = pServer()->get()->connectToLobby(selectedLobbyUniqueId, pSubDialog.get()->lobbyPasswordValue());
-        }
-        catch (std::exception &e)
-        {
-            execErrorBox(e.what(), this);
+            execErrorBox(QString("%1%2")
+                         .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
+                              QString::fromStdString(ssErrorsContent[LobbyNotFound])),
+                         this);
+            logoutBackToLoginWindow();
             return;
         }
         break;
+    }
     case DialogCodes::NoPassword:
-        try
+    {
+        bool ok = false; bool isPassworded = false;
+
+        m_firstContext = pServer()->get()->connectToLobby(selectedLobbyUniqueId, ok, isPassworded);
+
+        if(isPassworded)
         {
-            m_firstContext = pServer()->get()->connectToLobby(selectedLobbyUniqueId);
+            pSubDialog->selfConfig(MenuSubDialog::LobbyPasswordEnter,
+                                   ui->tLobbies->item(item.row(), LOBBY_NAME_COL)->text());
+            if(pSubDialog.get()->exec() == QDialog::Accepted)
+            {
+                m_firstContext = pServer()->get()->connectToLobby(selectedLobbyUniqueId,
+                                                                  pSubDialog.get()->lobbyPasswordValue(),
+                                                                  ok);
+            }
+            else
+                return;
         }
-        catch (std::exception &e)
+
+        if(!ok)
         {
-            execErrorBox(e.what(), this);
+            execErrorBox(QString("%1%2")
+                         .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
+                              QString::fromStdString(ssErrorsContent[LobbyNotFound])),
+                         this);
+            logoutBackToLoginWindow();
             return;
         }
         break;
+    }
     default:
         return;
     }
@@ -347,6 +404,14 @@ void MenuWindow::showLobbyWindow()
 {
     hide();
     pLobbyWindow.get()->show(m_firstContext);
+}
+
+void MenuWindow::logoutBackToLoginWindow()
+{
+    hide();
+    pServer()->get()->clearTemporaryHostData();
+    FileManager::clearUserMetaForNewLogin();
+    emit switchToLoginWindow();
 }
 
 dialogCode MenuWindow::checkIfPassworded(const QTableWidgetItem &item)

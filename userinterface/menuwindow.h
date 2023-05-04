@@ -36,7 +36,7 @@ public:
     void hide();
 
 signals:
-    void goToLoginWindow();
+    void switchToLoginWindow();
 
 private slots:
     void quitApp();

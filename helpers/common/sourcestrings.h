@@ -198,7 +198,7 @@ static const QMap<uint8_t, string> ssClassNames = {
 
 // runtime_error
 enum RunTimeErrorId { PtrLinkFail, LobbyNotFound, GoogleAuthFail, VkAuthFail, GuestAuthFail,
-                      AlreadyHasLobby, AlreadyInQueue, ApplySettingsFail,
+                      LobbyCreateFail, RankedSearchFail, ApplySettingsFail,
                       ToggleReadyFail, StartGameFail, JsonParseError, KickPlayerFail,
                       PromotePlayerFail, LastSettingsFileDoesNotExist, GetHostInfoFail };
 static const QMap<uint8_t, string> ssErrorsContent  = {
@@ -207,8 +207,8 @@ static const QMap<uint8_t, string> ssErrorsContent  = {
                                                           {GoogleAuthFail,                "Не удалось войти через Google аккаунт"},
                                                           {VkAuthFail,                    "Не удалось войти через VK аккаунт"},
                                                           {GuestAuthFail,                 "Не удалось войти как гость"},
-                                                          {AlreadyHasLobby,               "Лобби уже существует"},
-                                                          {AlreadyInQueue,                "Вы уже находитесь в очереди"},
+                                                          {LobbyCreateFail,               "Не удалось создать лобби"},
+                                                          {RankedSearchFail,              "Не удалось выполнить поиск рейтинговой игры"},
                                                           {ApplySettingsFail,             "Не удалось применить настройки"},
                                                           {ToggleReadyFail,               "Не удалось переключить готовность"},
                                                           {StartGameFail,                 "Не удалось запустить матч"},
