@@ -68,6 +68,8 @@ private:
     void overwriteSettingsInputs(LobbySettings &overwriteBy);
     bool checkIfEveryoneReady();
     void checkMaxPlayers();
+    void switchBackToMenuWindow();
+    void checkLimitationChecks();
 
 private:
     Ui::LobbyWindow *ui;
