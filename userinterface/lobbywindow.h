@@ -77,7 +77,7 @@ private:
 
     unique_ptr<GameManagerWindow> *m_pGameManager;
 
-    enum PrivelegeTypes { Owner, Guest, RankedGuest };
+    enum PrivelegeTypes { Owner, JoinedUser, RankedJoinedUser };
 };
 
 #endif // LOBBYWINDOW_H

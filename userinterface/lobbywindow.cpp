@@ -15,6 +15,8 @@ LobbyWindow::LobbyWindow(unique_ptr<ServerCommunicator> *newServerPtr,
     this->m_pGameManager = &newGameManagerPtr;
 
     ui->setupUi(this);
+
+    connect(&refreshDataTimer, &QTimer::timeout, this, &LobbyWindow::windowDataRefresh);
 }
 
 LobbyWindow::~LobbyWindow()
@@ -26,7 +28,7 @@ void LobbyWindow::setFirstContext(const LobbyFullInfo context)
 {
     HostUserData hostUser = pUserMetaInfo()->get()->getHostInfo();
     m_context = context;
-    m_context.usersInLobby.push_back({hostUser.nickname, hostUser.rpCount, false, hostUser.uniqueId});
+    ///m_context.usersInLobby.push_back({hostUser.nickname, hostUser.rpCount, false, hostUser.uniqueId});
     m_lastSettings = m_context.settings;
 }
 
@@ -34,19 +36,32 @@ void LobbyWindow::windowDataRefresh()
 {
     if(!isEnabled())
         return;
+
+    m_context.usersInLobby.clear();
+    m_context.usersInLobby.resize(0);
     bool ok = false;
-    pUserMetaInfo()->get()->setHostInfo(pServer()->get()->getCurrentHostInfo(ok, false));
-    if(!ok)
-    {
-        execErrorBox(QString::fromStdString(ssClassNames[ServerCommCN] + ssErrorsContent[GetHostInfoFail]), this);
-    }
-    ///m_context = pServer()->get()->getCurrentLobbyContext(m_context.lobbySystem.uniqueId);
+    m_context = pServer()->get()->getInfoLobby(ok);
+
     setUpUsersInTable(*ui->tUsers, m_context.usersInLobby);
     setUpByPrivilege();
+    overwriteSettingsInputs(m_context.settings);
 }
 
 void LobbyWindow::show(const LobbyFullInfo firstContext)
 {
+    refreshDataTimer.stop();
+
+    bool ok = false;
+    pUserMetaInfo()->get()->setHostInfo(pServer()->get()->getCurrentHostInfo(ok, false));
+    if(!ok)
+    {
+        execErrorBox(QString("%1%2").arg(QString::fromStdString(ssClassNames[ServerCommCN]),
+                                         QString::fromStdString(ssErrorsContent[GetHostInfoFail])),
+                     this);
+        switchBackToMenuWindow();
+        return;
+    }
+
     ui->setupUi(this);
     ui->lGameBeginsIn->setVisible(false);
     ui->lSecondsToStart->setVisible(false);
@@ -56,7 +71,9 @@ void LobbyWindow::show(const LobbyFullInfo firstContext)
     ui->bApplySettings->setEnabled(false);
     ui->bRestoreLastSettings->setEnabled(false);
     setEnabled(true);
+
     windowDataRefresh();
+    refreshDataTimer.start(REFRESH_LOBBY_INSIDE_DATA_EVERY_N_MS);
     QMainWindow::show();
 }
 
@@ -69,17 +86,13 @@ void LobbyWindow::hide()
 short LobbyWindow::definePrivilege()
 {
     int uniqueHostId = pUserMetaInfo()->get()->getHostInfo().uniqueId;
-    // If lobby is ranked
-    if(m_context.settings.ownerUniqueId < 0)
-        return RankedGuest;
-    else
-    // If host user is the lobby host
-    if(m_context.settings.ownerUniqueId == uniqueHostId)
-    {
+
+    if(m_context.settings.type == "RANKED")
+        return RankedJoinedUser;
+    else if(m_context.settings.ownerUniqueId == uniqueHostId)
         return Owner;
-    }
     else
-        return Guest;
+        return JoinedUser;
 }
 
 void LobbyWindow::setUpByPrivilege()
@@ -88,7 +101,7 @@ void LobbyWindow::setUpByPrivilege()
     font.setPointSize(font.pointSize()*1.3);
     switch (definePrivilege())
     {
-    case RankedGuest:
+    case RankedJoinedUser:
         setButtonsVisibility(false);
         ui->lLobbySettings->setText(ssRankedLobby);
         ui->lLobbyUniqueId->setText(ssAverageRp + countAverageRp());
@@ -106,11 +119,11 @@ void LobbyWindow::setUpByPrivilege()
         ui->aExportToFile->setVisible(false);
         ui->menuSettings->setDisabled(true);
         break;
-    case Guest:
+    case JoinedUser:
         setButtonsVisibility(false);
-        setWindowTitle(ssLobbyOfPlayer + "\""
-                       + findOwnerNickname(m_context.settings.ownerUniqueId)
-                       + "\"");
+        setWindowTitle(QString("%1\"%2\"")
+                       .arg(ssLobbyOfPlayer,
+                            findOwnerNickname(m_context.settings.ownerUniqueId)));
         ui->aSetRankedSettings->setVisible(false);
         ui->aImportFromFile->setVisible(false);
         ui->aExportToFile->setVisible(true);
@@ -314,16 +327,24 @@ void LobbyWindow::startGame()
             return;
         }
 
-    try
+    bool ok = false;
+    pServer()->get()->runGame(ok);
+
+    if(!ok)
     {
-        pServer()->get()->runGame(m_context.settings.uniqueId);
-        m_context.settings.softOverride(m_lastSettings);
-        setDisabled(true);
+        execErrorBox(QString("%1%2")
+                     .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
+                          QString::fromStdString(ssErrorsContent[StartGameFail])),
+                     this);
+
+        ui->bStartGame->setDisabled(false);
+        return;
     }
-    catch (std::exception &e)
-    {
-        execErrorBox(e.what(), this);
-    }
+
+    m_context.settings.softOverride(m_lastSettings);
+    setDisabled(true);
+
+    // make switch to game window
 
     ui->bStartGame->setDisabled(false);
 }
@@ -331,23 +352,29 @@ void LobbyWindow::startGame()
 void LobbyWindow::applySettings()
 {
     checkMaxPlayers();
+    checkLimitationChecks();
     ui->bApplySettings->setDisabled(true);
     ui->bRestoreLastSettings->setDisabled(true);
     LobbySettings tempSettings = makeSettingsObjectByInputs();
     FileManager::saveLastSettingsToLocal(tempSettings);
-    try
-    {
-        pServer()->get()->updateLobbySettings(m_context.settings.uniqueId, tempSettings);
-        ui->bApplySettings->setDisabled(true);
-        ui->bRestoreLastSettings->setDisabled(true);
-        m_lastSettings.softOverride(tempSettings);
-    }
-    catch (std::exception &e)
+
+    bool ok = false;
+    pServer()->get()->updateLobbySettings(tempSettings, ok);
+
+    if (!ok)
     {
         ui->bApplySettings->setDisabled(false);
         ui->bRestoreLastSettings->setDisabled(false);
-        execErrorBox(e.what(), this);
+        execErrorBox(QString("%1%2")
+                     .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
+                          QString::fromStdString(ssErrorsContent[ApplySettingsFail])),
+                     this);
+        return;
     }
+
+    ui->bApplySettings->setDisabled(true);
+    ui->bRestoreLastSettings->setDisabled(true);
+    m_lastSettings.softOverride(tempSettings);
 }
 
 LobbySettings LobbyWindow::makeSettingsObjectByInputs()
@@ -373,6 +400,10 @@ LobbySettings LobbyWindow::makeSettingsObjectByInputs()
 
 void LobbyWindow::overwriteSettingsInputs(LobbySettings &overwriteBy)
 {
+    if((pUserMetaInfo()->get()->getHostInfo().uniqueId == m_context.settings.ownerUniqueId)
+            && (ui->bApplySettings->isEnabled() || ui->bRestoreLastSettings->isEnabled()))
+        return;
+
     if(!overwriteBy.lobbyName.isEmpty())
         ui->leLobbyName->setText(overwriteBy.lobbyName);
     if(!overwriteBy.lobbyPassword.isEmpty())
@@ -402,16 +433,37 @@ void LobbyWindow::checkMaxPlayers()
         ui->sbMaxPlayers->setValue(playersCount);
 }
 
+void LobbyWindow::switchBackToMenuWindow()
+{
+    hide();
+
+    if(definePrivilege() == PrivelegeTypes::RankedJoinedUser)
+        return;
+
+    bool ok = false;
+
+    if(pUserMetaInfo()->get()->getHostInfo().uniqueId == m_context.settings.ownerUniqueId)
+        pServer()->get()->deleteLobby(m_context.settings.uniqueId, ok);
+
+    emit goToMenuWindow();
+}
+
+void LobbyWindow::checkLimitationChecks()
+{
+    if(ui->chbAreTurnsInfinite->isChecked() &&
+       ui->chbIsBalanceInfinite->isChecked())
+    {
+        ui->chbIsBalanceInfinite->setChecked(true);
+        ui->chbAreTurnsInfinite->setChecked(false);
+    }
+}
+
 void LobbyWindow::leaveLobby()
 {
     if(makeDialog(BaseWin::LeaveLobby, "", this) == 0)
     {
-        hide();
-        emit goToMenuWindow();
+        switchBackToMenuWindow();
     }
-    // Make delete lobby request if host user leaves
-    if(pUserMetaInfo()->get()->getHostInfo().uniqueId == m_context.settings.ownerUniqueId)
-        pServer()->get()->deleteLobby(m_context.settings.uniqueId);
 }
 
 void LobbyWindow::toggleReadyStatus()
@@ -426,15 +478,11 @@ void LobbyWindow::toggleReadyStatus()
             break;
         }
     }
-    try
-    {
-        pServer()->get()->switchReadiness(m_context.settings.uniqueId);
-        setUpUsersInTable(*ui->tUsers, m_context.usersInLobby);
-    }
-    catch (std::exception &e)
-    {
-        execErrorBox(e.what(), this);
-    }
+
+    bool ok = false;
+    pServer()->get()->switchReadiness(ok);
+    setUpUsersInTable(*ui->tUsers, m_context.usersInLobby);
+
     ui->bToggleReady->setDisabled(false);
 }
 
@@ -539,32 +587,63 @@ void LobbyWindow::reactToUserSelect(QTableWidgetItem *item)
         return;
 
     QString selectedNickname = ui->tUsers->item(item->row(), NICKNAME_COL)->text();
-    short dialogAnswer = makeDialog(BaseWin::PlayerSelected, selectedNickname, this);
+    short dialogAnswer = makeDialog(BaseWin::ActionOnPlayerSelected, selectedNickname, this);
     enum DialogAnswerCodes { Kick, Promote, Cancel };
 
-    try
+    bool ok = false;
+    switch (dialogAnswer)
     {
-        switch (dialogAnswer)
-        {
         case DialogAnswerCodes::Kick:
-            pServer()->get()->kickPlayer(m_context.settings.uniqueId, selectedUniqueId);
+        {
+            if(makeDialog(BaseWin::PlayerKickConfirmation, selectedNickname, this) != 0)
+                return;
+            pServer()->get()->kickPlayer(selectedUniqueId, ok);
+            if(!ok)
+            {
+                execErrorBox(QString("%1%2")
+                             .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
+                                  QString::fromStdString(ssErrorsContent[KickPlayerFail])));
+                return;
+            }
+            else
+            {
+                for(vector<UserShortInfo>::iterator it = m_context.usersInLobby.begin();
+                    it != m_context.usersInLobby.end();)
+                {
+                    if(it->uniqueId == selectedUniqueId)
+                    {
+                        it = m_context.usersInLobby.erase(it);
+                        break;
+                    }
+                }
+            }
             break;
+        }
         case DialogAnswerCodes::Promote:
+        {
             if(makeDialog(BaseWin::PlayerPromoteConfirmation, selectedNickname, this) != 0)
                 return;
-            pServer()->get()->raisePlayer(m_context.settings.uniqueId, selectedUniqueId);
+            pServer()->get()->raisePlayer(selectedUniqueId, ok);
+            if(!ok)
+            {
+                execErrorBox(QString("%1%2")
+                             .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
+                                  QString::fromStdString(ssErrorsContent[PromotePlayerFail])));
+                return;
+            }
+            else
+            {
+                m_context.settings.ownerUniqueId = selectedUniqueId;
+            }
             break;
+        }
         case DialogAnswerCodes::Cancel:
             return;
         default:
             return;
-        }
     }
-    catch (std::exception &e)
-    {
-        execErrorBox(e.what(), this);
-        return;
-    }
+
+    windowDataRefresh();
 }
 
 void LobbyWindow::togglePasswordLineEditEcho()
@@ -584,9 +663,14 @@ void LobbyWindow::quitAppDialog()
 {
     if(makeDialog(BaseWin::QuitApp, "", this) == 0)
     {
-        // Make delete lobby request if host user leaves
+        if(definePrivilege() == PrivelegeTypes::RankedJoinedUser)
+            return;
+
+        bool ok = false;
+
         if(pUserMetaInfo()->get()->getHostInfo().uniqueId == m_context.settings.ownerUniqueId)
-            pServer()->get()->deleteLobby(m_context.settings.uniqueId);
+            pServer()->get()->deleteLobby(m_context.settings.uniqueId, ok);
+
         QCoreApplication::quit();
     }
 }

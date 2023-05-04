@@ -153,7 +153,6 @@ void MenuWindow::createLobby()
                      .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
                           QString::fromStdString(ssErrorsContent[LobbyCreateFail])),
                      this);
-        logoutBackToLoginWindow();
         return;
     }
 
@@ -171,7 +170,6 @@ void MenuWindow::findRanked()
                      .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
                           QString::fromStdString(ssErrorsContent[RankedSearchFail])),
                      this);
-        logoutBackToLoginWindow();
         return;
     }
     showLobbyWindow();
@@ -360,7 +358,6 @@ void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
                          .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
                               QString::fromStdString(ssErrorsContent[LobbyNotFound])),
                          this);
-            logoutBackToLoginWindow();
             return;
         }
         break;
@@ -391,7 +388,6 @@ void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
                          .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
                               QString::fromStdString(ssErrorsContent[LobbyNotFound])),
                          this);
-            logoutBackToLoginWindow();
             return;
         }
         break;
