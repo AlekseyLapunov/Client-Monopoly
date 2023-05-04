@@ -17,8 +17,8 @@ using std::unique_ptr;
 
 typedef short dialogBoxRole;
 
+#define REFRESH_LOBBIES_LIST_EVERY_N_MS 5000
 #define REFRESH_LOBBY_INSIDE_DATA_EVERY_N_MS 5000
-#define REFRESH_LOBBIES_LIST_EVERY_N_MS 8000
 
 class BaseWin
 {

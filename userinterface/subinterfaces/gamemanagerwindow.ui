@@ -1,21 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <author/>
- <comment/>
- <exportmacro/>
  <class>GameManagerWindow</class>
  <widget class="QWidget" name="GameManagerWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>648</width>
+    <height>549</height>
    </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>Bookman Old Style</family>
+   </font>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="0">
+    <layout class="QGridLayout" name="loDebugButtons">
+     <item row="1" column="0">
+      <widget class="QPushButton" name="bAddPlayer">
+       <property name="text">
+        <string>Добавить игрока</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="2">
+      <widget class="QPushButton" name="bInfiniteRotationAnimation">
+       <property name="text">
+        <string>Ожидание выпадения</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QPushButton" name="bMakeStage1">
+       <property name="text">
+        <string>Переключить на стадию 1</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QSpinBox" name="sbPlayerMoney">
+       <property name="suffix">
+        <string> ЭК.</string>
+       </property>
+       <property name="prefix">
+        <string>Счёт игрока: </string>
+       </property>
+       <property name="minimum">
+        <number>200</number>
+       </property>
+       <property name="maximum">
+        <number>4000</number>
+       </property>
+       <property name="singleStep">
+        <number>125</number>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QPushButton" name="bRollDice">
+       <property name="text">
+        <string>Выпадение костей</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QPushButton" name="bMakeStage2">
+       <property name="text">
+        <string>Переключить на стадию 2</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QComboBox" name="cbPlayerNumber">
+       <property name="font">
+        <font>
+         <family>Bookman Old Style</family>
+         <italic>false</italic>
+        </font>
+       </property>
+       <item>
+        <property name="text">
+         <string>Игрок 1 (красный)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Игрок 2 (оранжевый)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Игрок 3 (салатовый)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Игрок 4 (бирюзовый)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Игрок 5 (синий)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Игрок 6 (фиолетовый)</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QPushButton" name="bRemovePlayer">
+       <property name="text">
+        <string>Удалить игрока</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QLineEdit" name="lineEdit">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maxLength">
+        <number>16</number>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="placeholderText">
+        <string>Псевдоним</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <layout class="QHBoxLayout" name="loDiceSpinBoxes">
+       <item>
+        <widget class="QSpinBox" name="sbLeftDiceValue">
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>6</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="sbRightDiceValue">
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>6</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="0" column="2">
+      <widget class="QPushButton" name="bMakeStage3">
+       <property name="text">
+        <string>Переключить на стадию 3</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QPushButton" name="bEndTheGame">
+       <property name="text">
+        <string>Закончить игру</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QPushButton" name="bPlacePieceOn">
+       <property name="text">
+        <string>Поместить фишку игрока на</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="2">
+      <widget class="QSpinBox" name="sbFieldIndex">
+       <property name="prefix">
+        <string>поле с индексом </string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="lDebugPanelConst">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>100</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Bookman Old Style</family>
+       <pointsize>13</pointsize>
+       <bold>false</bold>
+       <underline>false</underline>
+       <strikeout>false</strikeout>
+      </font>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:16pt; font-weight:700; text-decoration: underline;&quot;&gt;Отладочная панель&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;для тестирования связи модуля на &lt;/span&gt;&lt;span style=&quot; font-size:12pt; font-weight:700;&quot;&gt;C++ и Qt&lt;/span&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt; с приложением &lt;/span&gt;&lt;span style=&quot; font-size:12pt; font-weight:700;&quot;&gt;QML&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
- <pixmapfunction/>
+ <resources/>
  <connections/>
 </ui>
