@@ -438,12 +438,18 @@ void LobbyWindow::switchBackToMenuWindow()
     hide();
 
     if(definePrivilege() == PrivelegeTypes::RankedJoinedUser)
+    {
+        bool ok = false;
+        pServer()->get()->disconnectFromLobby(ok);
         return;
+    }
 
     bool ok = false;
 
     if(pUserMetaInfo()->get()->getHostInfo().uniqueId == m_context.settings.ownerUniqueId)
         pServer()->get()->deleteLobby(m_context.settings.uniqueId, ok);
+
+    pServer()->get()->disconnectFromLobby(ok);
 
     emit goToMenuWindow();
 }
@@ -664,12 +670,18 @@ void LobbyWindow::quitAppDialog()
     if(makeDialog(BaseWin::QuitApp, "", this) == 0)
     {
         if(definePrivilege() == PrivelegeTypes::RankedJoinedUser)
+        {
+            bool ok = false;
+            pServer()->get()->disconnectFromLobby(ok);
             return;
+        }
 
         bool ok = false;
 
         if(pUserMetaInfo()->get()->getHostInfo().uniqueId == m_context.settings.ownerUniqueId)
             pServer()->get()->deleteLobby(m_context.settings.uniqueId, ok);
+
+        pServer()->get()->disconnectFromLobby(ok);
 
         QCoreApplication::quit();
     }

@@ -226,7 +226,11 @@ void ServerCommunicator::changeNickname(const QString newNickname, uint8_t local
     QString usingHttpMethod = httpMethods[PostUsersMeChangeNickname];
 
     if(localCounter >= LOCAL_COUNTER_MAX)
+    {
+        qDebug().noquote() << QString("%1: Reached max local counter")
+                              .arg(serverCommSubModule[thisSubModuleId]);
         return;
+    }
 
     serverCommSubModuleRepeat[thisSubModuleId] = false;
     QString gotAccessToken = FileManager::getToken(TokenType::Access);
@@ -299,7 +303,7 @@ vector<LobbyShortInfo> &ServerCommunicator::getLobbiesShortInfo(bool &ok, uint8_
         }
 
     if(basicRequestManage(thisSubModuleId, usingHttpMethod,
-                          HttpMethodType::HttpPost, authorizationRawHeader,
+                          HttpMethodType::HttpGet, authorizationRawHeader,
                           authorizationHeaderContent.arg(gotAccessToken),
                           "") == RequestManagerAnswer::RequestAllGood)
     {
@@ -641,7 +645,7 @@ void ServerCommunicator::deleteLobby(const int lobbyUniqueId, bool &ok, uint8_t 
         }
 
     if(basicRequestManage(thisSubModuleId, usingHttpMethod,
-                          HttpMethodType::HttpPost, authorizationRawHeader,
+                          HttpMethodType::HttpDelete, authorizationRawHeader,
                           authorizationHeaderContent.arg(gotAccessToken),
                           "") == RequestManagerAnswer::RequestAllGood)
     {
@@ -863,6 +867,49 @@ void ServerCommunicator::raisePlayer(const int playerUniqueId,
         return;
     }
 #endif
+}
+
+void ServerCommunicator::disconnectFromLobby(bool &ok, uint8_t localCounter)
+{
+    uint8_t thisSubModuleId = DisconnectLobbySubModule;
+    QString usingHttpMethod = httpMethods[PostLobbiesCurrentDisconnect];
+
+    if(localCounter >= LOCAL_COUNTER_MAX)
+    {
+        qDebug().noquote() << QString("%1: Reached max local counter")
+                              .arg(serverCommSubModule[thisSubModuleId]);
+        ok = false;
+        return;
+    }
+
+    serverCommSubModuleRepeat[thisSubModuleId] = false;
+    QString gotAccessToken = FileManager::getToken(TokenType::Access);
+
+    if(gotAccessToken.isEmpty())
+        if(!doRefreshAccessToken())
+        {
+            ok = false;
+            return;
+        }
+
+    if(basicRequestManage(thisSubModuleId, usingHttpMethod,
+                          HttpMethodType::HttpPost, authorizationRawHeader,
+                          authorizationHeaderContent.arg(gotAccessToken),
+                          "") == RequestManagerAnswer::RequestAllGood)
+    {
+        if(serverCommSubModuleRepeat[thisSubModuleId])
+        {
+            localCounter++;
+            return disconnectFromLobby(ok, localCounter);
+        }
+        ok = true;
+        return;
+    }
+    else
+    {
+        ok = false;
+        return;
+    }
 }
 
 void ServerCommunicator::catchReplyAuth(QNetworkReply *reply)
@@ -1125,6 +1172,16 @@ void ServerCommunicator::catchReplyKickPlayer(QNetworkReply *reply)
     reply->deleteLater();
 }
 
+void ServerCommunicator::catchReplyDisconnectLobby(QNetworkReply *reply)
+{
+    if(basicReplyManage(reply, DisconnectLobbySubModule) != ReplyManagerAnswer::ReplyAllGood)
+        return;
+
+    emit disconnectLobbyProcessOver();
+
+    reply->deleteLater();
+}
+
 uint8_t ServerCommunicator::basicReplyManage(QNetworkReply *pReply, uint8_t serverCommSubModuleId,
                                              bool canCallRefreshToken, bool showReplyBody)
 {
@@ -1344,6 +1401,11 @@ void ServerCommunicator::makeConnectionBySubModuleId(uint8_t subModuleId, QNetwo
         connect(localManager, &QNetworkAccessManager::finished,
                 this, &ServerCommunicator::catchReplyKickPlayer);
         return;
+    case DisconnectLobbySubModule:
+        connect(this, &ServerCommunicator::disconnectLobbyProcessOver, localEventLoop, &QEventLoop::quit);
+        connect(localManager, &QNetworkAccessManager::finished,
+                this, &ServerCommunicator::catchReplyDisconnectLobby);
+        return;
     default:
         return;
     }
@@ -1394,6 +1456,9 @@ void ServerCommunicator::emitSignalBySubModuleId(uint8_t subModuleId)
         return;
     case KickPlayerSubModule:
         emit kickPlayerProcessOver();
+        return;
+    case DisconnectLobbySubModule:
+        emit disconnectLobbyProcessOver();
         return;
     default:
         return;

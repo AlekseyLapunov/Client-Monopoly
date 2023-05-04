@@ -57,6 +57,7 @@ public:
     void runGame(bool &ok, uint8_t localCounter = 0);
     void kickPlayer(const int playerUniqueId, bool &ok, uint8_t localCounter = 0);
     void raisePlayer(const int playerUniqueId, bool &ok, uint8_t localCounter = 0);
+    void disconnectFromLobby(bool &ok, uint8_t localCounter = 0);
     void deleteLobby(const int lobbyUniqueId, bool &ok, uint8_t localCounter = 0);
 
 signals:
@@ -74,6 +75,7 @@ signals:
     void updateLobbySettingsProcessOver();
     void raisePlayerProcessOver();
     void kickPlayerProcessOver();
+    void disconnectLobbyProcessOver();
 
 private slots:
     void catchReplyAuth(QNetworkReply *reply);
@@ -90,6 +92,7 @@ private slots:
     void catchReplyUpdateLobbySettings(QNetworkReply *reply);
     void catchReplyRaisePlayer(QNetworkReply *reply);
     void catchReplyKickPlayer(QNetworkReply *reply);
+    void catchReplyDisconnectLobby(QNetworkReply *reply);
 
 private:
     void oauthConfigure(uint8_t authType);
