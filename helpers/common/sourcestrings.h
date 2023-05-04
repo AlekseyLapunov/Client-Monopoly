@@ -197,13 +197,15 @@ static const QMap<uint8_t, string> ssClassNames = {
                                                   };
 
 // runtime_error
-enum RunTimeErrorId { PtrLinkFail, LobbyNotFound, GoogleAuthFail, VkAuthFail, GuestAuthFail,
+enum RunTimeErrorId { PtrLinkFail, LobbyConnectFail, GoogleAuthFail, VkAuthFail, GuestAuthFail,
                       LobbyCreateFail, RankedSearchFail, ApplySettingsFail,
                       ToggleReadyFail, StartGameFail, JsonParseError, KickPlayerFail,
                       PromotePlayerFail, LastSettingsFileDoesNotExist, GetHostInfoFail };
 static const QMap<uint8_t, string> ssErrorsContent  = {
                                                           {PtrLinkFail,                   "Проблема при передаче указателей"},
-                                                          {LobbyNotFound,                 "Лобби не найдено"},
+                                                          {LobbyConnectFail,              "Не удалось присоединиться к лобби.\n"
+                                                                                          "Либо комната больше не доступна,"
+                                                                                          "\nлибо введён неправильный пароль." },
                                                           {GoogleAuthFail,                "Не удалось войти через Google аккаунт"},
                                                           {VkAuthFail,                    "Не удалось войти через VK аккаунт"},
                                                           {GuestAuthFail,                 "Не удалось войти как гость"},

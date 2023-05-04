@@ -132,7 +132,7 @@ void MenuWindow::joinIdDialog()
         {
             execErrorBox(QString("%1%2")
                          .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
-                              QString::fromStdString(ssErrorsContent[LobbyNotFound])),
+                              QString::fromStdString(ssErrorsContent[LobbyConnectFail])),
                          this);
             logoutBackToLoginWindow();
             return;
@@ -357,7 +357,7 @@ void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
         {
             execErrorBox(QString("%1%2")
                          .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
-                              QString::fromStdString(ssErrorsContent[LobbyNotFound])),
+                              QString::fromStdString(ssErrorsContent[LobbyConnectFail])),
                          this);
             return;
         }
@@ -387,7 +387,7 @@ void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
         {
             execErrorBox(QString("%1%2")
                          .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
-                              QString::fromStdString(ssErrorsContent[LobbyNotFound])),
+                              QString::fromStdString(ssErrorsContent[LobbyConnectFail])),
                          this);
             return;
         }
