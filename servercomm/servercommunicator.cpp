@@ -26,7 +26,6 @@ HostUserData ServerCommunicator::doVkLogin(bool &ok)
     m_temporaryHostData = {11, "VK STUB", 1110};
     return m_temporaryHostData;
 #else
-    m_oauthNetworkManager->disconnect();
     oauthConfigure(AuthType::VK);
 
     uint8_t thisSubModuleId = AuthSubModule;
@@ -54,7 +53,6 @@ HostUserData ServerCommunicator::doGoogleLogin(bool &ok)
     m_temporaryHostData = {13, "GOOGLE STUB", 1200};
     return m_temporaryHostData;
 #else
-    m_oauthNetworkManager->disconnect();
     oauthConfigure(AuthType::Google);
 
     uint8_t thisSubModuleId = AuthSubModule;
@@ -1289,8 +1287,6 @@ uint8_t ServerCommunicator::basicRequestManage(uint8_t subModuleId, QString meth
     makeConnectionBySubModuleId(subModuleId, &localNetworkAccessManager, &localEventLoop);
     connect(&localTimer, &QTimer::timeout, &localEventLoop, &QEventLoop::quit);
 
-    qDebug().noquote() << QString::number(MS_TIMEOUT * ((methodType == HttpMethodType::SpecAuth) ? AUTH_ADDITIONAL_TIME_COEFF
-                                                                                                 : 1));
     localTimer.start(MS_TIMEOUT * ((methodType == HttpMethodType::SpecAuth) ? AUTH_ADDITIONAL_TIME_COEFF
                                                                             : 1));
 
@@ -1318,11 +1314,11 @@ uint8_t ServerCommunicator::basicRequestManage(uint8_t subModuleId, QString meth
 
     localEventLoop.exec();
 
+    localTimer.disconnect();
+    localEventLoop.disconnect();
+
     if(localTimer.isActive())
-    {
-        qDebug().noquote() << QString("Time left: %1").arg(QString::number(localTimer.remainingTime()));
         return RequestManagerAnswer::RequestAllGood;
-    }
     else
     {
         qDebug().noquote() << QString("%1%2 request timed out")
@@ -1473,6 +1469,9 @@ void ServerCommunicator::emitSignalBySubModuleId(uint8_t subModuleId)
 
 void ServerCommunicator::oauthConfigure(uint8_t authType)
 {
+    m_oauthNetworkManager->disconnect();
+    m_oauthCodeFlow->disconnect();
+
     m_oauthReplyHandler->setCallbackPath(redirectUri[authType].toString());
     QString callbackText = FileManager::getPageAsCallbackText();
     m_oauthReplyHandler->setCallbackText(callbackText);
