@@ -1180,6 +1180,26 @@ void ServerCommunicator::catchReplyDisconnectLobby(QNetworkReply *reply)
     reply->deleteLater();
 }
 
+void ServerCommunicator::catchReplyActiveCheck(QNetworkReply *reply)
+{
+    if(basicReplyManage(reply, ActiveCheckSubModule) != ReplyManagerAnswer::ReplyAllGood)
+        return;
+
+    emit activeCheckProcessOver();
+
+    reply->deleteLater();
+}
+
+void ServerCommunicator::catchReplyLobbyRun(QNetworkReply *reply)
+{
+    if(basicReplyManage(reply, LobbyRunSubModule) != ReplyManagerAnswer::ReplyAllGood)
+        return;
+
+    emit lobbyRunProcessOver();
+
+    reply->deleteLater();
+}
+
 uint8_t ServerCommunicator::basicReplyManage(QNetworkReply *pReply, uint8_t serverCommSubModuleId,
                                              bool canCallRefreshToken, bool showReplyBody)
 {
@@ -1276,7 +1296,8 @@ uint8_t ServerCommunicator::basicReplyManage(QNetworkReply *pReply, uint8_t serv
 }
 
 uint8_t ServerCommunicator::basicRequestManage(uint8_t subModuleId, QString method, uint8_t methodType,
-                                               QString headerName, QString headerValue, QString requestBody)
+                                               QString headerName, QString headerValue, QString requestBody,
+                                               bool isWaiting)
 {
     QNetworkAccessManager localNetworkAccessManager(this);
 
@@ -1312,7 +1333,8 @@ uint8_t ServerCommunicator::basicRequestManage(uint8_t subModuleId, QString meth
         return RequestManagerAnswer::RequestTimedOut;
     }
 
-    localEventLoop.exec();
+    if(isWaiting)
+        localEventLoop.exec();
 
     localTimer.disconnect();
     localEventLoop.disconnect();
@@ -1408,6 +1430,16 @@ void ServerCommunicator::makeConnectionBySubModuleId(uint8_t subModuleId, QNetwo
         connect(localManager, &QNetworkAccessManager::finished,
                 this, &ServerCommunicator::catchReplyDisconnectLobby);
         return;
+    case ActiveCheckSubModule:
+        connect(this, &ServerCommunicator::activeCheckProcessOver, localEventLoop, &QEventLoop::quit);
+        connect(localManager, &QNetworkAccessManager::finished,
+                this, &ServerCommunicator::catchReplyActiveCheck);
+        return;
+    case LobbyRunSubModule:
+        connect(this, &ServerCommunicator::lobbyRunProcessOver, localEventLoop, &QEventLoop::quit);
+        connect(localManager, &QNetworkAccessManager::finished,
+                this, &ServerCommunicator::catchReplyLobbyRun);
+        return;
     default:
         return;
     }
@@ -1461,6 +1493,12 @@ void ServerCommunicator::emitSignalBySubModuleId(uint8_t subModuleId)
         return;
     case DisconnectLobbySubModule:
         emit disconnectLobbyProcessOver();
+        return;
+    case ActiveCheckSubModule:
+        emit activeCheckProcessOver();
+        return;
+    case LobbyRunSubModule:
+        emit lobbyRunProcessOver();
         return;
     default:
         return;

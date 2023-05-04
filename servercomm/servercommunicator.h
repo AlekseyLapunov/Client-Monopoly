@@ -76,6 +76,8 @@ signals:
     void raisePlayerProcessOver();
     void kickPlayerProcessOver();
     void disconnectLobbyProcessOver();
+    void activeCheckProcessOver();
+    void lobbyRunProcessOver();
 
 private slots:
     void catchReplyAuth(QNetworkReply *reply);
@@ -93,6 +95,8 @@ private slots:
     void catchReplyRaisePlayer(QNetworkReply *reply);
     void catchReplyKickPlayer(QNetworkReply *reply);
     void catchReplyDisconnectLobby(QNetworkReply *reply);
+    void catchReplyActiveCheck(QNetworkReply *reply);
+    void catchReplyLobbyRun(QNetworkReply *reply);
 
 private:
     void oauthConfigure(uint8_t authType);
@@ -102,7 +106,8 @@ private:
     enum HttpMethodType { HttpGet, HttpPost, HttpDelete, SpecAuth };
     enum RequestManagerAnswer { RequestNeedToAbort, RequestTimedOut, RequestAllGood };
     uint8_t basicRequestManage(uint8_t subModuleId, QString method, uint8_t methodType,
-                               QString headerName, QString headerValue, QString requestBody);
+                               QString headerName, QString headerValue, QString requestBody,
+                               bool isWaiting = true);
 
     void makeConnectionBySubModuleId(uint8_t subModuleId, QNetworkAccessManager *localManager,
                                      QEventLoop *localEventLoop);

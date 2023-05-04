@@ -86,7 +86,8 @@ enum ServerCommSubModule { AuthSubModule, GetUserInfoSubModule, GetLobbiesListSu
                            RefreshTokenSubModule, SwitchReadinessSubModule, DeleteLobbySubModule,
                            CreateLobbySubModule, ConnectLobbySubModule, GetInfoLobbySubModule,
                            ConnectRankedLobbySubModule, UpdateLobbySettingsSubModule,
-                           KickPlayerSubModule, RaisePlayerSubModule, DisconnectLobbySubModule };
+                           KickPlayerSubModule, RaisePlayerSubModule, DisconnectLobbySubModule,
+                           ActiveCheckSubModule, LobbyRunSubModule };
 static const QMap<uint8_t, QString> serverCommSubModule = {
                                                                 {AuthSubModule,                 "Auth: "},
                                                                 {GetUserInfoSubModule,          "Get User Info: "},
@@ -102,7 +103,9 @@ static const QMap<uint8_t, QString> serverCommSubModule = {
                                                                 {UpdateLobbySettingsSubModule,  "Update Lobby Settings: "},
                                                                 {KickPlayerSubModule,           "Kick Player: "},
                                                                 {RaisePlayerSubModule,          "Raise Player: "},
-                                                                {DisconnectLobbySubModule,      "Disconnect Player: "}
+                                                                {DisconnectLobbySubModule,      "Disconnect Player: "},
+                                                                {ActiveCheckSubModule,          "Active Check: "},
+                                                                {LobbyRunSubModule,             "Lobby Run: "}
                                                           };
 
 static QMap<uint8_t, bool> serverCommSubModuleRepeat = {
@@ -120,7 +123,9 @@ static QMap<uint8_t, bool> serverCommSubModuleRepeat = {
                                                             {UpdateLobbySettingsSubModule,  false},
                                                             {KickPlayerSubModule,           false},
                                                             {RaisePlayerSubModule,          false},
-                                                            {DisconnectLobbySubModule,      false}
+                                                            {DisconnectLobbySubModule,      false},
+                                                            {ActiveCheckSubModule,          false},
+                                                            {LobbyRunSubModule,             false}
                                                        };
 
 #endif // SERVERCOMMSTRINGS_H
