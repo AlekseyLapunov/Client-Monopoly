@@ -14,9 +14,9 @@ LobbyWindow::LobbyWindow(unique_ptr<ServerCommunicator> *newServerPtr,
     setupPointers(*newServerPtr, *newMetaInfoPtr);
     this->m_pGameManager = &newGameManagerPtr;
 
-    ui->setupUi(this);
-
     connect(&refreshDataTimer, &QTimer::timeout, this, &LobbyWindow::windowDataRefresh);
+
+    ui->setupUi(this);
 }
 
 LobbyWindow::~LobbyWindow()
@@ -62,7 +62,6 @@ void LobbyWindow::show(const LobbyFullInfo firstContext)
         return;
     }
 
-    ui->setupUi(this);
     ui->lGameBeginsIn->setVisible(false);
     ui->lSecondsToStart->setVisible(false);
     setFirstContext(firstContext);

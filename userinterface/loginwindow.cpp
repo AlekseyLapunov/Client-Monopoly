@@ -18,6 +18,8 @@ LoginWindow::LoginWindow(unique_ptr<ServerCommunicator> *newServerPtr,
             this, &LoginWindow::show);
     connect(pMenuWindow.get(), &MenuWindow::switchToLoginWindow,
             this, [=](){ dontCheckIfAuthorized = true; });
+
+    ui->setupUi(this);
 }
 
 LoginWindow::~LoginWindow()
@@ -31,7 +33,6 @@ void LoginWindow::show()
     switchToMenuWindow();
     return;
 #endif
-    ui->setupUi(this);
     setDisabled(true);
 
     bool ok = false;

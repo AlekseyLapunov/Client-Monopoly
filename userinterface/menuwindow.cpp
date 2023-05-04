@@ -22,6 +22,8 @@ MenuWindow::MenuWindow(unique_ptr<ServerCommunicator> *newServerPtr,
             this, &MenuWindow::show);
 
     connect(&refreshDataTimer, &QTimer::timeout, this, &MenuWindow::windowDataRefresh);
+
+    ui->setupUi(this);
 }
 
 MenuWindow::~MenuWindow()
@@ -221,7 +223,6 @@ void MenuWindow::show()
     return;
 #endif
     refreshDataTimer.stop();
-    ui->setupUi(this);
 
     setupLobbiesFilter();
 

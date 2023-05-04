@@ -914,7 +914,7 @@ void ServerCommunicator::disconnectFromLobby(bool &ok, uint8_t localCounter)
 
 void ServerCommunicator::catchReplyAuth(QNetworkReply *reply)
 {
-    if(basicReplyManage(reply, AuthSubModule) != ReplyManagerAnswer::ReplyAllGood)
+    if(basicReplyManage(reply, AuthSubModule, false) != ReplyManagerAnswer::ReplyAllGood)
         return;
 
     QByteArray bytes = reply->readAll();
@@ -1283,11 +1283,14 @@ uint8_t ServerCommunicator::basicRequestManage(uint8_t subModuleId, QString meth
     QNetworkAccessManager localNetworkAccessManager(this);
 
     QTimer localTimer;
+    localTimer.setSingleShot(true);
     QEventLoop localEventLoop;
 
     makeConnectionBySubModuleId(subModuleId, &localNetworkAccessManager, &localEventLoop);
     connect(&localTimer, &QTimer::timeout, &localEventLoop, &QEventLoop::quit);
 
+    qDebug().noquote() << QString::number(MS_TIMEOUT * ((methodType == HttpMethodType::SpecAuth) ? AUTH_ADDITIONAL_TIME_COEFF
+                                                                                                 : 1));
     localTimer.start(MS_TIMEOUT * ((methodType == HttpMethodType::SpecAuth) ? AUTH_ADDITIONAL_TIME_COEFF
                                                                             : 1));
 
@@ -1316,7 +1319,10 @@ uint8_t ServerCommunicator::basicRequestManage(uint8_t subModuleId, QString meth
     localEventLoop.exec();
 
     if(localTimer.isActive())
+    {
+        qDebug().noquote() << QString("Time left: %1").arg(QString::number(localTimer.remainingTime()));
         return RequestManagerAnswer::RequestAllGood;
+    }
     else
     {
         qDebug().noquote() << QString("%1%2 request timed out")
@@ -1491,8 +1497,8 @@ void ServerCommunicator::oauthConfigure(uint8_t authType)
         QJsonDocument codeDoc(codeObj);
         codeDoc.toJson(QJsonDocument::Compact);
 
-        connect(m_oauthNetworkManager, &QNetworkAccessManager::finished,
-               this, &ServerCommunicator::catchReplyAuth);
+//        connect(m_oauthNetworkManager, &QNetworkAccessManager::finished,
+//               this, &ServerCommunicator::catchReplyAuth);
 
         QNetworkRequest request(makeAddress(host, port,
                                             httpMethods[authType]));
