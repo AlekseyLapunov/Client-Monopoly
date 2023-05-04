@@ -502,6 +502,24 @@ void LobbyWindow::settingsChangesDetected()
     bool flag = (m_lastSettings != currentSettings);
     ui->bApplySettings->setEnabled(flag);
     ui->bRestoreLastSettings->setEnabled(flag);
+    if(m_context.settings.ownerUniqueId == pUserMetaInfo()->get()->getHostInfo().uniqueId)
+    {
+        if(ui->chbIsBalanceInfinite->isChecked())
+        {
+            ui->chbAreTurnsInfinite->setChecked(false);
+            ui->chbAreTurnsInfinite->setDisabled(true);
+        }
+        else
+            ui->chbAreTurnsInfinite->setEnabled(true);
+
+        if(ui->chbAreTurnsInfinite->isChecked())
+        {
+            ui->chbIsBalanceInfinite->setChecked(false);
+            ui->chbIsBalanceInfinite->setDisabled(true);
+        }
+        else
+            ui->chbIsBalanceInfinite->setEnabled(true);
+    }
 }
 
 void LobbyWindow::toggleMaxBalanceAccessibility()
