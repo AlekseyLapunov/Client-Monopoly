@@ -35,5 +35,8 @@
         <file>assets/svgs/stage_components/component_2_normal_rotate.svg</file>
         <file>assets/svgs/stage_components/component_3_fast_rotate.svg</file>
         <file>assets/svgs/stage_components/component_4_fastest_rotate.svg</file>
+        <file>assets/svgs/stage_components/stage_additional_stage_1.svg</file>
+        <file>assets/svgs/stage_components/stage_additional_stage_2.svg</file>
+        <file>assets/svgs/stage_components/stage_additional_stage_3.svg</file>
     </qresource>
 </RCC>

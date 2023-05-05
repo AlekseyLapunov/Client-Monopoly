@@ -27,6 +27,7 @@ Rectangle
         localSizeRatio: _mainComponent.localSizeRatio
         localSizeUnit:  _mainComponent.localSizeUnit*0.5
         source: "../../../assets/svgs/stage_components/component_1_slow_rotate.svg"
+        transformOrigin: parent.Center
 
         Component.onCompleted:
         {
@@ -41,6 +42,7 @@ Rectangle
         localSizeRatio: _mainComponent.localSizeRatio
         localSizeUnit:  _mainComponent.localSizeUnit*0.3
         source: "../../../assets/svgs/stage_components/component_2_normal_rotate.svg"
+        transformOrigin: parent.Center
 
         visible: (_win.currentStage > 1)
 
@@ -57,6 +59,7 @@ Rectangle
         localSizeRatio: _mainComponent.localSizeRatio
         localSizeUnit:  _mainComponent.localSizeUnit*0.1
         source: "../../../assets/svgs/stage_components/component_3_fast_rotate.svg"
+        transformOrigin: parent.Center
 
         visible: (_win.currentStage > 2)
 

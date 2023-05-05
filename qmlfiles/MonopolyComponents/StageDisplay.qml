@@ -18,7 +18,7 @@ Rectangle
     color: Qt.rgba(_displayField.shareGradColor1.r-0.2,
                    _displayField.shareGradColor1.g-0.2,
                    _displayField.shareGradColor1.b-0.2,
-                   0.35).toString() //"transparent"
+                   0.35).toString()
 
     Rectangle
     {
@@ -44,7 +44,7 @@ Rectangle
                 text: ("Стадия " + stageNumber.toString())
                 color: Helper.applyContrast(_displayField.shareGradColor2, 1.2)
                 style: Text.Outline
-                styleColor: Qt.lighter(color, 1.5)
+                styleColor: Qt.lighter(color, 1.3)
                 font.family: "Bookman Old Style"
                 font.pointSize: Helper.fontWarningPreventor(root.width*0.045)
                 z: 5
@@ -52,6 +52,56 @@ Rectangle
         }
 
         Behavior on opacity { PropertyAnimation { duration: 800 } }
+    }
+
+    Rectangle
+    {
+        id: _acCircleBase
+        anchors.centerIn: root
+        width: root.width/3.5
+        height: width
+        radius: width/2.2
+        color: "transparent"
+        rotation: (_clickSilencerMouseArea.mouseX + _clickSilencerMouseArea.mouseY)
+    }
+
+    Rectangle
+    {
+        id: _acRectangleCenter
+        width: _acCircleBase.width/10
+        height: width
+        color: "transparent"
+
+        property double centerX: (_acCircleBase.x + _acCircleBase.width/2 - _acRectangleCenter.width/2)
+        property double centerY: (_acCircleBase.y + _acCircleBase.height/2 - _acRectangleCenter.height/2)
+
+        x: centerX + Math.cos(_acCircleBase.rotation/100)*260
+        y: centerY + Math.sin(_acCircleBase.rotation/100)*260
+
+        Image
+        {
+            id: _additionalComponentsImage
+
+            property int localSizeRatio
+            property int localSizeUnit: (_imagePlaceholder.width + _imagePlaceholder.height)*1
+
+            anchors.centerIn: _acRectangleCenter
+            source: (stageNumber === 1) ? "../../assets/svgs/stage_components/stage_additional_stage_1.svg" :
+                    (stageNumber === 2) ? "../../assets/svgs/stage_components/stage_additional_stage_2.svg" :
+                    (stageNumber === 3) ? "../../assets/svgs/stage_components/stage_additional_stage_3.svg" :
+                                          ""
+
+            Component.onCompleted:
+            {
+                _additionalComponentsImage.localSizeRatio =
+                        (_additionalComponentsImage.sourceSize.height / _additionalComponentsImage.sourceSize.width);
+            }
+
+            sourceSize.width: localSizeUnit
+            sourceSize.height: localSizeUnit*localSizeRatio
+
+            z: 4
+        }
     }
 
     Behavior on opacity { PropertyAnimation { duration: 400 } }
@@ -65,9 +115,16 @@ Rectangle
 
     MouseArea
     {
-        id: _clickSilencer
+        id: _clickSilencerMouseArea
         anchors.fill: root
         enabled: root.visible
+        hoverEnabled: true
+
+        HoverHandler
+        {
+            id: _hoverHandler
+            enabled: _clickSilencerMouseArea.enabled
+        }
     }
 
     Timer
