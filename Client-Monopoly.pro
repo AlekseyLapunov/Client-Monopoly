@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     game/gamehelpers/gamestructs.cpp \
+    game/gamehelpers/gametransmitterobject.cpp \
     game/models/fieldsgridmodel.cpp \
     game/models/lists/cellslist.cpp \
     helpers/common/filemanager.cpp \
@@ -24,6 +25,7 @@ SOURCES += \
 
 HEADERS += \
     game/gamehelpers/gamestructs.h \
+    game/gamehelpers/gametransmitterobject.h \
     game/gamehelpers/modelsroles.h \
     game/models/fieldsgridmodel.h \
     game/models/lists/cellslist.h \

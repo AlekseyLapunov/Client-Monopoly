@@ -26,8 +26,14 @@
         <file>assets/svgs/misc/notification_bell_enabled.svg</file>
         <file>assets/svgs/misc/turn_info_folded_image.svg</file>
         <file>assets/svgs/misc/host_info_folded.svg</file>
+        <file>assets/html/successful_auth.html</file>
         <file>assets/sounds/stage_openings/stage_1_opening.wav</file>
         <file>assets/sounds/stage_openings/stage_2_opening.wav</file>
         <file>assets/sounds/stage_openings/stage_3_opening.wav</file>
+        <file>assets/svgs/stage_components/component_0_no_rotate.svg</file>
+        <file>assets/svgs/stage_components/component_1_slow_rotate.svg</file>
+        <file>assets/svgs/stage_components/component_2_normal_rotate.svg</file>
+        <file>assets/svgs/stage_components/component_3_fast_rotate.svg</file>
+        <file>assets/svgs/stage_components/component_4_fastest_rotate.svg</file>
     </qresource>
 </RCC>

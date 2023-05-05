@@ -43,14 +43,14 @@ Rectangle
     {
         id: _buttonPressedSoundEffect
         source: "../../assets/sounds/buttons/button_pressed.wav"
-        volume: 0.2
+        volume: 0.6
     }
 
     SoundEffect
     {
         id: _buttonUnpressedSoundEffect
         source: "../../assets/sounds/buttons/button_unpressed.wav"
-        volume: 0.2
+        volume: 0.6
     }
 
     MouseArea

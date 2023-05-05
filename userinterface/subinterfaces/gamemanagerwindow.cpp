@@ -12,16 +12,19 @@ GameManagerWindow::GameManagerWindow(unique_ptr<ServerCommunicator> *newServerPt
 
     setupPointers(*newServerPtr, *newMetaInfoPtr);
 
-    closureTimer = new QTimer(this);
+    gameTransmitterObj = new GameTransmitterObject(this);
+
+    qmlEngine = nullptr;
 
     ui->setupUi(this);
 }
 
 GameManagerWindow::~GameManagerWindow()
 {
-    rootObj->deleteLater();
+    gameReceiverObj->deleteLater();
     qmlEngine->deleteLater();
-    closureTimer->deleteLater();
+    gameTransmitterObj->deleteLater();
+    gameReceiverObj = nullptr;
     delete ui;
 }
 
@@ -51,6 +54,9 @@ void GameManagerWindow::startQmlEngine()
         qmlEngine->clearSingletons();
         delete qmlEngine;
         qmlEngine = nullptr;
+        delete gameTransmitterObj;
+        gameTransmitterObj = new GameTransmitterObject(this);
+        gameReceiverObj = nullptr;
         qDebug().noquote() << "QML Engine: Reseting done successfully.";
     }
 
@@ -65,27 +71,28 @@ void GameManagerWindow::startQmlEngine()
     applyFirstGameContext();
 
     qmlEngine->rootContext()->setContextProperty(QStringLiteral("_cellsList"), m_cellsList);
+    qmlEngine->rootContext()->setContextProperty("_gameTransmitter", gameTransmitterObj);
 
     qmlEngine->load(QUrl("qrc:/qmlfiles/GameWindow.qml"));
 
-    rootObj = qmlEngine->rootObjects().at(0);
-    QObject::connect(rootObj, SIGNAL(qmlGameWindowClosed()),
+    gameReceiverObj = qmlEngine->rootObjects().at(0);
+    QObject::connect(gameReceiverObj, SIGNAL(qmlGameWindowClosed()),
                      this, SLOT(manageQmlWindowClosing()));
 }
 
 void GameManagerWindow::switchToStage1()
 {
-
+    emit gameTransmitterObj->startStageAnimation(1);
 }
 
 void GameManagerWindow::switchToStage2()
 {
-
+    emit gameTransmitterObj->startStageAnimation(2);
 }
 
 void GameManagerWindow::switchToStage3()
 {
-
+    emit gameTransmitterObj->startStageAnimation(3);
 }
 
 void GameManagerWindow::changePlayerBalance()
@@ -129,14 +136,8 @@ void GameManagerWindow::endTheGame()
 
 void GameManagerWindow::manageQmlWindowClosing()
 {
-    closureTimer->setSingleShot(true);
-    closureTimer->start(QUIT_APP_ON_QML_CLOSURE_IN_N_MS);
-    qDebug().noquote() << "QML Engine: Deleting because of closing window...";
-    rootObj->deleteLater();
-    qmlEngine->deleteLater();
-    qDebug().noquote() << QString("QML Engine: Deleting done successfuly. Quiting app in %1 seconds...")
-                          .arg(QString::number(QUIT_APP_ON_QML_CLOSURE_IN_N_MS/1000));
-    connect(closureTimer, &QTimer::timeout, this, &QCoreApplication::quit);
+    qDebug().noquote() << "QML Window closed. Quiting application";
+    QCoreApplication::quit();
 }
 
 void GameManagerWindow::applyFirstGameContext()

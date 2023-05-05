@@ -8,6 +8,7 @@
 #include <QtQml>
 
 #include "helpers/basewin.h"
+#include "game/gamehelpers/gametransmitterobject.h"
 #include "game/models/fieldsgridmodel.h"
 #include "game/models/lists/cellslist.h"
 #include "game/gamehelpers/gamestructs.h"
@@ -57,8 +58,8 @@ private:
 private:
     Ui::GameManagerWindow *ui;
     QQmlApplicationEngine* qmlEngine;
-    QObject* rootObj;
-    QTimer* closureTimer;
+    GameTransmitterObject* gameTransmitterObj;
+    QObject* gameReceiverObj;
 
     CellsList* m_cellsList;
 };

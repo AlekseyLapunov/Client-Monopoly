@@ -16,9 +16,10 @@ Window
     property double defaultMargin: sizeUnit*0.12
     property double componentsBorderCoeff: 0.015
     property double componentsRadiusCoeff: 0.035
+    property int tooltipDelayMs: 700
+
     property int hostPlayerNumber: Helper.PlayerNumber.Player2
     property bool isTurnNotiEnabled: true
-    property int tooltipDelayMs: 700
     property int turnTime: 10
     property int currentStage: 1
 
@@ -238,37 +239,6 @@ Window
                 _toggleVisibilityButton.isWinFullScreen = !_toggleVisibilityButton.isWinFullScreen;
                 event.accepted = true;
                 break;
-            /*
-            case Qt.Key_F10:
-                _map.refresh()
-                event.accepted = true;
-                break;
-            case Qt.Key_F9:
-                _win.debugCellsCount++;
-                _map.addField();
-                break;
-            case Qt.Key_F8:
-                if(_win.debugCellsCount != 0)
-                {
-                    _win.debugCellsCount--;
-                    _map.delField();
-                }
-                break;
-            case Qt.Key_F7:
-                _win.debugCellsCount = 9;
-                _map.resetField();
-                break;
-            case Qt.Key_F6:
-                _map.placeGamingPiece(0, debugPieceIter);
-                if(debugPieceIter !== Helper.PlayerNumber.Player6 + 1)
-                    debugPieceIter++;
-                break;
-            case Qt.Key_F5:
-                _map.delLastPiece(0);
-                if(debugPieceIter !== Helper.PlayerNumber.Player1)
-                    debugPieceIter--;
-                break;
-            */
             case Qt.Key_F4:
                 _playersInfoBlock.addPlayerRow();
                 break;
@@ -385,6 +355,23 @@ Window
                 _shareGradAnimation2.restart();
             }
         } 
+    }
+
+    StageDisplay
+    {
+        id: _stageDisplay
+        anchors.fill: parent
+        visible: false;
+    }
+
+    Connections
+    {
+        target: _gameTransmitter
+        function onStartStageAnimation(stageNumber: int)
+        {
+            _win.currentStage = stageNumber;
+            _stageDisplay.startStageAnimation();
+        }
     }
 
     signal qmlGameWindowClosed();

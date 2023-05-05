@@ -15,5 +15,8 @@
         <file>qmlfiles/MonopolyComponents/InfoBlocks/FoldingInfoBlocks/WhosTurnInfoBlock.qml</file>
         <file>qmlfiles/MonopolyComponents/InfoBlocks/CurrentStageInfoBlock.qml</file>
         <file>qmlfiles/MonopolyComponents/InfoBlocks/FoldingInfoBlocks/HostInfoBlock.qml</file>
+        <file>qmlfiles/MonopolyComponents/StageDisplay.qml</file>
+        <file>qmlfiles/MonopolyComponents/SubComponents/StageChangingImageAnimated.qml</file>
+        <file>qmlfiles/MonopolyComponents/SubComponents/StageImageComponent.qml</file>
     </qresource>
 </RCC>

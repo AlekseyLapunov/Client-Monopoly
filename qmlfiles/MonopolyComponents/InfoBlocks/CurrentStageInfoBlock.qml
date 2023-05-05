@@ -9,7 +9,7 @@ Rectangle
     property double lightingCoeff: 1.05
     property color localShareGradColor1
     property color localShareGradColor2
-    property int curStageNumber: 1
+    property int curStageNumber: _win.currentStage
     property int curTurnNumber: 1
 
     color: "transparent"
