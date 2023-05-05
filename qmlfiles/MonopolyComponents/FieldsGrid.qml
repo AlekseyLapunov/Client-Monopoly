@@ -40,8 +40,15 @@ Rectangle
             width: _grid.cellWidth
             border.color: root.border.color
             border.width: root.border.width/3
-            orderIndex: model.orderIndex
-            fieldType: model.fieldType
+
+            orderIndex:        model.orderIndex
+            fieldType:         model.fieldType
+            playerNumberOwner: model.playerNumberOwner
+            fieldCost:         model.fieldCost
+            fieldIncome:       model.fieldIncome
+            piecesOnCellMask:  model.piecesOnCellMask
+            stage:             model.stage
+
             cellNumber: index
 
             /*Connections

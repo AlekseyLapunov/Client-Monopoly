@@ -12,7 +12,9 @@
 #include "game/models/lists/cellslist.h"
 #include "game/gamehelpers/gamestructs.h"
 
-//#define DEBUG_HIDE_GAME_MANAGER_WINDOW
+#define DEBUG_SHOW_DEBUG_PANEL
+
+#define QUIT_APP_ON_QML_CLOSURE_IN_N_MS 1500
 
 namespace Ui {
 class GameManagerWindow;
@@ -29,17 +31,34 @@ public:
     ~GameManagerWindow();
 
     void show();
-    void quitAppDialog();
     void closeEvent(QCloseEvent *event);
 
     void startQmlEngine();
+
+private slots:
+    void switchToStage1();
+    void switchToStage2();
+    void switchToStage3();
+    void changePlayerBalance();
+    void changePlayerNickname();
+    void rollDiceDirectional();
+    void rollDiceInfinite();
+    void addPlayer();
+    void removePlayer();
+    void placePlayerPieceOn();
+    void endTheGame();
+
+private slots:
+    void manageQmlWindowClosing();
 
 private:
     void applyFirstGameContext(/*GameContext& gameContext*/);
 
 private:
     Ui::GameManagerWindow *ui;
-    QQmlApplicationEngine* qmlEngine = nullptr;
+    QQmlApplicationEngine* qmlEngine;
+    QObject* rootObj;
+    QTimer* closureTimer;
 
     CellsList* m_cellsList;
 };

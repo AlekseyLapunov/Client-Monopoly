@@ -11,37 +11,34 @@ GameManagerWindow::GameManagerWindow(unique_ptr<ServerCommunicator> *newServerPt
         throw std::runtime_error(ssClassNames[GameManagerCN] + ssErrorsContent[PtrLinkFail]);
 
     setupPointers(*newServerPtr, *newMetaInfoPtr);
+
+    closureTimer = new QTimer(this);
+
+    ui->setupUi(this);
 }
 
 GameManagerWindow::~GameManagerWindow()
 {
-    delete qmlEngine;
-    qmlEngine = nullptr;
+    rootObj->deleteLater();
+    qmlEngine->deleteLater();
+    closureTimer->deleteLater();
     delete ui;
 }
 
 void GameManagerWindow::show()
 {
-    ui->setupUi(this);
-
-    startQmlEngine();
-
-#ifdef DEBUG_HIDE_GAME_MANAGER_WINDOW
+#ifdef DEBUG_SHOW_DEBUG_PANEL
+    QWidget::show();
+#else
     QWidget::hide();
     return;
 #endif
-    QWidget::show();
-}
-
-void GameManagerWindow::quitAppDialog()
-{
-    if(makeDialog(BaseWin::QuitApp, "", this) == 0)
-        QCoreApplication::quit();
+    startQmlEngine();
 }
 
 void GameManagerWindow::closeEvent(QCloseEvent *event)
 {
-    quitAppDialog();
+    QCoreApplication::quit();
     event->ignore();
 }
 
@@ -70,11 +67,83 @@ void GameManagerWindow::startQmlEngine()
     qmlEngine->rootContext()->setContextProperty(QStringLiteral("_cellsList"), m_cellsList);
 
     qmlEngine->load(QUrl("qrc:/qmlfiles/GameWindow.qml"));
+
+    rootObj = qmlEngine->rootObjects().at(0);
+    QObject::connect(rootObj, SIGNAL(qmlGameWindowClosed()),
+                     this, SLOT(manageQmlWindowClosing()));
+}
+
+void GameManagerWindow::switchToStage1()
+{
+
+}
+
+void GameManagerWindow::switchToStage2()
+{
+
+}
+
+void GameManagerWindow::switchToStage3()
+{
+
+}
+
+void GameManagerWindow::changePlayerBalance()
+{
+
+}
+
+void GameManagerWindow::changePlayerNickname()
+{
+
+}
+
+void GameManagerWindow::rollDiceDirectional()
+{
+
+}
+
+void GameManagerWindow::rollDiceInfinite()
+{
+
+}
+
+void GameManagerWindow::addPlayer()
+{
+
+}
+
+void GameManagerWindow::removePlayer()
+{
+
+}
+void GameManagerWindow::placePlayerPieceOn()
+{
+
+}
+
+void GameManagerWindow::endTheGame()
+{
+
+}
+
+void GameManagerWindow::manageQmlWindowClosing()
+{
+    closureTimer->setSingleShot(true);
+    closureTimer->start(QUIT_APP_ON_QML_CLOSURE_IN_N_MS);
+    qDebug().noquote() << "QML Engine: Deleting because of closing window...";
+    rootObj->deleteLater();
+    qmlEngine->deleteLater();
+    qDebug().noquote() << QString("QML Engine: Deleting done successfuly. Quiting app in %1 seconds...")
+                          .arg(QString::number(QUIT_APP_ON_QML_CLOSURE_IN_N_MS/1000));
+    connect(closureTimer, &QTimer::timeout, this, &QCoreApplication::quit);
 }
 
 void GameManagerWindow::applyFirstGameContext()
 {
     fillDebugMapContext();
+    //fillDebugPlayersContext();
 
     m_cellsList->setItems(debugMapContext);
+    //m_playersList->setItems(debugPlayersContext);
 }

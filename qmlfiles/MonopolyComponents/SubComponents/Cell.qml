@@ -7,16 +7,27 @@ Rectangle
     id: root
 
     property string backgroundColor: "transparent"
-    property int fieldType: Helper.FieldType.Void
+
+    // Model properties
     property int orderIndex: 0
+    property int fieldType: Helper.FieldType.Void
+    property int playerNumberOwner: Helper.PlayerNumber.NoPlayer
+    property int fieldCost: 0
+    property int fieldIncome: 0
+    property int piecesOnCellMask: 0
+    property int stage: 0
+
+    // On-grid number
     property int cellNumber: -1
 
-    visible: fieldType !== Helper.FieldType.Void
+    visible: ((fieldType !== Helper.FieldType.Void)
+              && (stage <= currentStage))
     color: Helper.defineFieldColorByType(fieldType)
 
     Image
     {
         id: _ownerFrame
+        visible: (playerNumberOwner !== Helper.PlayerNumber.NoPlayer)
         anchors.fill: root
     }
 

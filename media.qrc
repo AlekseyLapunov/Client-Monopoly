@@ -26,5 +26,8 @@
         <file>assets/svgs/misc/notification_bell_enabled.svg</file>
         <file>assets/svgs/misc/turn_info_folded_image.svg</file>
         <file>assets/svgs/misc/host_info_folded.svg</file>
+        <file>assets/sounds/stage_openings/stage_1_opening.wav</file>
+        <file>assets/sounds/stage_openings/stage_2_opening.wav</file>
+        <file>assets/sounds/stage_openings/stage_3_opening.wav</file>
     </qresource>
 </RCC>

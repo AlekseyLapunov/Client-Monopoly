@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>648</width>
-    <height>549</height>
+    <width>550</width>
+    <height>265</height>
    </rect>
   </property>
   <property name="font">
@@ -123,7 +123,7 @@
       </widget>
      </item>
      <item row="2" column="2">
-      <widget class="QLineEdit" name="lineEdit">
+      <widget class="QLineEdit" name="lePlayerNickname">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -137,12 +137,25 @@
         <set>Qt::AlignCenter</set>
        </property>
        <property name="placeholderText">
-        <string>Псевдоним</string>
+        <string>Псевдоним игрока</string>
        </property>
       </widget>
      </item>
      <item row="3" column="1">
       <layout class="QHBoxLayout" name="loDiceSpinBoxes">
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
        <item>
         <widget class="QSpinBox" name="sbLeftDiceValue">
          <property name="minimum">
@@ -162,6 +175,19 @@
           <number>6</number>
          </property>
         </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </item>
@@ -232,5 +258,195 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>bMakeStage1</sender>
+   <signal>clicked()</signal>
+   <receiver>GameManagerWindow</receiver>
+   <slot>switchToStage1()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>93</x>
+     <y>126</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>274</x>
+     <y>132</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bMakeStage2</sender>
+   <signal>clicked()</signal>
+   <receiver>GameManagerWindow</receiver>
+   <slot>switchToStage2()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>274</x>
+     <y>126</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>274</x>
+     <y>132</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bMakeStage3</sender>
+   <signal>clicked()</signal>
+   <receiver>GameManagerWindow</receiver>
+   <slot>switchToStage3()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>456</x>
+     <y>126</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>274</x>
+     <y>132</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bAddPlayer</sender>
+   <signal>clicked()</signal>
+   <receiver>GameManagerWindow</receiver>
+   <slot>addPlayer()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>93</x>
+     <y>154</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>274</x>
+     <y>132</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bRemovePlayer</sender>
+   <signal>clicked()</signal>
+   <receiver>GameManagerWindow</receiver>
+   <slot>removePlayer()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>274</x>
+     <y>154</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>274</x>
+     <y>132</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bEndTheGame</sender>
+   <signal>clicked()</signal>
+   <receiver>GameManagerWindow</receiver>
+   <slot>endTheGame()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>93</x>
+     <y>242</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>274</x>
+     <y>132</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bInfiniteRotationAnimation</sender>
+   <signal>clicked()</signal>
+   <receiver>GameManagerWindow</receiver>
+   <slot>rollDiceInfinite()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>456</x>
+     <y>212</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>274</x>
+     <y>132</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bPlacePieceOn</sender>
+   <signal>clicked()</signal>
+   <receiver>GameManagerWindow</receiver>
+   <slot>placePlayerPieceOn()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>274</x>
+     <y>242</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>274</x>
+     <y>132</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bRollDice</sender>
+   <signal>clicked()</signal>
+   <receiver>GameManagerWindow</receiver>
+   <slot>rollDiceDirectional()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>93</x>
+     <y>212</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>274</x>
+     <y>132</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sbPlayerMoney</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>GameManagerWindow</receiver>
+   <slot>changePlayerBalance()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>274</x>
+     <y>183</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>274</x>
+     <y>132</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lePlayerNickname</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>GameManagerWindow</receiver>
+   <slot>changePlayerNickname()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>456</x>
+     <y>182</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>274</x>
+     <y>132</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>switchToStage1()</slot>
+  <slot>switchToStage2()</slot>
+  <slot>switchToStage3()</slot>
+  <slot>addPlayer()</slot>
+  <slot>removePlayer()</slot>
+  <slot>changePlayerBalance()</slot>
+  <slot>rollDiceDirectional()</slot>
+  <slot>rollDiceInfinite()</slot>
+  <slot>endTheGame()</slot>
+  <slot>placePlayerPieceOn()</slot>
+  <slot>changePlayerNickname()</slot>
+ </slots>
 </ui>

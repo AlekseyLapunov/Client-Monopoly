@@ -20,6 +20,7 @@ Window
     property bool isTurnNotiEnabled: true
     property int tooltipDelayMs: 700
     property int turnTime: 10
+    property int currentStage: 1
 
     // Delete later!
     property int debugCellsCount: 0
@@ -383,6 +384,16 @@ Window
                 _shareGradAnimation2.to = changer.toString();
                 _shareGradAnimation2.restart();
             }
+        } 
+    }
+
+    signal qmlGameWindowClosed();
+
+    onVisibilityChanged:
+    {
+        if(_win.visibility == Window.Hidden)
+        {
+            qmlGameWindowClosed();
         }
     }
 }
