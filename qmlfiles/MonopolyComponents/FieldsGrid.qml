@@ -48,6 +48,8 @@ Rectangle
             fieldIncome:       model.fieldIncome
             piecesOnCellMask:  model.piecesOnCellMask
             stage:             model.stage
+            arrowDirection:    model.arrowDirection
+            blankUntilStage:   model.blankUntilStage
 
             cellNumber: index
 
@@ -77,7 +79,7 @@ Rectangle
 
         Behavior on opacity
         {
-            PropertyAnimation {}
+            PropertyAnimation { id: _overlayRectOpacityAnimation }
         }
     }
 
@@ -87,12 +89,14 @@ Rectangle
         interval: _win.stageAnimationDurationMs
         onTriggered:
         {
+            _overlayRectOpacityAnimation.duration = 500;
             _overlayRectangle.toggler = false;
         }
     }
 
     function toggleOverlayRectangleOpacity()
     {
+        _overlayRectOpacityAnimation.duration = 0;
         _overlayRectangle.toggler = !_overlayRectangle.toggler;
         _overlayRectangleTimer.start();
     }

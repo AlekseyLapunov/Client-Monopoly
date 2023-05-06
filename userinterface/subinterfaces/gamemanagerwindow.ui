@@ -219,6 +219,13 @@
        </property>
       </widget>
      </item>
+     <item row="1" column="2">
+      <widget class="QPushButton" name="bFakePlayerTurn">
+       <property name="text">
+        <string>Имитировать ход игрока</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item row="0" column="0">
@@ -435,6 +442,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>bFakePlayerTurn</sender>
+   <signal>clicked()</signal>
+   <receiver>GameManagerWindow</receiver>
+   <slot>fakePlayerTurn()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>456</x>
+     <y>154</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>274</x>
+     <y>132</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbPlayerNumber</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>GameManagerWindow</receiver>
+   <slot>reactToPlayerNumberSpinBoxChange()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>93</x>
+     <y>182</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>274</x>
+     <y>132</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>switchToStage1()</slot>
@@ -448,5 +487,7 @@
   <slot>endTheGame()</slot>
   <slot>placePlayerPieceOn()</slot>
   <slot>changePlayerNickname()</slot>
+  <slot>fakePlayerTurn()</slot>
+  <slot>reactToPlayerNumberSpinBoxChange()</slot>
  </slots>
 </ui>

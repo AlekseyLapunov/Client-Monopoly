@@ -127,7 +127,7 @@ Rectangle
     {
         id: _diceOutSoundEffect
         source: "../../assets/sounds/dice/dice_out.wav"
-        volume: 0.30
+        volume: 0.7
     }
 
     function cameraClosePosition()

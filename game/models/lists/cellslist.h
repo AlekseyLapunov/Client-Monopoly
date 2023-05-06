@@ -18,6 +18,7 @@ public:
 
     std::vector<Cell> items() const;
 
+    Cell getItemAt(int index);
     bool setItemAt(int index, const Cell &item);
 
 signals:

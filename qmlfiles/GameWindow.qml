@@ -5,6 +5,7 @@ import "MonopolyComponents"
 import "MonopolyComponents/InfoBlocks"
 import "MonopolyComponents/InfoBlocks/FoldingInfoBlocks"
 import "MonopolyComponents/SubComponents"
+import "MonopolyDialogs"
 import "HelperSingletone"
 import GameMap 1.0
 
@@ -224,6 +225,33 @@ Window
             anchors.margins: defaultMargin
         }
 
+        CellDialog
+        {
+            id: _cellDialog
+            visible: false
+            height: _win.sizeUnit*1.5
+            width: height*1.5
+            x: _displayField.width/2 - width/2
+            y: _displayField.height/2 - height/2
+        }
+
+        function showCellDialog(inputFieldType: int, inputOwnerPlayerNumber: int,
+                                inputFieldCost: int, inputFieldIncome: int)
+        {
+            if(!Helper.canFieldExecuteDialog(inputFieldType))
+                return;
+
+            _cellDialog.x = _displayField.width/2 - _cellDialog.width/2;
+            _cellDialog.y = _displayField.height/2 - _cellDialog.height/2;
+
+            _cellDialog.showFieldType = inputFieldType;
+            _cellDialog.showOwnerPlayerNumber = inputOwnerPlayerNumber;
+            _cellDialog.showFieldCost = inputFieldCost;
+            _cellDialog.showFieldIncome = inputFieldIncome
+
+            _cellDialog.visible = true;
+        }
+
         // Models
         FieldsGridModel
         {
@@ -238,7 +266,10 @@ Window
             {
             case Qt.Key_F11:
                 _toggleVisibilityButton.isWinFullScreen = !_toggleVisibilityButton.isWinFullScreen;
-                event.accepted = true;
+                break;
+            case Qt.Key_Escape:
+                if(_cellDialog.visible)
+                    _cellDialog.visible = false;
                 break;
             case Qt.Key_F4:
                 _playersInfoBlock.addPlayerRow();
@@ -268,11 +299,14 @@ Window
             case Qt.Key_BracketRight:
                 _hostInfoBlock.debugAddCoalStation();
                 break;
+            default:
+                return;
             }
             if((event.key >= Qt.Key_1) && (event.key <= Qt.Key_6))
             {
                 _diceBlock.doDirectRotateTo(whatDice, (event.key - 48));
             }
+            event.accepted = true;
         }
 
         // Background and Share-gradient-color animations

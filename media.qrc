@@ -38,5 +38,6 @@
         <file>assets/svgs/stage_components/stage_additional_stage_1.svg</file>
         <file>assets/svgs/stage_components/stage_additional_stage_2.svg</file>
         <file>assets/svgs/stage_components/stage_additional_stage_3.svg</file>
+        <file>assets/svgs/fields/owner_frame.svg</file>
     </qresource>
 </RCC>

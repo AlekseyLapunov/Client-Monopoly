@@ -1021,7 +1021,7 @@ void ServerCommunicator::catchReplyLobbiesGetList(QNetworkReply *reply)
 
     QJsonArray jsonArray = jsonObj[ssJsonServerLobbiesKeys[ServLobbiesListObj]].toArray();
 
-    foreach (const QJsonValue &jsonLobbyValue, jsonArray)
+    for(const QJsonValue &jsonLobbyValue : jsonArray) //foreach (const QJsonValue &jsonLobbyValue, jsonArray)
     {
         if(!jsonLobbyValue.isObject())
         {
@@ -1613,7 +1613,7 @@ LobbyFullInfo ServerCommunicator::parseLobbyFullInfoFromServer(QJsonObject &json
 
     QJsonArray jsonPlayersArray = jsonLobbyInfoObject[ssJsonServerLobbiesKeys[ServPlayersObj]].toArray();
 
-    foreach (const QJsonValue &jsonPlayerValue, jsonPlayersArray)
+    for(const QJsonValue &jsonPlayerValue : jsonPlayersArray)  //foreach (const QJsonValue &jsonPlayerValue, jsonPlayersArray)
     {
         if(!jsonPlayerValue.isObject())
         {

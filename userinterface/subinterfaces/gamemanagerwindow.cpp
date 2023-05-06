@@ -134,6 +134,17 @@ void GameManagerWindow::endTheGame()
 
 }
 
+void GameManagerWindow::fakePlayerTurn()
+{
+
+}
+
+void GameManagerWindow::reactToPlayerNumberSpinBoxChange()
+{
+    //ui->lePlayerNickname;
+    //ui->sbPlayerMoney;
+}
+
 void GameManagerWindow::manageQmlWindowClosing()
 {
     qDebug().noquote() << "QML Window closed. Quiting application";

@@ -3,14 +3,22 @@
 
 #include <QObject>
 
+#include "gamestructs.h"
+
 class GameTransmitterObject : public QObject
 {
     Q_OBJECT
 public:
     explicit GameTransmitterObject(QObject *parent = nullptr);
 
+    void emitFieldChanged(int index, Cell newCell);
+
 signals:
     void startStageAnimation(uint8_t stageNumber);
+    void fieldOrderIndexChanged(int index, int orderIndex);
+    void fieldChanged(int index, int orderIndex, uint8_t fieldTypeSet, uint8_t playerNumberOwner,
+                      int fieldCost, int fieldIncome, uint8_t piecesOnCellMask, uint8_t stage,
+                      uint8_t arrowDirection, uint8_t blankUntilStage);
 };
 
 #endif // GAMETRANSMITTEROBJECT_H

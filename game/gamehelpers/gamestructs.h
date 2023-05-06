@@ -21,6 +21,9 @@ struct Cell
     int fieldIncome;
     uint8_t piecesOnCellMask;
     uint8_t stage;
+
+    uint8_t arrowDirection;
+    uint8_t blankUntilStage;
 };
 
 enum FieldType
@@ -39,6 +42,11 @@ enum PlayerNumber
 enum Dice
 {
     Left, Right
+};
+
+enum ArrowRotation
+{
+    North, East, South, West
 };
 
 #endif // GAMESTRUCTS_H

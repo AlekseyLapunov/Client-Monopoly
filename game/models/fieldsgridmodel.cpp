@@ -46,11 +46,63 @@ QVariant FieldsGridModel::data(const QModelIndex &index, int role) const
         return QVariant(item.piecesOnCellMask);
     case MapModelCellRole::Stage:
         return QVariant(item.stage);
+    case MapModelCellRole::ArrowDirection:
+        return QVariant(item.arrowDirection);
+    case MapModelCellRole::BlankUntilStage:
+        return QVariant(item.blankUntilStage);
     default:
         return QVariant();
     }
 
     return QVariant();
+}
+
+bool FieldsGridModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if(!m_cellsList)
+        return false;
+
+    Cell item = m_cellsList->items().at(index.row());
+
+    switch (role)
+    {
+    case MapModelCellRole::OrderIndex:
+        item.orderIndex = value.toInt();
+        break;
+    case MapModelCellRole::FieldType:
+        item.fieldTypeSet = value.toInt();
+        break;
+    case MapModelCellRole::PlayerNumberOwner:
+        item.playerNumberOwner = value.toInt();
+        break;
+    case MapModelCellRole::FieldCost:
+        item.fieldCost = value.toInt();
+        break;
+    case MapModelCellRole::FieldIncome:
+        item.fieldIncome = value.toInt();
+        break;
+    case MapModelCellRole::PiecesOnCellMask:
+        item.piecesOnCellMask = value.toInt();
+        break;
+    case MapModelCellRole::Stage:
+        item.stage = value.toInt();
+        break;
+    case MapModelCellRole::ArrowDirection:
+        item.arrowDirection = value.toInt();
+        break;
+    case MapModelCellRole::BlankUntilStage:
+        item.blankUntilStage = value.toInt();
+        break;
+    default:
+        return false;
+    }
+
+    if(m_cellsList->setItemAt(index.row(), item))
+    {
+        emit dataChanged(index, index, QVector<int>() << role);
+        return true;
+    }
+    return false;
 }
 
 QHash<int, QByteArray> FieldsGridModel::roleNames() const

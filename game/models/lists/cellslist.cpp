@@ -30,6 +30,14 @@ std::vector<Cell> CellsList::items() const
     return m_items;
 }
 
+Cell CellsList::getItemAt(int index)
+{
+    if (index < 0 || index >= (int)m_items.size())
+        return {};
+
+    return m_items.at(index);
+}
+
 bool CellsList::setItemAt(int index, const Cell &item)
 {
     if (index < 0 || index >= (int)m_items.size())

@@ -497,13 +497,16 @@
            <string> млн. ЭК</string>
           </property>
           <property name="minimum">
-           <number>500</number>
+           <number>800</number>
           </property>
           <property name="maximum">
-           <number>2000</number>
+           <number>20000</number>
           </property>
           <property name="singleStep">
-           <number>150</number>
+           <number>200</number>
+          </property>
+          <property name="value">
+           <number>2000</number>
           </property>
          </widget>
         </item>
@@ -551,6 +554,12 @@
           </property>
           <property name="maximum">
            <number>128</number>
+          </property>
+          <property name="singleStep">
+           <number>24</number>
+          </property>
+          <property name="value">
+           <number>72</number>
           </property>
          </widget>
         </item>
@@ -616,7 +625,7 @@
            <number>8</number>
           </property>
           <property name="maximum">
-           <number>15</number>
+           <number>20</number>
           </property>
           <property name="value">
            <number>10</number>

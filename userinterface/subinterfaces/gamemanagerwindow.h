@@ -48,6 +48,8 @@ private slots:
     void removePlayer();
     void placePlayerPieceOn();
     void endTheGame();
+    void fakePlayerTurn();
+    void reactToPlayerNumberSpinBoxChange();
 
 private slots:
     void manageQmlWindowClosing();
@@ -64,18 +66,18 @@ private:
     CellsList* m_cellsList;
 };
 
-// DEBUG! Delete later
+// DEBUG!
 static Cell debugCellsArray[] =
 {
-    {8, Sawmill, NoPlayer, 0, 0, 0, 1}, {9, Common, NoPlayer, 0, 0, 0, 1}, {10, Sawmill, NoPlayer, 0, 0, 0, 1}, {11, CoalStation, NoPlayer, 0, 0, 0, 1}, {12, Common, NoPlayer, 0, 0, 0, 1}, {13, Sawmill, NoPlayer, 0, 0, 0, 1}, {14, Common, NoPlayer, 0, 0, 0, 1}, {15, Common, NoPlayer, 0, 0, 0, 1}, {16, Sawmill, NoPlayer, 0, 0, 0, 1},
-    {7, Common, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {17, Common, NoPlayer, 0, 0, 0, 1},
-    {6, Vacation, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {18, Common, NoPlayer, 0, 0, 0, 1},
-    {5, Common, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {19, Vacation, NoPlayer, 0, 0, 0, 1},
-    {4, Common, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {20, Common, NoPlayer, 0, 0, 0, 1},
-    {3, CoalStation, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {21, CoalStation, NoPlayer, 0, 0, 0, 1},
-    {2, Sawmill, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {22, Sawmill, NoPlayer, 0, 0, 0, 1},
-    {1, Common, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1}, {23, Common, NoPlayer, 0, 0, 0, 1},
-    {0, Beginning, NoPlayer, 0, 0, 0, 1}, {31, CoalStation, NoPlayer, 0, 0, 0, 1}, {30, Common, NoPlayer, 0, 0, 0, 1}, {29, CoalStation, NoPlayer, 0, 0, 0, 1}, {28, Common, NoPlayer, 0, 0, 0, 1}, {27, Sawmill, NoPlayer, 0, 0, 0, 1}, {26, Common, NoPlayer, 0, 0, 0, 1}, {25, Sawmill, NoPlayer, 0, 0, 0, 1}, {24, CoalStation, NoPlayer, 0, 0, 0, 1}
+    {8, Sawmill, Player2, 0, 0, 0, 1, 0, 1}, {9, Common, NoPlayer, 0, 0, 0, 1, 0, 1}, {10, Sawmill, NoPlayer, 0, 0, 0, 1, 0, 1}, {11, CoalStation, Player1, 0, 0, 0, 1, 0, 1}, {12, Arrow, NoPlayer, 0, 0, 0, 1, East, 2}, {13, Sawmill, NoPlayer, 0, 0, 0, 1, 0, 1}, {14, Common, NoPlayer, 0, 0, 0, 1, 0, 1}, {15, Common, NoPlayer, 0, 0, 0, 1, 0, 1}, {16, Sawmill, Player3, 0, 0, 0, 1, 0, 1},
+    {7, Common, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Common, NoPlayer, 0, 0, 0, 2, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {17, Common, NoPlayer, 0, 0, 0, 1, 0, 1},
+    {6, Vacation, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Common, NoPlayer, 0, 0, 0, 2, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {18, Common, NoPlayer, 0, 0, 0, 1, 0, 1},
+    {5, Common, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Common, NoPlayer, 0, 0, 0, 2, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {19, Vacation, NoPlayer, 0, 0, 0, 1, 0, 1},
+    {4, Arrow, NoPlayer, 0, 0, 0, 1, North, 3}, {-1, Common, NoPlayer, 0, 0, 0, 3, 0, 3}, {-1, Common, NoPlayer, 0, 0, 0, 3, 0, 3}, {-1, Common, NoPlayer, 0, 0, 0, 3, 0, 3}, {-1, Arrow, NoPlayer, 0, 0, 0, 2, 0, 3}, {-1, Common, NoPlayer, 0, 0, 0, 3, 0, 3}, {-1, Common, NoPlayer, 0, 0, 0, 3, 0, 3}, {-1, Common, NoPlayer, 0, 0, 0, 3, 0, 3}, {20, Arrow, NoPlayer, 0, 0, 0, 1, South, 3},
+    {3, CoalStation, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Common, NoPlayer, 0, 0, 0, 2, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {21, CoalStation, NoPlayer, 0, 0, 0, 1, 0, 1},
+    {2, Sawmill, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Common, NoPlayer, 0, 0, 0, 2, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {22, Sawmill, NoPlayer, 0, 0, 0, 1, 0, 1},
+    {1, Common, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Common, NoPlayer, 0, 0, 0, 2, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {23, Common, NoPlayer, 0, 0, 0, 1, 0, 1},
+    {0, Beginning, NoPlayer, 0, 0, 0, 1, 0, 1}, {31, CoalStation, NoPlayer, 0, 0, 0, 1, 0, 1}, {30, Common, NoPlayer, 0, 0, 0, 1, 0, 1}, {29, CoalStation, NoPlayer, 0, 0, 0, 1, 0, 1}, {28, Arrow, NoPlayer, 0, 0, 0, 1, West, 2}, {27, Sawmill, NoPlayer, 0, 0, 0, 1, 0, 1}, {26, Common, NoPlayer, 0, 0, 0, 1, 0, 1}, {25, Sawmill, NoPlayer, 0, 0, 0, 1, 0, 1}, {24, CoalStation, Player5, 0, 0, 0, 1, 0, 1}
 };
 
 static CellsList debugMapContext;

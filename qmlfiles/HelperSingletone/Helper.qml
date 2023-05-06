@@ -36,6 +36,14 @@ Item
         Right
     }
 
+    enum ArrowRotation
+    {
+        North,
+        East,
+        South,
+        West
+    }
+
     function makeRgb(r, g, b, alpha = 1)
     {
         const max = 255;
@@ -127,6 +135,8 @@ Item
     {
         switch(inputFieldType)
         {
+        case Helper.FieldType.Beginning:
+            return "Стартовое поле";
         case Helper.FieldType.Sawmill:
             return "Лесопилка";
         case Helper.FieldType.CoalStation:
@@ -148,6 +158,61 @@ Item
         default:
             return "";
         }
+    }
+
+    function defineFieldDescriptionByType(inputFieldType)
+    {
+        switch(inputFieldType)
+        {
+        case Helper.FieldType.Beginning:
+            return "Награждает игрока единовременной выплатой ЭК при повторном попадании его фишки.";
+        case Helper.FieldType.Sawmill:
+            return "Приносит доход за счёт продажи обработанной древесины.";
+        case Helper.FieldType.CoalStation:
+            return "Приносит доход за счёт производства энергии, получаемой при обработке ископаемого угля.";
+        case Helper.FieldType.AtomicStation:
+            return "Приносит доход за счёт производства энергии, получаемой при распаде урана.";
+        case Helper.FieldType.Forest:
+            return "Увеличивает доходность подконтрольных лесопилок.";
+        case Helper.FieldType.Coal:
+            return "Увеличивают доходность подконтрольных тепловых электростанций.";
+        case Helper.FieldType.Uranium:
+            return "Увеличивают доходность подконтрольных атомных электростанций.";
+        case Helper.FieldType.Vacation:
+            return "Вынуждает отправиться в отпуск. За это полагается бонус в виде единовременной выплаты ЭК!";
+        case Helper.FieldType.Sabotage:
+            return "Позволяет провести диверсию по отношению к другому игроку. Выберите актив, который потеряет контроль, а его владелец дополнительно лишится процентов от своего текущего баланса.";
+        case Helper.FieldType.Arrow:
+            return "Направляет фишку игрока в ту сторону, в которую повёрнута. Игрок, прошедший через данное поле, может повернуть стрелку в любую другую доступную сторону за определённую плату. В противном случае указатель повернётся по часовой стрелке в ближайшее разрешённое направление.";
+        default:
+            return "";
+        }
+    }
+
+    function defineRotationByFieldType(inputFieldType: int, arrowRotation: int)
+    {
+        if(inputFieldType !== Helper.FieldType.Arrow)
+            return 0;
+
+        switch(arrowRotation)
+        {
+        case Helper.ArrowRotation.North:
+            return 0;
+        case Helper.ArrowRotation.East:
+            return 90;
+        case Helper.ArrowRotation.South:
+            return 180;
+        case Helper.ArrowRotation.West:
+            return 270;
+        default:
+            return 0;
+        }
+    }
+
+    function canFieldExecuteDialog(inputFieldType: int)
+    {
+        return (inputFieldType >= Helper.FieldType.Beginning
+                && inputFieldType <= Helper.FieldType.Arrow);
     }
 
     function applyContrast(color, factor)

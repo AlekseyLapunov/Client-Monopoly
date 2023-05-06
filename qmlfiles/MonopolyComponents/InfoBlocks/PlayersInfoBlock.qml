@@ -27,7 +27,7 @@ Rectangle
         anchors.top: root.top
         anchors.topMargin: _win.defaultMargin/8
         anchors.horizontalCenter: root.horizontalCenter
-        text: "Игроки"
+        text: Helper.fontWarningPreventor("Игроки")
         font.bold: true
         font.underline: true
         color: Qt.lighter(root.color, 1.7)

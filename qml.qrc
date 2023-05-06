@@ -18,5 +18,6 @@
         <file>qmlfiles/MonopolyComponents/StageDisplay.qml</file>
         <file>qmlfiles/MonopolyComponents/SubComponents/StageChangingImageAnimated.qml</file>
         <file>qmlfiles/MonopolyComponents/SubComponents/StageImageComponent.qml</file>
+        <file>qmlfiles/MonopolyDialogs/CellDialog.qml</file>
     </qresource>
 </RCC>

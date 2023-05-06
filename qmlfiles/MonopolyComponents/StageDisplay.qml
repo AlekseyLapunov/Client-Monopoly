@@ -216,13 +216,6 @@ Rectangle
         id: _clickSilencerMouseArea
         anchors.fill: root
         enabled: root.visible
-        hoverEnabled: true
-
-        HoverHandler
-        {
-            id: _hoverHandler
-            enabled: _clickSilencerMouseArea.enabled
-        }
     }
 
     Timer
