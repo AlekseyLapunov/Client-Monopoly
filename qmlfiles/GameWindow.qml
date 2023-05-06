@@ -12,11 +12,12 @@ Window
 {
     id: _win
 
-    property int sizeUnit: (_win.height + _win.width)*0.1
-    property double defaultMargin: sizeUnit*0.12
-    property double componentsBorderCoeff: 0.015
-    property double componentsRadiusCoeff: 0.035
-    property int tooltipDelayMs: 700
+    readonly property int sizeUnit: (_win.height + _win.width)*0.1
+    readonly property double defaultMargin: sizeUnit*0.12
+    readonly property double componentsBorderCoeff: 0.015
+    readonly property double componentsRadiusCoeff: 0.035
+    readonly property int tooltipDelayMs: 700
+    readonly property int stageAnimationDurationMs: 5100
 
     property int hostPlayerNumber: Helper.PlayerNumber.Player2
     property bool isTurnNotiEnabled: true
@@ -370,6 +371,7 @@ Window
         function onStartStageAnimation(stageNumber: int)
         {
             _win.currentStage = stageNumber;
+            _map.toggleOverlayRectangleOpacity();
             _stageDisplay.startStageAnimation();
         }
     }

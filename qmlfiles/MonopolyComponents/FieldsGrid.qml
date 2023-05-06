@@ -70,9 +70,31 @@ Rectangle
     Rectangle
     {
         id: _overlayRectangle
+        property bool toggler: false
         color: Qt.lighter(root.baseColor, 1.1)
         anchors.fill: root
-        opacity: 0.1
+        opacity: toggler ? 1.0 : 0.1
+
+        Behavior on opacity
+        {
+            PropertyAnimation {}
+        }
+    }
+
+    Timer
+    {
+        id: _overlayRectangleTimer
+        interval: _win.stageAnimationDurationMs
+        onTriggered:
+        {
+            _overlayRectangle.toggler = false;
+        }
+    }
+
+    function toggleOverlayRectangleOpacity()
+    {
+        _overlayRectangle.toggler = !_overlayRectangle.toggler;
+        _overlayRectangleTimer.start();
     }
 
     /*

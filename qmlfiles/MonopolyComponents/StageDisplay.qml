@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import QtMultimedia
+import Qt5Compat.GraphicalEffects
 import "../HelperSingletone"
 import "SubComponents"
 
@@ -31,6 +32,12 @@ Rectangle
         visible: root.visible
         opacity: 0.0
 
+        onVisibleChanged:
+        {
+            _acLevitateAnimation1.restart();
+            _acLevitateAnimation2.restart();
+        }
+
         StageChangingImageAnimated
         {
             id: _stageAnimated
@@ -51,57 +58,148 @@ Rectangle
             }
         }
 
-        Behavior on opacity { PropertyAnimation { duration: 800 } }
-    }
-
-    Rectangle
-    {
-        id: _acCircleBase
-        anchors.centerIn: root
-        width: root.width/3.5
-        height: width
-        radius: width/2.2
-        color: "transparent"
-        rotation: (_clickSilencerMouseArea.mouseX + _clickSilencerMouseArea.mouseY)
-    }
-
-    Rectangle
-    {
-        id: _acRectangleCenter
-        width: _acCircleBase.width/10
-        height: width
-        color: "transparent"
-
-        property double centerX: (_acCircleBase.x + _acCircleBase.width/2 - _acRectangleCenter.width/2)
-        property double centerY: (_acCircleBase.y + _acCircleBase.height/2 - _acRectangleCenter.height/2)
-
-        x: centerX + Math.cos(_acCircleBase.rotation/100)*260
-        y: centerY + Math.sin(_acCircleBase.rotation/100)*260
-
-        Image
+        Rectangle
         {
-            id: _additionalComponentsImage
+            id: _acRectangleCenter1
 
-            property int localSizeRatio
-            property int localSizeUnit: (_imagePlaceholder.width + _imagePlaceholder.height)*1
+            anchors.horizontalCenter: _imagePlaceholder.horizontalCenter
 
-            anchors.centerIn: _acRectangleCenter
-            source: (stageNumber === 1) ? "../../assets/svgs/stage_components/stage_additional_stage_1.svg" :
-                    (stageNumber === 2) ? "../../assets/svgs/stage_components/stage_additional_stage_2.svg" :
-                    (stageNumber === 3) ? "../../assets/svgs/stage_components/stage_additional_stage_3.svg" :
-                                          ""
-
-            Component.onCompleted:
+            Image
             {
-                _additionalComponentsImage.localSizeRatio =
-                        (_additionalComponentsImage.sourceSize.height / _additionalComponentsImage.sourceSize.width);
+                id: _acImage1
+
+                opacity: 0.8
+
+                property int localSizeRatio
+                property int localSizeUnit: (_imagePlaceholder.width + _imagePlaceholder.height)*1.1
+
+                anchors.centerIn: _acRectangleCenter1
+
+                source: (stageNumber === 1) ? "../../assets/svgs/stage_components/stage_additional_stage_1.svg" :
+                        (stageNumber === 2) ? "../../assets/svgs/stage_components/stage_additional_stage_2.svg" :
+                        (stageNumber === 3) ? "../../assets/svgs/stage_components/stage_additional_stage_3.svg" :
+                                              ""
+
+                Component.onCompleted:
+                {
+                    _acImage1.localSizeRatio =
+                            (_acImage1.sourceSize.height / _acImage1.sourceSize.width);
+                    _acLevitateAnimation1.start()
+                }
+
+                sourceSize.width: localSizeUnit
+                sourceSize.height: localSizeUnit*localSizeRatio
+
+                z: 4
+
+                ColorOverlay
+                {
+                    id: _acImageColorOverlay
+                    source: _acImage1
+                    anchors.fill: _acImage1
+                    color: Qt.rgba(_displayField.shareGradColor2.r,
+                                   _displayField.shareGradColor2.g,
+                                   _displayField.shareGradColor2.b,
+                                   0.4)
+                }
             }
 
-            sourceSize.width: localSizeUnit
-            sourceSize.height: localSizeUnit*localSizeRatio
+            PropertyAnimation
+            {
+                property double levitateOrigin: 150
+                property double levitateUpY: levitateOrigin - 50
+                property double levitateDownY: levitateOrigin + 100
+                property bool toggler: true
 
-            z: 4
+                id: _acLevitateAnimation1
+                easing.type: Easing.OutQuad
+                property: "y"
+                target: _acRectangleCenter1
+                from: levitateOrigin
+                to: toggler ? levitateUpY
+                            : levitateDownY
+                duration: 4000
+
+                onFinished:
+                {
+                    _acLevitateAnimation1.from = _acRectangleCenter1.y
+                    _acLevitateAnimation1.toggler = !_acLevitateAnimation1.toggler
+                    _acLevitateAnimation1.start()
+                }
+            }
         }
+
+        Rectangle
+        {
+            id: _acRectangleCenter2
+
+            anchors.horizontalCenter: _imagePlaceholder.horizontalCenter
+
+            Image
+            {
+                id: _acImage2
+
+                opacity: 0.5
+
+                anchors.centerIn: _acRectangleCenter2
+
+                property int localSizeRatio
+                property int localSizeUnit: (_imagePlaceholder.width + _imagePlaceholder.height)*0.7
+                source: (stageNumber === 1) ? "../../assets/svgs/stage_components/stage_additional_stage_1.svg" :
+                        (stageNumber === 2) ? "../../assets/svgs/stage_components/stage_additional_stage_2.svg" :
+                        (stageNumber === 3) ? "../../assets/svgs/stage_components/stage_additional_stage_3.svg" :
+                                              ""
+
+                Component.onCompleted:
+                {
+                    _acImage2.localSizeRatio =
+                            (_acImage2.sourceSize.height / _acImage2.sourceSize.width);
+                    _acLevitateAnimation2.start()
+                }
+
+                sourceSize.width: localSizeUnit
+                sourceSize.height: localSizeUnit*localSizeRatio
+
+                z: 4
+
+                ColorOverlay
+                {
+                    id: _acImageColorOverlay2
+                    source: _acImage2
+                    anchors.fill: _acImage2
+                    color: Qt.rgba(_displayField.shareGradColor1.r,
+                                   _displayField.shareGradColor1.g,
+                                   _displayField.shareGradColor1.b,
+                                   0.4)
+                }
+            }
+
+            PropertyAnimation
+            {
+                property double levitateOrigin: 150
+                property double levitateUpY: levitateOrigin
+                property double levitateDownY: levitateOrigin + 100
+                property bool toggler: false
+
+                id: _acLevitateAnimation2
+                property: "y"
+                easing.type: Easing.OutQuad
+                target: _acRectangleCenter2
+                from: levitateOrigin
+                to: toggler ? levitateUpY
+                            : levitateDownY
+                duration: 4500
+
+                onFinished:
+                {
+                    _acLevitateAnimation2.from = _acRectangleCenter2.y
+                    _acLevitateAnimation2.toggler = !_acLevitateAnimation2.toggler
+                    _acLevitateAnimation2.start()
+                }
+            }
+        }
+
+        Behavior on opacity { PropertyAnimation { duration: 800 } }
     }
 
     Behavior on opacity { PropertyAnimation { duration: 400 } }
@@ -130,7 +228,7 @@ Rectangle
     Timer
     {
         id: _mainTimer
-        interval: 5500
+        interval: _win.stageAnimationDurationMs + 400
         repeat: false
 
         onTriggered:
@@ -142,7 +240,7 @@ Rectangle
     Timer
     {
         id: _secondaryTimer
-        interval: 4700
+        interval: _win.stageAnimationDurationMs - 400
         repeat: false
 
         onTriggered:
