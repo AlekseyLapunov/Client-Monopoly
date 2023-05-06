@@ -1555,20 +1555,20 @@ QString ServerCommunicator::makeServerFullLobbyJson(LobbySettings &lobbySettings
     return QString("{"
                    "\"settings\":{"
                      "\"name\": \"%1\","
-                     "\"type\": \"%2\","
+                     "\"type\": %2,"
                      "\"password\": \"%3\","
                      "\"maxPlayers\": %4"
                      "\"timeForTurn\": %5,"
-                     "\"victoryType\": \"%6\","
+                     "\"victoryType\": %6,"
                      "\"scoreVictoryValue\": %7,"
                      "\"turnVictoryValue\": %8"
                    "}"
                   "}").arg(lobbySettingsBase.lobbyName,
-                           lobbySettingsBase.defineLobbyTypeForServer(),
+                           QString::number(lobbySettingsBase.defineLobbyTypeForServer()),
                            lobbySettingsBase.lobbyPassword,
                            QString::number(lobbySettingsBase.maxPlayersCount),
                            QString::number(lobbySettingsBase.turnTime),
-                           lobbySettingsBase.defineVictoryTypeForServer(),
+                           QString::number(lobbySettingsBase.defineVictoryTypeForServer()),
                            QString::number(lobbySettingsBase.maxMoney),
                            QString::number(lobbySettingsBase.maxTurns));
 }
@@ -1603,11 +1603,11 @@ LobbyFullInfo ServerCommunicator::parseLobbyFullInfoFromServer(QJsonObject &json
     QJsonObject jsonLobbySettingsObject = jsonLobbySettingsValue.toObject();
 
     returningLFI.settings.lobbyName         = jsonLobbySettingsObject[ssJsonServerLobbiesKeys[ServLobbyName]].toString();
-    returningLFI.settings.type              = jsonLobbySettingsObject[ssJsonServerLobbiesKeys[ServLobbyType]].toString();
+    returningLFI.settings.type              = jsonLobbySettingsObject[ssJsonServerLobbiesKeys[ServLobbyType]].toInt();
     returningLFI.settings.lobbyPassword     = jsonLobbySettingsObject[ssJsonServerLobbiesKeys[ServLobbyPassword]].toString();
     returningLFI.settings.maxPlayersCount   = jsonLobbySettingsObject[ssJsonServerLobbiesKeys[ServLobbyMaxPlayers]].toInt();
     returningLFI.settings.turnTime          = jsonLobbySettingsObject[ssJsonServerLobbiesKeys[ServTimeForTurn]].toInt();
-    returningLFI.settings.setupByVictoryType(jsonLobbySettingsObject[ssJsonServerLobbiesKeys[ServLobbyPassword]].toString());
+    returningLFI.settings.setupByVictoryType(jsonLobbySettingsObject[ssJsonServerLobbiesKeys[ServLobbyPassword]].toInt());
     returningLFI.settings.maxMoney          = jsonLobbySettingsObject[ssJsonServerLobbiesKeys[ServScoreVictoryValue]].toInt();
     returningLFI.settings.maxTurns          = jsonLobbySettingsObject[ssJsonServerLobbiesKeys[ServTurnVictoryValue]].toInt();
 

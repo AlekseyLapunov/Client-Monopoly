@@ -30,11 +30,6 @@
 #define READY_COL               2
 #define PLAYER_UNIQUE_ID_COL    3
 
-// Lobby's types
-#define LOBBY_TYPE_PUBLIC  "PUBLIC"  // without password
-#define LOBBY_TYPE_RPIVATE "PRIVATE" // with password
-#define LOBBY_TYPE_RANKED  "RANKED"  // ranked
-
 // bools
 #define IS_READY                true
 #define NOT_READY               false
@@ -59,7 +54,7 @@
 #define RS_IS_MAX_MONEY_INF  true
 #define RS_MAX_TURNS         72
 #define RS_ARE_MAX_TURNS_INF false
-#define RS_TYPE              LOBBY_TYPE_PUBLIC
+#define RS_TYPE              ServerLobbyType::PUBLIC
 
 // Default lobby settings source values
 #define DS_UNIQUE_ID         -1
@@ -75,7 +70,7 @@
 #define DS_IS_MAX_MONEY_INF  false
 #define DS_MAX_TURNS         72
 #define DS_ARE_MAX_TURNS_INF false
-#define DS_TYPE              LOBBY_TYPE_PUBLIC
+#define DS_TYPE              ServerLobbyType::PUBLIC
 
 // Set by game rules
 #define MIN_PLAYERS_COUNT 2
@@ -102,6 +97,20 @@ struct UserShortInfo
     int uniqueId;
 };
 
+enum ServerLobbyType
+{
+    PUBLIC = 0,
+    PRIVATE = 1,
+    RANKED = 2
+};
+
+enum ServerVictoryType
+{
+    SCORE = 0,
+    TURN = 1,
+    BOTH = 2
+};
+
 // All lobby settings
 struct LobbySettings
 {
@@ -120,7 +129,7 @@ struct LobbySettings
     bool isMaxMoneyInfinite;
     unsigned short maxTurns;
     bool areMaxTurnsInfinite;
-    QString type;
+    uint8_t type;
 
     bool softEquals(LobbySettings& other)
     {
@@ -199,34 +208,34 @@ struct LobbySettings
         return doc.toJson(QJsonDocument::Indented);
     }
 
-    QString defineLobbyTypeForServer()
+    uint8_t defineLobbyTypeForServer()
     {
         if(this->lobbyPassword.isEmpty())
-            return "PUBLIC";
+            return PUBLIC;
         else if (!this->lobbyPassword.isEmpty())
-            return "PRIVATE";
+            return PRIVATE;
         else
-            return "RANKED";
+            return RANKED;
     }
 
-    QString defineVictoryTypeForServer()
+    uint8_t defineVictoryTypeForServer()
     {
         if(!this->isMaxMoneyInfinite && !this->areMaxTurnsInfinite)
-            return "BOTH";
+            return BOTH;
         else if(this->isMaxMoneyInfinite && !this->areMaxTurnsInfinite)
-            return "TURN";
+            return TURN;
         else
-            return "SCORE";
+            return SCORE;
     }
 
-    void setupByVictoryType(QString victoryTypeFromServer)
+    void setupByVictoryType(uint8_t victoryTypeFromServer)
     {
-        if(victoryTypeFromServer == "BOTH")
+        if(victoryTypeFromServer == BOTH)
         {
             this->isMaxMoneyInfinite = false;
             this->areMaxTurnsInfinite = false;
         }
-        else if(victoryTypeFromServer == "TURN")
+        else if(victoryTypeFromServer == TURN)
         {
             this->isMaxMoneyInfinite = true;
             this->areMaxTurnsInfinite = false;
@@ -288,7 +297,7 @@ static const LobbySettings DefaultLobbySettings
     DS_IS_MAX_MONEY_INF,
     DS_MAX_TURNS,
     DS_ARE_MAX_TURNS_INF,
-    RS_TYPE
+    DS_TYPE
 };
 
 #endif // SOURCESTRUCTS_H
