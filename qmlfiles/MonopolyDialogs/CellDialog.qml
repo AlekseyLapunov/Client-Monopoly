@@ -9,6 +9,7 @@ Rectangle
 
     property int showFieldType: Helper.FieldType.Void
     property int showOwnerPlayerNumber: Helper.PlayerNumber.NoPlayer
+    property string showOwnerPlayerNickname: "Player0"
     property int showFieldCost: 0
     property int showFieldIncome: 0
     property int showArrowDirection: 0
@@ -16,14 +17,21 @@ Rectangle
     property string fieldNameByType: Helper.defineFieldNameByType(root.showFieldType)
     property string fieldDescriptionByType: Helper.defineFieldDescriptionByType(root.showFieldType)
 
+    property bool hasBuyButton: true
+
     color: Qt.darker(_displayField.shareGradColor1, 1.1)
 
     radius: _win.componentsRadiusCoeff*900
 
+    readonly property int baseHeight: _win.sizeUnit*1.45
+
+    height: baseHeight - _win.sizeUnit*0.2 + _labelsModel.count*_fieldAdditionalInformation.rowHeight
+    width: _win.sizeUnit*2.25
+
     Cell
     {
         id: _cellDisplay
-        height: root.height*0.45
+        height: root.baseHeight*0.45
         width: height
 
         ignoreClickForDialog: true
@@ -42,16 +50,75 @@ Rectangle
         border.color: Qt.lighter(parent.color, 1.2)
     }
 
+    Column
+    {
+        id: _fieldAdditionalInformation
+        property int rowHeight: root.baseHeight/10
+        anchors.top: _cellDisplay.bottom
+        anchors.topMargin: _win.defaultMargin/2
+        anchors.left: root.left
+        anchors.leftMargin: _win.defaultMargin/4
+        anchors.right: root.right
+        anchors.rightMargin: _win.defaultMargin/4
+        spacing: _win.defaultMargin/20
+        Repeater
+        {
+            model: _labelsModel
+            delegate: Rectangle
+            {
+                id: _labelsBackground
+
+                width: _fieldAdditionalInformation.width
+                height: _fieldAdditionalInformation.rowHeight
+
+                color: Qt.darker(_displayField.shareGradColor1, 1.25)
+
+                Text
+                {
+                    id: _labelName
+
+                    anchors.left: _labelsBackground.left
+                    anchors.leftMargin: _win.defaultMargin/4
+                    anchors.verticalCenter: _labelsBackground.verticalCenter
+
+                    text: model.labelName
+
+                    color: Qt.lighter(Helper.defineFieldColorByType(showFieldType), 1.45)
+                    style: Text.Outline
+                    font.family: "Bookman Old Style"
+                    fontSizeMode: Text.Fit
+                    font.pixelSize: Math.min(_fieldDescriptionBackground.width, _fieldDescriptionBackground.height)/5
+
+                    Text
+                    {
+                        id: _labelValue
+
+                        text: model.labelValue
+                        anchors.left: parent.right
+                        anchors.leftMargin: _win.defaultMargin/10
+
+                        color: model.valueIsColoredDifferent ? Helper.definePlayerColorByNumber(showOwnerPlayerNumber)
+                                                             : parent.color
+                        style: parent.style
+                        font.family: parent.font.family
+                        fontSizeMode: parent.fontSizeMode
+                        font.pixelSize: parent.font.pixelSize
+                    }
+                }
+            }
+        }
+    }
+
     Rectangle
     {
         id: _fieldNameBackground
-        height: root.height/7
+        height: root.baseHeight/7
 
         anchors.top: _cellDisplay.top
         anchors.left: _cellDisplay.right
         anchors.leftMargin: _win.defaultMargin/2
         anchors.right: root.right
-        anchors.rightMargin: _win.defaultMargin/2
+        anchors.rightMargin: _win.defaultMargin/4
         color: Qt.darker(_displayField.shareGradColor1, 1.25)
 
         Text
@@ -170,9 +237,69 @@ Rectangle
         }
     }
 
+    MonopolyButton
+    {
+        id: _buyButton
+
+        textContent: root.showOwnerPlayerNumber === Helper.PlayerNumber.NoPlayer ? "Купить" : "Перекупить"
+        width: root.width/3
+        height: root.baseHeight/8
+        anchors.horizontalCenter: root.horizontalCenter
+        anchors.bottom: root.bottom
+        anchors.bottomMargin: _win.defaultMargin/2
+        sharedColor: root.color
+        hasText: true
+        state: "normal"
+        z: 3
+
+        onClicked:
+        {
+
+        }
+
+    }
+
     MouseArea
     {
+        id: _mouseAreaClickSilencer
+        anchors.fill: root
+        enabled: root.visible
+        visible: enabled
+        z: -1
+    }
 
+    ListModel
+    {
+        id: _labelsModel
+    }
+
+    function fillLabelsModel()
+    {
+        _labelsModel.clear();
+        if(root.showOwnerPlayerNumber !== Helper.PlayerNumber.NoPlayer)
+        {
+            let item = {};
+            item.labelName = "Владелец: ";
+            item.labelValue = root.showOwnerPlayerNickname;
+            item.valueIsColoredDifferent = true;
+            _labelsModel.append(item);
+        }
+        if(root.showFieldCost > 0)
+        {
+            let item = {};
+            item.labelName = "Стоимость поля: ";
+            item.labelValue = (root.showFieldCost.toString() + " млн. ЭК");
+            item.valueIsColoredDifferent = false;
+            _labelsModel.append(item);
+        }
+        if(root.showFieldIncome > 0)
+        {
+            let item = {};
+            item.labelName = "Доходность поля: ";
+            item.labelValue = (root.showFieldIncome.toString() + " млн. ЭК за ход");
+            item.valueIsColoredDifferent = false;
+            _labelsModel.append(item);
+        }
     }
 }
 

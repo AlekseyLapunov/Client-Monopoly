@@ -116,6 +116,11 @@ Rectangle
         _overlayRectangleTimer.start();
     }
 
+    function setOverlayRectangleOpacityZero()
+    {
+        _overlayRectangle.toggler = false;
+    }
+
     /*
     function refresh()
     {

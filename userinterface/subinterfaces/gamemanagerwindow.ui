@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>550</width>
-    <height>265</height>
+    <height>266</height>
    </rect>
   </property>
   <property name="font">
@@ -235,6 +235,9 @@
       <widget class="QCheckBox" name="chbNoStageAnimation">
        <property name="text">
         <string>Без анимации</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

@@ -97,6 +97,11 @@ Rectangle
         }
     }
 
+    onPiecesOnCellMaskChanged:
+    {
+
+    }
+
     Connections
     {
         target: _gameTransmitter

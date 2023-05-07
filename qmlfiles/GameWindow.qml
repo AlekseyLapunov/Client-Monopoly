@@ -20,15 +20,16 @@ Window
     readonly property int tooltipDelayMs: 700
     readonly property int stageAnimationDurationMs: 5100
 
+    // Set-context-properties
     property int hostPlayerNumber: Helper.PlayerNumber.Player2
     property bool isTurnNotiEnabled: true
     property int turnTime: 10
     property int currentStage: 1
+    property bool using3dDice: true
 
     // Delete later!
     property int debugCellsCount: 0
     property int debugPieceIter: Helper.PlayerNumber.Player1
-    property int whatDice: Helper.Dice.Left
     // -------------
 
     minimumWidth: 800
@@ -229,8 +230,6 @@ Window
         {
             id: _cellDialog
             visible: false
-            height: _win.sizeUnit*1.5
-            width: height*1.5
             x: _displayField.width/2 - width/2
             y: _displayField.height/2 - height/2
         }
@@ -249,6 +248,8 @@ Window
             _cellDialog.showFieldCost = inputFieldCost;
             _cellDialog.showFieldIncome = inputFieldIncome;
             _cellDialog.showArrowDirection = inputArrowDirection;
+
+            _cellDialog.fillLabelsModel();
 
             _cellDialog.visible = true;
         }
@@ -287,9 +288,6 @@ Window
             case Qt.Key_9:
                 _diceBlock.diceGoInfiniteRotation();
                 break;
-            case Qt.Key_8:
-                whatDice = (whatDice === Helper.Dice.Left) ? Helper.Dice.Right : Helper.Dice.Left;
-                break;
             case Qt.Key_7:
                 _diceBlock.diceRotateToNumbers(Helper.getRandomInt(1,6),
                                                Helper.getRandomInt(1,6));
@@ -301,11 +299,8 @@ Window
                 _hostInfoBlock.debugAddCoalStation();
                 break;
             default:
+                event.accepted = true;
                 return;
-            }
-            if((event.key >= Qt.Key_1) && (event.key <= Qt.Key_6))
-            {
-                _diceBlock.doDirectRotateTo(whatDice, (event.key - 48));
             }
             event.accepted = true;
         }
@@ -408,7 +403,10 @@ Window
             _win.currentStage = stageNumber;
 
             if(!withAnimation)
+            {
+                _map.setOverlayRectangleOpacityZero();
                 return;
+            }
 
             _map.toggleOverlayRectangleOpacity();
             _stageDisplay.startStageAnimation();
