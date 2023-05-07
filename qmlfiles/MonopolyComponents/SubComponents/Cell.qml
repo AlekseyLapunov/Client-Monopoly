@@ -38,6 +38,8 @@ Rectangle
         anchors.fill: root
         source: "../../../assets/svgs/fields/owner_frame.svg"
 
+        smooth: true
+
         ColorOverlay
         {
             id: _ownerFrameColorOverlay
@@ -62,10 +64,13 @@ Rectangle
 
         Behavior on rotation
         {
-            PropertyAnimation
+            enabled: displayableFieldType === Helper.FieldType.Arrow
+            RotationAnimator
             {
+                target: _fieldTypeImage
+                direction: RotationAnimator.Shortest
                 easing.type: Easing.OutElastic
-                duration: 500
+                duration: 1500
             }
         }
     }
@@ -80,14 +85,15 @@ Rectangle
     {
         id: _mouseArea
         anchors.fill: root
-        enabled: !ignoreClickForDialog
-        cursorShape: (Helper.canFieldExecuteDialog(fieldType) && !ignoreClickForDialog) ? "PointingHandCursor"
-                                                                                        : "ArrowCursor"
+        enabled: (!ignoreClickForDialog && Helper.canFieldExecuteDialog(displayableFieldType))
+        visible: enabled
+
+        cursorShape: "PointingHandCursor"
         onClicked:
         {
-            if(Helper.canFieldExecuteDialog(fieldType) && !ignoreClickForDialog)
-                _displayField.showCellDialog(root.fieldType, root.playerNumberOwner,
-                                             root.fieldCost, root.fieldIncome)
+            if(Helper.canFieldExecuteDialog(displayableFieldType) && !ignoreClickForDialog)
+                _displayField.showCellDialog(root.displayableFieldType, root.playerNumberOwner,
+                                             root.fieldCost, root.fieldIncome, root.arrowDirection)
         }
     }
 

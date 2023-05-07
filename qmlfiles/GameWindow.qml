@@ -235,8 +235,8 @@ Window
             y: _displayField.height/2 - height/2
         }
 
-        function showCellDialog(inputFieldType: int, inputOwnerPlayerNumber: int,
-                                inputFieldCost: int, inputFieldIncome: int)
+        function showCellDialog(inputFieldType: int, inputOwnerPlayerNumber: int, inputFieldCost: int,
+                                inputFieldIncome: int, inputArrowDirection: int)
         {
             if(!Helper.canFieldExecuteDialog(inputFieldType))
                 return;
@@ -247,7 +247,8 @@ Window
             _cellDialog.showFieldType = inputFieldType;
             _cellDialog.showOwnerPlayerNumber = inputOwnerPlayerNumber;
             _cellDialog.showFieldCost = inputFieldCost;
-            _cellDialog.showFieldIncome = inputFieldIncome
+            _cellDialog.showFieldIncome = inputFieldIncome;
+            _cellDialog.showArrowDirection = inputArrowDirection;
 
             _cellDialog.visible = true;
         }

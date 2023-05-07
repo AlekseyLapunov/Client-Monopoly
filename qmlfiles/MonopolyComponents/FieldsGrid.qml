@@ -67,6 +67,12 @@ Rectangle
                 duration: 200
             }
         }
+
+        Component.onCompleted:
+        {
+            _overlayRectOpacityAnimation.duration = 0;
+            _overlayRectangle.toggler = true;
+        }
     }
 
     Rectangle
@@ -76,6 +82,15 @@ Rectangle
         color: Qt.lighter(root.baseColor, 1.1)
         anchors.fill: root
         opacity: toggler ? 1.0 : 0.1
+
+        MouseArea
+        {
+            id: _overlayRectangleClickSilencer
+            anchors.fill: _overlayRectangle
+            onClicked: {}
+            enabled: _overlayRectangle.opacity > 0.2
+            visible: enabled
+        }
 
         Behavior on opacity
         {
@@ -97,7 +112,7 @@ Rectangle
     function toggleOverlayRectangleOpacity()
     {
         _overlayRectOpacityAnimation.duration = 0;
-        _overlayRectangle.toggler = !_overlayRectangle.toggler;
+        _overlayRectangle.toggler = true;
         _overlayRectangleTimer.start();
     }
 

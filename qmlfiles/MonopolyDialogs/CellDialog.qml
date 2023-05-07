@@ -11,6 +11,7 @@ Rectangle
     property int showOwnerPlayerNumber: Helper.PlayerNumber.NoPlayer
     property int showFieldCost: 0
     property int showFieldIncome: 0
+    property int showArrowDirection: 0
 
     property string fieldNameByType: Helper.defineFieldNameByType(root.showFieldType)
     property string fieldDescriptionByType: Helper.defineFieldDescriptionByType(root.showFieldType)
@@ -33,6 +34,8 @@ Rectangle
         anchors.leftMargin: _win.defaultMargin/4
 
         fieldType: showFieldType
+        displayableFieldType: showFieldType
+        arrowDirection: showArrowDirection
         playerNumberOwner: showOwnerPlayerNumber
 
         border.width: 1
@@ -94,7 +97,7 @@ Rectangle
             anchors.margins: _win.defaultMargin/5
             wrapMode: Text.WordWrap
 
-            color: Qt.lighter(Helper.defineFieldColorByType(showFieldType), 1.35)
+            color: Qt.lighter(Helper.defineFieldColorByType(showFieldType), 1.45)
             style: Text.Outline
             font.family: "Bookman Old Style"
             fontSizeMode: Text.Fit
@@ -162,9 +165,14 @@ Rectangle
         MouseArea
         {
             id: _mouseAreaDragger
-            anchors.fill: parent
+            anchors.fill: _header
             drag.target: root
         }
+    }
+
+    MouseArea
+    {
+
     }
 }
 
