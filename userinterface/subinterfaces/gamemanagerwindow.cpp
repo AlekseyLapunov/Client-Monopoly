@@ -80,19 +80,10 @@ void GameManagerWindow::startQmlEngine()
                      this, SLOT(manageQmlWindowClosing()));
 }
 
-void GameManagerWindow::switchToStage1()
+void GameManagerWindow::setStage()
 {
-    emit gameTransmitterObj->startStageAnimation(1);
-}
-
-void GameManagerWindow::switchToStage2()
-{
-    emit gameTransmitterObj->startStageAnimation(2);
-}
-
-void GameManagerWindow::switchToStage3()
-{
-    emit gameTransmitterObj->startStageAnimation(3);
+    emit gameTransmitterObj->setCurrentGameStage(ui->sbStageNumber->value(),
+                                                 !ui->chbNoStageAnimation->isChecked());
 }
 
 void GameManagerWindow::changePlayerBalance()

@@ -37,9 +37,7 @@ public:
     void startQmlEngine();
 
 private slots:
-    void switchToStage1();
-    void switchToStage2();
-    void switchToStage3();
+    void setStage();
     void changePlayerBalance();
     void changePlayerNickname();
     void rollDiceDirectional();

@@ -16,16 +16,13 @@ using std::vector;
 class FieldsGridModel : public QAbstractListModel
 {
     Q_OBJECT
-    Q_PROPERTY(CellsList *list READ list WRITE setList NOTIFY listChanged)
+    Q_PROPERTY(CellsList *list READ list WRITE setList)
 
 public:
     explicit FieldsGridModel(QObject* parent = nullptr);
 
     CellsList *list() const;
     void setList(CellsList *list);
-
-signals:
-    void listChanged(CellsList* list);
 
 private:
     CellsList *m_cellsList;

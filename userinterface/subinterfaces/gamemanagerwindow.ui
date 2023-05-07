@@ -36,14 +36,17 @@
       </widget>
      </item>
      <item row="0" column="0">
-      <widget class="QPushButton" name="bMakeStage1">
+      <widget class="QPushButton" name="bSetStage">
        <property name="text">
-        <string>Переключить на стадию 1</string>
+        <string>Переключить стадию</string>
        </property>
       </widget>
      </item>
      <item row="2" column="1">
       <widget class="QSpinBox" name="sbPlayerMoney">
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
        <property name="suffix">
         <string> ЭК.</string>
        </property>
@@ -65,13 +68,6 @@
       <widget class="QPushButton" name="bRollDice">
        <property name="text">
         <string>Выпадение костей</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QPushButton" name="bMakeStage2">
-       <property name="text">
-        <string>Переключить на стадию 2</string>
        </property>
       </widget>
      </item>
@@ -191,13 +187,6 @@
        </item>
       </layout>
      </item>
-     <item row="0" column="2">
-      <widget class="QPushButton" name="bMakeStage3">
-       <property name="text">
-        <string>Переключить на стадию 3</string>
-       </property>
-      </widget>
-     </item>
      <item row="4" column="0">
       <widget class="QPushButton" name="bEndTheGame">
        <property name="text">
@@ -223,6 +212,29 @@
       <widget class="QPushButton" name="bFakePlayerTurn">
        <property name="text">
         <string>Имитировать ход игрока</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QSpinBox" name="sbStageNumber">
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="prefix">
+        <string>Стадия </string>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>3</number>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QCheckBox" name="chbNoStageAnimation">
+       <property name="text">
+        <string>Без анимации</string>
        </property>
       </widget>
      </item>
@@ -267,45 +279,13 @@
  <resources/>
  <connections>
   <connection>
-   <sender>bMakeStage1</sender>
+   <sender>bSetStage</sender>
    <signal>clicked()</signal>
    <receiver>GameManagerWindow</receiver>
-   <slot>switchToStage1()</slot>
+   <slot>setStage()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>93</x>
-     <y>126</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>274</x>
-     <y>132</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>bMakeStage2</sender>
-   <signal>clicked()</signal>
-   <receiver>GameManagerWindow</receiver>
-   <slot>switchToStage2()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>274</x>
-     <y>126</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>274</x>
-     <y>132</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>bMakeStage3</sender>
-   <signal>clicked()</signal>
-   <receiver>GameManagerWindow</receiver>
-   <slot>switchToStage3()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>456</x>
      <y>126</y>
     </hint>
     <hint type="destinationlabel">
@@ -476,9 +456,7 @@
   </connection>
  </connections>
  <slots>
-  <slot>switchToStage1()</slot>
-  <slot>switchToStage2()</slot>
-  <slot>switchToStage3()</slot>
+  <slot>setStage()</slot>
   <slot>addPlayer()</slot>
   <slot>removePlayer()</slot>
   <slot>changePlayerBalance()</slot>

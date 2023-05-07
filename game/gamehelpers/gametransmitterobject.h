@@ -14,7 +14,7 @@ public:
     void emitFieldChanged(int index, Cell newCell);
 
 signals:
-    void startStageAnimation(uint8_t stageNumber);
+    void setCurrentGameStage(uint8_t stageNumber, bool withAnimation = true);
     void fieldOrderIndexChanged(int index, int orderIndex);
     void fieldChanged(int index, int orderIndex, uint8_t fieldTypeSet, uint8_t playerNumberOwner,
                       int fieldCost, int fieldIncome, uint8_t piecesOnCellMask, uint8_t stage,

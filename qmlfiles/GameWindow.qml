@@ -403,9 +403,13 @@ Window
     Connections
     {
         target: _gameTransmitter
-        function onStartStageAnimation(stageNumber: int)
+        function onSetCurrentGameStage(stageNumber: int, withAnimation: bool)
         {
             _win.currentStage = stageNumber;
+
+            if(!withAnimation)
+                return;
+
             _map.toggleOverlayRectangleOpacity();
             _stageDisplay.startStageAnimation();
         }
