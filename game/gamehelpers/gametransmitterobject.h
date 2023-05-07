@@ -20,6 +20,9 @@ signals:
     void fieldChanged(int index, int orderIndex, uint8_t fieldTypeSet, uint8_t playerNumberOwner,
                       int fieldCost, int fieldIncome, uint8_t piecesOnCellMask, uint8_t stage,
                       uint8_t arrowDirection, uint8_t blankUntilStage);
+    void startDiceInfiniteAnimation();
+    void startDiceDirectionalAnimation(uint8_t leftDiceValue, uint8_t rightDiceValue);
+    void stopDiceAnimation();
 };
 
 #endif // GAMETRANSMITTEROBJECT_H

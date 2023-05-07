@@ -61,6 +61,8 @@ private:
     GameTransmitterObject* gameTransmitterObj;
     QObject* gameReceiverObj;
 
+    uint8_t currentStage = 0;
+
     CellsList* m_cellsList;
 };
 

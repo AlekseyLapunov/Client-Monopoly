@@ -244,25 +244,6 @@ FoldingInfoBlock
         }
     }
 
-    function debugAddCoalStation()
-    {
-        let item = {};
-        item.fieldType = Helper.FieldType.CoalStation;
-        _allBusinessesAndResources.append(item);
-        countBusinessesAndResources();
-    }
-
-    function debugRemoveCoalStation()
-    {
-        for(let i = 0; i < _allBusinessesAndResources.count; i++)
-            if(_allBusinessesAndResources.get(i).fieldType === Helper.FieldType.CoalStation)
-            {
-                _allBusinessesAndResources.remove(i);
-                break;
-            }
-        countBusinessesAndResources();
-    }
-
     function countBusinessesAndResources()
     {
         _businessAndResourcesCounted.clear();

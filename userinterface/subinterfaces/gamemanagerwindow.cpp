@@ -82,8 +82,12 @@ void GameManagerWindow::startQmlEngine()
 
 void GameManagerWindow::setStage()
 {
-    emit gameTransmitterObj->setCurrentGameStage(ui->sbStageNumber->value(),
-                                                 !ui->chbNoStageAnimation->isChecked());
+    if(ui->sbStageNumber->value() != currentStage)
+    {
+        emit gameTransmitterObj->setCurrentGameStage(ui->sbStageNumber->value(),
+                                                     !ui->chbNoStageAnimation->isChecked());
+        currentStage = ui->sbStageNumber->value();
+    }
 }
 
 void GameManagerWindow::changePlayerBalance()
@@ -98,12 +102,13 @@ void GameManagerWindow::changePlayerNickname()
 
 void GameManagerWindow::rollDiceDirectional()
 {
-
+    emit gameTransmitterObj->startDiceDirectionalAnimation(ui->sbLeftDiceValue->value(),
+                                                           ui->sbRightDiceValue->value());
 }
 
 void GameManagerWindow::rollDiceInfinite()
 {
-
+    emit gameTransmitterObj->startDiceInfiniteAnimation();
 }
 
 void GameManagerWindow::addPlayer()

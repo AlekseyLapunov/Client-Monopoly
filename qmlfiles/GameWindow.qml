@@ -282,22 +282,6 @@ Window
             case Qt.Key_F2:
                 _playersInfoBlock.debugChangePlayerBalance();
                 break;
-            case Qt.Key_0:
-                _diceBlock.diceStop();
-                break;
-            case Qt.Key_9:
-                _diceBlock.diceGoInfiniteRotation();
-                break;
-            case Qt.Key_7:
-                _diceBlock.diceRotateToNumbers(Helper.getRandomInt(1,6),
-                                               Helper.getRandomInt(1,6));
-                break;
-            case Qt.Key_BracketLeft:
-                _hostInfoBlock.debugRemoveCoalStation();
-                break;
-            case Qt.Key_BracketRight:
-                _hostInfoBlock.debugAddCoalStation();
-                break;
             default:
                 event.accepted = true;
                 return;
@@ -410,6 +394,23 @@ Window
 
             _map.toggleOverlayRectangleOpacity();
             _stageDisplay.startStageAnimation();
+        }
+
+        function onStopDiceAnimation()
+        {
+            _diceBlock.diceStop();
+        }
+
+        function onStartDiceInfiniteAnimation()
+        {
+            _diceBlock.diceGoInfiniteRotation();
+        }
+
+        function onStartDiceDirectionalAnimation(leftDiceValue: int,
+                                                 rightDiceValue: int)
+        {
+            _diceBlock.diceRotateToNumbers(leftDiceValue,
+                                           rightDiceValue);
         }
     }
 

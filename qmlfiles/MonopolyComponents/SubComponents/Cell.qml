@@ -162,7 +162,7 @@ Rectangle
                 {
                     console.log("[" + (root.cellNumber).toString()
                                 + ", "+ (root.orderIndex).toString()
-                                + "]: Removing Player" + (i+1).toString());
+                                + "]: Removing gaming piece of Player" + (i+1).toString());
                     _gamingPiecesDisplay.removePiece(i+1);
                 }
             }
@@ -178,7 +178,7 @@ Rectangle
                 {
                     console.log("[" + (root.cellNumber).toString()
                                 + ", "+ (root.orderIndex).toString()
-                                + "]: Adding Player" + (j+1).toString());
+                                + "]: Adding gaming piece of Player" + (j+1).toString());
                     _gamingPiecesDisplay.addPiece(j+1);
                 }
             }

@@ -240,7 +240,8 @@ Rectangle
     MonopolyButton
     {
         id: _buyButton
-
+        visible: root.hasBuyButton
+        enabled: visible
         textContent: root.showOwnerPlayerNumber === Helper.PlayerNumber.NoPlayer ? "Купить" : "Перекупить"
         width: root.width/3
         height: root.baseHeight/8
