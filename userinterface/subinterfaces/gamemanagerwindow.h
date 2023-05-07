@@ -10,7 +10,9 @@
 #include "helpers/basewin.h"
 #include "game/gamehelpers/gametransmitterobject.h"
 #include "game/models/fieldsgridmodel.h"
+#include "game/models/playersinfomodel.h"
 #include "game/models/lists/cellslist.h"
+#include "game/models/lists/playergameinfolist.h"
 #include "game/gamehelpers/gamestructs.h"
 
 #define DEBUG_SHOW_DEBUG_PANEL
@@ -64,6 +66,7 @@ private:
     uint8_t currentStage = 0;
 
     CellsList* m_cellsList;
+    PlayerGameInfoList* m_playersList;
 };
 
 // DEBUG!
@@ -86,6 +89,20 @@ static void fillDebugMapContext()
 {
     for(int i = 0; i < 81; i++)
         debugMapContext.appendItem(debugCellsArray[i]);
+}
+
+static PlayerGameInfo debugPlayersArray[] =
+{
+    { PlayerNumber::Player1, "Loshad", 100, 0 },
+    { PlayerNumber::Player2, "MsCones", 120, 0  }
+};
+
+static PlayerGameInfoList debugPlayersContext;
+
+static void fillDebugPlayersContext()
+{
+    for(int i = 0; i < 2; i++)
+        debugPlayersContext.appendItem(debugPlayersArray[i]);
 }
 
 #endif // GAMEMANAGERWINDOW_H

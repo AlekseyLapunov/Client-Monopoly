@@ -616,13 +616,13 @@ LobbyFullInfo ServerCommunicator::getInfoLobby(bool &ok, uint8_t localCounter)
 
 }
 
-void ServerCommunicator::deleteLobby(const int lobbyUniqueId, bool &ok, uint8_t localCounter)
+void ServerCommunicator::deleteLobby(bool &ok, uint8_t localCounter)
 {
 #ifdef LOBBIES_INSIDE_STUB
     return;
 #else
     uint8_t thisSubModuleId = DeleteLobbySubModule;
-    QString usingHttpMethod = httpMethods[DeleteLobbiesById].arg(QString::number(lobbyUniqueId));
+    QString usingHttpMethod = httpMethods[DeleteLobbiesCurrent];
 
     if(localCounter >= LOCAL_COUNTER_MAX)
     {
@@ -650,7 +650,7 @@ void ServerCommunicator::deleteLobby(const int lobbyUniqueId, bool &ok, uint8_t 
         if(serverCommSubModuleRepeat[thisSubModuleId])
         {
             localCounter++;
-            return deleteLobby(lobbyUniqueId, ok, localCounter);
+            return deleteLobby(ok, localCounter);
         }
         ok = true;
         return;

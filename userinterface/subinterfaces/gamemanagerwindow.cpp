@@ -62,15 +62,20 @@ void GameManagerWindow::startQmlEngine()
 
     qmlRegisterSingletonType(QUrl("qrc:/qmlfiles/HelperSingletone/Helper.qml"), "Helper", 1, 0, "Helper");
     qmlRegisterType<FieldsGridModel>("GameMap", 1, 0, "FieldsGridModel");
-    qmlRegisterUncreatableType<FieldsGridModel>("GameMap", 1, 0, "CellsList",
-                                                QStringLiteral("Should NOT be created inside QML"));
+    qmlRegisterUncreatableType<CellsList>("GameMap", 1, 0, "CellsList",
+                                                QStringLiteral("Should not be created inside QML"));
+    qmlRegisterType<PlayersInfoModel>("GamePlayers", 1, 0, "PlayersInfoModel");
+    qmlRegisterUncreatableType<PlayerGameInfoList>("GamePlayers", 1, 0, "PlayerGameInfoList",
+                                                    QStringLiteral("Should not be created inside QML"));
 
     qmlEngine = new QQmlApplicationEngine;
 
     m_cellsList = new CellsList();
+    m_playersList = new PlayerGameInfoList();
     applyFirstGameContext();
 
     qmlEngine->rootContext()->setContextProperty(QStringLiteral("_cellsList"), m_cellsList);
+    qmlEngine->rootContext()->setContextProperty(QStringLiteral("_playersList"), m_playersList);
     qmlEngine->rootContext()->setContextProperty("_gameTransmitter", gameTransmitterObj);
 
     qmlEngine->load(QUrl("qrc:/qmlfiles/GameWindow.qml"));
@@ -113,12 +118,29 @@ void GameManagerWindow::rollDiceInfinite()
 
 void GameManagerWindow::addPlayer()
 {
+    if(m_playersList->items().size() >= 6)
+        return;
 
+    PlayerGameInfo item = {static_cast<uint8_t>(m_playersList->items().size() + 1),
+                           QString("Player%1").arg(m_playersList->items().size() + 1),
+                           m_playersList->getItemAt(0).currentBalance + 20, 0};
+    m_playersList->appendItem(item);
+    m_playersList->sortByBalance();
+
+    emit gameTransmitterObj->appendPlayer(item.playerNumber,
+                                          item.displayableName,
+                                          item.currentBalance);
 }
 
 void GameManagerWindow::removePlayer()
 {
+    if(m_playersList->items().size() <= 2)
+        return;
 
+    m_playersList->removeItem(0);
+    m_playersList->sortByBalance();
+
+    emit gameTransmitterObj->deletePlayer(m_playersList->items().size() + 1);
 }
 void GameManagerWindow::placePlayerPieceOn()
 {
@@ -150,8 +172,9 @@ void GameManagerWindow::manageQmlWindowClosing()
 void GameManagerWindow::applyFirstGameContext()
 {
     fillDebugMapContext();
-    //fillDebugPlayersContext();
+    fillDebugPlayersContext();
 
     m_cellsList->setItems(debugMapContext);
-    //m_playersList->setItems(debugPlayersContext);
+    m_playersList->setItems(debugPlayersContext);
+    m_playersList->sortByBalance();
 }

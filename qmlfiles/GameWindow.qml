@@ -8,6 +8,7 @@ import "MonopolyComponents/SubComponents"
 import "MonopolyDialogs"
 import "HelperSingletone"
 import GameMap 1.0
+import GamePlayers 1.0
 
 Window
 {
@@ -260,8 +261,12 @@ Window
             id: _fieldsGridModel
             list: _cellsList
         }
+        PlayersInfoModel
+        {
+            id: _playersInfoModel
+            list: _playersList
+        }
 
-        // Hotkeys. Most of these keys are debug only and they will be deleted soon!
         Keys.onPressed: (event) =>
         {
             switch(event.key)
@@ -272,15 +277,6 @@ Window
             case Qt.Key_Escape:
                 if(_cellDialog.visible)
                     _cellDialog.visible = false;
-                break;
-            case Qt.Key_F4:
-                _playersInfoBlock.addPlayerRow();
-                break;
-            case Qt.Key_F3:
-                _playersInfoBlock.delPlayerRow();
-                break;
-            case Qt.Key_F2:
-                _playersInfoBlock.debugChangePlayerBalance();
                 break;
             default:
                 event.accepted = true;
@@ -393,6 +389,8 @@ Window
             }
 
             _map.toggleOverlayRectangleOpacity();
+            if(_cellDialog.visible)
+                _cellDialog.visible = false;
             _stageDisplay.startStageAnimation();
         }
 

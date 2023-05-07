@@ -13,6 +13,8 @@ SOURCES += \
     game/gamehelpers/gametransmitterobject.cpp \
     game/models/fieldsgridmodel.cpp \
     game/models/lists/cellslist.cpp \
+    game/models/lists/playergameinfolist.cpp \
+    game/models/playersinfomodel.cpp \
     helpers/common/filemanager.cpp \
     helpers/usermetainfo.cpp \
     userinterface/lobbywindow.cpp \
@@ -29,6 +31,8 @@ HEADERS += \
     game/gamehelpers/modelsroles.h \
     game/models/fieldsgridmodel.h \
     game/models/lists/cellslist.h \
+    game/models/lists/playergameinfolist.h \
+    game/models/playersinfomodel.h \
     helpers/basewin.h \
     helpers/common/filemanager.h \
     helpers/common/sourcestrings.h \

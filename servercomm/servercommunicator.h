@@ -58,7 +58,7 @@ public:
     void kickPlayer(const int playerUniqueId, bool &ok, uint8_t localCounter = 0);
     void raisePlayer(const int playerUniqueId, bool &ok, uint8_t localCounter = 0);
     void disconnectFromLobby(bool &ok, uint8_t localCounter = 0);
-    void deleteLobby(const int lobbyUniqueId, bool &ok, uint8_t localCounter = 0);
+    void deleteLobby(bool &ok, uint8_t localCounter = 0);
 
 signals:
     void authorizationProcessOver();

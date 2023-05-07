@@ -23,6 +23,8 @@ signals:
     void startDiceInfiniteAnimation();
     void startDiceDirectionalAnimation(uint8_t leftDiceValue, uint8_t rightDiceValue);
     void stopDiceAnimation();
+    void appendPlayer(uint8_t playerNumber, QString displayableName, uint8_t currentBalance);
+    void deletePlayer(uint8_t playerNumber);
 };
 
 #endif // GAMETRANSMITTEROBJECT_H

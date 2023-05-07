@@ -17,6 +17,14 @@ enum MapModelCellRole
     BlankUntilStage
 };
 
+enum PlayersModelInfoRole
+{
+    PlayerNumber = Qt::UserRole,
+    DisplayableName,
+    CurrentBalance,
+    PiecePositionOnOrderIndex
+};
+
 static QMap<short, QString> mapModelCellRoleNames { {OrderIndex, "orderIndex"},
                                                     {FieldType, "fieldType"},
                                                     {PlayerNumberOwner, "playerNumberOwner"},
@@ -26,5 +34,10 @@ static QMap<short, QString> mapModelCellRoleNames { {OrderIndex, "orderIndex"},
                                                     {Stage, "stage"},
                                                     {ArrowDirection, "arrowDirection"},
                                                     {BlankUntilStage, "blankUntilStage"} };
+
+static QMap<short, QString> playersModelInfoRoleNames { {PlayerNumber, "playerNumber"},
+                                                        {DisplayableName, "displayableName"},
+                                                        {CurrentBalance, "currentBalance"},
+                                                        {PiecePositionOnOrderIndex, "piecePositionOnOrderIndex"} };
 
 #endif // MODELSROLES_H

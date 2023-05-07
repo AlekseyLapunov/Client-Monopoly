@@ -15,7 +15,7 @@ Rectangle
 
     radius: (height/Math.pow(width, 1.2))*30
 
-    height: (dataRowHeight+_dataRows.spacing)*_playersDataRows.count + sizeUnit/6
+    height: (dataRowHeight+_dataRows.spacing)*_playersDataRowsSortable.count + sizeUnit/6
     color: baseColor
 
     border.width: (height+width)*_win.componentsBorderCoeff/3
@@ -58,7 +58,7 @@ Rectangle
 
         Repeater
         {
-            model: _playersDataRows
+            model: _playersDataRowsSortable
 
             delegate: Rectangle
             {
@@ -67,9 +67,9 @@ Rectangle
                 color: ((index%2 === 0) ? Qt.lighter(root.color, 1.15)
                                         : Qt.darker(root.color, 1.15))
 
-                property color playerColorProp: playerColor
-                property string playerNicknameProp: playerNickname
-                property int playerBalanceProp: playerBalance
+                property color playerColorProp: Helper.definePlayerColorByNumber(model.playerNumber)
+                property string playerNicknameProp: model.displayableName
+                property int playerBalanceProp: model.currentBalance
 
                 Text
                 {
@@ -108,52 +108,68 @@ Rectangle
         }
     }
 
-    function addPlayerRow()
+    Component.onCompleted:
     {
-        if(_playersDataRows.count === 6)
-            return;
-
-        let playerDataItem = {};
-        playerDataItem.playerColor = Helper.definePlayerColorByNumber(_playersDataRows.count+1).toString();
-        playerDataItem.playerBalance = _playersDataRows.count === 0 ? Math.random()*2000 + 1000
-                                                                    : _playersDataRows.get(_playersDataRows.count - 1).playerBalance
-                                                                    - (Math.random()*300 + 100);
-        playerDataItem.playerNickname = "Player" + (_playersDataRows.count + 1);
-        _playersDataRows.append(playerDataItem);
-    }
-
-    function debugChangePlayerBalance()
-    {
-        _playersDataRows.get(3).playerBalance += 1000;
-
-        sortPlayersList();
-    }
-
-    function delPlayerRow()
-    {
-        if(_playersDataRows.count === 0)
-            return;
-        _playersDataRows.remove(_playersDataRows.count - 1);
+        fillPlayersSortable();
     }
 
     function sortPlayersList()
     {
-
-        if(_playersDataRows.count < 2)
+        if(_playersDataRowsSortable.count < 2)
             return;
 
-        for (let i = 0; i < (_playersDataRows.count - 1); i++)
-            for (let j = 0; j < (_playersDataRows.count - i - 1); j++)
-                if (_playersDataRows.get(j).playerBalance < _playersDataRows.get(j + 1).playerBalance)
+        for (let i = 0; i < (_playersDataRowsSortable.count - 1); i++)
+            for (let j = 0; j < (_playersDataRowsSortable.count - i - 1); j++)
+                if (_playersDataRowsSortable.get(j).currentBalance < _playersDataRowsSortable.get(j + 1).currentBalance)
                 {
-                    _playersDataRows.move(j, j+1, 1);
+                    _playersDataRowsSortable.move(j, j+1, 1);
                     _energyKrendelsOvercomeSound.play();
-                    //_playersDataRows.move(j+1, j, 1)
                 }
+    }
+
+    function fillPlayersSortable()
+    {
+        _playersDataRowsSortable.clear();
+        for(let i = 0; i < _playersInfoModel.rowCount(); i++)
+        {
+            let item = {};
+            item.playerNumber = _playersInfoModel.data(_playersInfoModel.index(i, 0), 256);
+            item.displayableName = _playersInfoModel.data(_playersInfoModel.index(i, 0), 257);
+            item.currentBalance = _playersInfoModel.data(_playersInfoModel.index(i, 0), 258);
+            _playersDataRowsSortable.append(item);
+        }
+        sortPlayersList();
     }
 
     ListModel
     {
-        id: _playersDataRows
+        id: _playersDataRowsSortable
+    }
+
+    Connections
+    {
+        target: _gameTransmitter
+
+        function onAppendPlayer(playerNumber, displayableName, currentBalance)
+        {
+            let item = {};
+            item.playerNumber = playerNumber;
+            item.displayableName = displayableName;
+            item.currentBalance = currentBalance;
+            _playersDataRowsSortable.append(item);
+            //_playersList.appendItem(item);
+            sortPlayersList();
+        }
+
+        function onDeletePlayer(playerNumber)
+        {
+            for(let i = 0; i < _playersDataRowsSortable.count; i++)
+                if(_playersDataRowsSortable.get(i).playerNumber === playerNumber)
+                {
+                    _playersDataRowsSortable.remove(i);
+                    return;
+                }
+            sortPlayersList();
+        }
     }
 }

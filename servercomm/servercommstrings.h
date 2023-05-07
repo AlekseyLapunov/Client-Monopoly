@@ -41,7 +41,7 @@ enum MethodKey { PostAuthVK, PostAuthGoogle, PostAuthAsGuest, PostAuthRefreshAcc
                  PostLobbiesCurrentUpdateSettings, PostLobbiesCurrentDisconnect,
                  PostLobbiesCurrentSwitchReadiness, PostLobbiesCurrentPlayersRaiseById,
                  PostLobbiesCurrentPlayersKickById, PostLobbiesCurrentRun,
-                 DeleteLobbiesById };
+                 DeleteLobbiesCurrent };
 
 static const QMap<uint8_t, QString> httpMethods = {
                                                         {PostAuthVK,                            "auth/authFromVK"},
@@ -64,7 +64,7 @@ static const QMap<uint8_t, QString> httpMethods = {
                                                         {PostLobbiesCurrentPlayersRaiseById,    "lobbies/current/players/%1/raise"},
                                                         {PostLobbiesCurrentPlayersKickById,     "lobbies/current/players/%1/kick"},
                                                         {PostLobbiesCurrentRun,                 "lobbies/current/run"},
-                                                        {DeleteLobbiesById,                     "lobbies/%1"}
+                                                        {DeleteLobbiesCurrent,                  "lobbies/current"}
                                                     };
 
 static const QString jsonContentType            = "application/json";

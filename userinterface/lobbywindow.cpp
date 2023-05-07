@@ -446,7 +446,7 @@ void LobbyWindow::switchBackToMenuWindow()
     bool ok = false;
 
     if(pUserMetaInfo()->get()->getHostInfo().uniqueId == m_context.settings.ownerUniqueId)
-        pServer()->get()->deleteLobby(m_context.settings.uniqueId, ok);
+        pServer()->get()->deleteLobby(ok);
 
     pServer()->get()->disconnectFromLobby(ok);
 
@@ -696,7 +696,7 @@ void LobbyWindow::quitAppDialog()
         bool ok = false;
 
         if(pUserMetaInfo()->get()->getHostInfo().uniqueId == m_context.settings.ownerUniqueId)
-            pServer()->get()->deleteLobby(m_context.settings.uniqueId, ok);
+            pServer()->get()->deleteLobby(ok);
 
         pServer()->get()->disconnectFromLobby(ok);
 

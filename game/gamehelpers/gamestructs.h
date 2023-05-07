@@ -5,6 +5,8 @@
 #include <stdint.h>
 #include <vector>
 
+#include "QString"
+
 using std::vector;
 
 #define DEFAULT_MAP_DIMENSION 9
@@ -24,6 +26,17 @@ struct Cell
 
     uint8_t arrowDirection;
     uint8_t blankUntilStage;
+};
+
+struct PlayerGameInfo
+{
+    bool operator==(const PlayerGameInfo &cellContext);
+    bool operator==(PlayerGameInfo &cellContext);
+
+    uint8_t playerNumber;
+    QString displayableName;
+    int currentBalance;
+    int piecePositionOnOrderIndex;
 };
 
 enum FieldType

@@ -23,3 +23,23 @@ bool Cell::operator==(Cell &cellContext)
         return true;
     return false;
 }
+
+bool PlayerGameInfo::operator==(const PlayerGameInfo &cellContext)
+{
+    if((this->playerNumber == cellContext.playerNumber) &&
+    (this->displayableName == cellContext.displayableName) &&
+    (this->currentBalance == cellContext.currentBalance) &&
+    (this->piecePositionOnOrderIndex == cellContext.piecePositionOnOrderIndex))
+        return true;
+    return false;
+}
+
+bool PlayerGameInfo::operator==(PlayerGameInfo &cellContext)
+{
+    if((this->playerNumber == cellContext.playerNumber) &&
+    (this->displayableName == cellContext.displayableName) &&
+    (this->currentBalance == cellContext.currentBalance) &&
+    (this->piecePositionOnOrderIndex == cellContext.piecePositionOnOrderIndex))
+        return true;
+    return false;
+}
