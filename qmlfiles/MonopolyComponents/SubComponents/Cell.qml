@@ -26,6 +26,7 @@ Rectangle
     property int cellNumber: -1
 
     property int displayableFieldType: blankUntilStage > currentStage ? Helper.FieldType.Common : fieldType
+    property int lastPiecesMask: 0
 
     visible: ((displayableFieldType !== Helper.FieldType.Void)
               && (stage <= currentStage))
@@ -97,9 +98,16 @@ Rectangle
         }
     }
 
+    Component.onCompleted:
+    {
+        placePiecesAccordingToMask();
+        lastPiecesMask = root.piecesOnCellMask;
+    }
+
     onPiecesOnCellMaskChanged:
     {
-
+        placePiecesAccordingToMask();
+        lastPiecesMask = root.piecesOnCellMask;
     }
 
     Connections
@@ -131,19 +139,49 @@ Rectangle
 
             root.orderIndex = orderIndex;
         }
+
+        function onFieldPiecesMaskChanged(index, piecesMask)
+        {
+            if(index !== root.cellNumber)
+                return;
+
+            root.piecesOnCellMask = piecesMask;
+        }
     }
 
-    function placeNewPiece(cellId, playerNumber)
+    function placePiecesAccordingToMask()
     {
-        if(root.cellNumber !== cellId)
-            return;
-        _gamingPiecesDisplay.addPiece(playerNumber);
-    }
+        let piecesLeftMask = Helper.definePiecesLeftMask(root.lastPiecesMask,
+                                                         root.piecesOnCellMask);
 
-    function removeLastPiece(cellId)
-    {
-        if(root.cellNumber !== cellId)
-            return;
-        _gamingPiecesDisplay.removeLastPiece();
+        if(piecesLeftMask !== 0)
+        {
+            for(let i = 0; i < (Helper.PlayerNumber.Player6 - 1); i++)
+            {
+                if((piecesLeftMask & (1 << i)) !== 0)
+                {
+                    console.log("[" + (root.cellNumber).toString()
+                                + ", "+ (root.orderIndex).toString()
+                                + "]: Removing Player" + (i+1).toString());
+                    _gamingPiecesDisplay.removePiece(i+1);
+                }
+            }
+        }
+
+        let piecesAppearMask = Helper.definePiecesAppearMask(root.lastPiecesMask,
+                                                             root.piecesOnCellMask);
+        if(piecesAppearMask !== 0)
+        {
+            for(let j = 0; j < (Helper.PlayerNumber.Player6 - 1); j++)
+            {
+                if((piecesAppearMask & (1 << j)) !== 0)
+                {
+                    console.log("[" + (root.cellNumber).toString()
+                                + ", "+ (root.orderIndex).toString()
+                                + "]: Adding Player" + (j+1).toString());
+                    _gamingPiecesDisplay.addPiece(j+1);
+                }
+            }
+        }
     }
 }

@@ -16,6 +16,7 @@ public:
 signals:
     void setCurrentGameStage(uint8_t stageNumber, bool withAnimation = true);
     void fieldOrderIndexChanged(int index, int orderIndex);
+    void fieldPiecesMaskChanged(int index, uint8_t piecesOnCellMask);
     void fieldChanged(int index, int orderIndex, uint8_t fieldTypeSet, uint8_t playerNumberOwner,
                       int fieldCost, int fieldIncome, uint8_t piecesOnCellMask, uint8_t stage,
                       uint8_t arrowDirection, uint8_t blankUntilStage);

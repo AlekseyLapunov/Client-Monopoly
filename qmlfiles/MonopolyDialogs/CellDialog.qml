@@ -17,7 +17,7 @@ Rectangle
     property string fieldNameByType: Helper.defineFieldNameByType(root.showFieldType)
     property string fieldDescriptionByType: Helper.defineFieldDescriptionByType(root.showFieldType)
 
-    property bool hasBuyButton: true
+    property bool hasBuyButton: false
 
     color: Qt.darker(_displayField.shareGradColor1, 1.1)
 
@@ -254,9 +254,9 @@ Rectangle
 
         onClicked:
         {
-
+            // emit signal about buy or overbuy, then close
+            root.visible = false
         }
-
     }
 
     MouseArea

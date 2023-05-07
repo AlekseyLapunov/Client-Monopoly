@@ -275,4 +275,38 @@ Item
         default: return;
         }
     }
+
+    function definePiecesLeftMask(mask1: int, mask2: int)
+    {
+      let piecesLeftMask = 0;
+      let bit = 1;
+      while (mask1 > 0)
+      {
+        if ((mask1 & 1) === 1 && (mask2 & 1) === 0)
+        {
+          piecesLeftMask |= bit;
+        }
+        mask1 >>= 1;
+        mask2 >>= 1;
+        bit <<= 1;
+      }
+      return piecesLeftMask;
+    }
+
+    function definePiecesAppearMask(mask1: int, mask2: int)
+    {
+      const diff = mask1 ^ mask2;
+      let mask = 0;
+      for (let i = 0; i < (Helper.PlayerNumber.Player6 - 1); i++)
+      {
+        if ((diff >> i) & 1)
+        {
+          if ((mask2 >> i) & 1)
+          {
+            mask |= (1 << i);
+          }
+        }
+      }
+      return mask;
+    }
 }
