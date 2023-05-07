@@ -125,7 +125,7 @@ LobbySettings FileManager::loadSettingsFromFile(const QString &path)
     settingsOutput.isMaxMoneyInfinite  = settingsObj[ssJsonLobbySettings[IsMaxMoneyInfinite]].toBool();
     settingsOutput.maxTurns            = settingsObj[ssJsonLobbySettings[MaxTurns]].toInt();
     settingsOutput.areMaxTurnsInfinite = settingsObj[ssJsonLobbySettings[AreMaxTurnsInfinite]].toBool();
-    settingsOutput.type                = settingsObj[ssJsonLobbySettings[LobbyType]].toString();
+    settingsOutput.type                = settingsObj[ssJsonLobbySettings[LobbyType]].toInt();
 
     return settingsOutput;
 }

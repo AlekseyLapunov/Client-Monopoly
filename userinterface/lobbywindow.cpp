@@ -86,7 +86,7 @@ short LobbyWindow::definePrivilege()
 {
     int uniqueHostId = pUserMetaInfo()->get()->getHostInfo().uniqueId;
 
-    if(m_context.settings.type == "RANKED")
+    if(m_context.settings.type == RANKED)
         return RankedJoinedUser;
     else if(m_context.settings.ownerUniqueId == uniqueHostId)
         return Owner;
