@@ -113,7 +113,7 @@ private:
                                      QEventLoop *localEventLoop);
 
     enum ReplyManagerAnswer { ReplyNeedToAbort, ReplyNeedToRepeatMethod, ReplyAllGood };
-    uint8_t basicReplyManage(QNetworkReply *pReply, uint8_t serverCommSubModuleId,
+    uint8_t basicReplyManage(QNetworkReply *pReply, uint8_t serverCommSubModuleId, QString replyBody = "",
                              bool canCallRefreshToken = true, bool showReplyBody = true);
 
     void emitSignalBySubModuleId(uint8_t subModuleId);

@@ -7,7 +7,7 @@
 #include "helpers/basewin.h"
 #include "menuwindow.h"
 
-#define DEBUG_SKIP_LOGIN
+//#define DEBUG_SKIP_LOGIN
 
 namespace Ui { class LoginWindow; }
 

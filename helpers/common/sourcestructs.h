@@ -20,7 +20,7 @@
 
 // String lengths
 #define NICKNAME_MAX_LEN        16
-#define LOBBY_NAME_MAX_LEN      16
+#define LOBBY_NAME_MAX_LEN      32
 #define LOBBY_PASSWORD_MAX_LEN  16
 
 // LobbyWindow: parameters of table with users

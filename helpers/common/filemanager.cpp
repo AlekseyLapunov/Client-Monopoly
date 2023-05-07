@@ -260,6 +260,8 @@ void FileManager::commitTokens(QByteArray data)
 
     QJsonDocument jsonTokensDoc = QJsonDocument::fromJson(data);
 
+    qDebug().noquote() << data.size();
+
     if(!jsonTokensDoc.isObject())
     {
         qDebug().noquote() << QString::fromStdString(ssClassNames[FileManagerCN])

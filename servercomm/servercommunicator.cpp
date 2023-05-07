@@ -11,12 +11,6 @@ ServerCommunicator::~ServerCommunicator()
 {
     m_lobbiesShortInfoVec.clear();
     m_lobbiesShortInfoVec.resize(0);
-    delete m_oauthCodeFlow;
-    m_oauthCodeFlow = nullptr;
-    delete m_oauthNetworkManager;
-    m_oauthNetworkManager = nullptr;
-    delete m_oauthReplyHandler;
-    m_oauthReplyHandler = nullptr;
 }
 
 HostUserData ServerCommunicator::doVkLogin(bool &ok)
@@ -435,7 +429,7 @@ LobbyFullInfo ServerCommunicator::connectToLobby(const int lobbyUniqueId, bool &
     if(basicRequestManage(thisSubModuleId, usingHttpMethod,
                           HttpMethodType::HttpPost, authorizationRawHeader,
                           authorizationHeaderContent.arg(gotAccessToken),
-                          "") == RequestManagerAnswer::RequestAllGood)
+                          "{}") == RequestManagerAnswer::RequestAllGood)
     {
         if(serverCommSubModuleRepeat[thisSubModuleId])
         {
@@ -487,7 +481,7 @@ LobbyFullInfo ServerCommunicator::connectToLobby(const int lobbyUniqueId, const 
             return {};
         }
 
-    QString requestBody = QString("\"password\": \"%1\"").arg(enteredPassword);
+    QString requestBody = QString("{\"password\": \"%1\"}").arg(enteredPassword);
 
     if(basicRequestManage(thisSubModuleId, usingHttpMethod,
                           HttpMethodType::HttpPost, authorizationRawHeader,
@@ -912,14 +906,15 @@ void ServerCommunicator::disconnectFromLobby(bool &ok, uint8_t localCounter)
 
 void ServerCommunicator::catchReplyAuth(QNetworkReply *reply)
 {
-    if(basicReplyManage(reply, AuthSubModule, false) != ReplyManagerAnswer::ReplyAllGood)
+    QByteArray bytes = reply->readAll();
+    QString replyBodyString = QString::fromUtf8(bytes.data(), bytes.size());
+
+    if(basicReplyManage(reply, AuthSubModule, replyBodyString, false) != ReplyManagerAnswer::ReplyAllGood)
         return;
 
-    QByteArray bytes = reply->readAll();
+    FileManager::commitTokens(bytes);
 
-    FileManager::commitTokens(bytes.data());
-
-    QJsonObject jsonObj = QJsonDocument::fromJson(bytes.data()).object();
+    QJsonObject jsonObj = QJsonDocument::fromJson(bytes).object();
 
     QJsonValue jsonValue = jsonObj.value(ssJsonUserMeta[UserInfoObj]);
 
@@ -949,12 +944,13 @@ void ServerCommunicator::catchReplyAuth(QNetworkReply *reply)
 
 void ServerCommunicator::catchReplyGetUserInfo(QNetworkReply *reply)
 {
-    if(basicReplyManage(reply, GetUserInfoSubModule) != ReplyManagerAnswer::ReplyAllGood)
+    QByteArray bytes = reply->readAll();
+    QString replyBodyString = QString::fromUtf8(bytes.data(), bytes.size());
+
+    if(basicReplyManage(reply, GetUserInfoSubModule, replyBodyString) != ReplyManagerAnswer::ReplyAllGood)
         return;
 
-    QByteArray bytes = reply->readAll();
-
-    QJsonObject jsonObj = QJsonDocument::fromJson(bytes.data()).object();
+    QJsonObject jsonObj = QJsonDocument::fromJson(bytes).object();
 
     QJsonValue jsonValue = jsonObj.value(ssJsonUserMeta[UserInfoObj]);
 
@@ -984,12 +980,13 @@ void ServerCommunicator::catchReplyGetUserInfo(QNetworkReply *reply)
 
 void ServerCommunicator::catchReplyRefreshAccessToken(QNetworkReply *reply)
 {
-    if(basicReplyManage(reply, RefreshTokenSubModule) != ReplyManagerAnswer::ReplyAllGood)
+    QByteArray bytes = reply->readAll();
+    QString replyBodyString = QString::fromUtf8(bytes.data(), bytes.size());
+
+    if(basicReplyManage(reply, RefreshTokenSubModule, replyBodyString) != ReplyManagerAnswer::ReplyAllGood)
         return;
 
-    QByteArray bytes = reply->readAll();
-
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(bytes.data());
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(bytes);
     QJsonObject jsonObj = jsonDoc.object();
 
     QString accessToken = jsonObj[ssJsonUserMeta[AccessToken]].toString();
@@ -1002,7 +999,10 @@ void ServerCommunicator::catchReplyRefreshAccessToken(QNetworkReply *reply)
 
 void ServerCommunicator::catchReplyChangeNickname(QNetworkReply *reply)
 {
-    if(basicReplyManage(reply, ChangeNicknameSubModule) != ReplyManagerAnswer::ReplyAllGood)
+    QByteArray bytes = reply->readAll();
+    QString replyBodyString = QString::fromUtf8(bytes.data(), bytes.size());
+
+    if(basicReplyManage(reply, ChangeNicknameSubModule, replyBodyString) != ReplyManagerAnswer::ReplyAllGood)
         return;
 
     emit getUserInfoProcessOver();
@@ -1012,12 +1012,13 @@ void ServerCommunicator::catchReplyChangeNickname(QNetworkReply *reply)
 
 void ServerCommunicator::catchReplyLobbiesGetList(QNetworkReply *reply)
 {
-    if(basicReplyManage(reply, GetLobbiesListSubModule) != ReplyManagerAnswer::ReplyAllGood)
+    QByteArray bytes = reply->readAll();
+    QString replyBodyString = QString::fromUtf8(bytes.data(), bytes.size());
+
+    if(basicReplyManage(reply, GetLobbiesListSubModule, replyBodyString, true, true) != ReplyManagerAnswer::ReplyAllGood)
         return;
 
-    QByteArray bytes = reply->readAll();
-
-    QJsonObject jsonObj = QJsonDocument::fromJson(bytes.data()).object();
+    QJsonObject jsonObj = QJsonDocument::fromJson(bytes).object();
 
     QJsonArray jsonArray = jsonObj[ssJsonServerLobbiesKeys[ServLobbiesListObj]].toArray();
 
@@ -1050,7 +1051,10 @@ void ServerCommunicator::catchReplyLobbiesGetList(QNetworkReply *reply)
 
 void ServerCommunicator::catchReplySwitchReadiness(QNetworkReply *reply)
 {
-    if(basicReplyManage(reply, SwitchReadinessSubModule) != ReplyManagerAnswer::ReplyAllGood)
+    QByteArray bytes = reply->readAll();
+    QString replyBodyString = QString::fromUtf8(bytes.data(), bytes.size());
+
+    if(basicReplyManage(reply, SwitchReadinessSubModule, replyBodyString) != ReplyManagerAnswer::ReplyAllGood)
         return;
 
     emit switchReadinessProcessOver();
@@ -1060,7 +1064,10 @@ void ServerCommunicator::catchReplySwitchReadiness(QNetworkReply *reply)
 
 void ServerCommunicator::catchReplyDeleteLobby(QNetworkReply *reply)
 {
-    if(basicReplyManage(reply, DeleteLobbySubModule) != ReplyManagerAnswer::ReplyAllGood)
+    QByteArray bytes = reply->readAll();
+    QString replyBodyString = QString::fromUtf8(bytes.data(), bytes.size());
+
+    if(basicReplyManage(reply, DeleteLobbySubModule, replyBodyString) != ReplyManagerAnswer::ReplyAllGood)
         return;
 
     emit deleteLobbyProcessOver();
@@ -1070,12 +1077,13 @@ void ServerCommunicator::catchReplyDeleteLobby(QNetworkReply *reply)
 
 void ServerCommunicator::catchReplyCreateLobby(QNetworkReply *reply)
 {
-    if(basicReplyManage(reply, CreateLobbySubModule) != ReplyManagerAnswer::ReplyAllGood)
+    QByteArray bytes = reply->readAll();
+    QString replyBodyString = QString::fromUtf8(bytes.data(), bytes.size());
+
+    if(basicReplyManage(reply, CreateLobbySubModule, replyBodyString) != ReplyManagerAnswer::ReplyAllGood)
         return;
 
-    QByteArray bytes = reply->readAll();
-
-    QJsonObject jsonObj = QJsonDocument::fromJson(bytes.data()).object();
+    QJsonObject jsonObj = QJsonDocument::fromJson(bytes).object();
 
     m_temporaryLobbyFullInfo.usersInLobby.clear();
     m_temporaryLobbyFullInfo.usersInLobby.resize(0);
@@ -1088,12 +1096,13 @@ void ServerCommunicator::catchReplyCreateLobby(QNetworkReply *reply)
 
 void ServerCommunicator::catchReplyConnectLobby(QNetworkReply *reply)
 {
-    if(basicReplyManage(reply, ConnectLobbySubModule) != ReplyManagerAnswer::ReplyAllGood)
+    QByteArray bytes = reply->readAll();
+    QString replyBodyString = QString::fromUtf8(bytes.data(), bytes.size());
+
+    if(basicReplyManage(reply, ConnectLobbySubModule, replyBodyString) != ReplyManagerAnswer::ReplyAllGood)
         return;
 
-    QByteArray bytes = reply->readAll();
-
-    QJsonObject jsonObj = QJsonDocument::fromJson(bytes.data()).object();
+    QJsonObject jsonObj = QJsonDocument::fromJson(bytes).object();
 
     m_temporaryLobbyFullInfo.usersInLobby.clear();
     m_temporaryLobbyFullInfo.usersInLobby.resize(0);
@@ -1106,12 +1115,13 @@ void ServerCommunicator::catchReplyConnectLobby(QNetworkReply *reply)
 
 void ServerCommunicator::catchReplyGetInfoLobby(QNetworkReply *reply)
 {
-    if(basicReplyManage(reply, GetInfoLobbySubModule) != ReplyManagerAnswer::ReplyAllGood)
+    QByteArray bytes = reply->readAll();
+    QString replyBodyString = QString::fromUtf8(bytes.data(), bytes.size());
+
+    if(basicReplyManage(reply, GetInfoLobbySubModule, replyBodyString) != ReplyManagerAnswer::ReplyAllGood)
         return;
 
-    QByteArray bytes = reply->readAll();
-
-    QJsonObject jsonObj = QJsonDocument::fromJson(bytes.data()).object();
+    QJsonObject jsonObj = QJsonDocument::fromJson(bytes).object();
 
     m_temporaryLobbyFullInfo.usersInLobby.clear();
     m_temporaryLobbyFullInfo.usersInLobby.resize(0);
@@ -1124,12 +1134,13 @@ void ServerCommunicator::catchReplyGetInfoLobby(QNetworkReply *reply)
 
 void ServerCommunicator::catchReplyConnectRankedLobby(QNetworkReply *reply)
 {
-    if(basicReplyManage(reply, ConnectRankedLobbySubModule) != ReplyManagerAnswer::ReplyAllGood)
+    QByteArray bytes = reply->readAll();
+    QString replyBodyString = QString::fromUtf8(bytes.data(), bytes.size());
+
+    if(basicReplyManage(reply, ConnectRankedLobbySubModule, replyBodyString) != ReplyManagerAnswer::ReplyAllGood)
         return;
 
-    QByteArray bytes = reply->readAll();
-
-    QJsonObject jsonObj = QJsonDocument::fromJson(bytes.data()).object();
+    QJsonObject jsonObj = QJsonDocument::fromJson(bytes).object();
 
     m_temporaryLobbyFullInfo.usersInLobby.clear();
     m_temporaryLobbyFullInfo.usersInLobby.resize(0);
@@ -1142,7 +1153,10 @@ void ServerCommunicator::catchReplyConnectRankedLobby(QNetworkReply *reply)
 
 void ServerCommunicator::catchReplyUpdateLobbySettings(QNetworkReply *reply)
 {
-    if(basicReplyManage(reply, UpdateLobbySettingsSubModule) != ReplyManagerAnswer::ReplyAllGood)
+    QByteArray bytes = reply->readAll();
+    QString replyBodyString = QString::fromUtf8(bytes.data(), bytes.size());
+
+    if(basicReplyManage(reply, UpdateLobbySettingsSubModule, replyBodyString) != ReplyManagerAnswer::ReplyAllGood)
         return;
 
     emit updateLobbySettingsProcessOver();
@@ -1152,7 +1166,10 @@ void ServerCommunicator::catchReplyUpdateLobbySettings(QNetworkReply *reply)
 
 void ServerCommunicator::catchReplyRaisePlayer(QNetworkReply *reply)
 {
-    if(basicReplyManage(reply, RaisePlayerSubModule) != ReplyManagerAnswer::ReplyAllGood)
+    QByteArray bytes = reply->readAll();
+    QString replyBodyString = QString::fromUtf8(bytes.data(), bytes.size());
+
+    if(basicReplyManage(reply, RaisePlayerSubModule, replyBodyString) != ReplyManagerAnswer::ReplyAllGood)
         return;
 
     emit raisePlayerProcessOver();
@@ -1162,7 +1179,10 @@ void ServerCommunicator::catchReplyRaisePlayer(QNetworkReply *reply)
 
 void ServerCommunicator::catchReplyKickPlayer(QNetworkReply *reply)
 {
-    if(basicReplyManage(reply, KickPlayerSubModule) != ReplyManagerAnswer::ReplyAllGood)
+    QByteArray bytes = reply->readAll();
+    QString replyBodyString = QString::fromUtf8(bytes.data(), bytes.size());
+
+    if(basicReplyManage(reply, KickPlayerSubModule, replyBodyString) != ReplyManagerAnswer::ReplyAllGood)
         return;
 
     emit kickPlayerProcessOver();
@@ -1172,7 +1192,10 @@ void ServerCommunicator::catchReplyKickPlayer(QNetworkReply *reply)
 
 void ServerCommunicator::catchReplyDisconnectLobby(QNetworkReply *reply)
 {
-    if(basicReplyManage(reply, DisconnectLobbySubModule) != ReplyManagerAnswer::ReplyAllGood)
+    QByteArray bytes = reply->readAll();
+    QString replyBodyString = QString::fromUtf8(bytes.data(), bytes.size());
+
+    if(basicReplyManage(reply, DisconnectLobbySubModule, replyBodyString) != ReplyManagerAnswer::ReplyAllGood)
         return;
 
     emit disconnectLobbyProcessOver();
@@ -1182,7 +1205,10 @@ void ServerCommunicator::catchReplyDisconnectLobby(QNetworkReply *reply)
 
 void ServerCommunicator::catchReplyActiveCheck(QNetworkReply *reply)
 {
-    if(basicReplyManage(reply, ActiveCheckSubModule) != ReplyManagerAnswer::ReplyAllGood)
+    QByteArray bytes = reply->readAll();
+    QString replyBodyString = QString::fromUtf8(bytes.data(), bytes.size());
+
+    if(basicReplyManage(reply, ActiveCheckSubModule, replyBodyString) != ReplyManagerAnswer::ReplyAllGood)
         return;
 
     emit activeCheckProcessOver();
@@ -1192,7 +1218,10 @@ void ServerCommunicator::catchReplyActiveCheck(QNetworkReply *reply)
 
 void ServerCommunicator::catchReplyLobbyRun(QNetworkReply *reply)
 {
-    if(basicReplyManage(reply, LobbyRunSubModule) != ReplyManagerAnswer::ReplyAllGood)
+    QByteArray bytes = reply->readAll();
+    QString replyBodyString = QString::fromUtf8(bytes.data(), bytes.size());
+
+    if(basicReplyManage(reply, LobbyRunSubModule, replyBodyString) != ReplyManagerAnswer::ReplyAllGood)
         return;
 
     emit lobbyRunProcessOver();
@@ -1200,7 +1229,7 @@ void ServerCommunicator::catchReplyLobbyRun(QNetworkReply *reply)
     reply->deleteLater();
 }
 
-uint8_t ServerCommunicator::basicReplyManage(QNetworkReply *pReply, uint8_t serverCommSubModuleId,
+uint8_t ServerCommunicator::basicReplyManage(QNetworkReply *pReply, uint8_t serverCommSubModuleId, QString replyBody,
                                              bool canCallRefreshToken, bool showReplyBody)
 {
     QVariant httpReplyCode = pReply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
@@ -1224,14 +1253,12 @@ uint8_t ServerCommunicator::basicReplyManage(QNetworkReply *pReply, uint8_t serv
 
     if(showReplyBody)
     {
-        QByteArray bytes = pReply->readAll();
-        QString replyBodyString = QString::fromUtf8(bytes.data(), bytes.size());
         qDebug().noquote() << QString("%1%2 reply body (shorted): %3")
                               .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
                                    serverCommSubModule[serverCommSubModuleId],
-                                   (replyBodyString.length() > SHOW_FIRST_N_OF_REPLY)
-                                   ? (replyBodyString.first(SHOW_FIRST_N_OF_REPLY) + "...")
-                                   : (replyBodyString));
+                                   (replyBody.length() > SHOW_FIRST_N_OF_REPLY)
+                                   ? (replyBody.first(SHOW_FIRST_N_OF_REPLY) + "...")
+                                   : (replyBody));
     }
 
     switch (code)
@@ -1557,7 +1584,7 @@ QString ServerCommunicator::makeServerFullLobbyJson(LobbySettings &lobbySettings
                      "\"name\": \"%1\","
                      "\"type\": %2,"
                      "\"password\": \"%3\","
-                     "\"maxPlayers\": %4"
+                     "\"maxPlayers\": %4,"
                      "\"timeForTurn\": %5,"
                      "\"victoryType\": %6,"
                      "\"scoreVictoryValue\": %7,"
@@ -1579,7 +1606,7 @@ LobbyFullInfo ServerCommunicator::parseLobbyFullInfoFromServer(QJsonObject &json
     returningLFI.usersInLobby.clear();
     returningLFI.usersInLobby.resize(0);
 
-    QJsonValue jsonLobbyInfoValue = jsonMainObject[ssJsonServerLobbiesKeys[ServLobbyInfoObj]];
+    QJsonValue jsonLobbyInfoValue = jsonMainObject.value(ssJsonServerLobbiesKeys[ServLobbyInfoObj]);
 
     if(!jsonLobbyInfoValue.isObject())
     {
@@ -1592,7 +1619,7 @@ LobbyFullInfo ServerCommunicator::parseLobbyFullInfoFromServer(QJsonObject &json
     returningLFI.settings.uniqueId      = jsonLobbyInfoObject[ssJsonServerLobbiesKeys[ServLobbyID]].toInt();
     returningLFI.settings.ownerUniqueId = jsonLobbyInfoObject[ssJsonServerLobbiesKeys[ServOwnerID]].toInt();
 
-    QJsonValue jsonLobbySettingsValue = jsonLobbyInfoObject[ssJsonLobbySettings[ServSettingsObj]];
+    QJsonValue jsonLobbySettingsValue = jsonLobbyInfoObject.value(ssJsonServerLobbiesKeys[ServSettingsObj]);
 
     if(!jsonLobbySettingsValue.isObject())
     {
@@ -1607,7 +1634,7 @@ LobbyFullInfo ServerCommunicator::parseLobbyFullInfoFromServer(QJsonObject &json
     returningLFI.settings.lobbyPassword     = jsonLobbySettingsObject[ssJsonServerLobbiesKeys[ServLobbyPassword]].toString();
     returningLFI.settings.maxPlayersCount   = jsonLobbySettingsObject[ssJsonServerLobbiesKeys[ServLobbyMaxPlayers]].toInt();
     returningLFI.settings.turnTime          = jsonLobbySettingsObject[ssJsonServerLobbiesKeys[ServTimeForTurn]].toInt();
-    returningLFI.settings.setupByVictoryType(jsonLobbySettingsObject[ssJsonServerLobbiesKeys[ServLobbyPassword]].toInt());
+    returningLFI.settings.setupByVictoryType(jsonLobbySettingsObject[ssJsonServerLobbiesKeys[ServVictoryType]].toInt());
     returningLFI.settings.maxMoney          = jsonLobbySettingsObject[ssJsonServerLobbiesKeys[ServScoreVictoryValue]].toInt();
     returningLFI.settings.maxTurns          = jsonLobbySettingsObject[ssJsonServerLobbiesKeys[ServTurnVictoryValue]].toInt();
 
@@ -1623,7 +1650,7 @@ LobbyFullInfo ServerCommunicator::parseLobbyFullInfoFromServer(QJsonObject &json
 
         QJsonObject jsonPlayerObj = jsonPlayerValue.toObject();
 
-        QJsonValue jsonPlayerSubValue = jsonPlayerObj[ssJsonServerLobbiesKeys[ServUserEntityObj]];
+        QJsonValue jsonPlayerSubValue = jsonPlayerObj.value(ssJsonServerLobbiesKeys[ServUserEntityObj]);
 
         if(!jsonPlayerSubValue.isObject())
         {
@@ -1646,9 +1673,9 @@ LobbyFullInfo ServerCommunicator::parseLobbyFullInfoFromServer(QJsonObject &json
 
     returningLFI.settings.isTimerActive     = jsonLobbyInfoObject[ssJsonServerLobbiesKeys[ServLobbyTimerIsActivate]].toBool();
 
-    QJsonValue jsonConnectionValue = jsonLobbyInfoObject[ssJsonServerLobbiesKeys[ServConnectionObj]];
+    QJsonValue jsonConnectionValue = jsonLobbyInfoObject.value(ssJsonServerLobbiesKeys[ServConnectionObj]);
 
-    if(!jsonConnectionValue.isObject())
+    if(!jsonConnectionValue.isObject() && returningLFI.settings.isTimerActive)
     {
         qDebug().noquote() << QString("%1 is fractured").arg(ssJsonServerLobbiesKeys[ServConnectionObj]);
         return {};

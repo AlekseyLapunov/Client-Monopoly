@@ -628,18 +628,6 @@ void LobbyWindow::reactToUserSelect(QTableWidgetItem *item)
                                   QString::fromStdString(ssErrorsContent[KickPlayerFail])));
                 return;
             }
-            else
-            {
-                for(vector<UserShortInfo>::iterator it = m_context.usersInLobby.begin();
-                    it != m_context.usersInLobby.end();)
-                {
-                    if(it->uniqueId == selectedUniqueId)
-                    {
-                        it = m_context.usersInLobby.erase(it);
-                        break;
-                    }
-                }
-            }
             break;
         }
         case DialogAnswerCodes::Promote:

@@ -17,7 +17,7 @@
 #define AUTH_ADDITIONAL_TIME_COEFF   6
 #define LOCAL_COUNTER_MAX            2
 #define MIN_VALID_UNIQUE_ID          1
-#define SHOW_FIRST_N_OF_REPLY        60
+#define SHOW_FIRST_N_OF_REPLY        1000
 
 static const QString host = "ppcd.fun";
 static const int port = 6543;

@@ -317,7 +317,7 @@ void MenuWindow::tableSetupFill(QTableWidget &table, const vector<LobbyShortInfo
     int row = 0;
     for(auto &lsiItem : contentVec)
     {
-        const int uniqueId = lsiItem.uniqueId;
+        const QString uniqueId = QString::number(lsiItem.uniqueId);
         const QString lobbyName = lsiItem.name;
         if(!lobbyName.toLower().contains(filter.toLower()))
             continue;
@@ -334,9 +334,8 @@ void MenuWindow::tableSetupFill(QTableWidget &table, const vector<LobbyShortInfo
             i->setTextAlignment(Qt::AlignCenter);
 
         for(short int col = 0; col < tCols; col++)
-        {
             table.setItem(row, col, items[col]);
-        }
+
         row++;
     }
 
