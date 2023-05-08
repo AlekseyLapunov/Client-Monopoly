@@ -126,6 +126,12 @@ protected:
                                        "Вы уверены, что хотите исключить\nигрока \"" + carrier + "\" из лобби?",
                                        {"Да", "Нет"}, parent);
             break;
+        case DeleteLobby:
+            qmb = dialogBoxConstructor(QMessageBox::Question,
+                                       "Удаление лобби",
+                                       "Вы уверены, что хотите удалить лобби?",
+                                       {"Да", "Нет"}, parent);
+            break;
         default:
             break;
         }
@@ -143,7 +149,7 @@ protected:
                                LeaveLobby, RestoreSettings, StartGameNotReady,
                                StartGameSettingsNotApplied, ExportSettingsNotApplied,
                                ActionOnPlayerSelected, PlayerPromoteConfirmation,
-                               PlayerKickConfirmation };
+                               PlayerKickConfirmation, DeleteLobby };
 
 private:
     unique_ptr<QMessageBox> dialogBoxConstructor(QMessageBox::Icon icon,

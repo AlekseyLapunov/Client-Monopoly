@@ -51,6 +51,7 @@ private slots:
     void importSettingsFromFile();
     void reactToUserSelect(QTableWidgetItem* item);
     void togglePasswordLineEditEcho();
+    void deleteLobby();
 
 private:
     void setFirstContext(const LobbyFullInfo context);
@@ -73,6 +74,7 @@ private:
     void checkLimitationChecks();
     void logoutBackToLoginWindow();
     void checkTimedOutCounter();
+    void manageCheckBoxes();
 
 private:
     Ui::LobbyWindow *ui;

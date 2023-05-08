@@ -388,6 +388,25 @@
          </widget>
         </item>
         <item>
+         <widget class="QPushButton" name="bDeleteLobby">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Bookman Old Style</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Удалить лобби</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QPushButton" name="bLeaveLobby">
           <property name="maximumSize">
            <size>
@@ -1167,6 +1186,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>bDeleteLobby</sender>
+   <signal>clicked()</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>deleteLobby()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>536</x>
+     <y>323</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>368</x>
+     <y>210</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>toggleLobbyVision()</slot>
@@ -1184,5 +1219,6 @@
   <slot>importSettingsFromFile()</slot>
   <slot>reactToUserSelect(QTableWidgetItem*)</slot>
   <slot>togglePasswordLineEditEcho()</slot>
+  <slot>deleteLobby()</slot>
  </slots>
 </ui>

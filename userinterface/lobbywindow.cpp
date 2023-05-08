@@ -136,7 +136,6 @@ void LobbyWindow::setUpByPrivilege()
     switch (definePrivilege())
     {
     case RankedJoinedUser:
-        setButtonsVisibility(false);
         ui->lLobbySettings->setText(ssRankedLobby);
         ui->lLobbyUniqueId->setText(ssAverageRp + countAverageRp());
         ui->lLobbyUniqueId->setFont(font);
@@ -147,30 +146,36 @@ void LobbyWindow::setUpByPrivilege()
         ui->lMaxPlayersConst->setVisible(false);
         ui->sbMaxPlayers->setVisible(false);
         ui->bToggleReady->setVisible(false);
-        setWindowTitle(ssRankedLobby);
         ui->aSetRankedSettings->setVisible(false);
         ui->aImportFromFile->setVisible(false);
         ui->aExportToFile->setVisible(false);
         ui->menuSettings->setDisabled(true);
+
+        setButtonsVisibility(false);
+        setWindowTitle(ssRankedLobby);
+        setSettingsInputsAccessibility(false);
         break;
     case JoinedUser:
+        ui->aSetRankedSettings->setVisible(false);
+        ui->aImportFromFile->setVisible(false);
+        ui->aExportToFile->setVisible(true);
+
         setButtonsVisibility(false);
         setWindowTitle(QString("%1\"%2\"")
                        .arg(ssLobbyOfPlayer,
                             findOwnerNickname(m_context.settings.ownerUniqueId)));
-        ui->aSetRankedSettings->setVisible(false);
-        ui->aImportFromFile->setVisible(false);
-        ui->aExportToFile->setVisible(true);
+        setSettingsInputsAccessibility(false);
         break;
     case Owner:
-        setButtonsVisibility(true);
-        setSettingsInputsAccessibility(true);
-        ui->bLeaveLobby->setText(ssDeleteLobbyText);
-        ui->aLeaveLobby->setText(ssDeleteLobbyText);
-        setWindowTitle(ssMyLobby);
         ui->aSetRankedSettings->setVisible(true);
         ui->aImportFromFile->setVisible(true);
         ui->aExportToFile->setVisible(true);
+
+        setButtonsVisibility(true);
+        setSettingsInputsAccessibility(true);
+        manageCheckBoxes();
+
+        setWindowTitle(ssMyLobby);
         break;
     default:
         break;
@@ -182,6 +187,7 @@ void LobbyWindow::setButtonsVisibility(bool areVisible)
     ui->bApplySettings->setVisible(areVisible);
     ui->bRestoreLastSettings->setVisible(areVisible);
     ui->bStartGame->setVisible(areVisible);
+    ui->bDeleteLobby->setVisible(areVisible);
     ui->bToggleReady->setVisible(true);
     ui->bLeaveLobby->setVisible(true);
 }
@@ -497,20 +503,6 @@ void LobbyWindow::switchBackToMenuWindow()
 {
     hide();
 
-    if(definePrivilege() == PrivelegeTypes::RankedJoinedUser)
-    {
-        pServer()->get()->disconnectFromLobby();
-        emit goToMenuWindow();
-        return;
-    }
-
-    if(pUserMetaInfo()->get()->getHostInfo().uniqueId == m_context.settings.ownerUniqueId)
-    {
-        pServer()->get()->deleteLobby();
-        emit goToMenuWindow();
-        return;
-    }
-
     pServer()->get()->disconnectFromLobby();
     emit goToMenuWindow();
 }
@@ -543,6 +535,28 @@ void LobbyWindow::checkTimedOutCounter()
     }
 }
 
+void LobbyWindow::manageCheckBoxes()
+{
+    if(m_context.settings.ownerUniqueId == pUserMetaInfo()->get()->getHostInfo().uniqueId)
+    {
+        if(ui->chbIsBalanceInfinite->isChecked())
+        {
+            ui->chbAreTurnsInfinite->setChecked(false);
+            ui->chbAreTurnsInfinite->setDisabled(true);
+        }
+        else
+            ui->chbAreTurnsInfinite->setEnabled(true);
+
+        if(ui->chbAreTurnsInfinite->isChecked())
+        {
+            ui->chbIsBalanceInfinite->setChecked(false);
+            ui->chbIsBalanceInfinite->setDisabled(true);
+        }
+        else
+            ui->chbIsBalanceInfinite->setEnabled(true);
+    }
+}
+
 void LobbyWindow::leaveLobby()
 {
     if(makeDialog(BaseWin::LeaveLobby, "", this) == 0)
@@ -571,24 +585,8 @@ void LobbyWindow::settingsChangesDetected()
     bool flag = (m_lastSettings != currentSettings);
     ui->bApplySettings->setEnabled(flag);
     ui->bRestoreLastSettings->setEnabled(flag);
-    if(m_context.settings.ownerUniqueId == pUserMetaInfo()->get()->getHostInfo().uniqueId)
-    {
-        if(ui->chbIsBalanceInfinite->isChecked())
-        {
-            ui->chbAreTurnsInfinite->setChecked(false);
-            ui->chbAreTurnsInfinite->setDisabled(true);
-        }
-        else
-            ui->chbAreTurnsInfinite->setEnabled(true);
 
-        if(ui->chbAreTurnsInfinite->isChecked())
-        {
-            ui->chbIsBalanceInfinite->setChecked(false);
-            ui->chbIsBalanceInfinite->setDisabled(true);
-        }
-        else
-            ui->chbIsBalanceInfinite->setEnabled(true);
-    }
+    manageCheckBoxes();
 }
 
 void LobbyWindow::toggleMaxBalanceAccessibility()
@@ -745,6 +743,20 @@ void LobbyWindow::togglePasswordLineEditEcho()
     else ui->lePassword->setEchoMode(QLineEdit::Password);
 }
 
+void LobbyWindow::deleteLobby()
+{
+    if(makeDialog(BaseWin::DeleteLobby, "", this) != 0)
+        return;
+
+    if(pUserMetaInfo()->get()->getHostInfo().uniqueId == m_context.settings.ownerUniqueId)
+    {
+        pServer()->get()->deleteLobby();
+        hide();
+        emit goToMenuWindow();
+        return;
+    }
+}
+
 void LobbyWindow::closeEvent(QCloseEvent *event)
 {
     quitAppDialog();
@@ -755,18 +767,6 @@ void LobbyWindow::quitAppDialog()
 {
     if(makeDialog(BaseWin::QuitApp, "", this) == 0)
     {
-        if(definePrivilege() == PrivelegeTypes::RankedJoinedUser)
-        {
-            pServer()->get()->disconnectFromLobby();
-            return;
-        }
-
-        if(pUserMetaInfo()->get()->getHostInfo().uniqueId == m_context.settings.ownerUniqueId)
-        {
-            pServer()->get()->deleteLobby();
-            return;
-        }
-
         pServer()->get()->disconnectFromLobby();
 
         QCoreApplication::quit();
