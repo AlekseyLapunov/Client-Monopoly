@@ -71,8 +71,19 @@ void LobbyWindow::show(const LobbyFullInfo firstContext)
 {
     refreshDataTimer.stop();
 
-    ResponseFromServerComm<HostUserData> response;
+    if(!FileManager::checkUserMetaIntegrity())
+    {
+        logoutBackToLoginWindow();
+        return;
+    }
 
+    uint8_t host3dDicePreference = FileManager::getUser3dDicePreference();
+    if(host3dDicePreference == FileManager::DicePrefNotStated)
+        ui->aUse3dDice->setChecked(true);
+    else
+        ui->aUse3dDice->setChecked(host3dDicePreference);
+
+    ResponseFromServerComm<HostUserData> response;
     response = pServer()->get()->getCurrentHostInfo(false);
 
     switch (response.responseFlag)
@@ -149,7 +160,9 @@ void LobbyWindow::setUpByPrivilege()
         ui->aSetRankedSettings->setVisible(false);
         ui->aImportFromFile->setVisible(false);
         ui->aExportToFile->setVisible(false);
-        ui->menuSettings->setDisabled(true);
+        ui->aChangeNickname->setVisible(true);
+        ui->aUse3dDice->setVisible(true);
+        ui->aDeleteLobby->setDisabled(true);
 
         setButtonsVisibility(false);
         setWindowTitle(ssRankedLobby);
@@ -159,6 +172,9 @@ void LobbyWindow::setUpByPrivilege()
         ui->aSetRankedSettings->setVisible(false);
         ui->aImportFromFile->setVisible(false);
         ui->aExportToFile->setVisible(true);
+        ui->aDeleteLobby->setDisabled(true);
+        ui->aChangeNickname->setVisible(true);
+        ui->aUse3dDice->setVisible(true);
 
         setButtonsVisibility(false);
         setWindowTitle(QString("%1\"%2\"")
@@ -170,6 +186,9 @@ void LobbyWindow::setUpByPrivilege()
         ui->aSetRankedSettings->setVisible(true);
         ui->aImportFromFile->setVisible(true);
         ui->aExportToFile->setVisible(true);
+        ui->aDeleteLobby->setEnabled(true);
+        ui->aChangeNickname->setVisible(true);
+        ui->aUse3dDice->setVisible(true);
 
         setButtonsVisibility(true);
         setSettingsInputsAccessibility(true);
@@ -755,6 +774,20 @@ void LobbyWindow::deleteLobby()
         emit goToMenuWindow();
         return;
     }
+}
+
+void LobbyWindow::changeNickname()
+{
+    MenuSubDialog *subDialog = new MenuSubDialog(this);
+    subDialog->selfConfig(MenuSubDialog::ChangeNickname);
+    if(subDialog->exec() == QDialog::Accepted)
+        pServer()->get()->changeNickname(subDialog->nicknameValue());
+    subDialog->deleteLater();
+}
+
+void LobbyWindow::apply3dDiceState()
+{
+    FileManager::apply3dDiceStateToLocal(ui->aUse3dDice->isChecked());
 }
 
 void LobbyWindow::closeEvent(QCloseEvent *event)

@@ -8,6 +8,7 @@
 
 #include "helpers/basewin.h"
 #include "helpers/common/filemanager.h"
+#include "subinterfaces/menusubdialog.h"
 #include "subinterfaces/gamemanagerwindow.h"
 
 //#define DEBUG_FAST_GAME_START
@@ -52,6 +53,8 @@ private slots:
     void reactToUserSelect(QTableWidgetItem* item);
     void togglePasswordLineEditEcho();
     void deleteLobby();
+    void changeNickname();
+    void apply3dDiceState();
 
 private:
     void setFirstContext(const LobbyFullInfo context);

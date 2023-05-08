@@ -785,6 +785,7 @@
     <property name="title">
      <string>Меню</string>
     </property>
+    <addaction name="aDeleteLobby"/>
     <addaction name="aLeaveLobby"/>
     <addaction name="aQuitApp"/>
    </widget>
@@ -796,6 +797,9 @@
     <addaction name="aImportFromFile"/>
     <addaction name="separator"/>
     <addaction name="aSetRankedSettings"/>
+    <addaction name="separator"/>
+    <addaction name="aChangeNickname"/>
+    <addaction name="aUse3dDice"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menuSettings"/>
@@ -837,14 +841,30 @@
     <string>Импорт настроек из файла</string>
    </property>
   </action>
-  <action name="action_3">
+  <action name="aSetRankedSettings">
    <property name="text">
     <string>Установить рейтинговые настройки</string>
    </property>
   </action>
-  <action name="aSetRankedSettings">
+  <action name="aDeleteLobby">
    <property name="text">
-    <string>Установить рейтинговые настройки</string>
+    <string>Удалить лобби</string>
+   </property>
+  </action>
+  <action name="aChangeNickname">
+   <property name="text">
+    <string>Сменить псевдоним</string>
+   </property>
+  </action>
+  <action name="aUse3dDice">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Игральные кости в 3D</string>
    </property>
   </action>
  </widget>
@@ -1202,6 +1222,54 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>aDeleteLobby</sender>
+   <signal>triggered()</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>deleteLobby()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>368</x>
+     <y>210</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>aChangeNickname</sender>
+   <signal>triggered()</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>changeNickname()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>368</x>
+     <y>210</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>aUse3dDice</sender>
+   <signal>changed()</signal>
+   <receiver>LobbyWindow</receiver>
+   <slot>apply3dDiceState()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>368</x>
+     <y>210</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>toggleLobbyVision()</slot>
@@ -1220,5 +1288,7 @@
   <slot>reactToUserSelect(QTableWidgetItem*)</slot>
   <slot>togglePasswordLineEditEcho()</slot>
   <slot>deleteLobby()</slot>
+  <slot>changeNickname()</slot>
+  <slot>apply3dDiceState()</slot>
  </slots>
 </ui>

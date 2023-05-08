@@ -41,6 +41,9 @@ public:
     static QString getHostUniqueId();
     static void clearUserMetaForNewLogin();
 
+    enum ResponseAboutDicePreference { DicePrefFalse, DicePrefTrue, DicePrefNotStated };
+    static uint8_t getUser3dDicePreference();
+
 private:
     static void createUserMetaJson(const QString &dir);
     static void createRankedSettingsJson(const QString &dir);

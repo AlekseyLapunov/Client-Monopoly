@@ -314,9 +314,25 @@ void MenuWindow::show()
     switch (response.responseFlag)
     {
     case AllGoodRf:
+    {
         timedOutCounter = 0;
         pUserMetaInfo()->get()->setHostInfo(response.payload);
+
+        uint8_t host3dDicePreference = FileManager::getUser3dDicePreference();
+        if(host3dDicePreference == FileManager::DicePrefNotStated)
+            ui->aDiceIf3D->setChecked(true);
+        else
+            ui->aDiceIf3D->setChecked(host3dDicePreference);
+
+        displayHostShortInfo();
+        FileManager::apply3dDiceStateToLocal(ui->aDiceIf3D->isChecked());
+
+        setDisabled(false);
+        windowDataRefresh();
+        refreshDataTimer.start(REFRESH_LOBBIES_LIST_EVERY_N_MS);
+        QMainWindow::show();
         break;
+    }
     case UnauthorizeRf:
         timedOutCounter = 0;
         logoutBackToLoginWindow();
@@ -332,15 +348,6 @@ void MenuWindow::show()
         logoutBackToLoginWindow();
         return;
     }
-
-    displayHostShortInfo();
-    ui->aDiceIf3D->setChecked(FileManager::getUserMetaFromLocal(JsonKeysUserMeta::Uses3dDice).toInt());
-    FileManager::apply3dDiceStateToLocal(ui->aDiceIf3D->isChecked());
-
-    setDisabled(false);
-    windowDataRefresh();
-    refreshDataTimer.start(REFRESH_LOBBIES_LIST_EVERY_N_MS);
-    QMainWindow::show();
 }
 
 void MenuWindow::hide()

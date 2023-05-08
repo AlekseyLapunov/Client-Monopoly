@@ -67,6 +67,10 @@ void PlayerGameInfoList::appendItem()
     emit preItemAppended();
 
     PlayerGameInfo item;
+    item.playerNumber = NoPlayer;
+    item.currentBalance = 0;
+    item.displayableName = "NoPlayer";
+    item.piecePositionOnOrderIndex = 0;
     m_items.push_back(item);
 
     emit postItemAppended();

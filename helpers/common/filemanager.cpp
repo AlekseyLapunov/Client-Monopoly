@@ -408,6 +408,20 @@ void FileManager::clearUserMetaForNewLogin()
     writeFile(ssLocalDirPath + ssUserMetaFileName, jsonNewContentDoc.toJson(QJsonDocument::Indented));
 }
 
+uint8_t FileManager::getUser3dDicePreference()
+{
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(readJsonToQString(ssLocalDirPath + ssUserMetaFileName).toUtf8());
+
+    QJsonObject jsonObj = jsonDoc.object();
+
+    QString dicePref = jsonObj[ssJsonUserMeta[Uses3dDice]].toString();
+
+    if(dicePref.isEmpty())
+        return DicePrefNotStated;
+    else
+        return jsonObj[ssJsonUserMeta[Uses3dDice]].toBool();
+}
+
 LobbySettings FileManager::getLastSettingsFromLocal()
 {
     initLocalDirectory();

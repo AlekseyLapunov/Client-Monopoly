@@ -406,7 +406,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Игровые кубики в 3D</string>
+    <string>Игральные кости в 3D</string>
    </property>
    <property name="font">
     <font>
