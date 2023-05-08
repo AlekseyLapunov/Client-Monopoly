@@ -14,12 +14,15 @@ MenuWindow::MenuWindow(unique_ptr<ServerCommunicator> *newServerPtr,
 
     pSubDialog = unique_ptr<MenuSubDialog>(new MenuSubDialog(this));
 
-    pGameManagerWindow = unique_ptr<GameManagerWindow>(new GameManagerWindow(pServer(), pUserMetaInfo()));
+    pGameManagerWindow = unique_ptr<GameManagerWindow>(new GameManagerWindow(pServer(), pUserMetaInfo(), this));
 
-    pLobbyWindow = unique_ptr<LobbyWindow>(new LobbyWindow(pServer(), pUserMetaInfo(), pGameManagerWindow));
+    pLobbyWindow = unique_ptr<LobbyWindow>(new LobbyWindow(pServer(), pUserMetaInfo(), pGameManagerWindow, this));
 
     connect(pLobbyWindow.get(), &LobbyWindow::goToMenuWindow,
             this, &MenuWindow::show);
+
+    connect(pLobbyWindow.get(), &LobbyWindow::initLogoutChain,
+            this, &MenuWindow::supportLogoutChain);
 
     connect(&refreshDataTimer, &QTimer::timeout, this, &MenuWindow::windowDataRefresh);
 
@@ -33,13 +36,29 @@ MenuWindow::~MenuWindow()
 
 void MenuWindow::windowDataRefresh()
 {
-    if(!isEnabled())
+    if(!isEnabled() || isHidden())
         return;
 
-    bool ok = false;
-    pServer()->get()->getLobbiesShortInfo(ok);
+    if(!FileManager::checkUserMetaIntegrity())
+    {
+        logoutBackToLoginWindow();
+        return;
+    }
 
-    setupLobbiesTable();
+    ResponseFromServerComm<vector<LobbyShortInfo>&> response = pServer()->get()->getLobbiesShortInfo();
+
+    if(response.responseFlag == AllGoodRf)
+    {
+        timedOutCounter = 0;
+        setupLobbiesTable();
+        return;
+    }
+    else if(response.responseFlag == TimedOutRf)
+    {
+        timedOutCounter++;
+        checkTimedOutCounter();
+        return;
+    }
 }
 
 void MenuWindow::quitApp()
@@ -106,75 +125,137 @@ void MenuWindow::joinToLobby()
 
 void MenuWindow::joinIdDialog()
 {
+    ResponseFromServerComm<LobbyFullInfo> response;
+
     pSubDialog.get()->selfConfig(MenuSubDialog::JoinById);
     if(pSubDialog.get()->exec() == QDialog::Accepted)
     {
         int enteredUniqueId = pSubDialog.get()->uniqueIdValue();
 
-        bool ok = false; bool isPassworded = false;
+        response = pServer()->get()->connectToLobby(enteredUniqueId);
 
-        m_firstContext = pServer()->get()->connectToLobby(enteredUniqueId, ok, isPassworded);
-
-        if(isPassworded)
+        if(response.responseFlag == LobbyHasPasswordRf)
         {
             pSubDialog->selfConfig(MenuSubDialog::LobbyPasswordEnter);
             if(pSubDialog.get()->exec() == QDialog::Accepted)
             {
-                m_firstContext = pServer()->get()->connectToLobby(enteredUniqueId,
-                                                                  pSubDialog.get()->lobbyPasswordValue(),
-                                                                  ok);
+                response = pServer()->get()->connectToLobby(enteredUniqueId,
+                                                            pSubDialog.get()->lobbyPasswordValue());
+
+                switch (response.responseFlag)
+                {
+                case AllGoodRf:
+                    timedOutCounter = 0;
+                    m_firstContext = response.payload;
+                    return;
+                case UnauthorizeRf:
+                    timedOutCounter = 0;
+                    logoutBackToLoginWindow();
+                    return;
+                case TimedOutRf:
+                    timedOutCounter++;
+                    checkTimedOutCounter();
+                    return;
+                default:
+                    execErrorBox(QString("%1%2")
+                                 .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
+                                      QString::fromStdString(ssErrorsContent[LobbyConnectFail])),
+                                 this);
+                    logoutBackToLoginWindow();
+                    return;
+                }
             }
             else
                 return;
         }
-
-        if(!ok)
+        else
         {
-            execErrorBox(QString("%1%2")
-                         .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
-                              QString::fromStdString(ssErrorsContent[LobbyConnectFail])),
-                         this);
-            logoutBackToLoginWindow();
-            return;
+            switch (response.responseFlag)
+            {
+            case AllGoodRf:
+                timedOutCounter = 0;
+                m_firstContext = response.payload;
+                return;
+            case UnauthorizeRf:
+                timedOutCounter = 0;
+                logoutBackToLoginWindow();
+                return;
+            case TimedOutRf:
+                timedOutCounter++;
+                checkTimedOutCounter();
+                return;
+            default:
+                execErrorBox(QString("%1%2")
+                             .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
+                                  QString::fromStdString(ssErrorsContent[LobbyConnectFail])),
+                             this);
+                logoutBackToLoginWindow();
+                return;
+            }
         }
     }
     else
         return;
-
-    showLobbyWindow();
 }
 
 void MenuWindow::createLobby()
 {
-    bool ok = false;
-    m_firstContext = pServer()->get()->createLobby(FileManager::getLastSettingsFromLocal(),
-                                                   ok);
-    if(!ok)
+    ResponseFromServerComm<LobbyFullInfo> response;
+    response = pServer()->get()->createLobby(FileManager::getLastSettingsFromLocal());
+
+    switch (response.responseFlag)
     {
+    case AllGoodRf:
+        timedOutCounter = 0;
+        m_firstContext = response.payload;
+        showLobbyWindow();
+        return;
+    case UnauthorizeRf:
+        timedOutCounter = 0;
+        logoutBackToLoginWindow();
+        return;
+    case TimedOutRf:
+        timedOutCounter++;
+        checkTimedOutCounter();
+        return;
+    default:
         execErrorBox(QString("%1%2")
                      .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
                           QString::fromStdString(ssErrorsContent[LobbyCreateFail])),
                      this);
+        logoutBackToLoginWindow();
         return;
     }
-
-    showLobbyWindow();
 }
 
 void MenuWindow::findRanked()
 {
-    bool ok = false;
-    m_firstContext = pServer()->get()->connectToRankedLobby(ok);
+    ResponseFromServerComm<LobbyFullInfo> response;
+    response = pServer()->get()->connectToRankedLobby();
 
-    if(!ok)
+    switch (response.responseFlag)
     {
+    case AllGoodRf:
+        timedOutCounter = 0;
+        m_firstContext = response.payload;
+        showLobbyWindow();
+        return;
+    case UnauthorizeRf:
+        timedOutCounter = 0;
+        logoutBackToLoginWindow();
+        return;
+    case TimedOutRf:
+        timedOutCounter++;
+        checkTimedOutCounter();
+        return;
+    default:
         execErrorBox(QString("%1%2")
                      .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
                           QString::fromStdString(ssErrorsContent[RankedSearchFail])),
                      this);
+        logoutBackToLoginWindow();
         return;
     }
-    showLobbyWindow();
 }
 
 void MenuWindow::showAbout()
@@ -222,15 +303,32 @@ void MenuWindow::show()
     this->hide();
     return;
 #endif
+    setDisabled(true);
+    timedOutCounter = 0;
     refreshDataTimer.stop();
 
     setupLobbiesFilter();
 
-    bool ok = false;
-    pUserMetaInfo()->get()->setHostInfo(pServer()->get()->getCurrentHostInfo(ok, false));
-    if(!ok)
+    ResponseFromServerComm<HostUserData> response = pServer()->get()->getCurrentHostInfo(false);
+
+    switch (response.responseFlag)
     {
-        execErrorBox(ssErrorBody[GetHostInfoFail], this);
+    case AllGoodRf:
+        timedOutCounter = 0;
+        pUserMetaInfo()->get()->setHostInfo(response.payload);
+        break;
+    case UnauthorizeRf:
+        timedOutCounter = 0;
+        logoutBackToLoginWindow();
+        return;
+    case TimedOutRf:
+        logoutBackToLoginWindow();
+        return;
+    default:
+        execErrorBox(QString("%1%2")
+                     .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
+                          QString::fromStdString(ssErrorsContent[GetHostInfoFail])),
+                     this);
         logoutBackToLoginWindow();
         return;
     }
@@ -239,7 +337,7 @@ void MenuWindow::show()
     ui->aDiceIf3D->setChecked(FileManager::getUserMetaFromLocal(JsonKeysUserMeta::Uses3dDice).toInt());
     FileManager::apply3dDiceStateToLocal(ui->aDiceIf3D->isChecked());
 
-    setEnabled(true);
+    setDisabled(false);
     windowDataRefresh();
     refreshDataTimer.start(REFRESH_LOBBIES_LIST_EVERY_N_MS);
     QMainWindow::show();
@@ -250,6 +348,11 @@ void MenuWindow::hide()
     refreshDataTimer.stop();
     setDisabled(true);
     QMainWindow::hide();
+}
+
+void MenuWindow::supportLogoutChain()
+{
+    logoutBackToLoginWindow();
 }
 
 void MenuWindow::setupLobbiesTable()
@@ -300,6 +403,8 @@ void MenuWindow::tableClear(QTableWidget &table)
 
 void MenuWindow::tableSetupFill(QTableWidget &table, const vector<LobbyShortInfo> &contentVec, const QString &filter)
 {
+    tableClear(table);
+
     const short tCols = LOBBIES_TABLE_COLS;
     const int tRows = count_if(contentVec.begin(),
                                contentVec.end(),
@@ -348,54 +453,103 @@ void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
     {
     case DialogCodes::PassEntered:
     {
-        bool ok = false;
-        m_firstContext = pServer()->get()->connectToLobby(selectedLobbyUniqueId,
-                                                          pSubDialog.get()->lobbyPasswordValue(),
-                                                          ok);
-        if(!ok)
+        ResponseFromServerComm<LobbyFullInfo> response;
+        response = pServer()->get()->connectToLobby(selectedLobbyUniqueId,
+                                                    pSubDialog.get()->lobbyPasswordValue());
+
+        switch (response.responseFlag)
         {
+        case AllGoodRf:
+            timedOutCounter = 0;
+            m_firstContext = response.payload;
+            return;
+        case UnauthorizeRf:
+            timedOutCounter = 0;
+            logoutBackToLoginWindow();
+            return;
+        case TimedOutRf:
+            timedOutCounter++;
+            checkTimedOutCounter();
+            return;
+        default:
             execErrorBox(QString("%1%2")
                          .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
                               QString::fromStdString(ssErrorsContent[LobbyConnectFail])),
                          this);
+            logoutBackToLoginWindow();
             return;
         }
         break;
     }
     case DialogCodes::NoPassword:
     {
-        bool ok = false; bool isPassworded = false;
+        ResponseFromServerComm<LobbyFullInfo> response;
+        response = pServer()->get()->connectToLobby(selectedLobbyUniqueId);
 
-        m_firstContext = pServer()->get()->connectToLobby(selectedLobbyUniqueId, ok, isPassworded);
-
-        if(isPassworded)
+        if(response.responseFlag == LobbyHasPasswordRf)
         {
-            pSubDialog->selfConfig(MenuSubDialog::LobbyPasswordEnter,
-                                   ui->tLobbies->item(item.row(), LOBBY_NAME_COL)->text());
+            pSubDialog->selfConfig(MenuSubDialog::LobbyPasswordEnter);
             if(pSubDialog.get()->exec() == QDialog::Accepted)
             {
-                m_firstContext = pServer()->get()->connectToLobby(selectedLobbyUniqueId,
-                                                                  pSubDialog.get()->lobbyPasswordValue(),
-                                                                  ok);
+                response = pServer()->get()->connectToLobby(selectedLobbyUniqueId,
+                                                            pSubDialog.get()->lobbyPasswordValue());
+
+                switch (response.responseFlag)
+                {
+                case AllGoodRf:
+                    timedOutCounter = 0;
+                    m_firstContext = response.payload;
+                    return;
+                case UnauthorizeRf:
+                    timedOutCounter = 0;
+                    logoutBackToLoginWindow();
+                    return;
+                case TimedOutRf:
+                    timedOutCounter++;
+                    checkTimedOutCounter();
+                    return;
+                default:
+                    execErrorBox(QString("%1%2")
+                                 .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
+                                      QString::fromStdString(ssErrorsContent[LobbyConnectFail])),
+                                 this);
+                    logoutBackToLoginWindow();
+                    return;
+                }
             }
             else
                 return;
         }
-
-        if(!ok)
+        else
         {
-            execErrorBox(QString("%1%2")
-                         .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
-                              QString::fromStdString(ssErrorsContent[LobbyConnectFail])),
-                         this);
-            return;
+            switch (response.responseFlag)
+            {
+            case AllGoodRf:
+                timedOutCounter = 0;
+                m_firstContext = response.payload;
+                return;
+            case UnauthorizeRf:
+                timedOutCounter = 0;
+                logoutBackToLoginWindow();
+                return;
+            case TimedOutRf:
+                timedOutCounter++;
+                checkTimedOutCounter();
+                return;
+            default:
+                execErrorBox(QString("%1%2")
+                             .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
+                                  QString::fromStdString(ssErrorsContent[LobbyConnectFail])),
+                             this);
+                logoutBackToLoginWindow();
+                return;
+            }
         }
         break;
     }
     default:
         return;
     }
-    showLobbyWindow();
 }
 
 void MenuWindow::showLobbyWindow()
@@ -410,6 +564,15 @@ void MenuWindow::logoutBackToLoginWindow()
     pServer()->get()->clearTemporaryHostData();
     FileManager::clearUserMetaForNewLogin();
     emit switchToLoginWindow();
+}
+
+void MenuWindow::checkTimedOutCounter()
+{
+    if(timedOutCounter >= MAX_TIMED_OUT_COUNTER)
+    {
+        timedOutCounter = 0;
+        logoutBackToLoginWindow();
+    }
 }
 
 dialogCode MenuWindow::checkIfPassworded(const QTableWidgetItem &item)

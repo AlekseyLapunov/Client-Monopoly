@@ -34,6 +34,7 @@ public:
     void quitAppDialog();
     void show();
     void hide();
+    void supportLogoutChain();
 
 signals:
     void switchToLoginWindow();
@@ -63,6 +64,7 @@ private:
     void switchJoinByItem(const QTableWidgetItem &item);
     void showLobbyWindow();
     void logoutBackToLoginWindow();
+    void checkTimedOutCounter();
 
     enum DialogCodes { NoPassword, PassRejected, PassEntered };
     dialogCode checkIfPassworded(const QTableWidgetItem &item);

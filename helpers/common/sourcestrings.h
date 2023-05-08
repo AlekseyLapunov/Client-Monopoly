@@ -200,12 +200,13 @@ static const QMap<uint8_t, string> ssClassNames = {
 enum RunTimeErrorId { PtrLinkFail, LobbyConnectFail, GoogleAuthFail, VkAuthFail, GuestAuthFail,
                       LobbyCreateFail, RankedSearchFail, ApplySettingsFail,
                       ToggleReadyFail, StartGameFail, JsonParseError, KickPlayerFail,
-                      PromotePlayerFail, LastSettingsFileDoesNotExist, GetHostInfoFail };
+                      PromotePlayerFail, LastSettingsFileDoesNotExist, GetHostInfoFail,
+                      GetLobbyInfoFail };
 static const QMap<uint8_t, string> ssErrorsContent  = {
                                                           {PtrLinkFail,                   "Проблема при передаче указателей"},
                                                           {LobbyConnectFail,              "Не удалось присоединиться к лобби.\n"
                                                                                           "Либо комната больше не доступна,"
-                                                                                          "\nлибо введён неправильный пароль." },
+                                                                                          "\nлибо введён неправильный пароль" },
                                                           {GoogleAuthFail,                "Не удалось войти через Google аккаунт"},
                                                           {VkAuthFail,                    "Не удалось войти через VK аккаунт"},
                                                           {GuestAuthFail,                 "Не удалось войти как гость"},
@@ -218,7 +219,8 @@ static const QMap<uint8_t, string> ssErrorsContent  = {
                                                           {KickPlayerFail,                "Не удалось исключить игрока"},
                                                           {PromotePlayerFail,             "Не удалось сделать игрока владельцем"},
                                                           {LastSettingsFileDoesNotExist,  "Файл с последними настройками не существует"},
-                                                          {GetHostInfoFail,               "Не удалось обновить данные пользователя"}
+                                                          {GetHostInfoFail,               "Не удалось обновить данные пользователя"},
+                                                          {GetLobbyInfoFail,              "Не удалось получить информацию о лобби"}
                                                       };
 
 #endif // SOURCESTRINGS_H

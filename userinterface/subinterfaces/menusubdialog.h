@@ -41,6 +41,7 @@ private:
                           const QString &bRejectString,
                           const QString &lInfoString,
                           const QString &leInputString);
+    void checkTimedOutCounter();
 
 private:
     int m_interactionMode;

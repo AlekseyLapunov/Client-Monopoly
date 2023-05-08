@@ -237,6 +237,11 @@ void FileManager::checkLastSettingsIntegrity()
     else return;
 }
 
+bool FileManager::checkUserMetaIntegrity()
+{
+    return isJsonFileIntegral(ssLocalDirPath + ssUserMetaFileName);
+}
+
 QString FileManager::getPageAsCallbackText()
 {
     QFile file(":/assets/html/successful_auth.html");

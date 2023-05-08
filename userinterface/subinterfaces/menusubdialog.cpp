@@ -71,6 +71,11 @@ void MenuSubDialog::writeWidgetTexts(const QString &windowTitle,
     ui->leInput->setPlaceholderText(leInputString);
 }
 
+void MenuSubDialog::checkTimedOutCounter()
+{
+
+}
+
 int MenuSubDialog::uniqueIdValue() const
 {
     return m_uniqueIdValue;

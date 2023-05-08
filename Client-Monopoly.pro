@@ -38,7 +38,7 @@ HEADERS += \
     helpers/common/sourcestrings.h \
     helpers/common/sourcestructs.h \
     helpers/usermetainfo.h \
-    servercomm/servercommstrings.h \
+    servercomm/servercommhelper.h \
     userinterface/lobbywindow.h \
     userinterface/loginwindow.h \
     servercomm/servercommunicator.h \

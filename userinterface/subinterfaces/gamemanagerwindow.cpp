@@ -178,3 +178,20 @@ void GameManagerWindow::applyFirstGameContext()
     m_playersList->setItems(debugPlayersContext);
     m_playersList->sortByBalance();
 }
+
+void GameManagerWindow::checkTimedOutCounter()
+{
+
+}
+
+void fillDebugMapContext()
+{
+    for(int i = 0; i < 81; i++)
+        debugMapContext.appendItem(debugCellsArray[i]);
+}
+
+void fillDebugPlayersContext()
+{
+    for(int i = 0; i < 2; i++)
+        debugPlayersContext.appendItem(debugPlayersArray[i]);
+}

@@ -19,7 +19,7 @@
 #include "helpers/common/filemanager.h"
 #include "helpers/common/sourcestructs.h"
 #include "helpers/common/sourcestrings.h"
-#include "servercommstrings.h"
+#include "servercommhelper.h"
 
 //#define AUTH_STUB
 //#define USERS_STUB
@@ -34,31 +34,32 @@ public:
     ~ServerCommunicator();
 
     // Logins
-    HostUserData doVkLogin(bool &ok);
-    HostUserData doGoogleLogin(bool &ok);
-    HostUserData doGuestLogin(bool &ok);
-    HostUserData checkIfNoNeedToAuth(bool &ok, uint8_t localCounter = 0);
+    ResponseFromServerComm<HostUserData> doVkLogin();
+    ResponseFromServerComm<HostUserData> doGoogleLogin();
+    ResponseFromServerComm<HostUserData> doGuestLogin();
+    ResponseFromServerComm<HostUserData> checkIfNoNeedToAuth(uint8_t localCounter = 0);
 
     // Host info
-    HostUserData getCurrentHostInfo(bool &ok, bool retryCheckIfNoNeedToAuth, uint8_t localCounter = 0);
+    ResponseFromServerComm<HostUserData> getCurrentHostInfo(bool retryCheckIfNoNeedToAuth = false,
+                                                            uint8_t localCounter = 0);
     void changeNickname(const QString newNickname, uint8_t localCounter = 0);
     void clearTemporaryHostData();
 
     // Lobbies
-    vector<LobbyShortInfo>& getLobbiesShortInfo(bool &ok, uint8_t localCounter = 0);
+    ResponseFromServerComm<vector<LobbyShortInfo>&> getLobbiesShortInfo(uint8_t localCounter = 0);
     vector<LobbyShortInfo>& getStableLobbiesList();
-    LobbyFullInfo connectToLobby(const int lobbyUniqueId, bool &ok, bool &isPassworded, uint8_t localCounter = 0);
-    LobbyFullInfo connectToLobby(const int lobbyUniqueId, const QString &enteredPassword, bool &ok, uint8_t localCounter = 0);
-    LobbyFullInfo createLobby(LobbySettings priorSettings, bool &ok, uint8_t localCounter = 0);
-    LobbyFullInfo connectToRankedLobby(bool &ok, uint8_t localCounter = 0);
-    LobbyFullInfo getInfoLobby(bool &ok, uint8_t localCounter = 0);
-    void switchReadiness(bool &ok, uint8_t localCounter = 0);
-    void updateLobbySettings(LobbySettings newSettings, bool &ok, uint8_t localCounter = 0);
-    void runGame(bool &ok, uint8_t localCounter = 0);
-    void kickPlayer(const int playerUniqueId, bool &ok, uint8_t localCounter = 0);
-    void raisePlayer(const int playerUniqueId, bool &ok, uint8_t localCounter = 0);
-    void disconnectFromLobby(bool &ok, uint8_t localCounter = 0);
-    void deleteLobby(bool &ok, uint8_t localCounter = 0);
+    ResponseFromServerComm<LobbyFullInfo> connectToLobby(const int lobbyUniqueId, uint8_t localCounter = 0);
+    ResponseFromServerComm<LobbyFullInfo> connectToLobby(const int lobbyUniqueId, const QString &enteredPassword, uint8_t localCounter = 0);
+    ResponseFromServerComm<LobbyFullInfo> createLobby(LobbySettings priorSettings, uint8_t localCounter = 0);
+    ResponseFromServerComm<LobbyFullInfo> connectToRankedLobby(uint8_t localCounter = 0);
+    ResponseFromServerComm<LobbyFullInfo> getInfoLobby(uint8_t localCounter = 0);
+    ResponseFromServerComm<void*> switchReadiness(uint8_t localCounter = 0);
+    ResponseFromServerComm<void*> updateLobbySettings(LobbySettings newSettings, uint8_t localCounter = 0);
+    ResponseFromServerComm<void*> runGame(uint8_t localCounter = 0);
+    ResponseFromServerComm<void*> kickPlayer(const int playerUniqueId, uint8_t localCounter = 0);
+    ResponseFromServerComm<void*> raisePlayer(const int playerUniqueId, uint8_t localCounter = 0);
+    ResponseFromServerComm<void*> disconnectFromLobby(uint8_t localCounter = 0);
+    ResponseFromServerComm<void*> deleteLobby(uint8_t localCounter = 0);
 
 signals:
     void authorizationProcessOver();
@@ -104,7 +105,7 @@ private:
     bool doRefreshAccessToken();
 
     enum HttpMethodType { HttpGet, HttpPost, HttpDelete, SpecAuth };
-    enum RequestManagerAnswer { RequestNeedToAbort, RequestTimedOut, RequestAllGood };
+    enum RequestManagerAnswer { RequestNeedToAbort, RequestTimedOut, RequestAllGood, RequestNeedToRepeat, RequestLobbyIsPassworded };
     uint8_t basicRequestManage(uint8_t subModuleId, QString method, uint8_t methodType,
                                QString headerName, QString headerValue, QString requestBody,
                                bool isWaiting = true);
@@ -112,7 +113,7 @@ private:
     void makeConnectionBySubModuleId(uint8_t subModuleId, QNetworkAccessManager *localManager,
                                      QEventLoop *localEventLoop);
 
-    enum ReplyManagerAnswer { ReplyNeedToAbort, ReplyNeedToRepeatMethod, ReplyAllGood };
+    enum ReplyManagerAnswer { ReplyNeedToAbort, ReplyNeedToRepeatMethod, ReplyAllGood, ReplyLobbyIsPassworded };
     uint8_t basicReplyManage(QNetworkReply *pReply, uint8_t serverCommSubModuleId, QString replyBody = "",
                              bool canCallRefreshToken = true, bool showReplyBody = true);
 
@@ -130,7 +131,7 @@ private:
     LobbyFullInfo m_temporaryLobbyFullInfo;
     vector<LobbyShortInfo> m_lobbiesShortInfoVec;
 
-    bool globalIsPassworded = false;
+    bool globalLobbyIsPassworded = false;
 };
 
 #endif // SERVERCOMMUNICATOR_H

@@ -34,8 +34,9 @@ private slots:
 private:
     void closeEvent(QCloseEvent *event);
     enum LoginType { Google, Vk, Guest };
-    void baseLogin(short flag);
+    void baseLogin(uint8_t loginFlag);
     void switchToMenuWindow();
+    void checkTimedOutCounter();
 
 private:
     Ui::LoginWindow *ui;

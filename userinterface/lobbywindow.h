@@ -34,6 +34,7 @@ public:
 
 signals:
     void goToMenuWindow();
+    void initLogoutChain();
 
 private slots:
     void startGame();
@@ -70,6 +71,8 @@ private:
     void checkMaxPlayers();
     void switchBackToMenuWindow();
     void checkLimitationChecks();
+    void logoutBackToLoginWindow();
+    void checkTimedOutCounter();
 
 private:
     Ui::LobbyWindow *ui;

@@ -56,6 +56,7 @@ private slots:
 
 private:
     void applyFirstGameContext(/*GameContext& gameContext*/);
+    void checkTimedOutCounter();
 
 private:
     Ui::GameManagerWindow *ui;
@@ -85,11 +86,7 @@ static Cell debugCellsArray[] =
 
 static CellsList debugMapContext;
 
-static void fillDebugMapContext()
-{
-    for(int i = 0; i < 81; i++)
-        debugMapContext.appendItem(debugCellsArray[i]);
-}
+static void fillDebugMapContext();
 
 static PlayerGameInfo debugPlayersArray[] =
 {
@@ -99,10 +96,6 @@ static PlayerGameInfo debugPlayersArray[] =
 
 static PlayerGameInfoList debugPlayersContext;
 
-static void fillDebugPlayersContext()
-{
-    for(int i = 0; i < 2; i++)
-        debugPlayersContext.appendItem(debugPlayersArray[i]);
-}
+static void fillDebugPlayersContext();
 
 #endif // GAMEMANAGERWINDOW_H

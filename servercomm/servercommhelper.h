@@ -1,5 +1,5 @@
-#ifndef SERVERCOMMSTRINGS_H
-#define SERVERCOMMSTRINGS_H
+#ifndef SERVERCOMMHELPER_H
+#define SERVERCOMMHELPER_H
 
 #include <QString>
 #include <QUrl>
@@ -18,6 +18,24 @@
 #define LOCAL_COUNTER_MAX            2
 #define MIN_VALID_UNIQUE_ID          1
 #define SHOW_FIRST_N_OF_REPLY        1000
+
+enum ServerCommResponseFlag
+{
+    UnknownRf = 0,
+    GeneralFailRf,
+    TimedOutRf,
+    UnauthorizeRf,
+    WrongLobbyPasswordRf,
+    LobbyHasPasswordRf,
+    AllGoodRf
+};
+
+template <typename Payload>
+struct ResponseFromServerComm
+{
+    uint8_t responseFlag;
+    Payload payload;
+};
 
 static const QString host = "ppcd.fun";
 static const int port = 6543;
@@ -108,24 +126,38 @@ static const QMap<uint8_t, QString> serverCommSubModule = {
                                                                 {LobbyRunSubModule,             "Lobby Run: "}
                                                           };
 
-static QMap<uint8_t, bool> serverCommSubModuleRepeat = {
-                                                            {AuthSubModule,                 false},
-                                                            {GetUserInfoSubModule,          false},
-                                                            {GetLobbiesListSubModule,       false},
-                                                            {ChangeNicknameSubModule,       false},
-                                                            {RefreshTokenSubModule,         false},
-                                                            {SwitchReadinessSubModule,      false},
-                                                            {DeleteLobbySubModule,          false},
-                                                            {CreateLobbySubModule,          false},
-                                                            {ConnectLobbySubModule,         false},
-                                                            {GetInfoLobbySubModule,         false},
-                                                            {ConnectRankedLobbySubModule,   false},
-                                                            {UpdateLobbySettingsSubModule,  false},
-                                                            {KickPlayerSubModule,           false},
-                                                            {RaisePlayerSubModule,          false},
-                                                            {DisconnectLobbySubModule,      false},
-                                                            {ActiveCheckSubModule,          false},
-                                                            {LobbyRunSubModule,             false}
-                                                       };
+struct ServerCommSubModuleBase
+{
+    bool repeatRequest;
+    uint8_t currentResponceStorage;
 
-#endif // SERVERCOMMSTRINGS_H
+    ServerCommSubModuleBase& resetBase()
+    {
+        this->repeatRequest = false;
+        this->currentResponceStorage = UnknownRf;
+        return *this;
+    }
+};
+
+static QMap<uint8_t, ServerCommSubModuleBase>
+serverCommSubModuleBase = {
+                                {AuthSubModule,                 {false, UnknownRf}},
+                                {GetUserInfoSubModule,          {false, UnknownRf}},
+                                {GetLobbiesListSubModule,       {false, UnknownRf}},
+                                {ChangeNicknameSubModule,       {false, UnknownRf}},
+                                {RefreshTokenSubModule,         {false, UnknownRf}},
+                                {SwitchReadinessSubModule,      {false, UnknownRf}},
+                                {DeleteLobbySubModule,          {false, UnknownRf}},
+                                {CreateLobbySubModule,          {false, UnknownRf}},
+                                {ConnectLobbySubModule,         {false, UnknownRf}},
+                                {GetInfoLobbySubModule,         {false, UnknownRf}},
+                                {ConnectRankedLobbySubModule,   {false, UnknownRf}},
+                                {UpdateLobbySettingsSubModule,  {false, UnknownRf}},
+                                {KickPlayerSubModule,           {false, UnknownRf}},
+                                {RaisePlayerSubModule,          {false, UnknownRf}},
+                                {DisconnectLobbySubModule,      {false, UnknownRf}},
+                                {ActiveCheckSubModule,          {false, UnknownRf}},
+                                {LobbyRunSubModule,             {false, UnknownRf}}
+                            };
+
+#endif // SERVERCOMMHELPER_H

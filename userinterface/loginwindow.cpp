@@ -12,7 +12,7 @@ LoginWindow::LoginWindow(unique_ptr<ServerCommunicator> *newServerPtr,
 
     setupPointers(*newServerPtr, *newMetaInfoPtr);
 
-    pMenuWindow = unique_ptr<MenuWindow>(new MenuWindow(pServer(), pUserMetaInfo()));
+    pMenuWindow = unique_ptr<MenuWindow>(new MenuWindow(pServer(), pUserMetaInfo(), this));
 
     connect(pMenuWindow.get(), &MenuWindow::switchToLoginWindow,
             this, &LoginWindow::show);
@@ -35,22 +35,22 @@ void LoginWindow::show()
 #endif
     setDisabled(true);
 
-    bool ok = false;
+    ResponseFromServerComm<HostUserData> response;
+
     if(!dontCheckIfAuthorized)
-        pUserMetaInfo()->get()->setHostInfo(pServer()->get()->checkIfNoNeedToAuth(ok));
-    else
-        dontCheckIfAuthorized = false;
+    {
+        dontCheckIfAuthorized = true;
+        response = pServer()->get()->checkIfNoNeedToAuth();
 
-    if(ok)
-    {
-        switchToMenuWindow();
-        return;
-    }
-    else
-    {
-        qDebug().noquote() << "Need to login";
+        if(response.responseFlag == AllGoodRf)
+        {
+            pUserMetaInfo()->get()->setHostInfo(response.payload);
+            switchToMenuWindow();
+            return;
+        }
     }
 
+    qDebug().noquote() << "Need to login";
     setDisabled(false);
     QWidget::show();
 }
@@ -93,28 +93,42 @@ void LoginWindow::closeEvent(QCloseEvent *event)
     event->ignore();
 }
 
-void LoginWindow::baseLogin(short flag)
+void LoginWindow::baseLogin(uint8_t loginFlag)
 {
     setDisabled(true);
-    bool ok = false;
-    pUserMetaInfo()->get()->setHostInfo
-    (
-        (flag == LoginType::Vk)     ? pServer()->get()->doVkLogin(ok)     :
-        (flag == LoginType::Google) ? pServer()->get()->doGoogleLogin(ok) :
-                                      pServer()->get()->doGuestLogin(ok)
-    );
-    if(!ok)
+
+    ResponseFromServerComm<HostUserData> response;
+
+    switch (loginFlag)
+    {
+    case LoginType::Google:
+        response = pServer()->get()->doGoogleLogin();
+        break;
+    case LoginType::Vk:
+        response = pServer()->get()->doVkLogin();
+        break;
+    case LoginType::Guest:
+        response = pServer()->get()->doGuestLogin();
+        break;
+    default:
+        return;
+    }
+
+    if(response.responseFlag != AllGoodRf)
     {
         execErrorBox
         (
             (QString::fromStdString(ssClassNames[ServerCommCN] +
-            ((flag == LoginType::Vk)     ? ssErrorsContent[VkAuthFail]     :
-             (flag == LoginType::Google) ? ssErrorsContent[GoogleAuthFail] :
-                                           ssErrorsContent[GuestAuthFail]))
+            ((loginFlag == LoginType::Vk)     ? ssErrorsContent[VkAuthFail]     :
+             (loginFlag == LoginType::Google) ? ssErrorsContent[GoogleAuthFail] :
+                                                ssErrorsContent[GuestAuthFail]))
         ), this);
         setDisabled(false);
         return;
     }
+
+    pUserMetaInfo()->get()->setHostInfo(response.payload);
+
     setDisabled(false);
     switchToMenuWindow();
 }
@@ -123,5 +137,10 @@ void LoginWindow::switchToMenuWindow()
 {
     hide();
     pMenuWindow.get()->show();
+}
+
+void LoginWindow::checkTimedOutCounter()
+{
+
 }
 

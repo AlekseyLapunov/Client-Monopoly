@@ -28,57 +28,92 @@ void LobbyWindow::setFirstContext(const LobbyFullInfo context)
 {
     HostUserData hostUser = pUserMetaInfo()->get()->getHostInfo();
     m_context = context;
-    ///m_context.usersInLobby.push_back({hostUser.nickname, hostUser.rpCount, false, hostUser.uniqueId});
     m_lastSettings = m_context.settings;
 }
 
 void LobbyWindow::windowDataRefresh()
 {
-    if(!isEnabled())
+    if(!isEnabled() || isHidden())
         return;
 
     m_context.usersInLobby.clear();
     m_context.usersInLobby.resize(0);
-    bool ok = false;
-    m_context = pServer()->get()->getInfoLobby(ok);
 
-    setUpUsersInTable(*ui->tUsers, m_context.usersInLobby);
-    setUpByPrivilege();
-    overwriteSettingsInputs(m_context.settings);
+    ResponseFromServerComm<LobbyFullInfo> response;
+    response = pServer()->get()->getInfoLobby();
+
+    switch (response.responseFlag)
+    {
+    case AllGoodRf:
+        timedOutCounter = 0;
+        m_context = response.payload;
+        setUpUsersInTable(*ui->tUsers, m_context.usersInLobby);
+        setUpByPrivilege();
+        overwriteSettingsInputs(m_context.settings);
+        return;
+    case UnauthorizeRf:
+        logoutBackToLoginWindow();
+        return;
+    case TimedOutRf:
+        timedOutCounter++;
+        checkTimedOutCounter();
+        return;
+    default:
+        execErrorBox(QString("%1%2").arg(QString::fromStdString(ssClassNames[ServerCommCN]),
+                                         QString::fromStdString(ssErrorsContent[GetLobbyInfoFail])),
+                     this);
+        switchBackToMenuWindow();
+        return;
+    }
 }
 
 void LobbyWindow::show(const LobbyFullInfo firstContext)
 {
     refreshDataTimer.stop();
 
-    bool ok = false;
-    pUserMetaInfo()->get()->setHostInfo(pServer()->get()->getCurrentHostInfo(ok, false));
-    if(!ok)
+    ResponseFromServerComm<HostUserData> response;
+
+    response = pServer()->get()->getCurrentHostInfo(false);
+
+    switch (response.responseFlag)
     {
+    case AllGoodRf:
+        timedOutCounter = 0;
+        pUserMetaInfo()->get()->setHostInfo(response.payload);
+
+        ui->lGameBeginsIn->setVisible(false);
+        ui->lSecondsToStart->setVisible(false);
+        setFirstContext(firstContext);
+        setUpSettingsInputs();
+        setUpRegExps();
+        ui->bApplySettings->setEnabled(false);
+        ui->bRestoreLastSettings->setEnabled(false);
+
+        setEnabled(true);
+        windowDataRefresh();
+        refreshDataTimer.start(REFRESH_LOBBY_INSIDE_DATA_EVERY_N_MS);
+        QMainWindow::show();
+        return;
+    case UnauthorizeRf:
+        logoutBackToLoginWindow();
+        return;
+    case TimedOutRf:
+        timedOutCounter++;
+        checkTimedOutCounter();
+        return;
+    default:
         execErrorBox(QString("%1%2").arg(QString::fromStdString(ssClassNames[ServerCommCN]),
                                          QString::fromStdString(ssErrorsContent[GetHostInfoFail])),
                      this);
         switchBackToMenuWindow();
         return;
     }
-
-    ui->lGameBeginsIn->setVisible(false);
-    ui->lSecondsToStart->setVisible(false);
-    setFirstContext(firstContext);
-    setUpSettingsInputs();
-    setUpRegExps();
-    ui->bApplySettings->setEnabled(false);
-    ui->bRestoreLastSettings->setEnabled(false);
-    setEnabled(true);
-
-    windowDataRefresh();
-    refreshDataTimer.start(REFRESH_LOBBY_INSIDE_DATA_EVERY_N_MS);
-    QMainWindow::show();
 }
 
 void LobbyWindow::hide()
 {
     setDisabled(true);
+    refreshDataTimer.stop();
     QMainWindow::hide();
 }
 
@@ -210,7 +245,7 @@ void LobbyWindow::setUpUsersInTable(QTableWidget& table, std::vector<UserShortIn
 {
     tableClear(table);
 
-    const short int tCols = USERS_TABLE_COLS;
+    const uint8_t tCols = USERS_TABLE_COLS;
     const int tRows = usiContextVec.size();
 
     table.setColumnCount(tCols);
@@ -244,7 +279,7 @@ void LobbyWindow::setUpUsersInTable(QTableWidget& table, std::vector<UserShortIn
                 i->setBackground(QColorConstants::Svg::lightyellow);
         }
 
-        for(short int col = 0; col < tCols; col++)
+        for(uint8_t col = 0; col < tCols; col++)
         {
             table.setItem(row, col, items[col]);
         }
@@ -258,6 +293,8 @@ void LobbyWindow::setUpUsersInTable(QTableWidget& table, std::vector<UserShortIn
 
     if(usiContextVec.size() >= 4)
         table.verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    table.sortByColumn(NICKNAME_COL, Qt::AscendingOrder);
 }
 
 void LobbyWindow::tableClear(QTableWidget &table)
@@ -270,14 +307,12 @@ void LobbyWindow::tableClear(QTableWidget &table)
 
 QString LobbyWindow::countAverageRp()
 {
-    QString averageRpOutput = "";
     int sum = 0;
     for(auto &i : m_context.usersInLobby)
     {
         sum += i.rp;
     }
-    averageRpOutput = QString::number(sum / m_context.usersInLobby.size());
-    return averageRpOutput;
+    return QString::number(sum / m_context.usersInLobby.size());
 }
 
 QString LobbyWindow::findOwnerNickname(int ownerId)
@@ -326,26 +361,36 @@ void LobbyWindow::startGame()
             return;
         }
 
-    bool ok = false;
-    pServer()->get()->runGame(ok);
+    ResponseFromServerComm<void*> response;
+    response = pServer()->get()->runGame();
 
-    if(!ok)
+    switch (response.responseFlag)
     {
+    case AllGoodRf:
+        timedOutCounter = 0;
+
+        m_context.settings.softOverride(m_lastSettings);
+        setDisabled(true);
+
+        // make switch to game window
+
+        ui->bStartGame->setDisabled(false);
+        return;
+    case UnauthorizeRf:
+        logoutBackToLoginWindow();
+        return;
+    case TimedOutRf:
+        timedOutCounter++;
+        checkTimedOutCounter();
+        return;
+    default:
         execErrorBox(QString("%1%2")
                      .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
                           QString::fromStdString(ssErrorsContent[StartGameFail])),
                      this);
-
-        ui->bStartGame->setDisabled(false);
+        switchBackToMenuWindow();
         return;
     }
-
-    m_context.settings.softOverride(m_lastSettings);
-    setDisabled(true);
-
-    // make switch to game window
-
-    ui->bStartGame->setDisabled(false);
 }
 
 void LobbyWindow::applySettings()
@@ -357,23 +402,39 @@ void LobbyWindow::applySettings()
     LobbySettings tempSettings = makeSettingsObjectByInputs();
     FileManager::saveLastSettingsToLocal(tempSettings);
 
-    bool ok = false;
-    pServer()->get()->updateLobbySettings(tempSettings, ok);
+    ResponseFromServerComm<void*> response;
+    response = pServer()->get()->updateLobbySettings(tempSettings);
 
-    if (!ok)
+    switch (response.responseFlag)
     {
+    case AllGoodRf:
+        timedOutCounter = 0;
+
+        ui->bApplySettings->setDisabled(true);
+        ui->bRestoreLastSettings->setDisabled(true);
+        m_lastSettings.softOverride(tempSettings);
+        return;
+    case UnauthorizeRf:
+        ui->bApplySettings->setDisabled(false);
+        ui->bRestoreLastSettings->setDisabled(false);
+        logoutBackToLoginWindow();
+        return;
+    case TimedOutRf:
+        ui->bApplySettings->setDisabled(false);
+        ui->bRestoreLastSettings->setDisabled(false);
+        timedOutCounter++;
+        checkTimedOutCounter();
+        return;
+    default:
         ui->bApplySettings->setDisabled(false);
         ui->bRestoreLastSettings->setDisabled(false);
         execErrorBox(QString("%1%2")
                      .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
                           QString::fromStdString(ssErrorsContent[ApplySettingsFail])),
                      this);
+        switchBackToMenuWindow();
         return;
     }
-
-    ui->bApplySettings->setDisabled(true);
-    ui->bRestoreLastSettings->setDisabled(true);
-    m_lastSettings.softOverride(tempSettings);
 }
 
 LobbySettings LobbyWindow::makeSettingsObjectByInputs()
@@ -438,18 +499,19 @@ void LobbyWindow::switchBackToMenuWindow()
 
     if(definePrivilege() == PrivelegeTypes::RankedJoinedUser)
     {
-        bool ok = false;
-        pServer()->get()->disconnectFromLobby(ok);
+        pServer()->get()->disconnectFromLobby();
+        emit goToMenuWindow();
         return;
     }
 
-    bool ok = false;
-
     if(pUserMetaInfo()->get()->getHostInfo().uniqueId == m_context.settings.ownerUniqueId)
-        pServer()->get()->deleteLobby(ok);
+    {
+        pServer()->get()->deleteLobby();
+        emit goToMenuWindow();
+        return;
+    }
 
-    pServer()->get()->disconnectFromLobby(ok);
-
+    pServer()->get()->disconnectFromLobby();
     emit goToMenuWindow();
 }
 
@@ -460,6 +522,24 @@ void LobbyWindow::checkLimitationChecks()
     {
         ui->chbIsBalanceInfinite->setChecked(true);
         ui->chbAreTurnsInfinite->setChecked(false);
+    }
+}
+
+void LobbyWindow::logoutBackToLoginWindow()
+{
+    hide();
+    setDisabled(true);
+
+    emit goToMenuWindow();
+    emit initLogoutChain();
+}
+
+void LobbyWindow::checkTimedOutCounter()
+{
+    if(timedOutCounter >= MAX_TIMED_OUT_COUNTER)
+    {
+        timedOutCounter = 0;
+        logoutBackToLoginWindow();
     }
 }
 
@@ -474,19 +554,8 @@ void LobbyWindow::leaveLobby()
 void LobbyWindow::toggleReadyStatus()
 {
     ui->bToggleReady->setDisabled(true);
-    int hostUniqueId = pUserMetaInfo()->get()->getHostInfo().uniqueId;
-    for(short i = 0; i < (short) m_context.usersInLobby.size(); i++)
-    {
-        if(m_context.usersInLobby.at(i).uniqueId == hostUniqueId)
-        {
-            m_context.usersInLobby.at(i).isReady = !m_context.usersInLobby.at(i).isReady;
-            break;
-        }
-    }
 
-    bool ok = false;
-    pServer()->get()->switchReadiness(ok);
-    setUpUsersInTable(*ui->tUsers, m_context.usersInLobby);
+    pServer()->get()->switchReadiness();
 
     ui->bToggleReady->setDisabled(false);
 }
@@ -545,16 +614,9 @@ void LobbyWindow::restoreLastSettings()
 
 void LobbyWindow::applyRankedSettings()
 {
-    try
-    {
-        LobbySettings trueRankedSettings = FileManager::getRankedSettingsFromLocal();
-        overwriteSettingsInputs(trueRankedSettings);
-    }
-    catch (std::exception &e)
-    {
-        execErrorBox(e.what(), this);
-        return;
-    }
+    LobbySettings trueRankedSettings = FileManager::getRankedSettingsFromLocal();
+    overwriteSettingsInputs(trueRankedSettings);
+
     ui->bApplySettings->setEnabled(true);
     ui->bRestoreLastSettings->setEnabled(true);
 }
@@ -562,16 +624,16 @@ void LobbyWindow::applyRankedSettings()
 void LobbyWindow::exportSettingsToFile()
 {
     if(ui->bApplySettings->isEnabled())
-        if(makeDialog(BaseWin::ExportSettingsNotApplied, "", this) != 0)
+    {
+        if(makeDialog(BaseWin::ExportSettingsNotApplied, "", this) == 0)
+        {
+            FileManager::manageSettingsExport(m_lastSettings, this);
             return;
-
-    try
-    {
-        FileManager::manageSettingsExport(m_lastSettings, this);
+        }
     }
-    catch (std::exception &e)
+    else
     {
-        execErrorBox(e.what(), this);
+        FileManager::manageSettingsExport(m_context.settings, this);
         return;
     }
 }
@@ -579,17 +641,8 @@ void LobbyWindow::exportSettingsToFile()
 void LobbyWindow::importSettingsFromFile()
 {
     bool gotSettings = false;
-    LobbySettings importedSettings;
 
-    try
-    {
-        importedSettings = FileManager::manageSettingsImport(gotSettings, this);
-    }
-    catch (std::exception &e)
-    {
-        execErrorBox(e.what(), this);
-        return;
-    }
+    LobbySettings importedSettings = FileManager::manageSettingsImport(gotSettings, this);
 
     if(!gotSettings)
         return;
@@ -613,48 +666,76 @@ void LobbyWindow::reactToUserSelect(QTableWidgetItem *item)
     short dialogAnswer = makeDialog(BaseWin::ActionOnPlayerSelected, selectedNickname, this);
     enum DialogAnswerCodes { Kick, Promote, Cancel };
 
-    bool ok = false;
     switch (dialogAnswer)
     {
         case DialogAnswerCodes::Kick:
         {
             if(makeDialog(BaseWin::PlayerKickConfirmation, selectedNickname, this) != 0)
                 return;
-            pServer()->get()->kickPlayer(selectedUniqueId, ok);
-            if(!ok)
+
+            ResponseFromServerComm<void*> response;
+            response = pServer()->get()->kickPlayer(selectedUniqueId);
+
+            switch (response.responseFlag)
             {
+            case AllGoodRf:
+                timedOutCounter = 0;
+                windowDataRefresh();
+                return;
+            case UnauthorizeRf:
+                timedOutCounter = 0;
+                logoutBackToLoginWindow();
+                return;
+            case TimedOutRf:
+                timedOutCounter++;
+                checkTimedOutCounter();
+                return;
+            default:
                 execErrorBox(QString("%1%2")
                              .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
                                   QString::fromStdString(ssErrorsContent[KickPlayerFail])));
+                switchBackToMenuWindow();
                 return;
             }
-            break;
+            return;
         }
         case DialogAnswerCodes::Promote:
         {
             if(makeDialog(BaseWin::PlayerPromoteConfirmation, selectedNickname, this) != 0)
                 return;
-            pServer()->get()->raisePlayer(selectedUniqueId, ok);
-            if(!ok)
+
+            ResponseFromServerComm<void*> response;
+            response = pServer()->get()->raisePlayer(selectedUniqueId);
+
+            switch (response.responseFlag)
             {
+            case AllGoodRf:
+                timedOutCounter = 0;
+                m_context.settings.ownerUniqueId = selectedUniqueId;
+                windowDataRefresh();
+                return;
+            case UnauthorizeRf:
+                timedOutCounter = 0;
+                logoutBackToLoginWindow();
+                return;
+            case TimedOutRf:
+                timedOutCounter++;
+                checkTimedOutCounter();
+                return;
+            default:
                 execErrorBox(QString("%1%2")
                              .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
                                   QString::fromStdString(ssErrorsContent[PromotePlayerFail])));
+                switchBackToMenuWindow();
                 return;
             }
-            else
-            {
-                m_context.settings.ownerUniqueId = selectedUniqueId;
-            }
-            break;
+            return;
         }
         case DialogAnswerCodes::Cancel:
             return;
         default:
             return;
     }
-
-    windowDataRefresh();
 }
 
 void LobbyWindow::togglePasswordLineEditEcho()
@@ -676,17 +757,17 @@ void LobbyWindow::quitAppDialog()
     {
         if(definePrivilege() == PrivelegeTypes::RankedJoinedUser)
         {
-            bool ok = false;
-            pServer()->get()->disconnectFromLobby(ok);
+            pServer()->get()->disconnectFromLobby();
             return;
         }
 
-        bool ok = false;
-
         if(pUserMetaInfo()->get()->getHostInfo().uniqueId == m_context.settings.ownerUniqueId)
-            pServer()->get()->deleteLobby(ok);
+        {
+            pServer()->get()->deleteLobby();
+            return;
+        }
 
-        pServer()->get()->disconnectFromLobby(ok);
+        pServer()->get()->disconnectFromLobby();
 
         QCoreApplication::quit();
     }

@@ -28,6 +28,7 @@ public:
     static LobbySettings getLastSettingsFromLocal();
     static QString getUserMetaFromLocal(short dataUnitFlag);
     static void checkLastSettingsIntegrity();
+    static bool checkUserMetaIntegrity();
     static QString getPageAsCallbackText();
     static void commitTokens(QByteArray data);
     static void commitToken(uint8_t tokenType, QString token);
