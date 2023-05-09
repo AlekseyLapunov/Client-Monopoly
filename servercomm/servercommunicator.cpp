@@ -60,10 +60,13 @@ ServerCommunicator::doGuestLogin()
     uint8_t thisSubModuleId = AuthSubModule;
     QString usingHttpMethod = httpMethods[PostAuthAsGuest];
 
+    m_oauthNetworkManager = new QNetworkAccessManager(this);
 
     uint8_t requestManagerAnswer = basicRequestManage(thisSubModuleId, usingHttpMethod,
                                                       HttpMethodType::HttpPost, "",
                                                       "", "");
+
+    m_oauthNetworkManager->deleteLater();
 
     switch (requestManagerAnswer)
     {
@@ -723,10 +726,13 @@ void ServerCommunicator::catchReplyAuthFromService(const QVariantMap data)
 {
     qDebug().noquote() << QString("Got auth-code from service: %1..." ).arg((data.value("code").toString()).first(6));
 
+
     if(data.value("code").toString().isEmpty())
     {
         qDebug().noquote() << QString::fromStdString(ssClassNames[ServerCommCN])
                            << "Got empty code";
+        m_oauthCodeFlow->deleteLater();
+        m_oauthReplyHandler->deleteLater();
         return;
     }
 
@@ -747,8 +753,8 @@ void ServerCommunicator::catchReplyAuth(QNetworkReply *reply)
     QByteArray bytes = reply->readAll();
     QString replyBodyString = QString::fromUtf8(bytes.data(), bytes.size());
 
-    m_oauthCodeFlow->deleteLater();
     m_oauthNetworkManager->deleteLater();
+    m_oauthCodeFlow->deleteLater();
     m_oauthReplyHandler->deleteLater();
 
     if(basicReplyManage(reply, AuthSubModule, replyBodyString, false) != ReplyManagerAnswer::ReplyAllGood)
