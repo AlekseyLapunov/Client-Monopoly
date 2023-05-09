@@ -83,8 +83,7 @@ Rectangle
                     font.family: "Bookman Old Style"
                     font.pointSize: Helper.fontWarningPreventor(parent.height*0.35)
                     style: Text.Outline
-                    styleColor: (parent.index%2 === 0) ? Qt.darker(root.color, 1.25)
-                                                       : Qt.lighter(root.color, 1.05)
+                    styleColor: Qt.darker(root.color, 1.55)
                 }
 
                 Text
@@ -99,12 +98,20 @@ Rectangle
                     font.family: "Bookman Old Style"
                     font.pointSize: Helper.fontWarningPreventor(parent.height*0.35)
                     style: Text.Outline
-                    styleColor: (parent.index%2 === 0) ? Qt.darker(root.color, 1.25)
-                                                       : Qt.lighter(root.color, 1.05)
+                    styleColor: Qt.darker(root.color, 1.55)
                 }
 
                 Behavior on color { PropertyAnimation { duration: 500 } }
             }
+        }
+    }
+
+    Behavior on height
+    {
+        PropertyAnimation
+        {
+            easing.type: Easing.OutQuad
+            duration: 600
         }
     }
 
@@ -133,9 +140,12 @@ Rectangle
         for(let i = 0; i < _playersInfoModel.rowCount(); i++)
         {
             let item = {};
-            item.playerNumber = _playersInfoModel.data(_playersInfoModel.index(i, 0), 256);
-            item.displayableName = _playersInfoModel.data(_playersInfoModel.index(i, 0), 257);
-            item.currentBalance = _playersInfoModel.data(_playersInfoModel.index(i, 0), 258);
+            item.playerNumber = _playersInfoModel.data(_playersInfoModel.index(i, 0),
+                                                       Helper.PlayerModelRole.PlayerNumberRole);
+            item.displayableName = _playersInfoModel.data(_playersInfoModel.index(i, 0),
+                                                          Helper.PlayerModelRole.DisplayableNameRole);
+            item.currentBalance = _playersInfoModel.data(_playersInfoModel.index(i, 0),
+                                                         Helper.PlayerModelRole.CurrentBalanceRole);
             _playersDataRowsSortable.append(item);
         }
         sortPlayersList();
@@ -157,18 +167,24 @@ Rectangle
             item.displayableName = displayableName;
             item.currentBalance = currentBalance;
             _playersDataRowsSortable.append(item);
-            //_playersList.appendItem(item);
+            _playersList.appendItem(playerNumber, displayableName, currentBalance, 0);
+            console.log("Appending Player" + playerNumber.toString() + " (" + displayableName + ")");
             sortPlayersList();
         }
 
         function onDeletePlayer(playerNumber)
         {
             for(let i = 0; i < _playersDataRowsSortable.count; i++)
+            {
                 if(_playersDataRowsSortable.get(i).playerNumber === playerNumber)
                 {
+                    console.log("Deleting Player" + _playersDataRowsSortable.get(i).playerNumber
+                                + " (" + _playersDataRowsSortable.get(i).displayableName + ")");
                     _playersDataRowsSortable.remove(i);
-                    return;
+                    break;
                 }
+            }
+            _playersList.removeItem(playerNumber);
             sortPlayersList();
         }
     }

@@ -9,7 +9,7 @@ Rectangle
 
     property int showFieldType: Helper.FieldType.Void
     property int showOwnerPlayerNumber: Helper.PlayerNumber.NoPlayer
-    property string showOwnerPlayerNickname: "Player0"
+    property string showOwnerPlayerNickname: ""
     property int showFieldCost: 0
     property int showFieldIncome: 0
     property int showArrowDirection: 0

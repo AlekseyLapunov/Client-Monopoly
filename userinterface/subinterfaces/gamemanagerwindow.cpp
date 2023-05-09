@@ -37,6 +37,7 @@ void GameManagerWindow::show()
     return;
 #endif
     startQmlEngine();
+    reactToPlayerNumberComboBoxChange();
 }
 
 void GameManagerWindow::closeEvent(QCloseEvent *event)
@@ -124,12 +125,13 @@ void GameManagerWindow::addPlayer()
     PlayerGameInfo item = {static_cast<uint8_t>(m_playersList->items().size() + 1),
                            QString("Player%1").arg(m_playersList->items().size() + 1),
                            m_playersList->getItemAt(0).currentBalance + 20, 0};
-    m_playersList->appendItem(item);
-    m_playersList->sortByBalance();
 
     emit gameTransmitterObj->appendPlayer(item.playerNumber,
                                           item.displayableName,
                                           item.currentBalance);
+
+    m_playersList->sortByBalance();
+    reactToPlayerNumberComboBoxChange();
 }
 
 void GameManagerWindow::removePlayer()
@@ -137,11 +139,12 @@ void GameManagerWindow::removePlayer()
     if(m_playersList->items().size() <= 2)
         return;
 
-    m_playersList->removeItem(0);
     m_playersList->sortByBalance();
 
-    emit gameTransmitterObj->deletePlayer(m_playersList->items().size() + 1);
+    emit gameTransmitterObj->deletePlayer(m_playersList->items().size());
+    reactToPlayerNumberComboBoxChange();
 }
+
 void GameManagerWindow::placePlayerPieceOn()
 {
 
@@ -157,10 +160,21 @@ void GameManagerWindow::fakePlayerTurn()
 
 }
 
-void GameManagerWindow::reactToPlayerNumberSpinBoxChange()
-{
-    //ui->lePlayerNickname;
-    //ui->sbPlayerMoney;
+void GameManagerWindow::reactToPlayerNumberComboBoxChange()
+{ 
+    uint8_t playerNumberSelected = ui->cbPlayerNumber->currentIndex();
+
+    if(playerNumberSelected > (uint8_t)m_playersList->items().size() - 1)
+    {
+        ui->lePlayerNickname->setText("");
+        ui->sbPlayerMoney->setValue(ui->sbPlayerMoney->minimum());
+        return;
+    };
+
+    uint8_t index = (uint8_t)m_playersList->findIndexByPlayerNumber(playerNumberSelected + 1);
+
+    ui->lePlayerNickname->setText(m_playersList->getItemAt(index).displayableName);
+    ui->sbPlayerMoney->setValue(m_playersList->getItemAt(index).currentBalance);
 }
 
 void GameManagerWindow::manageQmlWindowClosing()
@@ -193,5 +207,8 @@ void fillDebugMapContext()
 void fillDebugPlayersContext()
 {
     for(int i = 0; i < 2; i++)
-        debugPlayersContext.appendItem(debugPlayersArray[i]);
+        debugPlayersContext.appendItem(debugPlayersArray[i].playerNumber,
+                                       debugPlayersArray[i].displayableName,
+                                       debugPlayersArray[i].currentBalance,
+                                       debugPlayersArray[i].piecePositionOnOrderIndex);
 }

@@ -62,43 +62,52 @@ void PlayerGameInfoList::sortByBalance()
                 std::swap(m_items[j], m_items[j+1]);
 }
 
-void PlayerGameInfoList::appendItem()
+int PlayerGameInfoList::findIndexByPlayerNumber(uint8_t inputPlayerNumber)
+{
+    if(inputPlayerNumber > m_items.size())
+        return 0;
+
+    int counter = 0;
+    for (auto &i : m_items)
+    {
+        if(i.playerNumber == inputPlayerNumber)
+            return counter;
+        counter++;
+    }
+
+    return 0;
+}
+
+void PlayerGameInfoList::appendItem(uint8_t playerNumber, QString playerNickname,
+                                    int playerBalance, int pieceOnOrderIndex)
 {
     emit preItemAppended();
 
     PlayerGameInfo item;
-    item.playerNumber = NoPlayer;
-    item.currentBalance = 0;
-    item.displayableName = "NoPlayer";
-    item.piecePositionOnOrderIndex = 0;
+    item.playerNumber = playerNumber;
+    item.displayableName = playerNickname;
+    item.currentBalance = playerBalance;
+    item.piecePositionOnOrderIndex = pieceOnOrderIndex;
     m_items.push_back(item);
 
     emit postItemAppended();
+
 }
 
-void PlayerGameInfoList::appendItem(PlayerGameInfo &item)
-{
-    emit preItemAppended();
-
-    m_items.push_back(item);
-
-    emit postItemAppended();
-}
-
-void PlayerGameInfoList::removeItem()
+void PlayerGameInfoList::removeItem(uint8_t playerNumber)
 {
     emit preItemRemoved(m_items.size() - 1);
 
-    m_items.pop_back();
-
-    emit postItemRemoved();
-}
-
-void PlayerGameInfoList::removeItem(int index)
-{
-    emit preItemRemoved(m_items.size() - 1);
-
-    m_items.erase(m_items.begin()+index);
+    uint8_t counter = 0;
+    for(auto &i : m_items)
+    {
+        if(i.playerNumber == playerNumber)
+        {
+            m_items.erase(m_items.begin()+counter);
+            break;
+        }
+        counter++;
+    }
 
     emit postItemRemoved();
 }

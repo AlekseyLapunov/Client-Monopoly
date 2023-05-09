@@ -44,6 +44,14 @@ Item
         West
     }
 
+    enum PlayerModelRole
+    {
+        PlayerNumberRole = 256,
+        DisplayableNameRole,
+        CurrentBalanceRole,
+        PiecePositionOnOrderIndexRole
+    }
+
     function makeRgb(r, g, b, alpha = 1)
     {
         const max = 255;

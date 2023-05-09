@@ -94,6 +94,7 @@ Rectangle
         {
             if(Helper.canFieldExecuteDialog(displayableFieldType) && !ignoreClickForDialog)
                 _displayField.showCellDialog(root.displayableFieldType, root.playerNumberOwner,
+                                             _playersInfoModel.getPlayerNicknameByNumber(root.playerNumberOwner),
                                              root.fieldCost, root.fieldIncome, root.arrowDirection)
         }
     }
@@ -162,7 +163,8 @@ Rectangle
                 {
                     console.log("[" + (root.cellNumber).toString()
                                 + ", "+ (root.orderIndex).toString()
-                                + "]: Removing gaming piece of Player" + (i+1).toString());
+                                + "]: Removing gaming piece of Player" + (i+1).toString()
+                                + " (" + _playersInfoModel.getPlayerNicknameByNumber(i+1) + ")");
                     _gamingPiecesDisplay.removePiece(i+1);
                 }
             }
@@ -178,7 +180,8 @@ Rectangle
                 {
                     console.log("[" + (root.cellNumber).toString()
                                 + ", "+ (root.orderIndex).toString()
-                                + "]: Adding gaming piece of Player" + (j+1).toString());
+                                + "]: Adding gaming piece of Player" + (j+1).toString()
+                                + " (" + _playersInfoModel.getPlayerNicknameByNumber(j+1) + ")");
                     _gamingPiecesDisplay.addPiece(j+1);
                 }
             }

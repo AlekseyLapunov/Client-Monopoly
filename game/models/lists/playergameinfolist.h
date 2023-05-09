@@ -23,6 +23,8 @@ public:
 
     void sortByBalance();
 
+    int findIndexByPlayerNumber(uint8_t inputPlayerNumber);
+
 signals:
     void preItemAppended();
     void postItemAppended();
@@ -31,10 +33,9 @@ signals:
     void postItemRemoved();
 
 public slots:
-    void appendItem();
-    void appendItem(PlayerGameInfo &item);
-    void removeItem();
-    void removeItem(int index);
+    void appendItem(uint8_t playerNumber, QString playerNickname,
+                    int playerBalance, int pieceOnOrderPosition);
+    void removeItem(uint8_t playerNumber);
 
 private:
     std::vector<PlayerGameInfo> m_items;

@@ -235,7 +235,8 @@ Window
             y: _displayField.height/2 - height/2
         }
 
-        function showCellDialog(inputFieldType: int, inputOwnerPlayerNumber: int, inputFieldCost: int,
+        function showCellDialog(inputFieldType: int, inputOwnerPlayerNumber: int,
+                                inputOwnerPlayerNickname, inputFieldCost: int,
                                 inputFieldIncome: int, inputArrowDirection: int)
         {
             if(!Helper.canFieldExecuteDialog(inputFieldType))
@@ -246,6 +247,7 @@ Window
 
             _cellDialog.showFieldType = inputFieldType;
             _cellDialog.showOwnerPlayerNumber = inputOwnerPlayerNumber;
+            _cellDialog.showOwnerPlayerNickname = inputOwnerPlayerNickname;
             _cellDialog.showFieldCost = inputFieldCost;
             _cellDialog.showFieldIncome = inputFieldIncome;
             _cellDialog.showArrowDirection = inputArrowDirection;
@@ -265,6 +267,20 @@ Window
         {
             id: _playersInfoModel
             list: _playersList
+
+            function getPlayerNicknameByNumber(playerNumber: int)
+            {
+                for(let i = 0; i < _playersInfoModel.rowCount(); i++)
+                {
+                    if(playerNumber === _playersInfoModel.data((_playersInfoModel.index(i, 0)),
+                                                               Helper.PlayerModelRole.PlayerNumberRole))
+                    {
+                        return _playersInfoModel.data(_playersInfoModel.index(i, 0),
+                                                      Helper.PlayerModelRole.DisplayableNameRole);
+                    }
+                }
+                return "";
+            }
         }
 
         Keys.onPressed: (event) =>

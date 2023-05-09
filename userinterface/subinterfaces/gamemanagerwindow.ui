@@ -54,7 +54,7 @@
         <string>Счёт игрока: </string>
        </property>
        <property name="minimum">
-        <number>200</number>
+        <number>10</number>
        </property>
        <property name="maximum">
         <number>4000</number>
@@ -475,7 +475,7 @@
    <sender>cbPlayerNumber</sender>
    <signal>currentIndexChanged(int)</signal>
    <receiver>GameManagerWindow</receiver>
-   <slot>reactToPlayerNumberSpinBoxChange()</slot>
+   <slot>reactToPlayerNumberComboBoxChange()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>93</x>
@@ -499,6 +499,6 @@
   <slot>placePlayerPieceOn()</slot>
   <slot>changePlayerNickname()</slot>
   <slot>fakePlayerTurn()</slot>
-  <slot>reactToPlayerNumberSpinBoxChange()</slot>
+  <slot>reactToPlayerNumberComboBoxChange()</slot>
  </slots>
 </ui>

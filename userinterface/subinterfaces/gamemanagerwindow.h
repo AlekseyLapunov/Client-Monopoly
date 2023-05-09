@@ -49,7 +49,7 @@ private slots:
     void placePlayerPieceOn();
     void endTheGame();
     void fakePlayerTurn();
-    void reactToPlayerNumberSpinBoxChange();
+    void reactToPlayerNumberComboBoxChange();
 
 private slots:
     void manageQmlWindowClosing();
