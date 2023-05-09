@@ -55,12 +55,12 @@ Rectangle
         id: _fieldAdditionalInformation
         property int rowHeight: root.baseHeight/10
         anchors.top: _cellDisplay.bottom
-        anchors.topMargin: _win.defaultMargin/2
+        anchors.topMargin: _win.defaultMargin/4
         anchors.left: root.left
         anchors.leftMargin: _win.defaultMargin/4
         anchors.right: root.right
         anchors.rightMargin: _win.defaultMargin/4
-        spacing: _win.defaultMargin/20
+        spacing: _win.defaultMargin/4
         Repeater
         {
             model: _labelsModel
@@ -116,7 +116,7 @@ Rectangle
 
         anchors.top: _cellDisplay.top
         anchors.left: _cellDisplay.right
-        anchors.leftMargin: _win.defaultMargin/2
+        anchors.leftMargin: _win.defaultMargin/4
         anchors.right: root.right
         anchors.rightMargin: _win.defaultMargin/4
         color: Qt.darker(_displayField.shareGradColor1, 1.25)
