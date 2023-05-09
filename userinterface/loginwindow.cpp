@@ -12,7 +12,7 @@ LoginWindow::LoginWindow(unique_ptr<ServerCommunicator> *newServerPtr,
 
     setupPointers(*newServerPtr, *newMetaInfoPtr);
 
-    pMenuWindow = unique_ptr<MenuWindow>(new MenuWindow(pServer(), pUserMetaInfo(), this));
+    pMenuWindow = unique_ptr<MenuWindow>(new MenuWindow(pServer(), pUserMetaInfo()/*, this*/));
 
     connect(pMenuWindow.get(), &MenuWindow::switchToLoginWindow,
             this, &LoginWindow::show);
@@ -136,6 +136,7 @@ void LoginWindow::baseLogin(uint8_t loginFlag)
 void LoginWindow::switchToMenuWindow()
 {
     hide();
+    pMenuWindow.get()->needToCheckActiveGame = true;
     pMenuWindow.get()->show();
 }
 

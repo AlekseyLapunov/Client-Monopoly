@@ -16,7 +16,7 @@ MenuWindow::MenuWindow(unique_ptr<ServerCommunicator> *newServerPtr,
 
     pGameManagerWindow = unique_ptr<GameManagerWindow>(new GameManagerWindow(pServer(), pUserMetaInfo()));
 
-    pLobbyWindow = unique_ptr<LobbyWindow>(new LobbyWindow(pServer(), pUserMetaInfo(), pGameManagerWindow, this));
+    pLobbyWindow = unique_ptr<LobbyWindow>(new LobbyWindow(pServer(), pUserMetaInfo(), pGameManagerWindow/*, this*/));
 
     connect(pLobbyWindow.get(), &LobbyWindow::goToMenuWindow,
             this, &MenuWindow::show);
@@ -147,6 +147,7 @@ void MenuWindow::joinIdDialog()
                 case AllGoodRf:
                     timedOutCounter = 0;
                     m_firstContext = response.payload;
+                    showLobbyWindow();
                     return;
                 case UnauthorizeRf:
                     timedOutCounter = 0;
@@ -175,6 +176,7 @@ void MenuWindow::joinIdDialog()
             case AllGoodRf:
                 timedOutCounter = 0;
                 m_firstContext = response.payload;
+                showLobbyWindow();
                 return;
             case UnauthorizeRf:
                 timedOutCounter = 0;
@@ -315,28 +317,6 @@ void MenuWindow::show()
     {
     case AllGoodRf:
     {
-        ResponseFromServerComm<ConnectionsFromServer> subResponce = pServer()->get()->activeCheck();
-        ConnectionsFromServer gotConnections = subResponce.payload;
-
-        switch (subResponce.responseFlag)
-        {
-        case AllGoodRf:
-            if(gotConnections.sessionAddress.isEmpty())
-            {
-                qDebug().noquote() << "Session address was empty";
-                break;
-            }
-
-            qDebug().noquote() << "Opened game window";
-            return;
-        case UnauthorizeRf:
-            timedOutCounter = 0;
-            logoutBackToLoginWindow();
-            return;
-        default:
-            break;
-        }
-
         timedOutCounter = 0;
         pUserMetaInfo()->get()->setHostInfo(response.payload);
 
@@ -369,6 +349,34 @@ void MenuWindow::show()
                      this);
         logoutBackToLoginWindow();
         return;
+    }
+
+    if(needToCheckActiveGame)
+    {
+        refreshDataTimer.stop();
+        needToCheckActiveGame = false;
+
+        ResponseFromServerComm<ConnectionsFromServer> subResponce = pServer()->get()->activeCheck();
+        ConnectionsFromServer gotConnections = subResponce.payload;
+
+        switch (subResponce.responseFlag)
+        {
+        case AllGoodRf:
+            qDebug().noquote() << "Opened game window";
+            return;
+        case UnauthorizeRf:
+            timedOutCounter = 0;
+            logoutBackToLoginWindow();
+            return;
+        default:
+            break;
+        }
+
+        if(gotConnections.sessionAddress.isEmpty())
+        {
+            qDebug().noquote() << "Session address was empty";
+            refreshDataTimer.start(REFRESH_LOBBIES_LIST_EVERY_N_MS);
+        }
     }
 }
 
@@ -491,6 +499,7 @@ void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
         case AllGoodRf:
             timedOutCounter = 0;
             m_firstContext = response.payload;
+            showLobbyWindow();
             return;
         case UnauthorizeRf:
             timedOutCounter = 0;
@@ -528,6 +537,7 @@ void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
                 case AllGoodRf:
                     timedOutCounter = 0;
                     m_firstContext = response.payload;
+                    showLobbyWindow();
                     return;
                 case UnauthorizeRf:
                     timedOutCounter = 0;
@@ -556,6 +566,7 @@ void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
             case AllGoodRf:
                 timedOutCounter = 0;
                 m_firstContext = response.payload;
+                showLobbyWindow();
                 return;
             case UnauthorizeRf:
                 timedOutCounter = 0;

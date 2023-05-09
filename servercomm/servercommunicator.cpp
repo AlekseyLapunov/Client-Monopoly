@@ -498,7 +498,7 @@ ServerCommunicator::deleteLobby(uint8_t localCounter)
     uint8_t requestManagerAnswer = basicRequestManage(thisSubModuleId, usingHttpMethod,
                                                       HttpMethodType::HttpDelete, authorizationRawHeader,
                                                       authorizationHeaderContent.arg(gotAccessToken),
-                                                      "", false);
+                                                      "");
 
     switch (requestManagerAnswer)
     {
@@ -778,7 +778,7 @@ ServerCommunicator::disconnectFromLobby(uint8_t localCounter)
     uint8_t requestManagerAnswer = basicRequestManage(thisSubModuleId, usingHttpMethod,
                                                       HttpMethodType::HttpPost, authorizationRawHeader,
                                                       authorizationHeaderContent.arg(gotAccessToken),
-                                                      "", false);
+                                                      "");
 
     switch (requestManagerAnswer)
     {
@@ -1154,8 +1154,7 @@ void ServerCommunicator::catchReplyLobbyRun(QNetworkReply *reply)
 }
 
 uint8_t ServerCommunicator::basicRequestManage(uint8_t subModuleId, QString method, uint8_t methodType,
-                                               QString headerName, QString headerValue, QString requestBody,
-                                               bool isWaiting)
+                                               QString headerName, QString headerValue, QString requestBody)
 {
     QNetworkAccessManager localNetworkAccessManager(this);
 
@@ -1193,8 +1192,7 @@ uint8_t ServerCommunicator::basicRequestManage(uint8_t subModuleId, QString meth
         return RequestManagerAnswer::RequestTimedOut;
     }
 
-    if(isWaiting)
-        localEventLoop.exec();
+    localEventLoop.exec();
 
     localTimer.disconnect();
     localEventLoop.disconnect();

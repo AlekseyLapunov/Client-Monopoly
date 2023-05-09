@@ -72,6 +72,19 @@ void LobbyWindow::show(const LobbyFullInfo firstContext)
 {
     refreshDataTimer.stop();
 
+    ui->lGameBeginsIn->setVisible(false);
+    ui->lSecondsToStart->setVisible(false);
+    setFirstContext(firstContext);
+    setUpSettingsInputs();
+    setUpRegExps();
+    ui->bApplySettings->setEnabled(false);
+    ui->bRestoreLastSettings->setEnabled(false);
+    setUpByPrivilege(); // !
+    setUpUsersInTable(*ui->tUsers, m_context.usersInLobby);
+    setUpByPrivilege();
+    overwriteSettingsInputs(m_context.settings);
+    checkIfNeedToStartGame();
+
     if(!FileManager::checkUserMetaIntegrity())
     {
         logoutBackToLoginWindow();
@@ -92,15 +105,6 @@ void LobbyWindow::show(const LobbyFullInfo firstContext)
     case AllGoodRf:
         timedOutCounter = 0;
         pUserMetaInfo()->get()->setHostInfo(response.payload);
-
-        ui->lGameBeginsIn->setVisible(false);
-        ui->lSecondsToStart->setVisible(false);
-        setFirstContext(firstContext);
-        setUpSettingsInputs();
-        setUpRegExps();
-        ui->bApplySettings->setEnabled(false);
-        ui->bRestoreLastSettings->setEnabled(false);
-
         setEnabled(true);
         windowDataRefresh();
         refreshDataTimer.start(REFRESH_LOBBY_INSIDE_DATA_EVERY_N_MS);
@@ -394,9 +398,8 @@ void LobbyWindow::startGame()
     {
     case AllGoodRf:
         timedOutCounter = 0;
-
         m_context.settings.softOverride(m_lastSettings);
-        setDisabled(true);
+        ui->bStartGame->setDisabled(false);
         return;
     case UnauthorizeRf:
         logoutBackToLoginWindow();
@@ -404,8 +407,10 @@ void LobbyWindow::startGame()
     case TimedOutRf:
         timedOutCounter++;
         checkTimedOutCounter();
+        ui->bStartGame->setDisabled(false);
         return;
     default:
+        ui->bStartGame->setDisabled(false);
         execErrorBox(QString("%1%2")
                      .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
                           QString::fromStdString(ssErrorsContent[StartGameFail])),

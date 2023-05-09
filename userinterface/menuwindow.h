@@ -36,6 +36,8 @@ public:
     void hide();
     void supportLogoutChain();
 
+    bool needToCheckActiveGame = false;
+
 signals:
     void switchToLoginWindow();
 

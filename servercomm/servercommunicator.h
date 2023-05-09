@@ -106,8 +106,7 @@ private:
     enum HttpMethodType { HttpGet, HttpPost, HttpDelete, SpecAuth };
     enum RequestManagerAnswer { RequestNeedToAbort, RequestTimedOut, RequestAllGood, RequestNeedToRepeat, RequestLobbyIsPassworded };
     uint8_t basicRequestManage(uint8_t subModuleId, QString method, uint8_t methodType,
-                               QString headerName, QString headerValue, QString requestBody,
-                               bool isWaiting = true);
+                               QString headerName, QString headerValue, QString requestBody);
 
     void makeConnectionBySubModuleId(uint8_t subModuleId, QNetworkAccessManager *localManager,
                                      QEventLoop *localEventLoop);
