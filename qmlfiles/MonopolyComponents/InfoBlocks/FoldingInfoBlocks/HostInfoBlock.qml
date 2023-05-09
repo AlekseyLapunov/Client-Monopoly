@@ -7,12 +7,11 @@ FoldingInfoBlock
     id: root
 
     property color hostColor: Helper.definePlayerColorByNumber(_win.hostPlayerNumber)
-    property string hostNickname: _playersInfoModel.getPlayerNicknameByNumber(_win.hostPlayerNumber)
-    property int playerNumberBeforeYourTurn: Helper.definePlayerNumberBeforeHost(_win.hostPlayerNumber,
-                                                                                 _playersInfoModel.rowCount())
+    property string hostNickname
+    property int playerNumberBeforeYourTurn
     property color playerColorBeforeYourTurn: Helper.definePlayerColorByNumber(playerNumberBeforeYourTurn)
-    property string playerNicknameBeforeYourTurn: _playersInfoModel.getPlayerNicknameByNumber(playerNumberBeforeYourTurn)
-    property int energyKrendelsCount: _playersInfoModel.getPlayerBalanceByNumber(_win.hostPlayerNumber)
+    property string playerNicknameBeforeYourTurn
+    property int energyKrendelsCount
     property int energyKrendelsPerTurn: 0
 
     property int dataRowHeight: sizeUnit*0.15
@@ -203,6 +202,7 @@ FoldingInfoBlock
                     border.color: Qt.lighter(parent.color, 1.2)
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.leftMargin: _win.defaultMargin*0.1
+                    ignoreClickForDialog: true
                 }
 
                 Text
@@ -239,6 +239,20 @@ FoldingInfoBlock
                 Behavior on color { PropertyAnimation { duration: 500 } }
             }
         }
+    }
+
+    Component.onCompleted:
+    {
+        updateInfo();
+    }
+
+    function updateInfo()
+    {
+        root.energyKrendelsCount = _playersInfoModel.getPlayerBalanceByNumber(_win.hostPlayerNumber);
+        root.playerNumberBeforeYourTurn = Helper.definePlayerNumberBeforeHost(_win.hostPlayerNumber,
+                                                                              _playersInfoModel.rowCount());
+        root.playerNicknameBeforeYourTurn = _playersInfoModel.getPlayerNicknameByNumber(root.playerNumberBeforeYourTurn);
+        root.playerColorBeforeYourTurn = Helper.definePlayerColorByNumber(root.playerNumberBeforeYourTurn);
     }
 
     Connections

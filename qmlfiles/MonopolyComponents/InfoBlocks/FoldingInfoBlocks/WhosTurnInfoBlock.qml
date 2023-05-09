@@ -7,7 +7,7 @@ FoldingInfoBlock
     id: root
 
     property int whatPlayerNumber: Helper.PlayerNumber.Player1
-    property string playerNickname: _playersInfoModel.getPlayerNicknameByNumber(whatPlayerNumber)
+    property string playerNickname///: _playersInfoModel.getPlayerNicknameByNumber(whatPlayerNumber)
     property int turnTime: _win.turnTime
 
     foldedImagePath: "../../../../assets/svgs/misc/turn_info_folded_image";
@@ -124,6 +124,7 @@ FoldingInfoBlock
                 root.whatPlayerNumber = (root.whatPlayerNumber < _playersInfoModel.rowCount()) ?
                                         (root.whatPlayerNumber + 1) :
                                         (Helper.PlayerNumber.Player1);
+                updateWhosTurnData();
                 if(root.whatPlayerNumber === _win.hostPlayerNumber && _win.isTurnNotiEnabled)
                     _turnReminder.play();
             }
@@ -137,4 +138,13 @@ FoldingInfoBlock
         volume: 0.10
     }
 
+    Component.onCompleted:
+    {
+        updateWhosTurnData();
+    }
+
+    function updateWhosTurnData()
+    {
+        playerNickname = _playersInfoModel.getPlayerNicknameByNumber(root.whatPlayerNumber);
+    }
 }

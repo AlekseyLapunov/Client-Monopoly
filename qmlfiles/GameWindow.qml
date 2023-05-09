@@ -444,6 +444,7 @@ Window
         {
             _playersInfoModel.setPlayerBalanceByNumber(inputPlayerNumber, inputPlayerBalance);
             _playersInfoBlock.updatePlayersSortableBalance(inputPlayerNumber, inputPlayerBalance);
+            _hostInfoBlock.updateInfo();
         }
 
         function onUpdatePlayerNickname(inputPlayerNumber,
@@ -451,6 +452,8 @@ Window
         {
             _playersInfoModel.setPlayerBalanceByNumber(inputPlayerNumber, inputPlayerNickname);
             _playersInfoBlock.updatePlayersSortableNickname(inputPlayerNumber, inputPlayerNickname);
+            _hostInfoBlock.updateInfo();
+            _whosTurnInfoBlock.updateWhosTurnData();
         }
 
         function onSetCurrentGameStage(stageNumber: int, withAnimation: bool)
