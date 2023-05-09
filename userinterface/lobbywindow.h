@@ -13,6 +13,8 @@
 
 //#define DEBUG_FAST_GAME_START
 
+#define TIME_TO_START_GAME_MS 5000
+
 namespace Ui {
 class LobbyWindow;
 }
@@ -55,6 +57,7 @@ private slots:
     void deleteLobby();
     void changeNickname();
     void apply3dDiceState();
+    void openGameWindow();
 
 private:
     void setFirstContext(const LobbyFullInfo context);
@@ -78,6 +81,7 @@ private:
     void logoutBackToLoginWindow();
     void checkTimedOutCounter();
     void manageCheckBoxes();
+    void checkIfNeedToStartGame();
 
 private:
     Ui::LobbyWindow *ui;
@@ -86,6 +90,10 @@ private:
     LobbySettings m_lastSettings;
 
     unique_ptr<GameManagerWindow> *m_pGameManager;
+
+    QTimer timerToStartGame;
+    QTimer subTimerToStartGame;
+    bool timerAlreadyActive = false;
 
     enum PrivelegeTypes { Owner, JoinedUser, RankedJoinedUser };
 };

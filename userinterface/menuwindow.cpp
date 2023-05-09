@@ -315,6 +315,28 @@ void MenuWindow::show()
     {
     case AllGoodRf:
     {
+        ResponseFromServerComm<ConnectionsFromServer> subResponce = pServer()->get()->activeCheck();
+        ConnectionsFromServer gotConnections = subResponce.payload;
+
+        switch (subResponce.responseFlag)
+        {
+        case AllGoodRf:
+            if(gotConnections.sessionAddress.isEmpty())
+            {
+                qDebug().noquote() << "Session address was empty";
+                break;
+            }
+
+            qDebug().noquote() << "Opened game window";
+            return;
+        case UnauthorizeRf:
+            timedOutCounter = 0;
+            logoutBackToLoginWindow();
+            return;
+        default:
+            break;
+        }
+
         timedOutCounter = 0;
         pUserMetaInfo()->get()->setHostInfo(response.payload);
 

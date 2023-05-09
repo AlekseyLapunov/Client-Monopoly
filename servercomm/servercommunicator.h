@@ -56,6 +56,9 @@ public:
     ResponseFromServerComm<void*> disconnectFromLobby(uint8_t localCounter = 0);
     ResponseFromServerComm<void*> deleteLobby(uint8_t localCounter = 0);
 
+    // Misc
+    ResponseFromServerComm<ConnectionsFromServer> activeCheck(uint8_t localCounter = 0);
+
 signals:
     void authorizationProcessOver();
     void getUserInfoProcessOver();
@@ -117,6 +120,7 @@ private:
 
     QString makeServerFullLobbyJson(LobbySettings &lobbySettingsBase);
     LobbyFullInfo parseLobbyFullInfoFromServer(QJsonObject &jsonMainObject);
+    ConnectionsFromServer parseConnections(QJsonObject &jsonMainObject);
 
 private:
     QNetworkAccessManager        *m_oauthNetworkManager;
@@ -126,6 +130,7 @@ private:
     HostUserData m_temporaryHostData;
     LobbyFullInfo m_temporaryLobbyFullInfo;
     vector<LobbyShortInfo> m_lobbiesShortInfoVec;
+    ConnectionsFromServer m_temporaryConnections;
 
     bool globalLobbyIsPassworded = false;
     uint8_t globalAuthType = AuthType::VK;

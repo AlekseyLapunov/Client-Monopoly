@@ -255,6 +255,12 @@ struct LobbyFullInfo
     vector<UserShortInfo> usersInLobby;
 };
 
+struct ConnectionsFromServer
+{
+    QString sessionAddress;
+    int sessionPort;
+};
+
 // Host-user data
 struct HostUserData
 {

@@ -514,6 +514,45 @@ ServerCommunicator::deleteLobby(uint8_t localCounter)
     }
 }
 
+ResponseFromServerComm<ConnectionsFromServer>
+ServerCommunicator::activeCheck(uint8_t localCounter)
+{
+    uint8_t thisSubModuleId = ActiveCheckSubModule;
+    QString usingHttpMethod = httpMethods[GetLobbiesActiveCheck];
+
+    if(localCounter >= LOCAL_COUNTER_MAX)
+    {
+        qDebug().noquote() << QString("%1: Reached max local counter")
+                              .arg(serverCommSubModule[thisSubModuleId]);
+        return {UnauthorizeRf, {}};
+    }
+
+    serverCommSubModuleBase[thisSubModuleId].resetBase();
+    QString gotAccessToken = FileManager::getToken(TokenType::Access);
+
+    if(gotAccessToken.isEmpty())
+        if(!doRefreshAccessToken())
+            return {UnauthorizeRf, {}};
+
+    uint8_t requestManagerAnswer = basicRequestManage(thisSubModuleId, usingHttpMethod,
+                                                      HttpMethodType::HttpGet, authorizationRawHeader,
+                                                      authorizationHeaderContent.arg(gotAccessToken),
+                                                      "");
+
+    switch (requestManagerAnswer)
+    {
+    case RequestManagerAnswer::RequestAllGood:
+        return {AllGoodRf, m_temporaryConnections};
+    case RequestManagerAnswer::RequestNeedToRepeat:
+        localCounter++;
+        return activeCheck(localCounter);
+    case RequestManagerAnswer::RequestTimedOut:
+        return {TimedOutRf, {}};
+    default:
+        return {GeneralFailRf, {}};
+    }
+}
+
 ResponseFromServerComm<void*>
 ServerCommunicator::switchReadiness(uint8_t localCounter)
 {
@@ -598,7 +637,40 @@ ServerCommunicator::updateLobbySettings(LobbySettings newSettings,
 ResponseFromServerComm<void*>
 ServerCommunicator::runGame(uint8_t localCounter)
 {
-    return {UnknownRf, nullptr};
+    uint8_t thisSubModuleId = LobbyRunSubModule;
+    QString usingHttpMethod = httpMethods[PostLobbiesCurrentRun];
+
+    if(localCounter >= LOCAL_COUNTER_MAX)
+    {
+        qDebug().noquote() << QString("%1: Reached max local counter")
+                              .arg(serverCommSubModule[thisSubModuleId]);
+        return {UnauthorizeRf, nullptr};
+    }
+
+    serverCommSubModuleBase[thisSubModuleId].resetBase();
+    QString gotAccessToken = FileManager::getToken(TokenType::Access);
+
+    if(gotAccessToken.isEmpty())
+        if(!doRefreshAccessToken())
+            return {UnauthorizeRf, nullptr};
+
+    uint8_t requestManagerAnswer = basicRequestManage(thisSubModuleId, usingHttpMethod,
+                                                      HttpMethodType::HttpPost, authorizationRawHeader,
+                                                      authorizationHeaderContent.arg(gotAccessToken),
+                                                      "");
+
+    switch (requestManagerAnswer)
+    {
+    case RequestManagerAnswer::RequestAllGood:
+        return {AllGoodRf, nullptr};
+    case RequestManagerAnswer::RequestNeedToRepeat:
+        localCounter++;
+        return runGame(localCounter);
+    case RequestManagerAnswer::RequestTimedOut:
+        return {TimedOutRf, nullptr};
+    default:
+        return {GeneralFailRf, nullptr};
+    }
 }
 
 ResponseFromServerComm<void*>
@@ -1059,6 +1131,10 @@ void ServerCommunicator::catchReplyActiveCheck(QNetworkReply *reply)
     if(basicReplyManage(reply, ActiveCheckSubModule, replyBodyString) != ReplyManagerAnswer::ReplyAllGood)
         return;
 
+    QJsonObject jsonObj = QJsonDocument::fromJson(bytes).object();
+
+    m_temporaryConnections = parseConnections(jsonObj);
+
     emit activeCheckProcessOver();
 
     reply->deleteLater();
@@ -1125,6 +1201,7 @@ uint8_t ServerCommunicator::basicRequestManage(uint8_t subModuleId, QString meth
 
     if(localTimer.isActive())
     {
+        localNetworkAccessManager.disconnect();
         return  (serverCommSubModuleBase[subModuleId].repeatRequest) ?
                 RequestManagerAnswer::RequestNeedToRepeat :
                 (globalLobbyIsPassworded) ? RequestManagerAnswer::RequestLobbyIsPassworded :
@@ -1132,6 +1209,7 @@ uint8_t ServerCommunicator::basicRequestManage(uint8_t subModuleId, QString meth
     }
     else
     {
+        localNetworkAccessManager.disconnect();
         qDebug().noquote() << QString("%1%2 request timed out")
                               .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
                                    serverCommSubModule[subModuleId]);
@@ -1530,11 +1608,24 @@ LobbyFullInfo ServerCommunicator::parseLobbyFullInfoFromServer(QJsonObject &json
     return returningLFI;
 }
 
+ConnectionsFromServer ServerCommunicator::parseConnections(QJsonObject &jsonMainObject)
+{
+    ConnectionsFromServer returningConnections;
 
+    QJsonValue jsonConnectionValue = jsonMainObject.value(ssJsonServerLobbiesKeys[ServConnectionObj]);
 
+    if(!jsonConnectionValue.isObject())
+    {
+        qDebug().noquote() << QString("%1 is fractured").arg(ssJsonServerLobbiesKeys[ServConnectionObj]);
+        return {};
+    }
 
+    QJsonObject jsonConnectionObj = jsonConnectionValue.toObject();
 
+    returningConnections.sessionAddress = jsonConnectionObj[ssJsonServerLobbiesKeys[ServSessionAddress]].toString();
+    returningConnections.sessionPort = jsonConnectionObj[ssJsonServerLobbiesKeys[ServSessionPort]].toInt();
 
-
+    return returningConnections;
+}
 
 

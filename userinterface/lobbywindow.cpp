@@ -50,6 +50,7 @@ void LobbyWindow::windowDataRefresh()
         setUpUsersInTable(*ui->tUsers, m_context.usersInLobby);
         setUpByPrivilege();
         overwriteSettingsInputs(m_context.settings);
+        checkIfNeedToStartGame();
         return;
     case UnauthorizeRf:
         logoutBackToLoginWindow();
@@ -396,10 +397,6 @@ void LobbyWindow::startGame()
 
         m_context.settings.softOverride(m_lastSettings);
         setDisabled(true);
-
-        // make switch to game window
-
-        ui->bStartGame->setDisabled(false);
         return;
     case UnauthorizeRf:
         logoutBackToLoginWindow();
@@ -574,6 +571,47 @@ void LobbyWindow::manageCheckBoxes()
         else
             ui->chbIsBalanceInfinite->setEnabled(true);
     }
+}
+
+void LobbyWindow::checkIfNeedToStartGame()
+{
+    if(!m_context.settings.isTimerActive)
+    {
+        subTimerToStartGame.stop();
+        subTimerToStartGame.disconnect();
+        timerToStartGame.stop();
+        timerToStartGame.disconnect();
+        ui->bToggleReady->setEnabled(true);
+        ui->lGameBeginsIn->setVisible(false);
+        ui->lSecondsToStart->setVisible(false);
+        timerAlreadyActive = false;
+        return;
+    }
+    if(timerAlreadyActive)
+        return;
+
+    timerAlreadyActive = true;
+    ui->bToggleReady->setDisabled(true);
+
+    ui->lGameBeginsIn->setVisible(true);
+    ui->lSecondsToStart->setText(QString::number(TIME_TO_START_GAME_MS/1000));
+
+    timerToStartGame.setSingleShot(true);
+    timerToStartGame.start(TIME_TO_START_GAME_MS);
+
+    subTimerToStartGame.setSingleShot(false);
+    subTimerToStartGame.start(1000);
+
+    connect(&subTimerToStartGame, &QTimer::timeout, [=]()
+    {
+        ui->lSecondsToStart->setText(QString::number(timerToStartGame.remainingTime()/1000));
+    });
+
+    connect(&timerToStartGame, &QTimer::timeout, [=]()
+    {
+        subTimerToStartGame.stop();
+        openGameWindow();
+    });
 }
 
 void LobbyWindow::leaveLobby()
@@ -788,6 +826,11 @@ void LobbyWindow::changeNickname()
 void LobbyWindow::apply3dDiceState()
 {
     FileManager::apply3dDiceStateToLocal(ui->aUse3dDice->isChecked());
+}
+
+void LobbyWindow::openGameWindow()
+{
+    qDebug().noquote() << "Open game window";
 }
 
 void LobbyWindow::closeEvent(QCloseEvent *event)
