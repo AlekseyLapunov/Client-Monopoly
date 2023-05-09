@@ -281,6 +281,50 @@ Window
                 }
                 return "";
             }
+
+            function getPlayerBalanceByNumber(playerNumber: int)
+            {
+                for(let i = 0; i < _playersInfoModel.rowCount(); i++)
+                {
+                    if(playerNumber === _playersInfoModel.data((_playersInfoModel.index(i, 0)),
+                                                               Helper.PlayerModelRole.PlayerNumberRole))
+                    {
+                        return _playersInfoModel.data(_playersInfoModel.index(i, 0),
+                                                      Helper.PlayerModelRole.CurrentBalanceRole);
+                    }
+                }
+                return 0;
+            }
+
+            function setPlayerNicknameByNumber(playerNumber, newNickname)
+            {
+                for(let i = 0; i < _playersInfoModel.rowCount(); i++)
+                {
+                    if(playerNumber === _playersInfoModel.data((_playersInfoModel.index(i, 0)),
+                                                               Helper.PlayerModelRole.PlayerNumberRole))
+                    {
+                        _playersInfoModel.setData((_playersInfoModel.index(i, 0)),
+                                                  newNickname,
+                                                  Helper.PlayerModelRole.DisplayableNameRole);
+                        break;
+                    }
+                }
+            }
+
+            function setPlayerBalanceByNumber(playerNumber, playerBalance)
+            {
+                for(let i = 0; i < _playersInfoModel.rowCount(); i++)
+                {
+                    if(playerNumber === _playersInfoModel.data((_playersInfoModel.index(i, 0)),
+                                                               Helper.PlayerModelRole.PlayerNumberRole))
+                    {
+                        _playersInfoModel.setData((_playersInfoModel.index(i, 0)),
+                                                  playerBalance,
+                                                  Helper.PlayerModelRole.CurrentBalanceRole);
+                        break;
+                    }
+                }
+            }
         }
 
         Keys.onPressed: (event) =>
@@ -394,6 +438,21 @@ Window
     Connections
     {
         target: _gameTransmitter
+
+        function onUpdatePlayerBalance(inputPlayerNumber,
+                                       inputPlayerBalance)
+        {
+            _playersInfoModel.setPlayerBalanceByNumber(inputPlayerNumber, inputPlayerBalance);
+            _playersInfoBlock.updatePlayersSortableBalance(inputPlayerNumber, inputPlayerBalance);
+        }
+
+        function onUpdatePlayerNickname(inputPlayerNumber,
+                                        inputPlayerNickname)
+        {
+            _playersInfoModel.setPlayerBalanceByNumber(inputPlayerNumber, inputPlayerNickname);
+            _playersInfoBlock.updatePlayersSortableNickname(inputPlayerNumber, inputPlayerNickname);
+        }
+
         function onSetCurrentGameStage(stageNumber: int, withAnimation: bool)
         {
             _win.currentStage = stageNumber;

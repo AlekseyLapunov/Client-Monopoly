@@ -58,6 +58,15 @@ Item
         return Qt.rgba(r/max, g/max, b/max, alpha);
     }
 
+    function definePlayerNumberBeforeHost(inputHostPlayerNumber, inputPlayersCount)
+    {
+        let playerNumberBeforeHost = inputHostPlayerNumber - 1;
+
+        if(playerNumberBeforeHost === Helper.PlayerNumber.NoPlayer)
+            return inputPlayersCount;
+        else return playerNumberBeforeHost;
+    }
+
     function definePlayerColorByNumber(playerNumber)
     {
         switch(playerNumber)

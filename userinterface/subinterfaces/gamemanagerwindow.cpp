@@ -84,6 +84,8 @@ void GameManagerWindow::startQmlEngine()
     gameReceiverObj = qmlEngine->rootObjects().at(0);
     QObject::connect(gameReceiverObj, SIGNAL(qmlGameWindowClosed()),
                      this, SLOT(manageQmlWindowClosing()));
+
+    passOwningObjectsToQml();
 }
 
 void GameManagerWindow::setStage()
@@ -98,12 +100,36 @@ void GameManagerWindow::setStage()
 
 void GameManagerWindow::changePlayerBalance()
 {
+    uint8_t playerNumberSelected = ui->cbPlayerNumber->currentIndex();
 
+    if(playerNumberSelected > (uint8_t)m_playersList->items().size() - 1)
+        return;
+
+    int index = m_playersList->findIndexByPlayerNumber(ui->cbPlayerNumber->currentIndex() + 1);
+    PlayerGameInfo playerGameInfo = m_playersList->getItemAt(index);
+    playerGameInfo.currentBalance = ui->sbPlayerMoney->value();
+    m_playersList->setItemAt(index, playerGameInfo);
+
+    emit gameTransmitterObj->updatePlayerBalance(playerNumberSelected + 1,
+                                                 ui->sbPlayerMoney->value());
+
+    m_playersList->sortByBalance();
 }
 
 void GameManagerWindow::changePlayerNickname()
 {
+    uint8_t playerNumberSelected = ui->cbPlayerNumber->currentIndex();
 
+    if(playerNumberSelected > (uint8_t)m_playersList->items().size() - 1)
+        return;
+
+    int index = m_playersList->findIndexByPlayerNumber(ui->cbPlayerNumber->currentIndex() + 1);
+    PlayerGameInfo playerGameInfo = m_playersList->getItemAt(index);
+    playerGameInfo.displayableName = ui->lePlayerNickname->text();
+    m_playersList->setItemAt(index, playerGameInfo);
+
+    emit gameTransmitterObj->updatePlayerNickname(playerNumberSelected + 1,
+                                                  ui->lePlayerNickname->text());
 }
 
 void GameManagerWindow::rollDiceDirectional()
@@ -196,6 +222,50 @@ void GameManagerWindow::applyFirstGameContext()
 void GameManagerWindow::checkTimedOutCounter()
 {
 
+}
+
+void GameManagerWindow::initializeHostOwningObjectCounts()
+{
+    hostPlayerIncomePerTurn = 0;
+    for(uint8_t i = FieldType::Sawmill; i <= FieldType::Uranium; i++)
+    {
+        hostOwningObjectsCounts.insert(i, 0);
+    }
+}
+
+void GameManagerWindow::countHostOwningObjectsByMap()
+{
+    hostPlayerIncomePerTurn = 0;
+    resetHostOwningObjectCounts();
+    for(int i = 0; i < (int)m_cellsList->items().size(); i++)
+    {
+        Cell field = m_cellsList->getItemAt(i);
+
+        if(field.fieldTypeSet < FieldType::Sawmill || field.fieldTypeSet > FieldType::Uranium)
+            continue;
+
+        if(field.playerNumberOwner != hostPlayerNumber)
+            continue;
+
+        hostOwningObjectsCounts[field.fieldTypeSet] = hostOwningObjectsCounts[field.fieldTypeSet] + 1;
+        hostPlayerIncomePerTurn += field.fieldIncome;
+    }
+}
+
+void GameManagerWindow::resetHostOwningObjectCounts()
+{
+    hostOwningObjectsCounts.clear();
+    initializeHostOwningObjectCounts();
+}
+
+void GameManagerWindow::passOwningObjectsToQml()
+{
+    countHostOwningObjectsByMap();
+    emit gameTransmitterObj->clearHostOwningObjects();
+    for(uint8_t i = FieldType::Sawmill; i <= FieldType::Uranium; i++)
+    {
+        emit gameTransmitterObj->updateHostOwningObjects(i, hostOwningObjectsCounts[i]);
+    }
 }
 
 void fillDebugMapContext()

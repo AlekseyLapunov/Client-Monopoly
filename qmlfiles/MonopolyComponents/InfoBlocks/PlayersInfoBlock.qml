@@ -151,6 +151,37 @@ Rectangle
         sortPlayersList();
     }
 
+    function updatePlayersSortableNickname(playerNumber, newNickname)
+    {
+        if(playerNumber > _playersDataRowsSortable.count)
+            return;
+
+        for(let i = 0; i < _playersDataRowsSortable.count; i++)
+        {
+            if(_playersDataRowsSortable.get(i).playerNumber === playerNumber)
+            {
+                _playersDataRowsSortable.get(i).displayableName = newNickname;
+                return;
+            }
+        }
+    }
+
+    function updatePlayersSortableBalance(playerNumber, newBalance)
+    {
+        if(playerNumber > _playersDataRowsSortable.count)
+            return;
+
+        for(let i = 0; i < _playersDataRowsSortable.count; i++)
+        {
+            if(_playersDataRowsSortable.get(i).playerNumber === playerNumber)
+            {
+                _playersDataRowsSortable.get(i).currentBalance = newBalance;
+                sortPlayersList();
+                return;
+            }
+        }
+    }
+
     ListModel
     {
         id: _playersDataRowsSortable

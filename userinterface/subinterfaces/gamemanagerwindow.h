@@ -57,6 +57,10 @@ private slots:
 private:
     void applyFirstGameContext(/*GameContext& gameContext*/);
     void checkTimedOutCounter();
+    void initializeHostOwningObjectCounts();
+    void countHostOwningObjectsByMap();
+    void resetHostOwningObjectCounts();
+    void passOwningObjectsToQml();
 
 private:
     Ui::GameManagerWindow *ui;
@@ -65,6 +69,9 @@ private:
     QObject* gameReceiverObj;
 
     uint8_t currentStage = 0;
+    int hostPlayerIncomePerTurn = 0;
+    uint8_t hostPlayerNumber = PlayerNumber::Player2; // STUB
+    QMap<uint8_t, short> hostOwningObjectsCounts;
 
     CellsList* m_cellsList;
     PlayerGameInfoList* m_playersList;
@@ -73,7 +80,7 @@ private:
 // DEBUG!
 static Cell debugCellsArray[] =
 {
-    {8, Sawmill, Player2, 50, 5, 0, 1, 0, 1}, {9, Common, NoPlayer, 0, 0, 0, 1, 0, 1}, {10, Sawmill, NoPlayer, 50, 5, 0, 1, 0, 1}, {11, CoalStation, Player1, 150, 20, 0, 1, 0, 1}, {12, Arrow, NoPlayer, 0, 0, 0, 1, East, 2}, {13, Sawmill, NoPlayer, 50, 5, 0, 1, 0, 1}, {14, Forest, NoPlayer, 100, 0, 0, 1, 0, 2}, {15, Sabotage, NoPlayer, 0, 0, 0, 1, 0, 3}, {16, Sawmill, Player3, 50, 5, 0, 1, 0, 1},
+    {8, Sawmill, Player2, 50, 5, 0, 1, 0, 1}, {9, Common, NoPlayer, 0, 0, 0, 1, 0, 1}, {10, Sawmill, NoPlayer, 50, 5, 0, 1, 0, 1}, {11, CoalStation, Player1, 150, 20, 0, 1, 0, 1}, {12, Arrow, NoPlayer, 0, 0, 0, 1, East, 2}, {13, Sawmill, Player2, 50, 5, 0, 1, 0, 1}, {14, Forest, NoPlayer, 100, 0, 0, 1, 0, 2}, {15, Sabotage, NoPlayer, 0, 0, 0, 1, 0, 3}, {16, Sawmill, Player3, 50, 5, 0, 1, 0, 1},
     {7, Forest, NoPlayer, 100, 0, 0, 1, 0, 2}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Uranium, NoPlayer, 500, 0, 0, 2, 0, 3}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {17, Uranium, NoPlayer, 500, 0, 0, 1, 0, 3},
     {6, Vacation, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Coal, NoPlayer, 250, 0, 0, 2, 0, 2}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {18, Common, NoPlayer, 0, 0, 0, 1, 0, 1},
     {5, Common, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Common, NoPlayer, 0, 0, 0, 2, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {19, Vacation, NoPlayer, 0, 0, 0, 1, 0, 1},
@@ -81,7 +88,7 @@ static Cell debugCellsArray[] =
     {3, CoalStation, NoPlayer, 150, 20, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Common, NoPlayer, 0, 0, 0, 2, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {21, AtomicStation, NoPlayer, 350, 50, 0, 1, 0, 3},
     {2, Sawmill, NoPlayer, 50, 5, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, AtomicStation, NoPlayer, 350, 50, 0, 2, 0, 3}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {22, Sawmill, NoPlayer, 50, 5, 0, 1, 0, 1},
     {1, Uranium, NoPlayer, 500, 0, 0, 1, 0, 3}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Common, NoPlayer, 0, 0, 0, 2, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {-1, Void, NoPlayer, 0, 0, 0, 1, 0, 1}, {23, Common, NoPlayer, 0, 0, 0, 1, 0, 1},
-    {0, Beginning, NoPlayer, 0, 0, 0b000011, 1, 0, 1}, {31, AtomicStation, NoPlayer, 350, 50, 0, 1, 0, 3}, {30, Common, NoPlayer, 0, 0, 0, 1, 0, 1}, {29, CoalStation, NoPlayer, 150, 20, 0, 1, 0, 1}, {28, Arrow, NoPlayer, 0, 0, 0, 1, West, 2}, {27, Sawmill, NoPlayer, 50, 5, 0, 1, 0, 1}, {26, Forest, NoPlayer, 100, 0, 0, 1, 0, 2}, {25, Sawmill, NoPlayer, 50, 5, 0, 1, 0, 1}, {24, CoalStation, Player5, 150, 20, 0, 1, 0, 1}
+    {0, Beginning, NoPlayer, 0, 0, 0b000011, 1, 0, 1}, {31, AtomicStation, NoPlayer, 350, 50, 0, 1, 0, 3}, {30, Common, NoPlayer, 0, 0, 0, 1, 0, 1}, {29, CoalStation, Player2, 150, 20, 0, 1, 0, 1}, {28, Arrow, NoPlayer, 0, 0, 0, 1, West, 2}, {27, Sawmill, NoPlayer, 50, 5, 0, 1, 0, 1}, {26, Forest, NoPlayer, 100, 0, 0, 1, 0, 2}, {25, Sawmill, Player2, 50, 5, 0, 1, 0, 1}, {24, CoalStation, Player5, 150, 20, 0, 1, 0, 1}
 };
 
 static CellsList debugMapContext;

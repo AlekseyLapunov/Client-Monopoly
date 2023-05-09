@@ -25,6 +25,10 @@ signals:
     void stopDiceAnimation();
     void appendPlayer(uint8_t playerNumber, QString displayableName, uint8_t currentBalance);
     void deletePlayer(uint8_t playerNumber);
+    void updateHostOwningObjects(uint8_t owningObjectId, short owningObjectsCount);
+    void clearHostOwningObjects();
+    void updatePlayerNickname(uint8_t playerNumber, QString newNickname);
+    void updatePlayerBalance(uint8_t playerNumber, int newBalance);
 };
 
 #endif // GAMETRANSMITTEROBJECT_H

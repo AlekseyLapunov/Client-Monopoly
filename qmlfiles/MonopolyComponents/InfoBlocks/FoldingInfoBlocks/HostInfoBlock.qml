@@ -7,11 +7,13 @@ FoldingInfoBlock
     id: root
 
     property color hostColor: Helper.definePlayerColorByNumber(_win.hostPlayerNumber)
-    property string hostNickname: ("Player" + _win.hostPlayerNumber.toString())
-    property string playerNicknameBeforeYourTurn: "Player1"
-    property string playerColorBeforeYourTurn: Helper.definePlayerColorByNumber(Helper.PlayerNumber.Player1)
-    property int energyKrendelsCount: 1100
-    property int energyKrendelsPerTurn: 150
+    property string hostNickname: _playersInfoModel.getPlayerNicknameByNumber(_win.hostPlayerNumber)
+    property int playerNumberBeforeYourTurn: Helper.definePlayerNumberBeforeHost(_win.hostPlayerNumber,
+                                                                                 _playersInfoModel.rowCount())
+    property color playerColorBeforeYourTurn: Helper.definePlayerColorByNumber(playerNumberBeforeYourTurn)
+    property string playerNicknameBeforeYourTurn: _playersInfoModel.getPlayerNicknameByNumber(playerNumberBeforeYourTurn)
+    property int energyKrendelsCount: _playersInfoModel.getPlayerBalanceByNumber(_win.hostPlayerNumber)
+    property int energyKrendelsPerTurn: 0
 
     property int dataRowHeight: sizeUnit*0.15
     property int dataRowWidth: sizeUnit*1.1
@@ -26,11 +28,6 @@ FoldingInfoBlock
 
     unfoldedHeight: (sizeUnit*0.68 + _businessAndResourcesCounted.count*dataRowHeight +
                      _businessAndResourcesCounted.count*_dataRows.spacing)
-
-    Component.onCompleted:
-    {
-        countBusinessesAndResources();
-    }
 
     Rectangle
     {
@@ -244,69 +241,28 @@ FoldingInfoBlock
         }
     }
 
-    function countBusinessesAndResources()
+    Connections
     {
-        _businessAndResourcesCounted.clear();
-        for(let fieldIter = Helper.FieldType.Sawmill;
-            fieldIter <= Helper.FieldType.Uranium;
-            fieldIter++)
+        target: _gameTransmitter
+
+        function onClearHostOwningObjects()
         {
-            let localFieldCounter = 0;
-            for(let i = 0; i < _allBusinessesAndResources.count; i++)
-            {
-                if(_allBusinessesAndResources.get(i).fieldType === fieldIter)
-                    localFieldCounter++;
-            }
+            _businessAndResourcesCounted.clear();
+        }
 
-            if(localFieldCounter === 0)
-                continue;
-
-            let item = {};
-            item.uniqueFieldType = fieldIter;
-            item.quantity = localFieldCounter;
-            _businessAndResourcesCounted.append(item);
+        function onUpdateHostOwningObjects(owningFieldType, owningFieldsCount)
+        {
+            if(owningFieldsCount === 0)
+                return;
+            let owningItem = {};
+            owningItem.uniqueFieldType = owningFieldType;
+            owningItem.quantity = owningFieldsCount;
+            _businessAndResourcesCounted.append(owningItem);
         }
     }
 
     ListModel
     {
         id: _businessAndResourcesCounted
-    }
-
-    ListModel
-    {
-        id: _allBusinessesAndResources
-        ListElement
-        {
-            fieldType: Helper.FieldType.CoalStation
-        }
-        ListElement
-        {
-            fieldType: Helper.FieldType.Sawmill
-        }
-        ListElement
-        {
-            fieldType: Helper.FieldType.CoalStation
-        }
-        ListElement
-        {
-            fieldType: Helper.FieldType.CoalStation
-        }
-        ListElement
-        {
-            fieldType: Helper.FieldType.Forest
-        }
-        ListElement
-        {
-            fieldType: Helper.FieldType.Forest
-        }
-        ListElement
-        {
-            fieldType: Helper.FieldType.Sawmill
-        }
-        ListElement
-        {
-            fieldType: Helper.FieldType.AtomicStation
-        }
     }
 }

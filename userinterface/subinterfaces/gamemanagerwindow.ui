@@ -425,7 +425,7 @@
   </connection>
   <connection>
    <sender>sbPlayerMoney</sender>
-   <signal>valueChanged(int)</signal>
+   <signal>editingFinished()</signal>
    <receiver>GameManagerWindow</receiver>
    <slot>changePlayerBalance()</slot>
    <hints>
@@ -441,7 +441,7 @@
   </connection>
   <connection>
    <sender>lePlayerNickname</sender>
-   <signal>textChanged(QString)</signal>
+   <signal>textEdited(QString)</signal>
    <receiver>GameManagerWindow</receiver>
    <slot>changePlayerNickname()</slot>
    <hints>
