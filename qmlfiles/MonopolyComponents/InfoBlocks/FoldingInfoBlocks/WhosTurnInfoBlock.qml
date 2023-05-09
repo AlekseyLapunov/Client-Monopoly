@@ -135,7 +135,7 @@ FoldingInfoBlock
     {
         id: _turnReminder
         source: "../../../../assets/sounds/turn_reminder/turn_reminder.wav"
-        volume: 0.10
+        volume: 0.15
     }
 
     Component.onCompleted:

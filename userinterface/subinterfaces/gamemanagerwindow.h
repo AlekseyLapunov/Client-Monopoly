@@ -69,7 +69,7 @@ private:
     QObject* gameReceiverObj;
 
     uint8_t currentStage = 0;
-    int hostPlayerIncomePerTurn = 0;
+    int hostPlayerIncome = 0;
     uint8_t hostPlayerNumber = PlayerNumber::Player2; // STUB
     QMap<uint8_t, short> hostOwningObjectsCounts;
 

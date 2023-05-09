@@ -81,11 +81,12 @@ void GameManagerWindow::startQmlEngine()
 
     qmlEngine->load(QUrl("qrc:/qmlfiles/GameWindow.qml"));
 
+    emit gameTransmitterObj->setHostPlayerNumber(hostPlayerNumber);
+    passOwningObjectsToQml();
+
     gameReceiverObj = qmlEngine->rootObjects().at(0);
     QObject::connect(gameReceiverObj, SIGNAL(qmlGameWindowClosed()),
                      this, SLOT(manageQmlWindowClosing()));
-
-    passOwningObjectsToQml();
 }
 
 void GameManagerWindow::setStage()
@@ -226,7 +227,7 @@ void GameManagerWindow::checkTimedOutCounter()
 
 void GameManagerWindow::initializeHostOwningObjectCounts()
 {
-    hostPlayerIncomePerTurn = 0;
+    hostPlayerIncome = 0;
     for(uint8_t i = FieldType::Sawmill; i <= FieldType::Uranium; i++)
     {
         hostOwningObjectsCounts.insert(i, 0);
@@ -235,7 +236,7 @@ void GameManagerWindow::initializeHostOwningObjectCounts()
 
 void GameManagerWindow::countHostOwningObjectsByMap()
 {
-    hostPlayerIncomePerTurn = 0;
+    hostPlayerIncome = 0;
     resetHostOwningObjectCounts();
     for(int i = 0; i < (int)m_cellsList->items().size(); i++)
     {
@@ -248,7 +249,7 @@ void GameManagerWindow::countHostOwningObjectsByMap()
             continue;
 
         hostOwningObjectsCounts[field.fieldTypeSet] = hostOwningObjectsCounts[field.fieldTypeSet] + 1;
-        hostPlayerIncomePerTurn += field.fieldIncome;
+        hostPlayerIncome += field.fieldIncome;
     }
 }
 
@@ -266,6 +267,7 @@ void GameManagerWindow::passOwningObjectsToQml()
     {
         emit gameTransmitterObj->updateHostOwningObjects(i, hostOwningObjectsCounts[i]);
     }
+    emit gameTransmitterObj->updateHostIncomeInfo(hostPlayerIncome);
 }
 
 void fillDebugMapContext()

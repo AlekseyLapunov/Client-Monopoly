@@ -273,6 +273,11 @@ FoldingInfoBlock
             owningItem.quantity = owningFieldsCount;
             _businessAndResourcesCounted.append(owningItem);
         }
+
+        function onUpdateHostIncomeInfo(hostIncome)
+        {
+            root.energyKrendelsPerTurn = hostIncome;
+        }
     }
 
     ListModel

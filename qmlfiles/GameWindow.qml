@@ -22,7 +22,7 @@ Window
     readonly property int stageAnimationDurationMs: 5100
 
     // Set-context-properties
-    property int hostPlayerNumber: Helper.PlayerNumber.Player2
+    property int hostPlayerNumber//: Helper.PlayerNumber.Player2
     property bool isTurnNotiEnabled: true
     property int turnTime: 10
     property int currentStage: 1
@@ -439,6 +439,12 @@ Window
     {
         target: _gameTransmitter
 
+        function onSetHostPlayerNumber(hostPlayerNumberToSet)
+        {
+            _win.hostPlayerNumber = hostPlayerNumberToSet;
+            _hostInfoBlock.updateInfo();
+        }
+
         function onUpdatePlayerBalance(inputPlayerNumber,
                                        inputPlayerBalance)
         {
@@ -452,7 +458,7 @@ Window
         {
             _playersInfoModel.setPlayerBalanceByNumber(inputPlayerNumber, inputPlayerNickname);
             _playersInfoBlock.updatePlayersSortableNickname(inputPlayerNumber, inputPlayerNickname);
-            _hostInfoBlock.updateInfo();
+            //_hostInfoBlock.updateInfo();
             _whosTurnInfoBlock.updateWhosTurnData();
         }
 

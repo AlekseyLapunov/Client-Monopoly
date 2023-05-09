@@ -27,8 +27,10 @@ signals:
     void deletePlayer(uint8_t playerNumber);
     void updateHostOwningObjects(uint8_t owningObjectId, short owningObjectsCount);
     void clearHostOwningObjects();
+    void updateHostIncomeInfo(int hostIncome);
     void updatePlayerNickname(uint8_t playerNumber, QString newNickname);
     void updatePlayerBalance(uint8_t playerNumber, int newBalance);
+    void setHostPlayerNumber(uint8_t hostPlayerNumberToSet);
 };
 
 #endif // GAMETRANSMITTEROBJECT_H
