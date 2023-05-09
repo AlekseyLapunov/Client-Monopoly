@@ -21,11 +21,6 @@
 #include "helpers/common/sourcestrings.h"
 #include "servercommhelper.h"
 
-//#define AUTH_STUB
-//#define USERS_STUB
-//#define LOBBIES_STUB
-//#define LOBBIES_INSIDE_STUB
-
 class ServerCommunicator : public QObject
 {
     Q_OBJECT
@@ -81,6 +76,7 @@ signals:
     void lobbyRunProcessOver();
 
 private slots:
+    void catchReplyAuthFromService(const QVariantMap data);
     void catchReplyAuth(QNetworkReply *reply);
     void catchReplyGetUserInfo(QNetworkReply *reply);
     void catchReplyRefreshAccessToken(QNetworkReply *reply);
@@ -132,6 +128,7 @@ private:
     vector<LobbyShortInfo> m_lobbiesShortInfoVec;
 
     bool globalLobbyIsPassworded = false;
+    uint8_t globalAuthType = AuthType::VK;
 };
 
 #endif // SERVERCOMMUNICATOR_H
