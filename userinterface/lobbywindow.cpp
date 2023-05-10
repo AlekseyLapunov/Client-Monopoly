@@ -501,10 +501,10 @@ void LobbyWindow::checkMaxPlayers()
 
 void LobbyWindow::switchBackToMenuWindow()
 {
-    hide();
-
     pServer()->get()->disconnectFromLobby();
+    setDisabled(true);
     emit goToMenuWindow();
+    hide();
 }
 
 void LobbyWindow::checkLimitationChecks()
@@ -792,8 +792,9 @@ void LobbyWindow::deleteLobby()
     if(pUserMetaInfo()->get()->getHostInfo().uniqueId == m_context.settings.ownerUniqueId)
     {
         pServer()->get()->deleteLobby();
-        hide();
+        setDisabled(true);
         emit goToMenuWindow();
+        hide();
         return;
     }
 }
@@ -814,7 +815,8 @@ void LobbyWindow::apply3dDiceState()
 
 void LobbyWindow::openGameWindow()
 {
-    qDebug().noquote() << "Open game window";
+    qDebug().noquote() << QString("%1Game initiated")
+                          .arg(QString::fromStdString(ssClassNames[LobbyWindowCN]));
 }
 
 void LobbyWindow::closeEvent(QCloseEvent *event)

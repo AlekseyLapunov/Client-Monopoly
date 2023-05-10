@@ -50,7 +50,8 @@ void LoginWindow::show()
         }
     }
 
-    qDebug().noquote() << "Need to login";
+    qDebug().noquote() << QString("%1Need to login")
+                          .arg(QString::fromStdString(ssClassNames[LoginWindowCN]));
     setDisabled(false);
     QWidget::show();
 }
@@ -135,9 +136,10 @@ void LoginWindow::baseLogin(uint8_t loginFlag)
 
 void LoginWindow::switchToMenuWindow()
 {
-    hide();
+    setDisabled(true);
     pMenuWindow.get()->needToCheckActiveGame = true;
     pMenuWindow.get()->show();
+    hide();
 }
 
 void LoginWindow::checkTimedOutCounter()

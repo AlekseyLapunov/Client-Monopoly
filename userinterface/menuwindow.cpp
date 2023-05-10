@@ -595,8 +595,9 @@ void MenuWindow::switchJoinByItem(const QTableWidgetItem &item)
 
 void MenuWindow::showLobbyWindow()
 {
-    hide();
+    setDisabled(true);
     pLobbyWindow.get()->show(m_firstContext);
+    hide();
 }
 
 void MenuWindow::logoutBackToLoginWindow()
