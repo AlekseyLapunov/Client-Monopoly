@@ -55,6 +55,7 @@ public:
     ResponseFromServerComm<void*> raisePlayer(const int playerUniqueId, uint8_t localCounter = 0);
     ResponseFromServerComm<void*> disconnectFromLobby(uint8_t localCounter = 0);
     ResponseFromServerComm<void*> deleteLobby(uint8_t localCounter = 0);
+    void clearLobbyFullInfoTemporaries();
 
     // Misc
     ResponseFromServerComm<ConnectionsFromServer> activeCheck(uint8_t localCounter = 0);

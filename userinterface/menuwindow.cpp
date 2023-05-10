@@ -27,6 +27,7 @@ MenuWindow::MenuWindow(unique_ptr<ServerCommunicator> *newServerPtr,
     connect(&refreshDataTimer, &QTimer::timeout, this, &MenuWindow::windowDataRefresh);
 
     ui->setupUi(this);
+    setupLobbiesFilter();
 }
 
 MenuWindow::~MenuWindow()
@@ -305,11 +306,12 @@ void MenuWindow::show()
     this->hide();
     return;
 #endif
-    setDisabled(true);
-    timedOutCounter = 0;
     refreshDataTimer.stop();
+    setDisabled(true);
 
-    setupLobbiesFilter();
+    pServer()->get()->clearLobbyFullInfoTemporaries();
+
+    timedOutCounter = 0;
 
     ResponseFromServerComm<HostUserData> response = pServer()->get()->getCurrentHostInfo(false);
 
@@ -320,23 +322,22 @@ void MenuWindow::show()
         timedOutCounter = 0;
         pUserMetaInfo()->get()->setHostInfo(response.payload);
 
-        uint8_t host3dDicePreference = FileManager::getUser3dDicePreference();
+        uint8_t host3dDicePreference = FileManager::getUser3dDicePreference();        
         if(host3dDicePreference == FileManager::DicePrefNotStated)
             ui->aDiceIf3D->setChecked(true);
         else
             ui->aDiceIf3D->setChecked(host3dDicePreference);
-
-        displayHostShortInfo();
         FileManager::apply3dDiceStateToLocal(ui->aDiceIf3D->isChecked());
 
+        displayHostShortInfo();
+
         setDisabled(false);
-        windowDataRefresh();
-        refreshDataTimer.start(REFRESH_LOBBIES_LIST_EVERY_N_MS);
         QMainWindow::show();
+        refreshDataTimer.start(REFRESH_LOBBIES_LIST_EVERY_N_MS);
+        windowDataRefresh();
         break;
     }
     case UnauthorizeRf:
-        timedOutCounter = 0;
         logoutBackToLoginWindow();
         return;
     case TimedOutRf:
@@ -362,7 +363,7 @@ void MenuWindow::show()
         switch (subResponce.responseFlag)
         {
         case AllGoodRf:
-            qDebug().noquote() << "Opened game window";
+            qDebug().noquote() << "Active game detected";
             return;
         case UnauthorizeRf:
             timedOutCounter = 0;
@@ -374,7 +375,7 @@ void MenuWindow::show()
 
         if(gotConnections.sessionAddress.isEmpty())
         {
-            qDebug().noquote() << "Session address was empty";
+            qDebug().noquote() << "No active game";
             refreshDataTimer.start(REFRESH_LOBBIES_LIST_EVERY_N_MS);
         }
     }

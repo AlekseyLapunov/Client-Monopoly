@@ -17,7 +17,7 @@ Rectangle
     property int fieldIncome: 0
     property int piecesOnCellMask: 0
     property int stage: 0
-    property int arrowDirection: Helper.ArrowRotation.North
+    property int arrowDirection: Helper.ArrowRotation.ArrowUp
     property int blankUntilStage: 0
 
     property bool ignoreClickForDialog: false

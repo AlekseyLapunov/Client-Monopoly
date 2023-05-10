@@ -13,7 +13,7 @@
 #define CODE_INTERNAL_SERVER_ERROR   500
 #define CODE_SUCCESS                 200
 
-#define MS_TIMEOUT                   2500
+#define MS_TIMEOUT                   3000
 #define AUTH_ADDITIONAL_TIME_COEFF   6
 #define LOCAL_COUNTER_MAX            2
 #define MIN_VALID_UNIQUE_ID          1
@@ -129,35 +129,35 @@ static const QMap<uint8_t, QString> serverCommSubModule = {
 struct ServerCommSubModuleBase
 {
     bool repeatRequest;
-    uint8_t currentResponceStorage;
+    bool needToAbort;
 
     ServerCommSubModuleBase& resetBase()
     {
         this->repeatRequest = false;
-        this->currentResponceStorage = UnknownRf;
+        this->needToAbort = false;
         return *this;
     }
 };
 
 static QMap<uint8_t, ServerCommSubModuleBase>
 serverCommSubModuleBase = {
-                                {AuthSubModule,                 {false, UnknownRf}},
-                                {GetUserInfoSubModule,          {false, UnknownRf}},
-                                {GetLobbiesListSubModule,       {false, UnknownRf}},
-                                {ChangeNicknameSubModule,       {false, UnknownRf}},
-                                {RefreshTokenSubModule,         {false, UnknownRf}},
-                                {SwitchReadinessSubModule,      {false, UnknownRf}},
-                                {DeleteLobbySubModule,          {false, UnknownRf}},
-                                {CreateLobbySubModule,          {false, UnknownRf}},
-                                {ConnectLobbySubModule,         {false, UnknownRf}},
-                                {GetInfoLobbySubModule,         {false, UnknownRf}},
-                                {ConnectRankedLobbySubModule,   {false, UnknownRf}},
-                                {UpdateLobbySettingsSubModule,  {false, UnknownRf}},
-                                {KickPlayerSubModule,           {false, UnknownRf}},
-                                {RaisePlayerSubModule,          {false, UnknownRf}},
-                                {DisconnectLobbySubModule,      {false, UnknownRf}},
-                                {ActiveCheckSubModule,          {false, UnknownRf}},
-                                {LobbyRunSubModule,             {false, UnknownRf}}
+                                {AuthSubModule,                 {false, false}},
+                                {GetUserInfoSubModule,          {false, false}},
+                                {GetLobbiesListSubModule,       {false, false}},
+                                {ChangeNicknameSubModule,       {false, false}},
+                                {RefreshTokenSubModule,         {false, false}},
+                                {SwitchReadinessSubModule,      {false, false}},
+                                {DeleteLobbySubModule,          {false, false}},
+                                {CreateLobbySubModule,          {false, false}},
+                                {ConnectLobbySubModule,         {false, false}},
+                                {GetInfoLobbySubModule,         {false, false}},
+                                {ConnectRankedLobbySubModule,   {false, false}},
+                                {UpdateLobbySettingsSubModule,  {false, false}},
+                                {KickPlayerSubModule,           {false, false}},
+                                {RaisePlayerSubModule,          {false, false}},
+                                {DisconnectLobbySubModule,      {false, false}},
+                                {ActiveCheckSubModule,          {false, false}},
+                                {LobbyRunSubModule,             {false, false}}
                             };
 
 #endif // SERVERCOMMHELPER_H

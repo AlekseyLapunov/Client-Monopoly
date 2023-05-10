@@ -38,10 +38,10 @@ Item
 
     enum ArrowRotation
     {
-        North,
-        East,
-        South,
-        West
+        ArrowUp,
+        ArrowRight,
+        ArrowDown,
+        ArrowLeft
     }
 
     enum PlayerModelRole
@@ -213,13 +213,13 @@ Item
 
         switch(arrowRotation)
         {
-        case Helper.ArrowRotation.North:
+        case Helper.ArrowRotation.ArrowUp:
             return 0;
-        case Helper.ArrowRotation.East:
+        case Helper.ArrowRotation.ArrowRight:
             return 90;
-        case Helper.ArrowRotation.South:
+        case Helper.ArrowRotation.ArrowDown:
             return 180;
-        case Helper.ArrowRotation.West:
+        case Helper.ArrowRotation.ArrowLeft:
             return 270;
         default:
             return 0;

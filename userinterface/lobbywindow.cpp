@@ -71,15 +71,16 @@ void LobbyWindow::windowDataRefresh()
 void LobbyWindow::show(const LobbyFullInfo firstContext)
 {
     refreshDataTimer.stop();
+    setFirstContext(firstContext);
 
     ui->lGameBeginsIn->setVisible(false);
     ui->lSecondsToStart->setVisible(false);
-    setFirstContext(firstContext);
     setUpSettingsInputs();
     setUpRegExps();
     ui->bApplySettings->setEnabled(false);
     ui->bRestoreLastSettings->setEnabled(false);
-    setUpByPrivilege(); // !
+
+    setUpByPrivilege();
     setUpUsersInTable(*ui->tUsers, m_context.usersInLobby);
     setUpByPrivilege();
     overwriteSettingsInputs(m_context.settings);
@@ -97,33 +98,11 @@ void LobbyWindow::show(const LobbyFullInfo firstContext)
     else
         ui->aUse3dDice->setChecked(host3dDicePreference);
 
-    ResponseFromServerComm<HostUserData> response;
-    response = pServer()->get()->getCurrentHostInfo(false);
-
-    switch (response.responseFlag)
-    {
-    case AllGoodRf:
-        timedOutCounter = 0;
-        pUserMetaInfo()->get()->setHostInfo(response.payload);
-        setEnabled(true);
-        windowDataRefresh();
-        refreshDataTimer.start(REFRESH_LOBBY_INSIDE_DATA_EVERY_N_MS);
-        QMainWindow::show();
-        return;
-    case UnauthorizeRf:
-        logoutBackToLoginWindow();
-        return;
-    case TimedOutRf:
-        timedOutCounter++;
-        checkTimedOutCounter();
-        return;
-    default:
-        execErrorBox(QString("%1%2").arg(QString::fromStdString(ssClassNames[ServerCommCN]),
-                                         QString::fromStdString(ssErrorsContent[GetHostInfoFail])),
-                     this);
-        switchBackToMenuWindow();
-        return;
-    }
+    timedOutCounter = 0;
+    setEnabled(true);
+    QMainWindow::show();
+    refreshDataTimer.start(REFRESH_LOBBY_INSIDE_DATA_EVERY_N_MS);
+    windowDataRefresh();
 }
 
 void LobbyWindow::hide()

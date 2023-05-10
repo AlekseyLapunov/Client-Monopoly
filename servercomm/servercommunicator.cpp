@@ -123,8 +123,6 @@ ServerCommunicator::getCurrentHostInfo(bool retryCheckIfNoNeedToAuth, uint8_t lo
         return {UnauthorizeRf, {}};
     }
 
-    serverCommSubModuleBase[thisSubModuleId].resetBase();
-
     QString gotAccessToken = FileManager::getToken(TokenType::Access);
     QString gotHostUniqueId = FileManager::getHostUniqueId();
 
@@ -201,7 +199,6 @@ void ServerCommunicator::changeNickname(const QString newNickname, uint8_t local
         return;
     }
 
-    serverCommSubModuleBase[thisSubModuleId].resetBase();
     QString gotAccessToken = FileManager::getToken(TokenType::Access);
 
     if(gotAccessToken.isEmpty())
@@ -240,7 +237,6 @@ ServerCommunicator::getLobbiesShortInfo(uint8_t localCounter)
         return {UnauthorizeRf, m_lobbiesShortInfoVec};
     }
 
-    serverCommSubModuleBase[thisSubModuleId].resetBase();
     QString gotAccessToken = FileManager::getToken(TokenType::Access);
 
     if(gotAccessToken.isEmpty())
@@ -286,7 +282,6 @@ ServerCommunicator::createLobby(LobbySettings priorSettings,
         return {UnauthorizeRf, {}};
     }
 
-    serverCommSubModuleBase[thisSubModuleId].resetBase();
     QString gotAccessToken = FileManager::getToken(TokenType::Access);
 
     if(gotAccessToken.isEmpty())
@@ -327,7 +322,6 @@ ServerCommunicator::connectToLobby(const int lobbyUniqueId, uint8_t localCounter
         return {UnauthorizeRf, {}};
     }
 
-    serverCommSubModuleBase[thisSubModuleId].resetBase();
     QString gotAccessToken = FileManager::getToken(TokenType::Access);
 
     if(gotAccessToken.isEmpty())
@@ -369,7 +363,6 @@ ServerCommunicator::connectToLobby(const int lobbyUniqueId, const QString &enter
         return {UnauthorizeRf, {}};
     }
 
-    serverCommSubModuleBase[thisSubModuleId].resetBase();
     QString gotAccessToken = FileManager::getToken(TokenType::Access);
 
     if(gotAccessToken.isEmpty())
@@ -410,7 +403,6 @@ ServerCommunicator::connectToRankedLobby(uint8_t localCounter)
         return {UnauthorizeRf, {}};
     }
 
-    serverCommSubModuleBase[thisSubModuleId].resetBase();
     QString gotAccessToken = FileManager::getToken(TokenType::Access);
 
     if(gotAccessToken.isEmpty())
@@ -449,7 +441,6 @@ ServerCommunicator::getInfoLobby(uint8_t localCounter)
         return {UnauthorizeRf, {}};
     }
 
-    serverCommSubModuleBase[thisSubModuleId].resetBase();
     QString gotAccessToken = FileManager::getToken(TokenType::Access);
 
     if(gotAccessToken.isEmpty())
@@ -488,7 +479,6 @@ ServerCommunicator::deleteLobby(uint8_t localCounter)
         return {UnauthorizeRf, nullptr};
     }
 
-    serverCommSubModuleBase[thisSubModuleId].resetBase();
     QString gotAccessToken = FileManager::getToken(TokenType::Access);
 
     if(gotAccessToken.isEmpty())
@@ -514,6 +504,13 @@ ServerCommunicator::deleteLobby(uint8_t localCounter)
     }
 }
 
+void ServerCommunicator::clearLobbyFullInfoTemporaries()
+{
+    m_temporaryLobbyFullInfo.settings = {};
+    m_temporaryLobbyFullInfo.usersInLobby.clear();
+    m_temporaryConnections = {};
+}
+
 ResponseFromServerComm<ConnectionsFromServer>
 ServerCommunicator::activeCheck(uint8_t localCounter)
 {
@@ -527,7 +524,6 @@ ServerCommunicator::activeCheck(uint8_t localCounter)
         return {UnauthorizeRf, {}};
     }
 
-    serverCommSubModuleBase[thisSubModuleId].resetBase();
     QString gotAccessToken = FileManager::getToken(TokenType::Access);
 
     if(gotAccessToken.isEmpty())
@@ -566,7 +562,6 @@ ServerCommunicator::switchReadiness(uint8_t localCounter)
         return {UnauthorizeRf, nullptr};
     }
 
-    serverCommSubModuleBase[thisSubModuleId].resetBase();
     QString gotAccessToken = FileManager::getToken(TokenType::Access);
 
     if(gotAccessToken.isEmpty())
@@ -606,7 +601,6 @@ ServerCommunicator::updateLobbySettings(LobbySettings newSettings,
         return {UnauthorizeRf, nullptr};
     }
 
-    serverCommSubModuleBase[thisSubModuleId].resetBase();
     QString gotAccessToken = FileManager::getToken(TokenType::Access);
 
     if(gotAccessToken.isEmpty())
@@ -647,7 +641,6 @@ ServerCommunicator::runGame(uint8_t localCounter)
         return {UnauthorizeRf, nullptr};
     }
 
-    serverCommSubModuleBase[thisSubModuleId].resetBase();
     QString gotAccessToken = FileManager::getToken(TokenType::Access);
 
     if(gotAccessToken.isEmpty())
@@ -688,7 +681,6 @@ ServerCommunicator::kickPlayer(const int playerUniqueId,
         return {UnauthorizeRf, nullptr};
     }
 
-    serverCommSubModuleBase[thisSubModuleId].resetBase();
     QString gotAccessToken = FileManager::getToken(TokenType::Access);
 
     if(gotAccessToken.isEmpty())
@@ -729,7 +721,6 @@ ServerCommunicator::raisePlayer(const int playerUniqueId,
         return {UnauthorizeRf, nullptr};
     }
 
-    serverCommSubModuleBase[thisSubModuleId].resetBase();
     QString gotAccessToken = FileManager::getToken(TokenType::Access);
 
     if(gotAccessToken.isEmpty())
@@ -768,7 +759,6 @@ ServerCommunicator::disconnectFromLobby(uint8_t localCounter)
         return {UnauthorizeRf, nullptr};
     }
 
-    serverCommSubModuleBase[thisSubModuleId].resetBase();
     QString gotAccessToken = FileManager::getToken(TokenType::Access);
 
     if(gotAccessToken.isEmpty())
@@ -1157,6 +1147,8 @@ uint8_t ServerCommunicator::basicRequestManage(uint8_t subModuleId, QString meth
                                                QString headerName, QString headerValue, QString requestBody)
 {
     QNetworkAccessManager localNetworkAccessManager(this);
+    serverCommSubModuleBase[subModuleId].resetBase();
+    globalLobbyIsPassworded = false;
 
     QTimer localTimer;
     localTimer.setSingleShot(true);
@@ -1171,8 +1163,6 @@ uint8_t ServerCommunicator::basicRequestManage(uint8_t subModuleId, QString meth
     QNetworkRequest request(makeAddress(host, port, method));
 
     request.setRawHeader(headerName.toUtf8(), headerValue.toUtf8());
-
-    globalLobbyIsPassworded = false;
 
     switch (methodType)
     {
@@ -1200,10 +1190,21 @@ uint8_t ServerCommunicator::basicRequestManage(uint8_t subModuleId, QString meth
     if(localTimer.isActive())
     {
         localNetworkAccessManager.disconnect();
-        return  (serverCommSubModuleBase[subModuleId].repeatRequest) ?
-                RequestManagerAnswer::RequestNeedToRepeat :
-                (globalLobbyIsPassworded) ? RequestManagerAnswer::RequestLobbyIsPassworded :
-                RequestManagerAnswer::RequestAllGood;
+
+        uint8_t returningAnswer = 0;
+
+        if(serverCommSubModuleBase[subModuleId].needToAbort)
+            returningAnswer = RequestManagerAnswer::RequestNeedToAbort;
+        else if(serverCommSubModuleBase[subModuleId].repeatRequest)
+            returningAnswer = RequestManagerAnswer::RequestNeedToRepeat;
+        else if(globalLobbyIsPassworded)
+            returningAnswer = RequestManagerAnswer::RequestLobbyIsPassworded;
+        else
+            returningAnswer = RequestManagerAnswer::RequestAllGood;
+
+        serverCommSubModuleBase[subModuleId].resetBase();
+        globalLobbyIsPassworded = false;
+        return returningAnswer;
     }
     else
     {
@@ -1211,6 +1212,7 @@ uint8_t ServerCommunicator::basicRequestManage(uint8_t subModuleId, QString meth
         qDebug().noquote() << QString("%1%2 request timed out")
                               .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
                                    serverCommSubModule[subModuleId]);
+        serverCommSubModuleBase[subModuleId].resetBase();
         return RequestManagerAnswer::RequestTimedOut;
     }
 }
@@ -1219,13 +1221,18 @@ uint8_t ServerCommunicator::basicReplyManage(QNetworkReply *pReply, uint8_t serv
                                              bool canCallRefreshToken, bool showReplyBody)
 {
     QVariant httpReplyCode = pReply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+
+    uint8_t returningAnswer = ReplyManagerAnswer::ReplyNeedToAbort;
+
     if(!httpReplyCode.isValid())
     {
         serverCommSubModuleBase[serverCommSubModuleId].repeatRequest = false;
+        serverCommSubModuleBase[serverCommSubModuleId].needToAbort   = true;
         qDebug().noquote() << QString("%1%2 HTTP code is not valid")
                               .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
                                    serverCommSubModule[serverCommSubModuleId]);
-        return ReplyManagerAnswer::ReplyNeedToAbort;
+        emitSignalBySubModuleId(serverCommSubModuleId);
+        return returningAnswer;
     }
 
     short code = httpReplyCode.toInt();
@@ -1239,7 +1246,7 @@ uint8_t ServerCommunicator::basicReplyManage(QNetworkReply *pReply, uint8_t serv
 
     if(showReplyBody)
     {
-        qDebug().noquote() << QString("%1%2 reply body (shorted): %3")
+        qDebug().noquote() << QString("%1%2 reply body: %3")
                               .arg(QString::fromStdString(ssClassNames[ServerCommCN]),
                                    serverCommSubModule[serverCommSubModuleId],
                                    (replyBody.length() > SHOW_FIRST_N_OF_REPLY)
@@ -1252,7 +1259,9 @@ uint8_t ServerCommunicator::basicReplyManage(QNetworkReply *pReply, uint8_t serv
         case CODE_BAD_REQUEST:
         {
             serverCommSubModuleBase[serverCommSubModuleId].repeatRequest = false;
-            return ReplyManagerAnswer::ReplyNeedToAbort;
+            serverCommSubModuleBase[serverCommSubModuleId].needToAbort   = true;
+            returningAnswer = ReplyManagerAnswer::ReplyNeedToAbort;
+            break;
         }
         case CODE_NOT_AUTHORIZED:
         {
@@ -1261,54 +1270,73 @@ uint8_t ServerCommunicator::basicReplyManage(QNetworkReply *pReply, uint8_t serv
                 if(doRefreshAccessToken())
                 {
                     serverCommSubModuleBase[serverCommSubModuleId].repeatRequest = true;
-                    emitSignalBySubModuleId(serverCommSubModuleId);
-                    return ReplyManagerAnswer::ReplyNeedToRepeatMethod;
+                    serverCommSubModuleBase[serverCommSubModuleId].needToAbort   = false;
+                    returningAnswer = ReplyManagerAnswer::ReplyNeedToRepeatMethod;
+                    break;
                 }
                 else
                 {
                     serverCommSubModuleBase[serverCommSubModuleId].repeatRequest = false;
-                    return ReplyManagerAnswer::ReplyNeedToAbort;
+                    serverCommSubModuleBase[serverCommSubModuleId].needToAbort   = true;
+                    returningAnswer = ReplyManagerAnswer::ReplyNeedToAbort;
+                    break;
                 }
             }
             else
             {
                 serverCommSubModuleBase[serverCommSubModuleId].repeatRequest = true;
-                emitSignalBySubModuleId(serverCommSubModuleId);
-                return ReplyManagerAnswer::ReplyNeedToRepeatMethod;
+                serverCommSubModuleBase[serverCommSubModuleId].needToAbort   = false;
+                returningAnswer = ReplyManagerAnswer::ReplyNeedToRepeatMethod;
+                break;
             }
         }
         case CODE_METHOD_NOT_ALLOWED:
         {
             serverCommSubModuleBase[serverCommSubModuleId].repeatRequest = false;
-            return ReplyManagerAnswer::ReplyNeedToAbort;
+            serverCommSubModuleBase[serverCommSubModuleId].needToAbort   = true;
+            returningAnswer = ReplyManagerAnswer::ReplyNeedToAbort;
+            break;
         }
         case CODE_INTERNAL_SERVER_ERROR:
         {
             serverCommSubModuleBase[serverCommSubModuleId].repeatRequest = false;
-            return ReplyManagerAnswer::ReplyNeedToAbort;
+            serverCommSubModuleBase[serverCommSubModuleId].needToAbort   = true;
+            returningAnswer = ReplyManagerAnswer::ReplyNeedToAbort;
+            break;
         }
         case CODE_SUCCESS:
         {
             serverCommSubModuleBase[serverCommSubModuleId].repeatRequest = false;
-            return ReplyManagerAnswer::ReplyAllGood;
+            serverCommSubModuleBase[serverCommSubModuleId].needToAbort   = false;
+            returningAnswer = ReplyManagerAnswer::ReplyAllGood;
+            break;
         }
         case CODE_FORBIDDEN:
         {
             serverCommSubModuleBase[serverCommSubModuleId].repeatRequest = false;
+            serverCommSubModuleBase[serverCommSubModuleId].needToAbort   = true;
             if(serverCommSubModuleId == ConnectLobbySubModule)
             {
+                serverCommSubModuleBase[serverCommSubModuleId].repeatRequest = false;
+                serverCommSubModuleBase[serverCommSubModuleId].needToAbort   = false;
                 globalLobbyIsPassworded = true;
-                emitSignalBySubModuleId(serverCommSubModuleId);
-                return ReplyManagerAnswer::ReplyLobbyIsPassworded;
+                returningAnswer = ReplyManagerAnswer::ReplyLobbyIsPassworded;
+                break;
             }
-            return ReplyManagerAnswer::ReplyNeedToAbort;
+            returningAnswer = ReplyManagerAnswer::ReplyNeedToAbort;
+            break;
         }
         default:
         {
             serverCommSubModuleBase[serverCommSubModuleId].repeatRequest = false;
-            return ReplyManagerAnswer::ReplyNeedToAbort;
+            serverCommSubModuleBase[serverCommSubModuleId].needToAbort   = true;
+            returningAnswer = ReplyManagerAnswer::ReplyNeedToAbort;
+            break;
         }
     }
+
+    emitSignalBySubModuleId(serverCommSubModuleId);
+    return returningAnswer;
 }
 
 void ServerCommunicator::makeConnectionBySubModuleId(uint8_t subModuleId, QNetworkAccessManager *localManager,
