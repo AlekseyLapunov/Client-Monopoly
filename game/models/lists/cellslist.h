@@ -21,6 +21,8 @@ public:
     Cell getItemAt(int index);
     bool setItemAt(int index, const Cell &item);
 
+    int findIndexByOrderIndex(int inputOrderIndex);
+
 signals:
     void preItemAppended();
     void postItemAppended();

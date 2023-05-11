@@ -152,7 +152,7 @@ void GameManagerWindow::addPlayer()
 
     PlayerGameInfo item = {static_cast<uint8_t>(m_playersList->items().size() + 1),
                            QString("Player%1").arg(m_playersList->items().size() + 1),
-                           m_playersList->getItemAt(0).currentBalance + 20, 0};
+                           m_playersList->getItemAt(0).currentBalance + 20, -1};
 
     emit gameTransmitterObj->appendPlayer(item.playerNumber,
                                           item.displayableName,
@@ -175,6 +175,31 @@ void GameManagerWindow::removePlayer()
 
 void GameManagerWindow::placePlayerPieceOn()
 {
+    uint8_t chosenPlayerNumber = ui->cbPlayerNumber->currentIndex() + 1;
+
+    if(chosenPlayerNumber > m_playersList->items().size())
+        return;
+
+    int chosenOrderIndex = ui->sbFieldIndex->value();
+
+    if(!checkIfOrderIndexIsValid(chosenOrderIndex))
+        return;
+
+    int currentOrderIndex = m_playersList->getItemAt
+            (
+                m_playersList->findIndexByPlayerNumber(chosenPlayerNumber)
+            ).piecePositionOnOrderIndex;
+
+    if(checkIfOrderIndexIsValid(currentOrderIndex))
+    {
+        changePiecesMaskByOrderIndex(currentOrderIndex,
+                                     chosenPlayerNumber,
+                                     ChangingPiecesMask::DeletePM);
+    }
+
+    changePiecesMaskByOrderIndex(chosenOrderIndex,
+                                 chosenPlayerNumber,
+                                 ChangingPiecesMask::AddPM);
 
 }
 
@@ -221,11 +246,6 @@ void GameManagerWindow::applyFirstGameContext()
     m_playersList->sortByBalance();
 }
 
-void GameManagerWindow::checkTimedOutCounter()
-{
-
-}
-
 void GameManagerWindow::initializeHostOwningObjectCounts()
 {
     hostPlayerIncome = 0;
@@ -269,6 +289,24 @@ void GameManagerWindow::passOwningObjectsToQml()
         emit gameTransmitterObj->updateHostOwningObjects(i, hostOwningObjectsCounts[i]);
     }
     emit gameTransmitterObj->updateHostIncomeInfo(hostPlayerIncome);
+}
+
+bool GameManagerWindow::checkIfOrderIndexIsValid(int inputOrderIndex)
+{
+    return ((inputOrderIndex >= 1) && (inputOrderIndex <= 45));
+}
+
+void GameManagerWindow::changePiecesMaskByOrderIndex(int inputOrderIndex,
+                                                     uint8_t whatPlayerNumber,
+                                                     uint8_t addOrRemove)
+{
+    int foundIndex = m_cellsList->findIndexByOrderIndex(inputOrderIndex);
+    //!
+}
+
+void GameManagerWindow::checkTimedOutCounter()
+{
+
 }
 
 void fillDebugMapContext()

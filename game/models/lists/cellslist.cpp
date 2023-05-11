@@ -51,6 +51,18 @@ bool CellsList::setItemAt(int index, const Cell &item)
     return true;
 }
 
+int CellsList::findIndexByOrderIndex(int inputOrderIndex)
+{
+    int returningIndex = 0;
+    for(auto &i : m_items)
+    {
+        if(i.orderIndex == inputOrderIndex)
+            return returningIndex;
+        returningIndex++;
+    }
+    return 0;
+}
+
 void CellsList::appendItem()
 {
     emit preItemAppended();
