@@ -81,7 +81,9 @@ Rectangle
                     font.bold: true
                     color: Qt.lighter(parent.playerColorProp, 1.1)
                     font.family: "Bookman Old Style"
-                    font.pointSize: Helper.fontWarningPreventor(parent.height*0.35)
+                    font.pointSize: parent.playerNicknameProp.length <= 8 ?
+                                        Helper.fontWarningPreventor(parent.height*0.35) :
+                                        Helper.fontWarningPreventor(parent.height*0.292)
                     style: Text.Outline
                     styleColor: Qt.darker(root.color, 1.55)
                 }
