@@ -72,8 +72,8 @@ Rectangle
         id: _foldedImage
         anchors.centerIn: root
         opacity: imageOpacity
-        sourceSize.width: root.width*0.65
-        sourceSize.height: root.height*0.65
+        sourceSize.width: root.width*0.85
+        sourceSize.height: root.height*0.85
         source: ((root.state === "folded") ? foldedImagePath
                                            : "")
         smooth: true
