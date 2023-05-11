@@ -101,17 +101,17 @@ void GameManagerWindow::setStage()
 
 void GameManagerWindow::changePlayerBalance()
 {
-    uint8_t playerNumberSelected = ui->cbPlayerNumber->currentIndex();
+    uint8_t playerNumberSelected = ui->cbPlayerNumber->currentIndex() + 1;
 
-    if(playerNumberSelected > (uint8_t)m_playersList->items().size() - 1)
+    if(playerNumberSelected > (uint8_t)m_playersList->items().size())
         return;
 
-    int index = m_playersList->findIndexByPlayerNumber(ui->cbPlayerNumber->currentIndex() + 1);
+    int index = m_playersList->findIndexByPlayerNumber(playerNumberSelected);
     PlayerGameInfo playerGameInfo = m_playersList->getItemAt(index);
     playerGameInfo.currentBalance = ui->sbPlayerMoney->value();
     m_playersList->setItemAt(index, playerGameInfo);
 
-    emit gameTransmitterObj->updatePlayerBalance(playerNumberSelected + 1,
+    emit gameTransmitterObj->updatePlayerBalance(playerNumberSelected,
                                                  ui->sbPlayerMoney->value());
 
     m_playersList->sortByBalance();
@@ -119,17 +119,18 @@ void GameManagerWindow::changePlayerBalance()
 
 void GameManagerWindow::changePlayerNickname()
 {
-    uint8_t playerNumberSelected = ui->cbPlayerNumber->currentIndex();
+    uint8_t playerNumberSelected = ui->cbPlayerNumber->currentIndex() + 1;
 
-    if(playerNumberSelected > (uint8_t)m_playersList->items().size() - 1)
+    if(playerNumberSelected > (uint8_t)m_playersList->items().size())
         return;
 
-    int index = m_playersList->findIndexByPlayerNumber(ui->cbPlayerNumber->currentIndex() + 1);
+    int index = m_playersList->findIndexByPlayerNumber(playerNumberSelected);
     PlayerGameInfo playerGameInfo = m_playersList->getItemAt(index);
     playerGameInfo.displayableName = ui->lePlayerNickname->text();
+
     m_playersList->setItemAt(index, playerGameInfo);
 
-    emit gameTransmitterObj->updatePlayerNickname(playerNumberSelected + 1,
+    emit gameTransmitterObj->updatePlayerNickname(playerNumberSelected,
                                                   ui->lePlayerNickname->text());
 }
 

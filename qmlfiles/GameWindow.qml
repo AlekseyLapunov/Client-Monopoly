@@ -456,9 +456,9 @@ Window
         function onUpdatePlayerNickname(inputPlayerNumber,
                                         inputPlayerNickname)
         {
-            _playersInfoModel.setPlayerBalanceByNumber(inputPlayerNumber, inputPlayerNickname);
+            _playersInfoModel.setPlayerNicknameByNumber(inputPlayerNumber, inputPlayerNickname);
             _playersInfoBlock.updatePlayersSortableNickname(inputPlayerNumber, inputPlayerNickname);
-            //_hostInfoBlock.updateInfo();
+            _hostInfoBlock.updateInfo();
             _whosTurnInfoBlock.updateWhosTurnData();
         }
 
