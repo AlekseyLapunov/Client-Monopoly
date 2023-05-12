@@ -54,6 +54,7 @@ private slots:
 private slots:
     void manageQmlWindowClosing();
     void manageBuyClicked();
+    void manageSabotageResult(int chosenOrderIndex);
 
 private:
     void applyFirstGameContext(/*GameContext& gameContext*/);

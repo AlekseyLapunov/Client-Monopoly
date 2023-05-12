@@ -86,17 +86,9 @@ Rectangle
     {
         id: _mouseArea
         anchors.fill: root
-        enabled: (!ignoreClickForDialog && Helper.canFieldExecuteDialog(displayableFieldType))
         visible: enabled
 
         cursorShape: "PointingHandCursor"
-        onClicked:
-        {
-            if(Helper.canFieldExecuteDialog(displayableFieldType) && !ignoreClickForDialog)
-                _displayField.showCellDialog(root.displayableFieldType, root.playerNumberOwner,
-                                             _playersInfoModel.getPlayerNicknameByNumber(root.playerNumberOwner),
-                                             root.fieldCost, root.fieldIncome, root.arrowDirection, false)
-        }
     }
 
     Component.onCompleted:
@@ -123,8 +115,101 @@ Rectangle
             _displayField.showCellDialog(root.displayableFieldType, root.playerNumberOwner,
                                          _playersInfoModel.getPlayerNicknameByNumber(root.playerNumberOwner),
                                          root.fieldCost, root.fieldIncome, root.arrowDirection, true);
-        else;
+        else
+            _displayField.sabotageActivated();
     }
+
+    function setStateInternal(inputState)
+    {
+        root.state = inputState;
+    }
+
+    function defineStateForSabotageInternal()
+    {
+        if(!((root.displayableFieldType >= Helper.FieldType.Sawmill)
+             && (root.displayableFieldType <= Helper.FieldType.AtomicStation))
+          || (root.playerNumberOwner === Helper.PlayerNumber.NoPlayer)
+          || (root.playerNumberOwner === _win.hostPlayerNumber))
+        {
+            state = "disabled";
+            return;
+        }
+
+        state = "highlighted";
+    }
+
+    states:
+        [
+            State
+            {
+                name: "normal"
+                PropertyChanges
+                {
+                    target: _mouseArea
+                    enabled: (!ignoreClickForDialog && Helper.canFieldExecuteDialog(displayableFieldType))
+                    onClicked:
+                    {
+                        if(Helper.canFieldExecuteDialog(displayableFieldType) && !ignoreClickForDialog)
+                            _displayField.showCellDialog(root.displayableFieldType, root.playerNumberOwner,
+                                                         _playersInfoModel.getPlayerNicknameByNumber(root.playerNumberOwner),
+                                                         root.fieldCost, root.fieldIncome, root.arrowDirection, false)
+                    }
+                }
+                PropertyChanges
+                {
+                    target: root
+                    color: Helper.defineFieldColorByType(displayableFieldType)
+                }
+                PropertyChanges
+                {
+                    target: _ownerFrameColorOverlay
+                    color: Helper.definePlayerColorByNumber(playerNumberOwner)
+                }
+            },
+            State
+            {
+                name: "highlighted"
+                PropertyChanges
+                {
+                    target: _mouseArea
+                    enabled: true
+                    onClicked:
+                    {
+                        _displayField.initSabotageResult(root.orderIndex);
+                    }
+                }
+                PropertyChanges
+                {
+                    target: root
+                    color: Helper.defineFieldColorByType(displayableFieldType)
+                }
+                PropertyChanges
+                {
+                    target: _ownerFrameColorOverlay
+                    color: Helper.definePlayerColorByNumber(playerNumberOwner)
+                }
+            },
+            State
+            {
+                name: "disabled"
+                PropertyChanges
+                {
+                    target: _mouseArea
+                    enabled: false
+                }
+                PropertyChanges
+                {
+                    target: root
+                    color: Helper.applyContrast(Helper.defineFieldColorByType(displayableFieldType), 0.1)
+                }
+                PropertyChanges
+                {
+                    target: _ownerFrameColorOverlay
+                    color: Helper.applyContrast(Helper.definePlayerColorByNumber(playerNumberOwner),
+                                                0.1)
+                }
+            }
+        ]
 
     Connections
     {

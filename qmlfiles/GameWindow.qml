@@ -276,6 +276,22 @@ Window
             _cellDialog.visible = true;
         }
 
+        function sabotageActivated()
+        {
+            _map.sabotageActivated();
+        }
+
+        function resetMapStates()
+        {
+            _map.resetMapStates();
+        }
+
+        function initSabotageResult(inputOrderIndex)
+        {
+            _win.sabotageResult(inputOrderIndex)
+            _map.resetMapStates();
+        }
+
         // Models
         FieldsGridModel
         {
@@ -560,6 +576,7 @@ Window
 
     signal qmlGameWindowClosed();
     signal sayBuyClicked();
+    signal sabotageResult(int chosenOrderIndex);
 
     onVisibilityChanged:
     {

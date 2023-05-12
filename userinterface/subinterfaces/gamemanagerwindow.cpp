@@ -89,6 +89,10 @@ void GameManagerWindow::startQmlEngine()
                      this, SLOT(manageQmlWindowClosing()));
     QObject::connect(gameReceiverObj, SIGNAL(sayBuyClicked()),
                      this, SLOT(manageBuyClicked()));
+//    QObject::connect(gameReceiverObj, SIGNAL(sabotageResult(int chosenOrderIndex)),
+//                     this, SLOT(manageSabotageResult(int chosenOrderIndex)));
+    QObject::connect(gameReceiverObj, SIGNAL(sabotageResult(int)),
+                     this, SLOT(manageSabotageResult(int)));
 }
 
 void GameManagerWindow::setStage()
@@ -255,7 +259,7 @@ void GameManagerWindow::reactToPlayerNumberComboBoxChange()
 
 void GameManagerWindow::allowAction(bool allowActionFlag)
 {
-    gameTransmitterObj->manageActionMode(allowActionFlag);
+    emit gameTransmitterObj->manageActionMode(allowActionFlag);
 }
 
 void GameManagerWindow::manageQmlWindowClosing()
@@ -267,6 +271,12 @@ void GameManagerWindow::manageQmlWindowClosing()
 void GameManagerWindow::manageBuyClicked()
 {
     qDebug().noquote() << "Caught \"buy clicked\"";
+}
+
+void GameManagerWindow::manageSabotageResult(int chosenOrderIndex)
+{
+    qDebug().noquote() << QString("Caught \"sabotage\" on Cell #%1")
+                          .arg(QString::number(chosenOrderIndex));
 }
 
 void GameManagerWindow::applyFirstGameContext()

@@ -19,6 +19,8 @@ Rectangle
     border.width: 3
 
     signal defineAction(int cellOrderIndex)
+    signal setCellsState(string state)
+    signal defineStateForSabotage()
 
     GridView
     {
@@ -37,6 +39,9 @@ Rectangle
         {
             height: _grid.cellHeight
             width: _grid.cellWidth
+
+            state: "normal"
+
             border.color: root.border.color
             border.width: root.border.width/3
 
@@ -57,6 +62,8 @@ Rectangle
                 target: root
 
                 function onDefineAction(cellOrderIndex) { defineActionInternal(cellOrderIndex) }
+                function onSetCellsState(state) { setStateInternal(state) }
+                function onDefineStateForSabotage() { defineStateForSabotageInternal() }
             }
 
             PropertyAnimation on opacity
@@ -108,6 +115,18 @@ Rectangle
         }
     }
 
+    Timer
+    {
+        id: _resetStatesTimer
+        interval: 5000
+        repeat: false
+
+        onTriggered:
+        {
+            root.setCellsState("normal")
+        }
+    }
+
     function toggleOverlayRectangleOpacity()
     {
         _overlayRectOpacityAnimation.duration = 0;
@@ -118,5 +137,17 @@ Rectangle
     function setOverlayRectangleOpacityZero()
     {
         _overlayRectangle.toggler = false;
+    }
+
+    function sabotageActivated()
+    {
+        defineStateForSabotage();
+        _resetStatesTimer.start();
+    }
+
+    function resetMapStates()
+    {
+        setCellsState("normal");
+        _resetStatesTimer.stop();
     }
 }
