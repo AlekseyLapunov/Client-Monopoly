@@ -141,7 +141,7 @@ Rectangle
             PropertyChanges
             {
                 target: root
-                color: Helper.makeRgb(153, 153, 153)
+                color: Helper.applyContrast(root.baseColor, 0.6)
             }
             PropertyChanges
             {

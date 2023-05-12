@@ -95,7 +95,7 @@ Rectangle
             if(Helper.canFieldExecuteDialog(displayableFieldType) && !ignoreClickForDialog)
                 _displayField.showCellDialog(root.displayableFieldType, root.playerNumberOwner,
                                              _playersInfoModel.getPlayerNicknameByNumber(root.playerNumberOwner),
-                                             root.fieldCost, root.fieldIncome, root.arrowDirection)
+                                             root.fieldCost, root.fieldIncome, root.arrowDirection, false)
         }
     }
 
@@ -109,6 +109,21 @@ Rectangle
     {
         placePiecesAccordingToMask();
         root.lastPiecesMask = root.piecesOnCellMask;
+    }
+
+    function defineActionInternal(cellOrderIndex)
+    {
+        if((root.orderIndex !== cellOrderIndex)
+            || (cellOrderIndex <= 0)
+            || (root.playerNumberOwner === _win.hostPlayerNumber)
+            || !Helper.canFieldBeActivated(root.displayableFieldType))
+            return;
+
+        if(root.displayableFieldType !== Helper.FieldType.Sabotage)
+            _displayField.showCellDialog(root.displayableFieldType, root.playerNumberOwner,
+                                         _playersInfoModel.getPlayerNicknameByNumber(root.playerNumberOwner),
+                                         root.fieldCost, root.fieldIncome, root.arrowDirection, true);
+        else;
     }
 
     Connections

@@ -28,6 +28,8 @@ Rectangle
     height: baseHeight - _win.sizeUnit*0.2 + _labelsModel.count*_fieldAdditionalInformation.rowHeight
     width: _win.sizeUnit*2.25
 
+    signal buyClicked();
+
     Cell
     {
         id: _cellDisplay
@@ -242,7 +244,8 @@ Rectangle
         id: _buyButton
         visible: root.hasBuyButton
         enabled: visible
-        textContent: root.showOwnerPlayerNumber === Helper.PlayerNumber.NoPlayer ? "Купить" : "Перекупить"
+        textContent: root.showOwnerPlayerNumber === Helper.PlayerNumber.NoPlayer ? "Купить"
+                                                                                 : "Перекупить"
         width: root.width/3
         height: root.baseHeight/8
         anchors.horizontalCenter: root.horizontalCenter
@@ -250,13 +253,13 @@ Rectangle
         anchors.bottomMargin: _win.defaultMargin/2
         sharedColor: root.color
         hasText: true
-        state: "normal"
+        state: _playersInfoModel.getPlayerBalanceByNumber(_win.hostPlayerNumber) >= showFieldCost ? "normal"
+                                                                                                  : "disabled"
         z: 3
 
         onClicked:
         {
-            // emit signal about buy or overbuy, then close
-            root.visible = false
+            root.buyClicked();
         }
     }
 

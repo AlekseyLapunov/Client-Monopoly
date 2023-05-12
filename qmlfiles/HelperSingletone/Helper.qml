@@ -232,6 +232,13 @@ Item
                 && inputFieldType <= Helper.FieldType.Arrow);
     }
 
+    function canFieldBeActivated(inputFieldType: int)
+    {
+        return ((inputFieldType >= Helper.FieldType.Sawmill
+                && inputFieldType <= Helper.FieldType.Uranium)
+                || inputFieldType === Helper.FieldType.Sabotage);
+    }
+
     function applyContrast(color, factor)
     {
         let red = color.r;

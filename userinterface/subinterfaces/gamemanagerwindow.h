@@ -48,11 +48,12 @@ private slots:
     void removePlayer();
     void placePlayerPieceOn();
     void endTheGame();
-    void fakePlayerTurn();
     void reactToPlayerNumberComboBoxChange();
+    void allowAction(bool allowActionFlag);
 
 private slots:
     void manageQmlWindowClosing();
+    void manageBuyClicked();
 
 private:
     void applyFirstGameContext(/*GameContext& gameContext*/);

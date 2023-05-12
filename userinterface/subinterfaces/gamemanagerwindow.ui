@@ -227,7 +227,7 @@
      <item row="4" column="1">
       <widget class="QPushButton" name="bPlacePieceOn">
        <property name="text">
-        <string>Поместить фишку игрока на</string>
+        <string>Поместить фишку на</string>
        </property>
       </widget>
      </item>
@@ -241,13 +241,6 @@
        </property>
        <property name="value">
         <number>1</number>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="2">
-      <widget class="QPushButton" name="bFakePlayerTurn">
-       <property name="text">
-        <string>Имитировать ход игрока</string>
        </property>
       </widget>
      </item>
@@ -273,6 +266,16 @@
         <string>Без анимации</string>
        </property>
        <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QPushButton" name="bAllowAction">
+       <property name="text">
+        <string>Разрешить действие</string>
+       </property>
+       <property name="checkable">
         <bool>true</bool>
        </property>
       </widget>
@@ -462,22 +465,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>bFakePlayerTurn</sender>
-   <signal>clicked()</signal>
-   <receiver>GameManagerWindow</receiver>
-   <slot>fakePlayerTurn()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>456</x>
-     <y>154</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>274</x>
-     <y>132</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>cbPlayerNumber</sender>
    <signal>currentIndexChanged(int)</signal>
    <receiver>GameManagerWindow</receiver>
@@ -486,6 +473,22 @@
     <hint type="sourcelabel">
      <x>93</x>
      <y>182</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>274</x>
+     <y>132</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bAllowAction</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>GameManagerWindow</receiver>
+   <slot>allowAction(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>456</x>
+     <y>154</y>
     </hint>
     <hint type="destinationlabel">
      <x>274</x>
@@ -506,5 +509,6 @@
   <slot>changePlayerNickname()</slot>
   <slot>fakePlayerTurn()</slot>
   <slot>reactToPlayerNumberComboBoxChange()</slot>
+  <slot>allowAction(bool)</slot>
  </slots>
 </ui>

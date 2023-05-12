@@ -87,6 +87,8 @@ void GameManagerWindow::startQmlEngine()
     gameReceiverObj = qmlEngine->rootObjects().at(0);
     QObject::connect(gameReceiverObj, SIGNAL(qmlGameWindowClosed()),
                      this, SLOT(manageQmlWindowClosing()));
+    QObject::connect(gameReceiverObj, SIGNAL(sayBuyClicked()),
+                     this, SLOT(manageBuyClicked()));
 }
 
 void GameManagerWindow::setStage()
@@ -234,11 +236,6 @@ void GameManagerWindow::endTheGame()
 
 }
 
-void GameManagerWindow::fakePlayerTurn()
-{
-
-}
-
 void GameManagerWindow::reactToPlayerNumberComboBoxChange()
 { 
     uint8_t playerNumberSelected = ui->cbPlayerNumber->currentIndex() + 1;
@@ -256,10 +253,20 @@ void GameManagerWindow::reactToPlayerNumberComboBoxChange()
     ui->sbPlayerMoney->setValue(m_playersList->getItemAt(index).currentBalance);
 }
 
+void GameManagerWindow::allowAction(bool allowActionFlag)
+{
+    gameTransmitterObj->manageActionMode(allowActionFlag);
+}
+
 void GameManagerWindow::manageQmlWindowClosing()
 {
     qDebug().noquote() << "QML Window closed. Quiting application";
     QCoreApplication::quit();
+}
+
+void GameManagerWindow::manageBuyClicked()
+{
+    qDebug().noquote() << "Caught \"buy clicked\"";
 }
 
 void GameManagerWindow::applyFirstGameContext()

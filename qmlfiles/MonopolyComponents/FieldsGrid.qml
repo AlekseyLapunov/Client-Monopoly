@@ -18,8 +18,7 @@ Rectangle
     border.color: Qt.darker(baseColor, 1)
     border.width: 3
 
-    signal placeNewPieceSig(int cellId, int playerNumber)
-    signal removeLastPieceSig(int cellId)
+    signal defineAction(int cellOrderIndex)
 
     GridView
     {
@@ -53,12 +52,12 @@ Rectangle
 
             cellNumber: index
 
-            /*Connections
+            Connections
             {
                 target: root
-                function onPlaceNewPieceSig(cellId, playerNumber) { placeNewPiece(cellId, playerNumber); }
-                function onRemoveLastPieceSig(cellId) { removeLastPiece(cellId); }
-            }*/
+
+                function onDefineAction(cellOrderIndex) { defineActionInternal(cellOrderIndex) }
+            }
 
             PropertyAnimation on opacity
             {
@@ -120,56 +119,4 @@ Rectangle
     {
         _overlayRectangle.toggler = false;
     }
-
-    /*
-    function refresh()
-    {
-        for(let i = 0; i < _mapModel.count; i++)
-            _mapModel.get(i).fieldTypeSet = Math.floor((Math.random() * 11 + 1));
-    }
-
-    function addField()
-    {
-        let adding = Math.pow(_win.debugCellsCount, 2) - _mapModel.count;
-        for(let i = 0; i < adding; i++)
-        {
-            let cellItem = {};
-            cellItem.fieldTypeSet = Math.floor((Math.random() * 11 + 1));
-            _mapModel.append(cellItem);
-        }
-    }
-
-    function delField()
-    {
-        let deleting = _mapModel.count - Math.pow(_win.debugCellsCount, 2);
-        for(let i = 0; i < deleting; i++)
-        {
-            if(_mapModel.count !== 0)
-            {
-                _mapModel.remove(_mapModel.count - 1);
-            }
-        }
-    }
-
-    function resetField()
-    {
-        _mapModel.clear();
-        for(let i = 0; i < _win.debugCellsCount; i++)
-            addField();
-    }
-
-    function placeGamingPiece(cellId, playerNumberToPlace)
-    {
-        placeNewPieceSig(cellId, playerNumberToPlace);
-    }
-
-    function placeRandomPiece(cellId)
-    {
-        placeNewPieceSig(cellId, (Math.random()*Helper.PlayerNumber.Player6 + 1));
-    }
-
-    function delLastPiece(cellId)
-    {
-        removeLastPieceSig(cellId);
-    }*/
 }

@@ -16,6 +16,7 @@ public:
 signals:
     // Global QML Update signals
     void setCurrentGameStage(uint8_t stageNumber, bool withAnimation = true);
+    void manageActionMode(bool actionFlag);
 
     // Dice Animations signals
     void startDiceInfiniteAnimation();
@@ -38,8 +39,8 @@ signals:
 
     // Fields Update signals
     void fieldUpdate(int index, int newOrderIndex, uint8_t newFieldTypeSet, uint8_t newPlayerNumberOwner,
-                      int newFieldCost, int newFieldIncome, uint8_t newPiecesOnCellMask, uint8_t newStage,
-                      uint8_t newArrowDirection, uint8_t newBlankUntilStage);
+                     int newFieldCost, int newFieldIncome, uint8_t newPiecesOnCellMask, uint8_t newStage,
+                     uint8_t newArrowDirection, uint8_t newBlankUntilStage);
     void fieldOrderIndexUpdate(int index, int newOrderIndex);
     void fieldTypeUpdate(int index, uint8_t newFieldType);
     void fieldPlayerNumberOwnerUpdate(int index, uint8_t newPlayerNumberOwner);

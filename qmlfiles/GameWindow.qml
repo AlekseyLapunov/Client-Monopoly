@@ -70,26 +70,35 @@ Window
         {
             id: _activateFieldButton
             sharedColor: _displayField.shareGradColor2
-            state: "normal"
+            state: "disabled"
             height: _endTurnButton.height
             width: _endTurnButton.width
             anchors.horizontalCenter: _endTurnButton.horizontalCenter
             anchors.bottom: _endTurnButton.top
             anchors.bottomMargin: defaultMargin
             textContent: "Применить действие"
+            onClicked:
+            {
+                _map.defineAction(_playersInfoModel.getPlayerPiecePositionByNumber(hostPlayerNumber));
+            }
         }
 
         MonopolyButton
         {
             id: _endTurnButton
             sharedColor: _displayField.shareGradColor2
-            state: "normal"
+            state: "disabled"
             height: sizeUnit*0.36
             width: height*3
             anchors.bottom: _diceBlock.top
             anchors.horizontalCenter: _diceBlock.horizontalCenter
             anchors.bottomMargin: defaultMargin
             textContent: "Закончить ход"
+            onClicked:
+            {
+                _activateFieldButton.state = "disabled"
+                _endTurnButton.state       = "disabled"
+            }
         }
 
         DiceBlock
@@ -233,11 +242,19 @@ Window
             visible: false
             x: _displayField.width/2 - width/2
             y: _displayField.height/2 - height/2
+
+            onBuyClicked:
+            {
+                _win.sayBuyClicked();
+                _cellDialog.visible = false;
+                _activateFieldButton.state = "disabled";
+            }
         }
 
         function showCellDialog(inputFieldType: int, inputOwnerPlayerNumber: int,
                                 inputOwnerPlayerNickname, inputFieldCost: int,
-                                inputFieldIncome: int, inputArrowDirection: int)
+                                inputFieldIncome: int, inputArrowDirection: int,
+                                inputHasBuyButton = false)
         {
             if(!Helper.canFieldExecuteDialog(inputFieldType))
                 return;
@@ -253,6 +270,8 @@ Window
             _cellDialog.showArrowDirection = inputArrowDirection;
 
             _cellDialog.fillLabelsModel();
+
+            _cellDialog.hasBuyButton = inputHasBuyButton;
 
             _cellDialog.visible = true;
         }
@@ -291,6 +310,20 @@ Window
                     {
                         return _playersInfoModel.data(_playersInfoModel.index(i, 0),
                                                       Helper.PlayerModelRole.CurrentBalanceRole);
+                    }
+                }
+                return 0;
+            }
+
+            function getPlayerPiecePositionByNumber(playerNumber: int)
+            {
+                for(let i = 0; i < _playersInfoModel.rowCount(); i++)
+                {
+                    if(playerNumber === _playersInfoModel.data((_playersInfoModel.index(i, 0)),
+                                                               Helper.PlayerModelRole.PlayerNumberRole))
+                    {
+                        return _playersInfoModel.data(_playersInfoModel.index(i, 0),
+                                                      Helper.PlayerModelRole.PiecePositionOnOrderIndexRole);
                     }
                 }
                 return 0;
@@ -454,6 +487,14 @@ Window
     {
         target: _gameTransmitter
 
+        function onManageActionMode(actionFlag)
+        {
+            _activateFieldButton.state = actionFlag ? "normal"
+                                                    : "disabled"
+            _endTurnButton.state       = actionFlag ? "normal"
+                                                    : "disabled"
+        }
+
         function onSetHostPlayerNumber(newHostPlayerNumber)
         {
             _win.hostPlayerNumber = newHostPlayerNumber;
@@ -518,6 +559,7 @@ Window
     }
 
     signal qmlGameWindowClosed();
+    signal sayBuyClicked();
 
     onVisibilityChanged:
     {
