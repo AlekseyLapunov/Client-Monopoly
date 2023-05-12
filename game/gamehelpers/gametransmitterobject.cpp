@@ -6,9 +6,9 @@ GameTransmitterObject::GameTransmitterObject(QObject *parent)
 
 }
 
-void GameTransmitterObject::emitFieldChanged(int index, Cell newCell)
+void GameTransmitterObject::emitFieldUpdate(int index, Cell newCell)
 {
-    emit fieldChanged(index, newCell.orderIndex, newCell.fieldTypeSet, newCell.playerNumberOwner,
+    emit fieldUpdate(index, newCell.orderIndex, newCell.fieldTypeSet, newCell.playerNumberOwner,
                       newCell.fieldCost, newCell.fieldIncome, newCell.piecesOnCellMask,
                       newCell.stage, newCell.arrowDirection,  newCell.blankUntilStage);
 }

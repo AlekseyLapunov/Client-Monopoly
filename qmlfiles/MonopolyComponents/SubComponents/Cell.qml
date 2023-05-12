@@ -102,20 +102,20 @@ Rectangle
     Component.onCompleted:
     {
         placePiecesAccordingToMask();
-        lastPiecesMask = root.piecesOnCellMask;
+        root.lastPiecesMask = root.piecesOnCellMask;
     }
 
     onPiecesOnCellMaskChanged:
     {
         placePiecesAccordingToMask();
-        lastPiecesMask = root.piecesOnCellMask;
+        root.lastPiecesMask = root.piecesOnCellMask;
     }
 
     Connections
     {
         target: _gameTransmitter
 
-        function onFieldChanged(index, orderIndex, fieldTypeSet, playerNumberOwner,
+        function onFieldUpdate(index, orderIndex, fieldTypeSet, playerNumberOwner,
                                 fieldCost, fieldIncome, piecesOnCellMask, stage,
                                 arrowDirection, blankUntilStage)
         {
@@ -133,20 +133,76 @@ Rectangle
             root.blankUntilStage = blankUntilStage;
         }
 
-        function onFieldOrderIndexChanged(index, orderIndex)
+        function onFieldOrderIndexUpdate(index, newOrderIndex)
         {
             if(index !== root.cellNumber)
                 return;
 
-            root.orderIndex = orderIndex;
+            root.orderIndex = newOrderIndex;
         }
 
-        function onFieldPiecesMaskChanged(index, piecesMask)
+        function onFieldTypeUpdate(index, newFieldType)
         {
             if(index !== root.cellNumber)
                 return;
 
-            root.piecesOnCellMask = piecesMask;
+            root.fieldType = newFieldType;
+        }
+
+        function onFieldPlayerNumberOwnerUpdate(index, newPlayerNumberOwner)
+        {
+            if(index !== root.cellNumber)
+                return;
+
+            root.playerNumberOwner = newPlayerNumberOwner;
+        }
+
+        function onFieldCostUpdate(index, newFieldCost)
+        {
+            if(index !== root.cellNumber)
+                return;
+
+            root.fieldCost = newFieldCost;
+        }
+
+        function onFieldIncomeUpdate(index, newFieldIncome)
+        {
+            if(index !== root.cellNumber)
+                return;
+
+            root.fieldIncome = newFieldIncome;
+        }
+
+        function onFieldPiecesMaskUpdate(index, newPiecesMask)
+        {
+            if(index !== root.cellNumber)
+                return;
+
+            root.piecesOnCellMask = newPiecesMask;
+        }
+
+        function onFieldStageUpdate(index, newStage)
+        {
+            if(index !== root.cellNumber)
+                return;
+
+            root.stage = newStage;
+        }
+
+        function onFieldArrowDirectionUpdate(index, newDirection)
+        {
+            if(index !== root.cellNumber)
+                return;
+
+            root.arrowDirection = newDirection;
+        }
+
+        function onFieldBlankUntilStageUpdate(index, newBlankUntilStage)
+        {
+            if(index !== root.cellNumber)
+                return;
+
+            root.blankUntilStage = newBlankUntilStage;
         }
     }
 
@@ -157,14 +213,10 @@ Rectangle
 
         if(piecesLeftMask !== 0)
         {
-            for(let i = 0; i < (Helper.PlayerNumber.Player6 - 1); i++)
+            for(let i = 0; i < Helper.PlayerNumber.Player6; i++)
             {
                 if((piecesLeftMask & (1 << i)) !== 0)
                 {
-                    console.log("[" + (root.cellNumber).toString()
-                                + ", "+ (root.orderIndex).toString()
-                                + "]: Removing gaming piece of Player" + (i+1).toString()
-                                + " (" + _playersInfoModel.getPlayerNicknameByNumber(i+1) + ")");
                     _gamingPiecesDisplay.removePiece(i+1);
                 }
             }
@@ -174,14 +226,10 @@ Rectangle
                                                              root.piecesOnCellMask);
         if(piecesAppearMask !== 0)
         {
-            for(let j = 0; j < (Helper.PlayerNumber.Player6 - 1); j++)
+            for(let j = 0; j < Helper.PlayerNumber.Player6; j++)
             {
                 if((piecesAppearMask & (1 << j)) !== 0)
                 {
-                    console.log("[" + (root.cellNumber).toString()
-                                + ", "+ (root.orderIndex).toString()
-                                + "]: Adding gaming piece of Player" + (j+1).toString()
-                                + " (" + _playersInfoModel.getPlayerNicknameByNumber(j+1) + ")");
                     _gamingPiecesDisplay.addPiece(j+1);
                 }
             }

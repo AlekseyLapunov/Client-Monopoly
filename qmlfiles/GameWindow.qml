@@ -325,6 +325,21 @@ Window
                     }
                 }
             }
+
+            function setPlayerPiecePositionByNumber(playerNumber, playerPiecePosition)
+            {
+                for(let i = 0; i < _playersInfoModel.rowCount(); i++)
+                {
+                    if(playerNumber === _playersInfoModel.data((_playersInfoModel.index(i, 0)),
+                                                               Helper.PlayerModelRole.PlayerNumberRole))
+                    {
+                        _playersInfoModel.setData((_playersInfoModel.index(i, 0)),
+                                                  playerPiecePosition,
+                                                  Helper.PlayerModelRole.PiecePositionOnOrderIndexRole);
+                        break;
+                    }
+                }
+            }
         }
 
         Keys.onPressed: (event) =>
@@ -439,27 +454,33 @@ Window
     {
         target: _gameTransmitter
 
-        function onSetHostPlayerNumber(hostPlayerNumberToSet)
+        function onSetHostPlayerNumber(newHostPlayerNumber)
         {
-            _win.hostPlayerNumber = hostPlayerNumberToSet;
+            _win.hostPlayerNumber = newHostPlayerNumber;
             _hostInfoBlock.updateInfo();
         }
 
-        function onUpdatePlayerBalance(inputPlayerNumber,
-                                       inputPlayerBalance)
+        function onPlayerNicknameUpdate(inputPlayerNumber,
+                                        newPlayerNickname)
         {
-            _playersInfoModel.setPlayerBalanceByNumber(inputPlayerNumber, inputPlayerBalance);
-            _playersInfoBlock.updatePlayersSortableBalance(inputPlayerNumber, inputPlayerBalance);
-            _hostInfoBlock.updateInfo();
-        }
-
-        function onUpdatePlayerNickname(inputPlayerNumber,
-                                        inputPlayerNickname)
-        {
-            _playersInfoModel.setPlayerNicknameByNumber(inputPlayerNumber, inputPlayerNickname);
-            _playersInfoBlock.updatePlayersSortableNickname(inputPlayerNumber, inputPlayerNickname);
+            _playersInfoModel.setPlayerNicknameByNumber(inputPlayerNumber, newPlayerNickname);
+            _playersInfoBlock.updatePlayersSortableNickname(inputPlayerNumber, newPlayerNickname);
             _hostInfoBlock.updateInfo();
             _whosTurnInfoBlock.updateWhosTurnData();
+        }
+
+        function onPlayerBalanceUpdate(inputPlayerNumber,
+                                       newBalance)
+        {
+            _playersInfoModel.setPlayerBalanceByNumber(inputPlayerNumber, newBalance);
+            _playersInfoBlock.updatePlayersSortableBalance(inputPlayerNumber, newBalance);
+            _hostInfoBlock.updateInfo();
+        }
+
+        function onPlayerPiecePositionUpdate(inputPlayerNumber,
+                                             newPiecePosition)
+        {
+            _playersInfoModel.setPlayerPiecePositionByNumber(inputPlayerNumber, newPiecePosition);
         }
 
         function onSetCurrentGameStage(stageNumber: int, withAnimation: bool)

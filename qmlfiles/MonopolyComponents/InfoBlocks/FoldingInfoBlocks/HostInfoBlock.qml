@@ -259,24 +259,44 @@ FoldingInfoBlock
     {
         target: _gameTransmitter
 
-        function onClearHostOwningObjects()
+        function onHostIncomeUpdate(newHostIncome)
         {
-            _businessAndResourcesCounted.clear();
+            root.energyKrendelsPerTurn = newHostIncome;
         }
 
-        function onUpdateHostOwningObjects(owningFieldType, owningFieldsCount)
+        function onHostOwningObjectsUpdate(owningFieldType, owningFieldsCount)
         {
-            if(owningFieldsCount === 0)
+            if(owningFieldsCount <= 0)
+            {
+                for(let i = 0; i < _businessAndResourcesCounted.count; i++)
+                {
+                    if(owningFieldType === _businessAndResourcesCounted.get(i).uniqueFieldType)
+                    {
+                        _businessAndResourcesCounted.remove(i);
+                        return;
+                    }
+                }
                 return;
+            }
+
+            for(let j = 0; j < _businessAndResourcesCounted.count; j++)
+            {
+                if(owningFieldType === _businessAndResourcesCounted.get(j).uniqueFieldType)
+                {
+                    _businessAndResourcesCounted.get(j).quantity = owningFieldsCount;
+                    return;
+                }
+            }
+
             let owningItem = {};
             owningItem.uniqueFieldType = owningFieldType;
             owningItem.quantity = owningFieldsCount;
             _businessAndResourcesCounted.append(owningItem);
         }
 
-        function onUpdateHostIncomeInfo(hostIncome)
+        function onHostOwningObjectsClear()
         {
-            root.energyKrendelsPerTurn = hostIncome;
+            _businessAndResourcesCounted.clear();
         }
     }
 

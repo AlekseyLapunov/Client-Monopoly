@@ -104,8 +104,8 @@ static void fillDebugMapContext();
 
 static PlayerGameInfo debugPlayersArray[] =
 {
-    { PlayerNumber::Player1, "Loshad", 200, 1 },
-    { PlayerNumber::Player2, "MsCones", 225, 1  }
+    { PlayerNumber::Player1, "Player1", 200, 1 },
+    { PlayerNumber::Player2, "Player2", 210, 1  }
 };
 
 static PlayerGameInfoList debugPlayersContext;

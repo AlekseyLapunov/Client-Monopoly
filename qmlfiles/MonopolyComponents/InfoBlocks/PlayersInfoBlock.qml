@@ -81,7 +81,7 @@ Rectangle
                     font.bold: true
                     color: Qt.lighter(parent.playerColorProp, 1.1)
                     font.family: "Bookman Old Style"
-                    font.pointSize: parent.playerNicknameProp.length <= 8 ?
+                    font.pointSize: parent.playerNicknameProp.length <= 12 ?
                                         Helper.fontWarningPreventor(parent.height*0.35) :
                                         Helper.fontWarningPreventor(parent.height*0.292)
                     style: Text.Outline
@@ -193,15 +193,14 @@ Rectangle
     {
         target: _gameTransmitter
 
-        function onAppendPlayer(playerNumber, displayableName, currentBalance)
+        function onAppendPlayer(playerNumber, displayableName, currentBalance, piecePositionOnOrderIndex)
         {
             let item = {};
             item.playerNumber = playerNumber;
             item.displayableName = displayableName;
             item.currentBalance = currentBalance;
             _playersDataRowsSortable.append(item);
-            _playersList.appendItem(playerNumber, displayableName, currentBalance, 0);
-            console.log("Appending Player" + playerNumber.toString() + " (" + displayableName + ")");
+            _playersList.appendItem(playerNumber, displayableName, currentBalance, piecePositionOnOrderIndex);
             sortPlayersList();
         }
 
@@ -211,8 +210,6 @@ Rectangle
             {
                 if(_playersDataRowsSortable.get(i).playerNumber === playerNumber)
                 {
-                    console.log("Deleting Player" + _playersDataRowsSortable.get(i).playerNumber
-                                + " (" + _playersDataRowsSortable.get(i).displayableName + ")");
                     _playersDataRowsSortable.remove(i);
                     break;
                 }

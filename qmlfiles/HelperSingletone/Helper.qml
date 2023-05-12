@@ -314,7 +314,7 @@ Item
     {
       const diff = mask1 ^ mask2;
       let mask = 0;
-      for (let i = 0; i < (Helper.PlayerNumber.Player6 - 1); i++)
+      for (let i = 0; i < Helper.PlayerNumber.Player6; i++)
       {
         if ((diff >> i) & 1)
         {
