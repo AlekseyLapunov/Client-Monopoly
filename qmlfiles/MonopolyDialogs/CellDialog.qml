@@ -17,6 +17,8 @@ Rectangle
     property string fieldNameByType: Helper.defineFieldNameByType(root.showFieldType)
     property string fieldDescriptionByType: Helper.defineFieldDescriptionByType(root.showFieldType)
 
+    property string hasBuyButtonState: "disabled"
+
     property bool hasBuyButton: false
 
     color: Qt.darker(_displayField.shareGradColor1, 1.1)
@@ -253,8 +255,7 @@ Rectangle
         anchors.bottomMargin: _win.defaultMargin/2
         sharedColor: root.color
         hasText: true
-        state: _playersInfoModel.getPlayerBalanceByNumber(_win.hostPlayerNumber) >= showFieldCost ? "normal"
-                                                                                                  : "disabled"
+        state: hasBuyButtonState
         z: 3
 
         onClicked:

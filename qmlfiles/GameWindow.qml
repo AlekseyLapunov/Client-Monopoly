@@ -272,6 +272,9 @@ Window
             _cellDialog.fillLabelsModel();
 
             _cellDialog.hasBuyButton = inputHasBuyButton;
+            _cellDialog.hasBuyButtonState = (_playersInfoModel
+                                             .getPlayerBalanceByNumber(_win.hostPlayerNumber) >= inputFieldCost) ? "normal"
+                                                                                                                 : "disabled";
 
             _cellDialog.visible = true;
         }
