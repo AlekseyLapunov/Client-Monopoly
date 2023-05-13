@@ -26,6 +26,7 @@ SOURCES += \
     userinterface/subinterfaces/menusubdialog.cpp
 
 HEADERS += \
+    game/gamehelpers/gamealgo.h \
     game/gamehelpers/gamestructs.h \
     game/gamehelpers/gametransmitterobject.h \
     game/gamehelpers/modelsroles.h \

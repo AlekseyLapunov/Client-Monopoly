@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>550</width>
-    <height>266</height>
+    <height>341</height>
    </rect>
   </property>
   <property name="font">
@@ -21,119 +21,10 @@
   <layout class="QGridLayout" name="gridLayout">
    <item row="1" column="0">
     <layout class="QGridLayout" name="loDebugButtons">
-     <item row="1" column="0">
-      <widget class="QPushButton" name="bAddPlayer">
-       <property name="text">
-        <string>Добавить игрока</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="2">
-      <widget class="QPushButton" name="bInfiniteRotationAnimation">
-       <property name="text">
-        <string>Ожидание выпадения</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QPushButton" name="bSetStage">
-       <property name="text">
-        <string>Переключить стадию</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QSpinBox" name="sbPlayerMoney">
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-       <property name="suffix">
-        <string> ЭК.</string>
-       </property>
-       <property name="prefix">
-        <string>Счёт игрока: </string>
-       </property>
-       <property name="minimum">
-        <number>10</number>
-       </property>
-       <property name="maximum">
-        <number>4000</number>
-       </property>
-       <property name="singleStep">
-        <number>125</number>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QPushButton" name="bRollDice">
-       <property name="text">
-        <string>Выпадение костей</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QComboBox" name="cbPlayerNumber">
-       <property name="font">
-        <font>
-         <family>Bookman Old Style</family>
-         <italic>false</italic>
-        </font>
-       </property>
-       <item>
-        <property name="text">
-         <string>Игрок 1 (красный)</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Игрок 2 (оранжевый)</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Игрок 3 (салатовый)</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Игрок 4 (бирюзовый)</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Игрок 5 (синий)</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Игрок 6 (фиолетовый)</string>
-        </property>
-       </item>
-      </widget>
-     </item>
      <item row="1" column="1">
       <widget class="QPushButton" name="bRemovePlayer">
        <property name="text">
         <string>Удалить игрока</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="2">
-      <widget class="QLineEdit" name="lePlayerNickname">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="maxLength">
-        <number>16</number>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-       <property name="placeholderText">
-        <string>Псевдоним игрока</string>
        </property>
       </widget>
      </item>
@@ -217,33 +108,6 @@
        </item>
       </layout>
      </item>
-     <item row="4" column="0">
-      <widget class="QPushButton" name="bEndTheGame">
-       <property name="text">
-        <string>Закончить игру</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QPushButton" name="bPlacePieceOn">
-       <property name="text">
-        <string>Поместить фишку на</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="2">
-      <widget class="QSpinBox" name="sbFieldIndex">
-       <property name="prefix">
-        <string>поле с индексом </string>
-       </property>
-       <property name="maximum">
-        <number>45</number>
-       </property>
-       <property name="value">
-        <number>1</number>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="1">
       <widget class="QSpinBox" name="sbStageNumber">
        <property name="alignment">
@@ -260,6 +124,27 @@
        </property>
       </widget>
      </item>
+     <item row="4" column="1">
+      <widget class="QPushButton" name="bPlacePieceOn">
+       <property name="text">
+        <string>Поместить фишку на</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QPushButton" name="bSetStage">
+       <property name="text">
+        <string>Переключить стадию</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QPushButton" name="bAddPlayer">
+       <property name="text">
+        <string>Добавить игрока</string>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="2">
       <widget class="QCheckBox" name="chbNoStageAnimation">
        <property name="text">
@@ -270,6 +155,20 @@
        </property>
       </widget>
      </item>
+     <item row="3" column="2">
+      <widget class="QPushButton" name="bInfiniteRotationAnimation">
+       <property name="text">
+        <string>Ожидание выпадения</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QPushButton" name="bRollDice">
+       <property name="text">
+        <string>Выпадение костей</string>
+       </property>
+      </widget>
+     </item>
      <item row="1" column="2">
       <widget class="QPushButton" name="bAllowAction">
        <property name="text">
@@ -277,6 +176,139 @@
        </property>
        <property name="checkable">
         <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QPushButton" name="bEndTheGame">
+       <property name="text">
+        <string>Закончить игру</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QSpinBox" name="sbPlayerMoney">
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="suffix">
+        <string> ЭК.</string>
+       </property>
+       <property name="prefix">
+        <string>Счёт игрока: </string>
+       </property>
+       <property name="minimum">
+        <number>10</number>
+       </property>
+       <property name="maximum">
+        <number>4000</number>
+       </property>
+       <property name="singleStep">
+        <number>125</number>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QComboBox" name="cbPlayerNumber">
+       <property name="font">
+        <font>
+         <family>Bookman Old Style</family>
+         <italic>false</italic>
+        </font>
+       </property>
+       <item>
+        <property name="text">
+         <string>Игрок 1 (красный)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Игрок 2 (оранжевый)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Игрок 3 (салатовый)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Игрок 4 (бирюзовый)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Игрок 5 (синий)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Игрок 6 (фиолетовый)</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QLineEdit" name="lePlayerNickname">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maxLength">
+        <number>16</number>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="placeholderText">
+        <string>Псевдоним игрока</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="2">
+      <widget class="QSpinBox" name="sbFieldIndex">
+       <property name="prefix">
+        <string>поле с индексом </string>
+       </property>
+       <property name="maximum">
+        <number>45</number>
+       </property>
+       <property name="value">
+        <number>1</number>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QPlainTextEdit" name="pteTraceInput">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>23</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>23</height>
+        </size>
+       </property>
+       <property name="verticalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
+       </property>
+       <property name="horizontalScrollBarPolicy">
+        <enum>Qt::ScrollBarAsNeeded</enum>
+       </property>
+       <property name="plainText">
+        <string>1, 5</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QPushButton" name="bShowTraceAlgo">
+       <property name="text">
+        <string>Демонстрация trace</string>
        </property>
       </widget>
      </item>
@@ -496,6 +528,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>bShowTraceAlgo</sender>
+   <signal>clicked()</signal>
+   <receiver>GameManagerWindow</receiver>
+   <slot>showTraceAlgo()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>91</x>
+     <y>308</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>274</x>
+     <y>170</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>setStage()</slot>
@@ -510,5 +558,6 @@
   <slot>fakePlayerTurn()</slot>
   <slot>reactToPlayerNumberComboBoxChange()</slot>
   <slot>allowAction(bool)</slot>
+  <slot>showTraceAlgo()</slot>
  </slots>
 </ui>

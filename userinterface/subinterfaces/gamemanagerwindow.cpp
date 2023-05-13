@@ -262,6 +262,62 @@ void GameManagerWindow::allowAction(bool allowActionFlag)
     emit gameTransmitterObj->manageActionMode(allowActionFlag);
 }
 
+void GameManagerWindow::showTraceAlgo()
+{
+    vector<int> realCellsIndexes = getValuesFromPteAsRealIndexes();
+
+    QString realCellsIndexesText = "";
+    for(int i = 0; i < (int)realCellsIndexes.size(); i++)
+    {
+        realCellsIndexesText += (QString::number(realCellsIndexes.at(i)));
+        if(i != (int)realCellsIndexes.size() - 1)
+            realCellsIndexesText += ", ";
+    }
+    qDebug().noquote() << QString("Real indexes: got {%1}").arg(realCellsIndexesText);
+
+    if(realCellsIndexes.size() < 2)
+        return;
+
+    if(m_playersList->getItemAt(m_playersList->findIndexByPlayerNumber(hostPlayerNumber))
+            .piecePositionOnOrderIndex != m_cellsList->getItemAt(realCellsIndexes.at(0)).orderIndex)
+    {
+        ui->cbPlayerNumber->setCurrentIndex(hostPlayerNumber + 1);
+        ui->sbFieldIndex->setValue(m_cellsList->getItemAt(realCellsIndexes.at(0)).orderIndex);
+        placePlayerPieceOn();
+    }
+
+    vector<int> trace = GameAlgorithm::makeFullPath(realCellsIndexes);
+
+    QString traceText = "";
+    for(int i = 0; i < (int)trace.size(); i++)
+    {
+        traceText += (QString::number(trace.at(i)));
+        if(i != (int)trace.size() - 1)
+            traceText += ", ";
+    }
+    qDebug().noquote() << QString("Trace real indexes: got {%1}").arg(traceText);
+
+    QEventLoop eventLoop;
+    QTimer movePieceTimer;
+    connect(&movePieceTimer, &QTimer::timeout,
+            &eventLoop, &QEventLoop::quit);
+    movePieceTimer.setSingleShot(true);
+
+    for(int i = 0; i < (int)trace.size(); i++)
+    {
+        ui->cbPlayerNumber->setCurrentIndex(hostPlayerNumber - 1);
+        ui->sbFieldIndex->setValue(m_cellsList->getItemAt(trace.at(i)).orderIndex);
+        placePlayerPieceOn();
+        movePieceTimer.start(900);
+        eventLoop.exec();
+        if(i == ((int)trace.size() - 1))
+        {
+            movePieceTimer.stop();
+            eventLoop.quit();
+        }
+    }
+}
+
 void GameManagerWindow::manageQmlWindowClosing()
 {
     qDebug().noquote() << "QML Window closed. Quiting application";
@@ -363,6 +419,30 @@ void GameManagerWindow::changePiecesMaskByOrderIndex(int inputOrderIndex,
 
     m_cellsList->setItemAt(foundIndex, foundCell);
     emit gameTransmitterObj->fieldPiecesMaskUpdate(foundIndex, foundCell.piecesOnCellMask);
+}
+
+vector<int> GameManagerWindow::getValuesFromPteAsRealIndexes()
+{
+    QString text = ui->pteTraceInput->toPlainText();
+
+    text.remove(" ");
+
+    QStringList textToNumbers = text.split(",");
+
+    vector<int> realIndexes = {};
+
+    for (const QString& item : textToNumbers)
+    {
+        int orderIndex = item.toInt();
+        if(!checkIfOrderIndexIsValid(orderIndex))
+            continue;
+        realIndexes.push_back(m_cellsList->findIndexByOrderIndex(orderIndex));
+    }
+
+    if(realIndexes.size() < 2)
+        return {};
+
+    return realIndexes;
 }
 
 void GameManagerWindow::checkTimedOutCounter()

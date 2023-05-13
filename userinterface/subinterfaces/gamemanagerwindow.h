@@ -9,6 +9,7 @@
 
 #include "helpers/basewin.h"
 #include "game/gamehelpers/gametransmitterobject.h"
+#include "game/gamehelpers/gamealgo.h"
 #include "game/models/fieldsgridmodel.h"
 #include "game/models/playersinfomodel.h"
 #include "game/models/lists/cellslist.h"
@@ -50,6 +51,7 @@ private slots:
     void endTheGame();
     void reactToPlayerNumberComboBoxChange();
     void allowAction(bool allowActionFlag);
+    void showTraceAlgo();
 
 private slots:
     void manageQmlWindowClosing();
@@ -67,6 +69,7 @@ private:
     void changePiecesMaskByOrderIndex(int inputOrderIndex,
                                       uint8_t whatPlayerNumber,
                                       uint8_t addOrRemove);
+    vector<int> getValuesFromPteAsRealIndexes();
 
 private:
     enum ChangingPiecesMask { DeletePM, AddPM };
