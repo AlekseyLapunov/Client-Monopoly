@@ -14,102 +14,12 @@ using std::pair;
 class GameAlgorithm
 {
 public:
-    static vector<int> makeFullPath(vector<int> allPathPoints)
-    {
-        if(allPathPoints.size() <= 1)
-            return {};
-
-        vector<int> outputFullPath = {};
-
-        size_t iter = 0;
-
-        while(iter < allPathPoints.size() - 1)
-        {
-           vector<int> localPath = makePath({allPathPoints.at(iter),
-                                             allPathPoints.at(iter+1)});
-
-           for(size_t i = 0; i < localPath.size(); i++)
-               outputFullPath.push_back(localPath.at(i));
-
-           iter++;
-        }
-
-        return outputFullPath;
-    }
+    static vector<int> makeFullPath(vector<int> allPathPoints);
 
 private:
-    static vector<int> makePath(pair<int, int> pathPair)
-    {
-        if(pathPair.first == pathPair.second)
-            return {pathPair.second};
+    static vector<int> makePath(pair<int, int> pathPair);
 
-        vector<int> outputPath = {};
-
-        Point firstPoint(pathPair.first);
-        Point secondPoint(pathPair.second);
-
-        Point cursorPoint = firstPoint;
-
-        int rowCoeff = (firstPoint.row > secondPoint.row) ? -1 :
-                       (firstPoint.row < secondPoint.row) ?  1 :
-                                                             0 ;
-        int colCoeff = (firstPoint.col > secondPoint.col) ? -1 :
-                       (firstPoint.col < secondPoint.col) ?  1 :
-                                                             0 ;
-
-        while(cursorPoint != secondPoint)
-        {
-            if((rowCoeff == 0) || (colCoeff == 0))
-            {
-                cursorPoint.row += rowCoeff;
-                cursorPoint.col += colCoeff;
-            }
-            else if(((rowCoeff == 1) && (cursorPoint.rowOnMinBound())
-                     && ((colCoeff == -1) && (!cursorPoint.colOnMinBound()))) ||
-                    ((rowCoeff == -1) && (cursorPoint.rowOnMinBound())
-                     && ((colCoeff == 1) && (!cursorPoint.colOnMaxBound()))) ||
-                    ((rowCoeff == 1) && (cursorPoint.rowOnMinBound())
-                     && ((colCoeff == 1) && (!cursorPoint.colOnMaxBound()))) ||
-                    ((rowCoeff == -1) && (cursorPoint.rowOnMinBound())
-                     && ((colCoeff == -1) && (!cursorPoint.colOnMinBound()))) ||
-                    ((rowCoeff == 1) && (cursorPoint.rowOnMaxBound())
-                     && ((colCoeff == 1) && (!cursorPoint.colOnMaxBound()))) ||
-                    ((rowCoeff == -1) && (cursorPoint.rowOnMaxBound())
-                     && ((colCoeff == -1) && (!cursorPoint.colOnMinBound()))) ||
-                    ((rowCoeff == 1) && (cursorPoint.rowOnMaxBound())
-                     && ((colCoeff == -1) && (!cursorPoint.colOnMinBound()))) ||
-                    ((rowCoeff == -1) && (cursorPoint.rowOnMaxBound())
-                     && ((colCoeff == 1) && (!cursorPoint.colOnMaxBound()))))
-            {
-                cursorPoint.col += colCoeff;
-            }
-            else if(((rowCoeff == 1) && (!cursorPoint.rowOnMaxBound())
-                     && ((colCoeff == -1) && (cursorPoint.colOnMinBound()))) ||
-                    ((rowCoeff == -1) && (!cursorPoint.rowOnMinBound())
-                     && ((colCoeff == 1) && (cursorPoint.colOnMinBound()))) ||
-                    ((rowCoeff == 1) && (!cursorPoint.rowOnMaxBound())
-                     && ((colCoeff == 1) && (cursorPoint.colOnMaxBound()))) ||
-                    ((rowCoeff == -1) && (!cursorPoint.rowOnMinBound())
-                     && ((colCoeff == -1) && (cursorPoint.colOnMaxBound()))) ||
-                    ((rowCoeff == 1) && (!cursorPoint.rowOnMaxBound())
-                     && ((colCoeff == 1) && (cursorPoint.colOnMinBound()))) ||
-                    ((rowCoeff == 1) && (!cursorPoint.rowOnMaxBound())
-                     && ((colCoeff == -1) && (cursorPoint.colOnMaxBound()))) ||
-                    ((rowCoeff == -1) && (!cursorPoint.rowOnMinBound())
-                     && ((colCoeff == -1) && (cursorPoint.colOnMinBound()))) ||
-                    ((rowCoeff == -1) && (!cursorPoint.rowOnMinBound())
-                     && ((colCoeff == 1) && (cursorPoint.colOnMaxBound()))))
-            {
-                cursorPoint.row += rowCoeff;
-            }
-
-            outputPath.push_back(cursorPoint.convertToIndex());
-        }
-
-        return outputPath;
-    }
-
-private:
+public:
     struct Point
     {
         int row;
@@ -167,6 +77,129 @@ private:
         {
             return (col == (base - 1));
         }
+    };
+
+    struct Vertex
+    {
+        Point carrier;
+        Vertex *prev;
+
+        Vertex(Point inputCarrier): carrier(inputCarrier), prev(nullptr) {};
+    };
+
+    struct Graph
+    {
+        Vertex *first = nullptr;
+
+        void formGraph()
+        {
+            if(first != nullptr)
+                this->clearGraph();
+
+            Point pointIterator(0);
+
+            Vertex *firstVertex = new Vertex(pointIterator);
+
+            this->first = firstVertex;
+            pointIterator.row = 1;
+            pointIterator.col = 0;
+
+            Vertex *lastVertex = firstVertex;
+
+            enum MovingMode { DecreasingRow, IncreasingRow,
+                              DecreasingCol, IncreasingCol };
+
+            uint8_t movingMode = IncreasingRow;
+
+            while((lastVertex->carrier.row != 0) || (lastVertex->carrier.col != 1))
+            {
+                Vertex *vertex = new Vertex(pointIterator);
+                vertex->prev = lastVertex;
+
+                if(vertex->carrier.rowOnMinBound() && vertex->carrier.colOnMinBound())
+                    movingMode = IncreasingRow;
+                else if (vertex->carrier.rowOnMaxBound() && vertex->carrier.colOnMinBound())
+                    movingMode = IncreasingCol;
+                else if (vertex->carrier.rowOnMaxBound() && vertex->carrier.colOnMaxBound())
+                    movingMode = DecreasingRow;
+                else if (vertex->carrier.rowOnMinBound() && vertex->carrier.colOnMaxBound())
+                    movingMode = DecreasingCol;
+
+                switch (movingMode)
+                {
+                case IncreasingRow:
+                    pointIterator.row++;
+                    break;
+                case IncreasingCol:
+                    pointIterator.col++;
+                    break;
+                case DecreasingRow:
+                    pointIterator.row--;
+                    break;
+                case DecreasingCol:
+                    pointIterator.col--;
+                    break;
+                default:
+                    break;
+                }
+
+                lastVertex = vertex;
+            }
+
+            first->prev = lastVertex;
+
+            lastVertex = nullptr;
+        }
+
+        void clearGraph()
+        {
+            Vertex *cursor = this->first;
+            Vertex *remember = nullptr;
+
+            do
+            {
+                remember = cursor;
+                cursor = cursor->prev;
+                delete remember;
+            } while(cursor != first);
+
+            this->first = nullptr;
+        }
+
+        Vertex* setCursorOnPoint(int row, int col)
+        {
+            Vertex *cursor = this->first;
+
+            do
+            {
+                if((cursor->carrier.row == row) && (cursor->carrier.col == col))
+                {
+                    return cursor;
+                }
+
+                cursor = cursor->prev;
+            } while(cursor != this->first);
+
+            return nullptr;
+        }
+
+        Vertex* find(Point point)
+        {
+            Vertex *cursor = this->first;
+
+            do
+            {
+                if((cursor->carrier.row == point.row) && (cursor->carrier.col == point.col))
+                {
+                    return cursor;
+                }
+
+                cursor = cursor->prev;
+            } while(cursor != this->first);
+
+            return nullptr;
+        }
+
     };
 };
 

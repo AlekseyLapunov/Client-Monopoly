@@ -295,6 +295,7 @@ void GameManagerWindow::showTraceAlgo()
         if(i != (int)trace.size() - 1)
             traceText += ", ";
     }
+
     qDebug().noquote() << QString("Trace real indexes: got {%1}").arg(traceText);
 
     QEventLoop eventLoop;
