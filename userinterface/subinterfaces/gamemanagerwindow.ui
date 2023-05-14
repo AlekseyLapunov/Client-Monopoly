@@ -312,6 +312,28 @@
        </property>
       </widget>
      </item>
+     <item row="5" column="2">
+      <widget class="QSpinBox" name="sbTraceSpaceTime">
+       <property name="suffix">
+        <string> мс</string>
+       </property>
+       <property name="prefix">
+        <string>Шаг каждые </string>
+       </property>
+       <property name="minimum">
+        <number>200</number>
+       </property>
+       <property name="maximum">
+        <number>2000</number>
+       </property>
+       <property name="singleStep">
+        <number>100</number>
+       </property>
+       <property name="value">
+        <number>600</number>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item row="0" column="0">

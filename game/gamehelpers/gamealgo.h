@@ -48,11 +48,6 @@ public:
             return !((*this) == other);
         }
 
-        bool rowOnBound()
-        {
-            return ((row == 0) || (row == (base - 1)));
-        }
-
         bool rowOnMinBound()
         {
             return (row == 0);
@@ -61,11 +56,6 @@ public:
         bool rowOnMaxBound()
         {
             return (row == (base - 1));
-        }
-
-        bool colOnBound()
-        {
-            return ((col == 0) || (col == (base - 1)));
         }
 
         bool colOnMinBound()
@@ -82,9 +72,11 @@ public:
     struct Vertex
     {
         Point carrier;
-        Vertex *prev;
+        Vertex *clockWiseLink;
+        Vertex *counterClockWiseLink;
 
-        Vertex(Point inputCarrier): carrier(inputCarrier), prev(nullptr) {};
+        Vertex(Point inputCarrier): carrier(inputCarrier), clockWiseLink(nullptr),
+                                    counterClockWiseLink(nullptr) {};
     };
 
     struct Graph
@@ -114,7 +106,8 @@ public:
             while((lastVertex->carrier.row != 0) || (lastVertex->carrier.col != 1))
             {
                 Vertex *vertex = new Vertex(pointIterator);
-                vertex->prev = lastVertex;
+                vertex->clockWiseLink = lastVertex;
+                lastVertex->counterClockWiseLink = vertex;
 
                 if(vertex->carrier.rowOnMinBound() && vertex->carrier.colOnMinBound())
                     movingMode = IncreasingRow;
@@ -146,7 +139,8 @@ public:
                 lastVertex = vertex;
             }
 
-            first->prev = lastVertex;
+            first->clockWiseLink = lastVertex;
+            lastVertex->counterClockWiseLink = first;
 
             lastVertex = nullptr;
         }
@@ -159,7 +153,7 @@ public:
             do
             {
                 remember = cursor;
-                cursor = cursor->prev;
+                cursor = cursor->clockWiseLink;
                 delete remember;
             } while(cursor != first);
 
@@ -177,7 +171,7 @@ public:
                     return cursor;
                 }
 
-                cursor = cursor->prev;
+                cursor = cursor->clockWiseLink;
             } while(cursor != this->first);
 
             return nullptr;
@@ -189,17 +183,62 @@ public:
 
             do
             {
-                if((cursor->carrier.row == point.row) && (cursor->carrier.col == point.col))
+                if(cursor->carrier == point)
                 {
                     return cursor;
                 }
 
-                cursor = cursor->prev;
+                cursor = cursor->clockWiseLink;
             } while(cursor != this->first);
 
             return nullptr;
         }
 
+        enum GraphWay { WayUndefined, WayClockWise, WayCounterClockWise };
+
+        int distanceToPoint(Point point, Vertex *startingAt, uint8_t graphWayFlag = GraphWay::WayClockWise)
+        {
+            int distance = 0;
+
+            Vertex *cursor = startingAt;
+
+            do
+            {
+                if(cursor->carrier == point)
+                    return distance;
+
+                switch (graphWayFlag)
+                {
+                case GraphWay::WayClockWise:
+                    cursor = cursor->clockWiseLink;
+                    break;
+                case GraphWay::WayCounterClockWise:
+                    cursor = cursor->counterClockWiseLink;
+                    break;
+                default:
+                    return -1;
+                }
+
+                distance++;
+            }
+            while(cursor != startingAt);
+
+            return -1;
+        }
+
+        uint8_t defineShortestWay(Point point, Vertex *startingAt)
+        {
+            int clockWiseDistance        = distanceToPoint(point, startingAt, GraphWay::WayClockWise);
+            int counterClockWiseDistance = distanceToPoint(point, startingAt, GraphWay::WayCounterClockWise);
+
+            if((clockWiseDistance == -1) || (counterClockWiseDistance == -1))
+                return GraphWay::WayUndefined;
+
+            if(clockWiseDistance < counterClockWiseDistance)
+                return GraphWay::WayClockWise;
+            else
+                return GraphWay::WayCounterClockWise;
+        }
     };
 };
 

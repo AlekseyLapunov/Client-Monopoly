@@ -89,8 +89,6 @@ void GameManagerWindow::startQmlEngine()
                      this, SLOT(manageQmlWindowClosing()));
     QObject::connect(gameReceiverObj, SIGNAL(sayBuyClicked()),
                      this, SLOT(manageBuyClicked()));
-//    QObject::connect(gameReceiverObj, SIGNAL(sabotageResult(int chosenOrderIndex)),
-//                     this, SLOT(manageSabotageResult(int chosenOrderIndex)));
     QObject::connect(gameReceiverObj, SIGNAL(sabotageResult(int)),
                      this, SLOT(manageSabotageResult(int)));
 }
@@ -264,39 +262,25 @@ void GameManagerWindow::allowAction(bool allowActionFlag)
 
 void GameManagerWindow::showTraceAlgo()
 {
-    vector<int> realCellsIndexes = getValuesFromPteAsRealIndexes();
+    uint8_t chosenPlayerNumber = ui->cbPlayerNumber->currentIndex() + 1;
 
-    QString realCellsIndexesText = "";
-    for(int i = 0; i < (int)realCellsIndexes.size(); i++)
-    {
-        realCellsIndexesText += (QString::number(realCellsIndexes.at(i)));
-        if(i != (int)realCellsIndexes.size() - 1)
-            realCellsIndexesText += ", ";
-    }
-    qDebug().noquote() << QString("Real indexes: got {%1}").arg(realCellsIndexesText);
+    if(chosenPlayerNumber > m_playersList->items().size())
+        return;
+
+    vector<int> realCellsIndexes = getValuesFromPteAsRealIndexes();
 
     if(realCellsIndexes.size() < 2)
         return;
 
-    if(m_playersList->getItemAt(m_playersList->findIndexByPlayerNumber(hostPlayerNumber))
+    if(m_playersList->getItemAt(m_playersList->findIndexByPlayerNumber(chosenPlayerNumber))
             .piecePositionOnOrderIndex != m_cellsList->getItemAt(realCellsIndexes.at(0)).orderIndex)
     {
-        ui->cbPlayerNumber->setCurrentIndex(hostPlayerNumber + 1);
+        ui->cbPlayerNumber->setCurrentIndex(chosenPlayerNumber + 1);
         ui->sbFieldIndex->setValue(m_cellsList->getItemAt(realCellsIndexes.at(0)).orderIndex);
         placePlayerPieceOn();
     }
 
     vector<int> trace = GameAlgorithm::makeFullPath(realCellsIndexes);
-
-    QString traceText = "";
-    for(int i = 0; i < (int)trace.size(); i++)
-    {
-        traceText += (QString::number(trace.at(i)));
-        if(i != (int)trace.size() - 1)
-            traceText += ", ";
-    }
-
-    qDebug().noquote() << QString("Trace real indexes: got {%1}").arg(traceText);
 
     QEventLoop eventLoop;
     QTimer movePieceTimer;
@@ -306,10 +290,10 @@ void GameManagerWindow::showTraceAlgo()
 
     for(int i = 0; i < (int)trace.size(); i++)
     {
-        ui->cbPlayerNumber->setCurrentIndex(hostPlayerNumber - 1);
+        ui->cbPlayerNumber->setCurrentIndex(chosenPlayerNumber - 1);
         ui->sbFieldIndex->setValue(m_cellsList->getItemAt(trace.at(i)).orderIndex);
         placePlayerPieceOn();
-        movePieceTimer.start(900);
+        movePieceTimer.start(ui->sbTraceSpaceTime->value());
         eventLoop.exec();
         if(i == ((int)trace.size() - 1))
         {

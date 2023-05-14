@@ -43,9 +43,18 @@ vector<int> GameAlgorithm::makePath(pair<int, int> pathPair)
     {
         Vertex *cursor = graph.setCursorOnPoint(firstPoint.row, firstPoint.col);
 
+        uint8_t clockWay = graph.defineShortestWay(finalPoint, cursor);
+
+        if(clockWay == Graph::WayUndefined)
+            return {};
+
         while ((cursor->carrier.row != finalPoint.row) || (cursor->carrier.col != finalPoint.col))
         {
-            cursor = cursor->prev;
+            if(clockWay == Graph::WayClockWise)
+                cursor = cursor->clockWiseLink;
+            else
+                cursor = cursor->counterClockWiseLink;
+
             outputPath.push_back(cursor->carrier.convertToIndex());
         }
     }
