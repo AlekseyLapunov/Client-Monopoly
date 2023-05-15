@@ -13,6 +13,8 @@ Rectangle
     property int dataRowHeight: sizeUnit*0.12
     property int dataRowWidth: sizeUnit*0.98
 
+    property string blockLabelText: "Игроки"
+
     radius: (height/Math.pow(width, 1.2))*30
 
     height: (dataRowHeight+_dataRows.spacing)*_playersDataRowsSortable.count + sizeUnit/6
@@ -27,7 +29,7 @@ Rectangle
         anchors.top: root.top
         anchors.topMargin: _win.defaultMargin/8
         anchors.horizontalCenter: root.horizontalCenter
-        text: Helper.fontWarningPreventor("Игроки")
+        text: root.blockLabelText
         font.bold: true
         font.underline: true
         color: Qt.lighter(root.color, 1.7)

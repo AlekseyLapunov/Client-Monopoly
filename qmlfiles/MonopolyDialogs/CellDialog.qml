@@ -25,6 +25,8 @@ MonopolyDialog
 
     height: baseHeight + _labelsModel.count*_fieldAdditionalInformation.rowHeight
 
+    dialogWindowTitle: "Информация о поле"
+
     Cell
     {
         id: _cellDisplay

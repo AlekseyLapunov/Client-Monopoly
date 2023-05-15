@@ -269,8 +269,11 @@ Window
             MouseArea
             {
                 id: _clickBlockerSilencerArea
+                anchors.fill: _clickBlocker
                 enabled: _clickBlocker.visible
                 visible: enabled
+                onClicked:
+                {}
             }
         }
 
@@ -601,7 +604,11 @@ Window
 
         function onFinishTheGame()
         {
-            _gameEndedDialog.visible = true
+            _gameEndedDialog.visible = true;
+            _gameEndedDialog.prepareTopPlayersModel();
+            _gameEndedDialog.startCounting();
+            _clickBlocker.visible = true;
+            _gameEndedDialog.z = _clickBlocker.z + 1
         }
     }
 

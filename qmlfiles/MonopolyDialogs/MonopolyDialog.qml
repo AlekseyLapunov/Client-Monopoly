@@ -11,6 +11,7 @@ Rectangle
     property bool hasCloseButton: true
 
     property alias headerId: _header
+    property alias dialogTitleId: _dialogTitle
 
     color: Qt.darker(_displayField.shareGradColor1, 1.1)
 
