@@ -232,7 +232,7 @@ FoldingInfoBlock
                     font.bold: false
                     color: _businessAndResourcesLabel.color
                     font.family: "Bookman Old Style"
-                    font.pixelSize: text.length < 12 ? parent.width*0.09
+                    font.pixelSize: text.length < 12 ? parent.width*0.075
                                                      : parent.width*0.05
                     style: Text.Outline
                     styleColor: (parent.index%2 === 0) ? Qt.darker(parent.color, 1.25)

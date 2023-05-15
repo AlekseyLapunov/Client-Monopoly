@@ -39,6 +39,9 @@ public:
 
     void startQmlEngine();
 
+signals:
+    void goToMenuWindow();
+
 private slots:
     void setStage();
     void changePlayerBalance();

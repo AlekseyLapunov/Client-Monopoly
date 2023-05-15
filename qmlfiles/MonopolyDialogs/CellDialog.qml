@@ -3,7 +3,7 @@ import "../HelperSingletone"
 import "../MonopolyComponents"
 import "../MonopolyComponents/SubComponents"
 
-Rectangle
+MonopolyDialog
 {
     id: root
 
@@ -21,34 +21,27 @@ Rectangle
 
     property bool hasBuyButton: false
 
-    color: Qt.darker(_displayField.shareGradColor1, 1.1)
-
-    radius: _win.componentsRadiusCoeff*900
-
-    readonly property int baseHeight: _win.sizeUnit*1.45
-
-    height: baseHeight - _win.sizeUnit*0.2 + _labelsModel.count*_fieldAdditionalInformation.rowHeight
-    width: _win.sizeUnit*2.25
-
     signal buyClicked();
+
+    height: baseHeight + _labelsModel.count*_fieldAdditionalInformation.rowHeight
 
     Cell
     {
         id: _cellDisplay
-        height: root.baseHeight*0.45
+        height: root.height*0.45
         width: height
 
         ignoreClickForDialog: true
 
-        anchors.top: _header.bottom
+        anchors.top: root.headerId.bottom
         anchors.topMargin: _win.defaultMargin/2
         anchors.left: root.left
         anchors.leftMargin: _win.defaultMargin/4
 
-        fieldType: showFieldType
-        displayableFieldType: showFieldType
-        arrowDirection: showArrowDirection
-        playerNumberOwner: showOwnerPlayerNumber
+        fieldType: root.showFieldType
+        displayableFieldType: root.showFieldType
+        arrowDirection: root.showArrowDirection
+        playerNumberOwner: root.showOwnerPlayerNumber
 
         border.width: 1
         border.color: Qt.lighter(parent.color, 1.2)
@@ -116,7 +109,7 @@ Rectangle
     Rectangle
     {
         id: _fieldNameBackground
-        height: root.baseHeight/7
+        height: root.height/7
 
         anchors.top: _cellDisplay.top
         anchors.left: _cellDisplay.right
@@ -176,71 +169,6 @@ Rectangle
         }
     }
 
-    Rectangle
-    {
-        id: _header
-        anchors.horizontalCenter: root.horizontalCenter
-        anchors.top: root.top
-        width: root.width
-        height: width/15
-        color: _mouseAreaDragger.containsPress ? Qt.darker(_displayField.shareGradColor1, 1.45)
-                                               : Qt.darker(_displayField.shareGradColor1, 1.35)
-
-        radius: _win.componentsRadiusCoeff*200
-
-        Text
-        {
-            id: _dialogTitle
-
-            anchors.verticalCenter: _header.verticalCenter
-            anchors.left: _header.left
-            anchors.leftMargin: _win.defaultMargin/4
-
-            text: "Информация о поле"
-            color: Qt.lighter(root.color, 1.7)
-            font.family: "Bookman Old Style"
-            font.pointSize: Helper.fontWarningPreventor(root.width*0.025)
-        }
-
-        MonopolyButton
-        {
-            id: _closeDialogButton
-            textContent: "X"
-            width: _header.width/18
-            height: width
-            anchors.right: _header.right
-            anchors.verticalCenter: _header.verticalCenter
-            anchors.rightMargin: _win.defaultMargin/6
-            sharedColor: root.color
-            hasText: true
-            tooltipText: "Закрыть"
-            state: "normal"
-            z: 3
-
-            onClicked:
-            {
-                root.visible = false
-            }
-        }
-
-        Rectangle
-        {
-            id: _subHeaderFooter
-            width: _header.width
-            height: _header.radius
-            color: _header.color
-            anchors.horizontalCenter: _header.horizontalCenter
-            anchors.bottom: _header.bottom
-        }
-
-        MouseArea
-        {
-            id: _mouseAreaDragger
-            anchors.fill: _header
-            drag.target: root
-        }
-    }
-
     MonopolyButton
     {
         id: _buyButton
@@ -248,11 +176,11 @@ Rectangle
         enabled: visible
         textContent: root.showOwnerPlayerNumber === Helper.PlayerNumber.NoPlayer ? "Купить"
                                                                                  : "Перекупить"
-        width: root.width/3
+        width: root.baseWidght/3
         height: root.baseHeight/8
         anchors.horizontalCenter: root.horizontalCenter
         anchors.bottom: root.bottom
-        anchors.bottomMargin: _win.defaultMargin/2
+        anchors.bottomMargin: _win.defaultMargin/3
         sharedColor: root.color
         hasText: true
         state: hasBuyButtonState
@@ -262,15 +190,6 @@ Rectangle
         {
             root.buyClicked();
         }
-    }
-
-    MouseArea
-    {
-        id: _mouseAreaClickSilencer
-        anchors.fill: root
-        enabled: root.visible
-        visible: enabled
-        z: -1
     }
 
     ListModel

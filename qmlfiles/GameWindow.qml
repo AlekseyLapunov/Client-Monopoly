@@ -251,6 +251,29 @@ Window
             }
         }
 
+        GameEndedDialog
+        {
+            id: _gameEndedDialog
+            visible: false
+            x: _displayField.width/2 - width/2
+            y: _displayField.height/2 - height/2
+        }
+
+        Rectangle
+        {
+            id: _clickBlocker
+            anchors.fill: _displayField
+            color: "transparent"
+            visible: false
+            z: 3
+            MouseArea
+            {
+                id: _clickBlockerSilencerArea
+                enabled: _clickBlocker.visible
+                visible: enabled
+            }
+        }
+
         function showCellDialog(inputFieldType: int, inputOwnerPlayerNumber: int,
                                 inputOwnerPlayerNickname, inputFieldCost: int,
                                 inputFieldIncome: int, inputArrowDirection: int,
@@ -574,6 +597,11 @@ Window
         {
             _diceBlock.diceRotateToNumbers(leftDiceValue,
                                            rightDiceValue);
+        }
+
+        function onFinishTheGame()
+        {
+            _gameEndedDialog.visible = true
         }
     }
 

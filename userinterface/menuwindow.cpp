@@ -21,6 +21,9 @@ MenuWindow::MenuWindow(unique_ptr<ServerCommunicator> *newServerPtr,
     connect(pLobbyWindow.get(), &LobbyWindow::goToMenuWindow,
             this, &MenuWindow::show);
 
+    connect(pGameManagerWindow.get(), &GameManagerWindow::goToMenuWindow,
+            this, &MenuWindow::show);
+
     connect(pLobbyWindow.get(), &LobbyWindow::initLogoutChain,
             this, &MenuWindow::supportLogoutChain);
 

@@ -17,6 +17,7 @@ signals:
     // Global QML Update signals
     void setCurrentGameStage(uint8_t stageNumber, bool withAnimation = true);
     void manageActionMode(bool actionFlag);
+    void finishTheGame();
 
     // Dice Animations signals
     void startDiceInfiniteAnimation();

@@ -235,7 +235,8 @@ void GameManagerWindow::placePlayerPieceOn()
 
 void GameManagerWindow::endTheGame()
 {
-
+    m_playersList->sortByBalance();
+    emit gameTransmitterObj->finishTheGame();
 }
 
 void GameManagerWindow::reactToPlayerNumberComboBoxChange()
@@ -319,12 +320,6 @@ void GameManagerWindow::makePlayerHost()
 void GameManagerWindow::showArrowResolve()
 {
 
-}
-
-void GameManagerWindow::manageQmlWindowClosing()
-{
-    qDebug().noquote() << "QML Window closed. Quiting application";
-    QCoreApplication::quit();
 }
 
 void GameManagerWindow::manageBuyClicked()
@@ -451,6 +446,17 @@ vector<int> GameManagerWindow::getValuesFromPteAsRealIndexes()
 void GameManagerWindow::checkTimedOutCounter()
 {
 
+}
+
+void GameManagerWindow::manageQmlWindowClosing()
+{
+    qDebug().noquote() << "QML Window closed. Heading to MenuWindow";
+#ifdef DEBUG_SHOW_DEBUG_PANEL
+    QCoreApplication::quit();
+#else
+    emit goToMenuWindow();
+    close();
+#endif
 }
 
 void fillDebugMapContext()
