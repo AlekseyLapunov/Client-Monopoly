@@ -18,6 +18,7 @@ signals:
     void setCurrentGameStage(uint8_t stageNumber, bool withAnimation = true);
     void manageActionMode(bool actionFlag);
     void finishTheGame();
+    void arrowResolve(int orderIndex, int rotateCost);
 
     // Dice Animations signals
     void startDiceInfiniteAnimation();

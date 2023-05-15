@@ -14,7 +14,8 @@ enum MapModelCellRole
     PiecesOnCellMask,
     Stage,
     ArrowDirection,
-    BlankUntilStage
+    BlankUntilStage,
+    AllowedDirectionsMask
 };
 
 enum PlayersModelInfoRole
@@ -33,7 +34,8 @@ static QMap<short, QString> mapModelCellRoleNames { {OrderIndex, "orderIndex"},
                                                     {PiecesOnCellMask, "piecesOnCellMask"},
                                                     {Stage, "stage"},
                                                     {ArrowDirection, "arrowDirection"},
-                                                    {BlankUntilStage, "blankUntilStage"} };
+                                                    {BlankUntilStage, "blankUntilStage"},
+                                                    {AllowedDirectionsMask, "allowedDirectionsMask"} };
 
 static QMap<short, QString> playersModelInfoRoleNames { {PlayerNumber, "playerNumber"},
                                                         {DisplayableName, "displayableName"},

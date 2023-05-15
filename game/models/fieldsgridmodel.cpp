@@ -50,6 +50,8 @@ QVariant FieldsGridModel::data(const QModelIndex &index, int role) const
         return QVariant(item.arrowDirection);
     case MapModelCellRole::BlankUntilStage:
         return QVariant(item.blankUntilStage);
+    case MapModelCellRole::AllowedDirectionsMask:
+        return QVariant(item.allowedDirectionsMask);
     default:
         return QVariant();
     }
@@ -92,6 +94,9 @@ bool FieldsGridModel::setData(const QModelIndex &index, const QVariant &value, i
         break;
     case MapModelCellRole::BlankUntilStage:
         item.blankUntilStage = value.toInt();
+        break;
+    case MapModelCellRole::AllowedDirectionsMask:
+        item.allowedDirectionsMask = value.toInt();
         break;
     default:
         return false;

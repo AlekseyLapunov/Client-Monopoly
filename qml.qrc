@@ -21,5 +21,6 @@
         <file>qmlfiles/MonopolyDialogs/CellDialog.qml</file>
         <file>qmlfiles/MonopolyDialogs/GameEndedDialog.qml</file>
         <file>qmlfiles/MonopolyDialogs/MonopolyDialog.qml</file>
+        <file>qmlfiles/MonopolyDialogs/ArrowResolveDialog.qml</file>
     </qresource>
 </RCC>

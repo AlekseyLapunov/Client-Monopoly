@@ -319,7 +319,7 @@ void GameManagerWindow::makePlayerHost()
 
 void GameManagerWindow::showArrowResolve()
 {
-
+    emit gameTransmitterObj->arrowResolve(36, 25/*int orderIndex, int rotateCost*/);
 }
 
 void GameManagerWindow::manageBuyClicked()

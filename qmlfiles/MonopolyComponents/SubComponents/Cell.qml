@@ -19,6 +19,7 @@ Rectangle
     property int stage: 0
     property int arrowDirection: Helper.ArrowRotation.ArrowUp
     property int blankUntilStage: 0
+    property int allowedDirectionsMask: 0
 
     property bool ignoreClickForDialog: false
 

@@ -52,6 +52,20 @@ Item
         PiecePositionOnOrderIndexRole
     }
 
+    enum MapModelCellRole
+    {
+        OrderIndexRole = 256,
+        FieldTypeRole,
+        PlayerNumberOwnerRole,
+        FieldCostRole,
+        FieldIncomeRole,
+        PiecesOnCellMaskRole,
+        StageRole,
+        ArrowDirectionRole,
+        BlankUntilStageRole,
+        AllowedDirectionsMaskRole
+    }
+
     function makeRgb(r, g, b, alpha = 1)
     {
         const max = 255;

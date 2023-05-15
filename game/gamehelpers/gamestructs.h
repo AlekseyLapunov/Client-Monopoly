@@ -25,6 +25,7 @@ struct Cell
     uint8_t stage;
     uint8_t arrowDirection;
     uint8_t blankUntilStage;
+    uint8_t allowedDirectionsMask;
 };
 
 struct PlayerGameInfo
@@ -56,7 +57,7 @@ enum Dice
     Left, Right
 };
 
-enum ArrowRight
+enum ArrowDirection
 {
     ArrowUp, ArrowRight, ArrowDown, ArrowLeft
 };

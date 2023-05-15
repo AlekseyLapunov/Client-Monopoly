@@ -259,6 +259,14 @@ Window
             y: _displayField.height/2 - height/2
         }
 
+        ArrowResolveDialog
+        {
+            id: _arrowResolveDialog
+            visible: false
+            x: _displayField.width/2 - width/2
+            y: _displayField.height/2 - height/2
+        }
+
         Rectangle
         {
             id: _clickBlocker
@@ -326,7 +334,36 @@ Window
         {
             id: _fieldsGridModel
             list: _cellsList
+
+            function getArrowDirectionByOrderIndex(orderIndex: int)
+            {
+                for(let i = 0; i < _fieldsGridModel.rowCount(); i++)
+                {
+                    if(orderIndex === _fieldsGridModel.data((_fieldsGridModel.index(i, 0)),
+                                                               Helper.MapModelCellRole.OrderIndexRole))
+                    {
+                        return _fieldsGridModel.data(_fieldsGridModel.index(i, 0),
+                                                      Helper.MapModelCellRole.ArrowDirectionRole);
+                    }
+                }
+                return 0;
+            }
+
+            function getAllowedDirectionsByOrderIndex(orderIndex: int)
+            {
+                for(let i = 0; i < _fieldsGridModel.rowCount(); i++)
+                {
+                    if(orderIndex === _fieldsGridModel.data((_fieldsGridModel.index(i, 0)),
+                                                               Helper.MapModelCellRole.OrderIndexRole))
+                    {
+                        return _fieldsGridModel.data(_fieldsGridModel.index(i, 0),
+                                                      Helper.MapModelCellRole.AllowedDirectionsMaskRole);
+                    }
+                }
+                return 0;
+            }
         }
+
         PlayersInfoModel
         {
             id: _playersInfoModel
@@ -609,6 +646,16 @@ Window
             _gameEndedDialog.startCounting();
             _clickBlocker.visible = true;
             _gameEndedDialog.z = _clickBlocker.z + 1
+        }
+
+        function onArrowResolve(inputOrderIndex: int, rotateCost: int)
+        {
+            _arrowResolveDialog.currentArrowDirection = _fieldsGridModel.getArrowDirectionByOrderIndex(inputOrderIndex);
+            _arrowResolveDialog.allowedArrowDirections = _fieldsGridModel.getAllowedDirectionsByOrderIndex(inputOrderIndex);
+            _arrowResolveDialog.arrowRotateCost = rotateCost;
+            _arrowResolveDialog.visible = true;
+            _clickBlocker.visible = true;
+            _arrowResolveDialog.z = _clickBlocker.z + 1;
         }
     }
 
