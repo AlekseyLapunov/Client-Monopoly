@@ -26,8 +26,7 @@ FoldingInfoBlock
                                         : "Развернуть вкладку своей игровой информации"
 
     unfoldedHeight: (_businessAndResourcesCounted.count === 0) ? sizeUnit*0.5
-                    : (sizeUnit*0.60 + _businessAndResourcesCounted.count*dataRowHeight +
-                    _businessAndResourcesCounted.count*_dataRows.spacing)
+                    : (sizeUnit*0.60 + _businessAndResourcesCounted.count*(dataRowHeight + _dataRows.spacing)*1.1)
 
     Rectangle
     {
@@ -232,7 +231,7 @@ FoldingInfoBlock
                     font.bold: false
                     color: _businessAndResourcesLabel.color
                     font.family: "Bookman Old Style"
-                    font.pixelSize: text.length < 12 ? parent.width*0.075
+                    font.pixelSize: text.length < 14 ? parent.width*0.075
                                                      : parent.width*0.05
                     style: Text.Outline
                     styleColor: (parent.index%2 === 0) ? Qt.darker(parent.color, 1.25)

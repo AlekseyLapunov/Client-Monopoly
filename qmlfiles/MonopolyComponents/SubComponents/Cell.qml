@@ -35,7 +35,7 @@ Rectangle
     Image
     {
         id: _ownerFrame
-        visible: (playerNumberOwner !== Helper.PlayerNumber.NoPlayer)
+        visible: (playerNumberOwner !== Helper.PlayerNumber.NoPlayer) && (displayableFieldType !== Helper.FieldType.Common)
         anchors.fill: root
         source: "../../../assets/svgs/fields/owner_frame.svg"
 
