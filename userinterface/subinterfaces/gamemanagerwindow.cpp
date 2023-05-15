@@ -303,6 +303,24 @@ void GameManagerWindow::showTraceAlgo()
     }
 }
 
+void GameManagerWindow::makePlayerHost()
+{
+    uint8_t chosenPlayerNumber = ui->cbPlayerNumber->currentIndex() + 1;
+
+    if(m_playersList->findIndexByPlayerNumber(chosenPlayerNumber) == -1)
+        return;
+
+    hostPlayerNumber = chosenPlayerNumber;
+
+    emit gameTransmitterObj->setHostPlayerNumber(hostPlayerNumber);
+    passOwningObjectsToQml();
+}
+
+void GameManagerWindow::showArrowResolve()
+{
+
+}
+
 void GameManagerWindow::manageQmlWindowClosing()
 {
     qDebug().noquote() << "QML Window closed. Quiting application";

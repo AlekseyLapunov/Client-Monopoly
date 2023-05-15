@@ -25,8 +25,9 @@ FoldingInfoBlock
     tooltipText: (state === "unfolded") ? "Свернуть вкладку"
                                         : "Развернуть вкладку своей игровой информации"
 
-    unfoldedHeight: (sizeUnit*0.68 + _businessAndResourcesCounted.count*dataRowHeight +
-                     _businessAndResourcesCounted.count*_dataRows.spacing)
+    unfoldedHeight: (_businessAndResourcesCounted.count === 0) ? sizeUnit*0.5
+                    : (sizeUnit*0.60 + _businessAndResourcesCounted.count*dataRowHeight +
+                    _businessAndResourcesCounted.count*_dataRows.spacing)
 
     Rectangle
     {
@@ -215,7 +216,7 @@ FoldingInfoBlock
                     font.bold: true
                     color: _businessAndResourcesLabel.color
                     font.family: "Bookman Old Style"
-                    font.pointSize: Helper.fontWarningPreventor(_cell.height*0.55)
+                    font.pointSize: Helper.fontWarningPreventor(_cell.height*0.50)
                     style: Text.Outline
                     styleColor: (parent.index%2 === 0) ? Qt.darker(parent.color, 1.25)
                                                        : Qt.lighter(parent.color, 1.05)
@@ -231,7 +232,8 @@ FoldingInfoBlock
                     font.bold: false
                     color: _businessAndResourcesLabel.color
                     font.family: "Bookman Old Style"
-                    font.pointSize: Helper.fontWarningPreventor(_fieldsQuantityLabel.font.pointSize/2)
+                    font.pixelSize: text.length < 12 ? parent.width*0.09
+                                                     : parent.width*0.05
                     style: Text.Outline
                     styleColor: (parent.index%2 === 0) ? Qt.darker(parent.color, 1.25)
                                                        : Qt.lighter(parent.color, 1.05)

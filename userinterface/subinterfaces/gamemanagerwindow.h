@@ -52,6 +52,8 @@ private slots:
     void reactToPlayerNumberComboBoxChange();
     void allowAction(bool allowActionFlag);
     void showTraceAlgo();
+    void makePlayerHost();
+    void showArrowResolve();
 
 private slots:
     void manageQmlWindowClosing();

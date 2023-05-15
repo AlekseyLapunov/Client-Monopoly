@@ -65,7 +65,7 @@ void PlayerGameInfoList::sortByBalance()
 int PlayerGameInfoList::findIndexByPlayerNumber(uint8_t inputPlayerNumber)
 {
     if(inputPlayerNumber > m_items.size())
-        return 0;
+        return -1;
 
     int counter = 0;
     for (auto &i : m_items)
@@ -75,7 +75,7 @@ int PlayerGameInfoList::findIndexByPlayerNumber(uint8_t inputPlayerNumber)
         counter++;
     }
 
-    return 0;
+    return -1;
 }
 
 void PlayerGameInfoList::appendItem(uint8_t playerNumber, QString playerNickname,
