@@ -8,10 +8,20 @@
 class UserMetaInfo
 {
 public:
-    UserMetaInfo();
+    UserMetaInfo() {};
 
-    HostUserData getHostInfo();
-    void setHostInfo(HostUserData newHostInfo);
+    HostUserData getHostInfo()
+    {
+        return m_hostInfo;
+    }
+
+    void setHostInfo(HostUserData newHostInfo)
+    {
+        this->m_hostInfo.uniqueId = newHostInfo.uniqueId;
+        this->m_hostInfo.nickname = newHostInfo.nickname;
+        this->m_hostInfo.rpCount = newHostInfo.rpCount;
+        this->m_hostInfo.isGuest = newHostInfo.isGuest;
+    }
 
 private:
     HostUserData m_hostInfo;

@@ -27,7 +27,6 @@ MonopolyDialog
         if(root.visible !== true)
             return;
 
-        _acceptRotationButton.state = "disabled";
         updateAllowedDirectionsMask();
         _arrowCell.updateDisplayedCellInfo();
     }
@@ -205,7 +204,6 @@ MonopolyDialog
         while(nextRotation !== root.currentArrowDirection);
 
         let maskApplier = ~(1 << nextRotation);
-        maskApplier &= ~(1 << root.currentArrowDirection);
 
         updatedAllowedDirectionsMask = root.allowedArrowDirections;
 

@@ -210,12 +210,13 @@ struct LobbySettings
 
     uint8_t defineLobbyTypeForServer()
     {
+        if(this->type == RANKED)
+            return RANKED;
+
         if(this->lobbyPassword.isEmpty())
             return PUBLIC;
-        else if (!this->lobbyPassword.isEmpty())
-            return PRIVATE;
         else
-            return RANKED;
+            return PRIVATE;
     }
 
     uint8_t defineVictoryTypeForServer()
@@ -268,6 +269,19 @@ struct HostUserData
     QString nickname;
     int rpCount;
     bool isGuest;
+
+    bool operator==(HostUserData &other)
+    {
+        return (this->uniqueId == other.uniqueId) &&
+               (this->nickname == other.nickname) &&
+               (this->rpCount  == other.rpCount)  &&
+               (this->isGuest  == other.isGuest);
+    }
+
+    bool operator!=(HostUserData &other)
+    {
+        return !(*this == other);
+    }
 };
 
 static const LobbySettings TrueRankedSettings

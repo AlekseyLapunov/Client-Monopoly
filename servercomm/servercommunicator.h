@@ -16,9 +16,9 @@
 #include <QMetaMethod>
 #include <QJsonArray>
 
-#include "helpers/common/filemanager.h"
-#include "helpers/common/sourcestructs.h"
-#include "helpers/common/sourcestrings.h"
+#include "../helpers/common/filemanager.h"
+#include "../helpers/common/sourcestructs.h"
+#include "../helpers/common/sourcestrings.h"
 #include "servercommhelper.h"
 
 class ServerCommunicator : public QObject

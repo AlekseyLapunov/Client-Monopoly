@@ -5,8 +5,14 @@ CONFIG += qt warn_on depend_includepath testcase
 TEMPLATE = app
 
 HEADERS += \
-    ../helpers/common/filemanager.h
+    ../helpers/common/filemanager.h \
+    ../helpers/common/sourcestructs.h \
+    ../helpers/usermetainfo.h \
+    tst_modules/tst_filemanager.h \
+    tst_modules/tst_sourcestructs.h \
+    tst_modules/tst_usermetainfo.h \
+    testrunner.h
 
 SOURCES +=  \
-    tst_filemanagertest.cpp \
-    ../helpers/common/filemanager.cpp
+    ../helpers/common/filemanager.cpp \
+    main.cpp

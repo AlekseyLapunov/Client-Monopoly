@@ -17,7 +17,6 @@ SOURCES += \
     game/models/lists/playergameinfolist.cpp \
     game/models/playersinfomodel.cpp \
     helpers/common/filemanager.cpp \
-    helpers/usermetainfo.cpp \
     userinterface/lobbywindow.cpp \
     main.cpp \
     servercomm/servercommunicator.cpp \
