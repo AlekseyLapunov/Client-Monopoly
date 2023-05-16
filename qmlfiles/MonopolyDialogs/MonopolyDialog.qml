@@ -17,8 +17,8 @@ Rectangle
 
     radius: _win.componentsRadiusCoeff*900
 
-    property int heightCoeff: 1
-    property int widthCoeff: 1
+    property double heightCoeff: 1
+    property double widthCoeff: 1
 
     readonly property double baseHeight: _win.sizeUnit*1.25
     readonly property double baseWidght: _win.sizeUnit*2.25

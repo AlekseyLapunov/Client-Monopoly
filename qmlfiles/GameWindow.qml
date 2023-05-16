@@ -257,6 +257,14 @@ Window
             visible: false
             x: _displayField.width/2 - width/2
             y: _displayField.height/2 - height/2
+
+            onVisibleChanged:
+            {
+                if(_gameEndedDialog.visible === false)
+                    _clickBlocker.visible = false
+                else
+                    _clickBlocker.visible = true
+            }
         }
 
         ArrowResolveDialog
@@ -265,6 +273,14 @@ Window
             visible: false
             x: _displayField.width/2 - width/2
             y: _displayField.height/2 - height/2
+
+            onVisibleChanged:
+            {
+                if(_arrowResolveDialog.visible === false)
+                    _clickBlocker.visible = false
+                else
+                    _clickBlocker.visible = true
+            }
         }
 
         Rectangle
@@ -644,7 +660,7 @@ Window
             _gameEndedDialog.visible = true;
             _gameEndedDialog.prepareTopPlayersModel();
             _gameEndedDialog.startCounting();
-            _clickBlocker.visible = true;
+            //_clickBlocker.visible = true;
             _gameEndedDialog.z = _clickBlocker.z + 1
         }
 
@@ -653,8 +669,9 @@ Window
             _arrowResolveDialog.currentArrowDirection = _fieldsGridModel.getArrowDirectionByOrderIndex(inputOrderIndex);
             _arrowResolveDialog.allowedArrowDirections = _fieldsGridModel.getAllowedDirectionsByOrderIndex(inputOrderIndex);
             _arrowResolveDialog.arrowRotateCost = rotateCost;
+            _arrowResolveDialog.arrowCellIndex = inputOrderIndex;
             _arrowResolveDialog.visible = true;
-            _clickBlocker.visible = true;
+            //_clickBlocker.visible = true;
             _arrowResolveDialog.z = _clickBlocker.z + 1;
         }
     }
@@ -662,6 +679,7 @@ Window
     signal qmlGameWindowClosed();
     signal sayBuyClicked();
     signal sabotageResult(int chosenOrderIndex);
+    signal arrowResolveResult(int inputOrderIndex, int chosenRotation);
 
     onVisibilityChanged:
     {

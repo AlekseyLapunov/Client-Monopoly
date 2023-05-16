@@ -351,6 +351,38 @@
        </property>
       </widget>
      </item>
+     <item row="6" column="2">
+      <widget class="QComboBox" name="cbArrowOrderIndex">
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>13</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>29</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>5</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>36</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>21</string>
+        </property>
+       </item>
+      </widget>
+     </item>
     </layout>
    </item>
    <item row="0" column="0">

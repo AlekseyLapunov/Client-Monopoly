@@ -62,6 +62,8 @@ private slots:
     void manageQmlWindowClosing();
     void manageBuyClicked();
     void manageSabotageResult(int chosenOrderIndex);
+    void manageArrowResolveResult(int inputOrderIndex,
+                                  int chosenRotation);
 
 private:
     void applyFirstGameContext(/*GameContext& gameContext*/);

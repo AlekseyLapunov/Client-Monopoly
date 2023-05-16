@@ -91,6 +91,8 @@ void GameManagerWindow::startQmlEngine()
                      this, SLOT(manageBuyClicked()));
     QObject::connect(gameReceiverObj, SIGNAL(sabotageResult(int)),
                      this, SLOT(manageSabotageResult(int)));
+    QObject::connect(gameReceiverObj, SIGNAL(arrowResolveResult(int, int)),
+                     this, SLOT(manageArrowResolveResult(int, int)));
 }
 
 void GameManagerWindow::setStage()
@@ -319,7 +321,7 @@ void GameManagerWindow::makePlayerHost()
 
 void GameManagerWindow::showArrowResolve()
 {
-    emit gameTransmitterObj->arrowResolve(36, 25/*int orderIndex, int rotateCost*/);
+    emit gameTransmitterObj->arrowResolve(ui->cbArrowOrderIndex->currentText().toInt(), 25);
 }
 
 void GameManagerWindow::manageBuyClicked()
@@ -331,6 +333,18 @@ void GameManagerWindow::manageSabotageResult(int chosenOrderIndex)
 {
     qDebug().noquote() << QString("Caught \"sabotage\" on Cell #%1")
                           .arg(QString::number(chosenOrderIndex));
+}
+
+void GameManagerWindow::manageArrowResolveResult(int inputOrderIndex, int chosenRotation)
+{
+    qDebug().noquote() << QString("%1 rotation on Arrow (Cell#%2): %3")
+                          .arg(((chosenRotation != -1) ? "Accepted" : "Rejected"),
+                               (QString::number(inputOrderIndex)),
+                               (chosenRotation == ArrowDirection::ArrowUp    ? "ArrowUp"
+                              : chosenRotation == ArrowDirection::ArrowRight ? "ArrowRight"
+                              : chosenRotation == ArrowDirection::ArrowLeft  ? "ArrowLeft"
+                              : chosenRotation == ArrowDirection::ArrowDown  ? "ArrowDown"
+                              : "Denied"));
 }
 
 void GameManagerWindow::applyFirstGameContext()
