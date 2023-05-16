@@ -125,6 +125,12 @@ Rectangle
         root.state = inputState;
     }
 
+    function highlightCellInternal(inputOrderIndex)
+    {
+        if(inputOrderIndex === root.orderIndex)
+            root.state = "highlighted"
+    }
+
     function defineStateForSabotageInternal()
     {
         if(!((root.displayableFieldType >= Helper.FieldType.Sawmill)

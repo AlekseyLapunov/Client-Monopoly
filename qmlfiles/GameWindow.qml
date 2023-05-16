@@ -277,9 +277,12 @@ Window
             onVisibleChanged:
             {
                 if(_arrowResolveDialog.visible === false)
-                    _clickBlocker.visible = false
+                {
+                    _clickBlocker.visible = false;
+                    _map.resetMapStates();
+                }
                 else
-                    _clickBlocker.visible = true
+                    _clickBlocker.visible = true;
             }
         }
 
@@ -657,10 +660,11 @@ Window
 
         function onFinishTheGame()
         {
+            _arrowResolveDialog.visible = false;
+            _cellDialog.visible = false;
             _gameEndedDialog.visible = true;
             _gameEndedDialog.prepareTopPlayersModel();
             _gameEndedDialog.startCounting();
-            //_clickBlocker.visible = true;
             _gameEndedDialog.z = _clickBlocker.z + 1
         }
 
@@ -670,8 +674,9 @@ Window
             _arrowResolveDialog.allowedArrowDirections = _fieldsGridModel.getAllowedDirectionsByOrderIndex(inputOrderIndex);
             _arrowResolveDialog.arrowRotateCost = rotateCost;
             _arrowResolveDialog.arrowCellIndex = inputOrderIndex;
+            _cellDialog.visible = false;
             _arrowResolveDialog.visible = true;
-            //_clickBlocker.visible = true;
+            _map.highlightArrowCell(inputOrderIndex);
             _arrowResolveDialog.z = _clickBlocker.z + 1;
         }
     }

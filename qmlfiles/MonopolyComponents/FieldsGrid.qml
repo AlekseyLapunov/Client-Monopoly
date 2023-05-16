@@ -20,6 +20,7 @@ Rectangle
 
     signal defineAction(int cellOrderIndex)
     signal setCellsState(string state)
+    signal highlightCell(int cellOrderIndex)
     signal defineStateForSabotage()
 
     GridView
@@ -65,6 +66,7 @@ Rectangle
                 function onDefineAction(cellOrderIndex) { defineActionInternal(cellOrderIndex) }
                 function onSetCellsState(state) { setStateInternal(state) }
                 function onDefineStateForSabotage() { defineStateForSabotageInternal() }
+                function onHighlightCell(cellOrderIndex) { highlightCellInternal(cellOrderIndex) }
             }
 
             PropertyAnimation on opacity
@@ -144,6 +146,12 @@ Rectangle
     {
         defineStateForSabotage();
         _resetStatesTimer.start();
+    }
+
+    function highlightArrowCell(arrowOrderIndex)
+    {
+        setCellsState("disabled");
+        highlightCell(arrowOrderIndex);
     }
 
     function resetMapStates()
