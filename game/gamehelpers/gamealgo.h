@@ -11,15 +11,38 @@
 using std::vector;
 using std::pair;
 
+/*!
+ * \brief GameAlgorithm Класс с алгоритмами для игры.
+ *
+ * Данный класс содержит полезные алгоритмы для
+ * внедрения в игровой процесс в качестве статических
+ * методов.
+ */
 class GameAlgorithm
 {
 public:
+    /*!
+     * \brief makeFullPath Функция возвращает полный путь игровой фишки на основе заданных точек.
+     * \param allPathPoints Входящие точки для отрисовки.
+     * \return Полный путь фишки как вектор целочисленных значений.
+     */
     static vector<int> makeFullPath(vector<int> allPathPoints);
 
 private:
+    /*!
+     * \brief makePath Функция возвращает локальный путь игровой фишки на основе заданной пары точек.
+     * \param pathPair Входящая пара точек.
+     * \return Локальный путь фишки как вектор целочисленных значений.
+     */
     static vector<int> makePath(pair<int, int> pathPair);
 
 public:
+    /*!
+     * \brief Point Структура точки
+     *
+     * Точка представляет собой структуру, содержащую поля строки, столбца и базового делителя base
+     * для определения row и col.
+     */
     struct Point
     {
         int row;
@@ -33,6 +56,10 @@ public:
             this->base = setBase;
         }
 
+        /*!
+         * \brief convertToIndex Функция рассчитывает индекс в одномерном массиве на основе двух индексов двумерного.
+         * \return Индекс точки в одномерном массиве.
+         */
         int convertToIndex()
         {
             return row*base + col;
@@ -48,27 +75,48 @@ public:
             return !((*this) == other);
         }
 
+        /*!
+         * \brief rowOnMinBound Функция определяет, не находится ли точка на минимальной границе по строке.
+         * \return true, если точка находится на минимальной границе по строке.
+         */
         bool rowOnMinBound()
         {
             return (row == 0);
         }
 
+        /*!
+         * \brief rowOnMaxBound Функция определяет, не находится ли точка на максимальной границе по строке.
+         * \return true, если точка находится на максимальной границе по строке.
+         */
         bool rowOnMaxBound()
         {
             return (row == (base - 1));
         }
 
+        /*!
+         * \brief colOnMinBound Функция определяет, не находится ли точка на минимальной границе по столбцу.
+         * \return true, если точка находится на минимальной границе по столбцу.
+         */
         bool colOnMinBound()
         {
             return (col == 0);
         }
 
+        /*!
+         * \brief colOnMaxBound Функция определяет, не находится ли точка на максимальной границе по столбцу.
+         * \return true, если точка находится на максимальной границе по столбцу.
+         */
         bool colOnMaxBound()
         {
             return (col == (base - 1));
         }
     };
 
+    /*!
+     * \brief Vertex Структура вершины графа
+     *
+     * Представляет собой узел двусвязного списка. В качестве содержимых данных переносит объект структуры точки.
+     */
     struct Vertex
     {
         Point carrier;
@@ -79,10 +127,18 @@ public:
                                     counterClockWiseLink(nullptr) {};
     };
 
+    /*!
+     * \brief Graph Структура графа
+     *
+     * Представляет собой двусвязный список, узлы которого - объекты структуры Vertex вершины графа.
+     */
     struct Graph
     {
         Vertex *first = nullptr;
 
+        /*!
+         * \brief formGraph Функция строит граф из вершин, назначая им координаты согласно форме карты игры.
+         */
         void formGraph()
         {
             if(first != nullptr)
@@ -145,6 +201,9 @@ public:
             lastVertex = nullptr;
         }
 
+        /*!
+         * \brief clearGraph Функция очищает и удаляет из памяти созданный граф.
+         */
         void clearGraph()
         {
             Vertex *cursor = this->first;
@@ -160,6 +219,13 @@ public:
             this->first = nullptr;
         }
 
+        /*!
+         * \brief setCursorOnPoint Функция определяет указатель на вершину со
+         * совпадающими со входящими значениями строки и столбца точки.
+         * \param row Номер строки, на которой находится точка.
+         * \param col Номер столбца, на котором находится точка.
+         * \return Указатель на вершину.
+         */
         Vertex* setCursorOnPoint(int row, int col)
         {
             Vertex *cursor = this->first;
@@ -177,6 +243,11 @@ public:
             return nullptr;
         }
 
+        /*!
+         * \brief find Функция определяет указатель на вершину, точка которой совпадает со входящей точкой.
+         * \param point Точка, которую нужно найти.
+         * \return Указатель на вершину.
+         */
         Vertex* find(Point point)
         {
             Vertex *cursor = this->first;
@@ -194,8 +265,18 @@ public:
             return nullptr;
         }
 
+        /*!
+         * \brief GraphWay Перечисление, отражающее путь по графу.
+         */
         enum GraphWay { WayUndefined, WayClockWise, WayCounterClockWise };
 
+        /*!
+         * \brief distanceToPoint Функция определяет расстояние до точки графа.
+         * \param point Точка, которую необходимо найти.
+         * \param startingAt Указатель на вершину начала поиска.
+         * \param graphWayFlag Флаг поиска "по часовой" или "против часовой" стрелке.
+         * \return Расстояние до искомой точки.
+         */
         int distanceToPoint(Point point, Vertex *startingAt, uint8_t graphWayFlag = GraphWay::WayClockWise)
         {
             int distance = 0;
@@ -226,6 +307,12 @@ public:
             return -1;
         }
 
+        /*!
+         * \brief defineShortestWay Функция определяет по какому направлению дойти до точки графа будет ближе.
+         * \param point Точка, до которой нужно дойти.
+         * \param startingAt Указатель на вершину начала поиска.
+         * \return Флаг поиска "по часовой" или "против часовой" стрелке.
+         */
         uint8_t defineShortestWay(Point point, Vertex *startingAt)
         {
             int clockWiseDistance        = distanceToPoint(point, startingAt, GraphWay::WayClockWise);
