@@ -1,0 +1,447 @@
+\hypertarget{class_game_transmitter_object}{}\doxysection{Game\+Transmitter\+Object Class Reference}
+\label{class_game_transmitter_object}\index{GameTransmitterObject@{GameTransmitterObject}}
+
+
+\mbox{\hyperlink{class_game_transmitter_object}{Game\+Transmitter\+Object}} Класс взаимодействия с приложением QML. Наследник QObject.  
+
+
+
+
+{\ttfamily \#include $<$gametransmitterobject.\+h$>$}
+
+Inheritance diagram for Game\+Transmitter\+Object\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_game_transmitter_object}
+\end{center}
+\end{figure}
+\doxysubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_game_transmitter_object_ab73c62be411fe0a332c5d9bec27ea8ed}{set\+Current\+Game\+Stage}} (uint8\+\_\+t stage\+Number, bool with\+Animation=true)
+\begin{DoxyCompactList}\small\item\em set\+Current\+Game\+Stage Сигнал установки номера текущей стадии игры. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_transmitter_object_a408727415df251258256ca5d8b12aec1}{manage\+Action\+Mode}} (bool action\+Flag)
+\begin{DoxyCompactList}\small\item\em manage\+Action\+Mode Сигнал разрешения выполнять действие над активируемым полем. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_game_transmitter_object_af44867d088c6ac526270b2fedb9752d7}\label{class_game_transmitter_object_af44867d088c6ac526270b2fedb9752d7}} 
+void {\bfseries finish\+The\+Game} ()
+\begin{DoxyCompactList}\small\item\em finish\+The\+Game Сигнал окончания игры. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_transmitter_object_a14720098d301d3c9b0fcc9e7dd3f0ee5}{arrow\+Resolve}} (int order\+Index, int rotate\+Cost)
+\begin{DoxyCompactList}\small\item\em arrow\+Resolve Сигнал о том, что игроку нужно выбрать поворот стрелки (или отказаться от него). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_game_transmitter_object_a7da03466c97ff15581930025bb1872d1}\label{class_game_transmitter_object_a7da03466c97ff15581930025bb1872d1}} 
+void {\bfseries start\+Dice\+Infinite\+Animation} ()
+\begin{DoxyCompactList}\small\item\em start\+Dice\+Infinite\+Animation Сигнал старта анимации \char`\"{}бесконечного\char`\"{} поворота игральных кубиков. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_transmitter_object_af40f1ca5dfc589088ef2c289607ebeff}{start\+Dice\+Directional\+Animation}} (uint8\+\_\+t left\+Dice\+Value, uint8\+\_\+t right\+Dice\+Value)
+\begin{DoxyCompactList}\small\item\em start\+Dice\+Directional\+Animation Сигнал поворота игральных кубиков для отображения конкретных значений. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_game_transmitter_object_a4eae88ffb76f243ba01e46e887bdd446}\label{class_game_transmitter_object_a4eae88ffb76f243ba01e46e887bdd446}} 
+void {\bfseries stop\+Dice\+Animation} ()
+\begin{DoxyCompactList}\small\item\em stop\+Dice\+Animation Сигнал остановки анимации поворота игральных кубиков. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_transmitter_object_a10a7b97c69bd77a00d3d0027961f7e53}{set\+Host\+Player\+Number}} (uint8\+\_\+t new\+Host\+Player\+Number)
+\begin{DoxyCompactList}\small\item\em set\+Host\+Player\+Number Сигнал установки номера игрока для пользователя. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_transmitter_object_af579d9269af39d8a450b392d2e70a9d8}{host\+Income\+Update}} (int new\+Host\+Income)
+\begin{DoxyCompactList}\small\item\em host\+Income\+Update Сигнал обновления информации о доходе пользователя. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_transmitter_object_a3657646f9d73b182f32af977057f8deb}{host\+Owning\+Objects\+Update}} (uint8\+\_\+t owning\+Object\+Id, short owning\+Objects\+Count)
+\begin{DoxyCompactList}\small\item\em host\+Owning\+Objects\+Update Сигнал обновления данных пользователя о его владениях. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_game_transmitter_object_a1699d3509c4a64ed25fcc40340ec0039}\label{class_game_transmitter_object_a1699d3509c4a64ed25fcc40340ec0039}} 
+void {\bfseries host\+Owning\+Objects\+Clear} ()
+\begin{DoxyCompactList}\small\item\em host\+Owning\+Objects\+Clear Сигнал очищения информации о владениях пользователя. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_transmitter_object_a87ca3e9fe544c70682db807609b0d459}{player\+Nickname\+Update}} (uint8\+\_\+t player\+Number, QString new\+Nickname)
+\begin{DoxyCompactList}\small\item\em player\+Nickname\+Update Сигнал обновления псевдонима игрока. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_transmitter_object_a48f39af33a7e4d0b6e1bd603890e9fe6}{player\+Balance\+Update}} (uint8\+\_\+t player\+Number, int new\+Balance)
+\begin{DoxyCompactList}\small\item\em player\+Balance\+Update Сигнал обновления баланса игрока. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_transmitter_object_abd20d814134b70ce2a915b0c650556d3}{player\+Piece\+Position\+Update}} (uint8\+\_\+t player\+Number, int piece\+Position\+On\+Order\+Index)
+\begin{DoxyCompactList}\small\item\em player\+Piece\+Position\+Update Сигнал обновления позиции фишки игрока. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_game_transmitter_object_a6a0f2fa25ead98eef9d6dcf842c3f907}\label{class_game_transmitter_object_a6a0f2fa25ead98eef9d6dcf842c3f907}} 
+void {\bfseries append\+Player} (uint8\+\_\+t player\+Number, QString displayable\+Name, int current\+Balance, int piece\+Position\+On\+Order\+Index)
+\begin{DoxyCompactList}\small\item\em append\+Player Сигнал добавления игрока. Параметры\+: значения полей структуры \mbox{\hyperlink{struct_player_game_info}{Player\+Game\+Info}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_transmitter_object_a4f1ad09d0d1d75368ffd1fb4d0665b21}{delete\+Player}} (uint8\+\_\+t player\+Number)
+\begin{DoxyCompactList}\small\item\em delete\+Player Сигнал удаления игрока. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_game_transmitter_object_a728ec5c275c4f070298adf52b78572bb}\label{class_game_transmitter_object_a728ec5c275c4f070298adf52b78572bb}} 
+void {\bfseries field\+Update} (int index, int new\+Order\+Index, uint8\+\_\+t new\+Field\+Type\+Set, uint8\+\_\+t new\+Player\+Number\+Owner, int new\+Field\+Cost, int new\+Field\+Income, uint8\+\_\+t new\+Pieces\+On\+Cell\+Mask, uint8\+\_\+t new\+Stage, uint8\+\_\+t new\+Arrow\+Direction, uint8\+\_\+t new\+Blank\+Until\+Stage)
+\begin{DoxyCompactList}\small\item\em field\+Update Сигнал обновления поля. Параметры\+: значения полей структуры \mbox{\hyperlink{struct_cell}{Cell}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_transmitter_object_a77d883b5cfb606f8f803f805ba01c9e3}{field\+Order\+Index\+Update}} (int index, int new\+Order\+Index)
+\begin{DoxyCompactList}\small\item\em field\+Order\+Index\+Update Сигнал изменения порядкового номера поля. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_transmitter_object_ad32b79ef0fc207208256bfeb567721e0}{field\+Type\+Update}} (int index, uint8\+\_\+t new\+Field\+Type)
+\begin{DoxyCompactList}\small\item\em field\+Type\+Update Сигнал обновления типа поля. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_transmitter_object_abe0075f304ae9fdeb1766fbb7ffb8aad}{field\+Player\+Number\+Owner\+Update}} (int index, uint8\+\_\+t new\+Player\+Number\+Owner)
+\begin{DoxyCompactList}\small\item\em field\+Player\+Number\+Owner\+Update Сигнал обновления номера владельца поля. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_transmitter_object_acadb6a99e256eeb7184ffe7d2c1e0d85}{field\+Cost\+Update}} (int index, int new\+Field\+Cost)
+\begin{DoxyCompactList}\small\item\em field\+Cost\+Update Сигнал обновления цены поля. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_transmitter_object_acd3839ca8ed7ccb11eaaff38c49e66df}{field\+Income\+Update}} (int index, int new\+Field\+Income)
+\begin{DoxyCompactList}\small\item\em field\+Income\+Update Сигнал обновления дохода поля. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_transmitter_object_a540198eba3b42ad0cdd41d6314b28f53}{field\+Pieces\+Mask\+Update}} (int index, uint8\+\_\+t new\+Pieces\+On\+Cell\+Mask)
+\begin{DoxyCompactList}\small\item\em field\+Pieces\+Mask\+Update Сигнал обновления маски расположения игровых фишек на поле. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_transmitter_object_a6ad2b4f34aeb41d4ea98b699c837cc7c}{field\+Stage\+Update}} (int index, uint8\+\_\+t new\+Stage)
+\begin{DoxyCompactList}\small\item\em field\+Stage\+Update Сигнал обновления минимальной стадии поля. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_transmitter_object_a1898370510984235faeb27fd763d17cc}{field\+Arrow\+Direction\+Update}} (int index, uint8\+\_\+t new\+Direction)
+\begin{DoxyCompactList}\small\item\em field\+Arrow\+Direction\+Update Сигнал обновления направления поля-\/стрелки. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_transmitter_object_abe9162f2ae59efc84e43be10c916f42a}{field\+Blank\+Until\+Stage\+Update}} (int index, uint8\+\_\+t new\+Blank\+Until\+Stage)
+\begin{DoxyCompactList}\small\item\em field\+Blank\+Until\+Stage\+Update Сигнал обновления номера стадии, на которой открывается истинный тип поля. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_game_transmitter_object_a0f7e0405e66c665af9dde86141bc9dff}\label{class_game_transmitter_object_a0f7e0405e66c665af9dde86141bc9dff}} 
+{\bfseries Game\+Transmitter\+Object} (QObject $\ast$parent=nullptr)
+\item 
+void \mbox{\hyperlink{class_game_transmitter_object_ab693b34fc43de697d49cc0a5ede2fc0c}{emit\+Field\+Update}} (int index, \mbox{\hyperlink{struct_cell}{Cell}} new\+Cell)
+\begin{DoxyCompactList}\small\item\em emit\+Field\+Update Метод вызывает сигнал обновления игрового поля. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{class_game_transmitter_object}{Game\+Transmitter\+Object}} Класс взаимодействия с приложением QML. Наследник QObject. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_game_transmitter_object_a14720098d301d3c9b0fcc9e7dd3f0ee5}\label{class_game_transmitter_object_a14720098d301d3c9b0fcc9e7dd3f0ee5}} 
+\index{GameTransmitterObject@{GameTransmitterObject}!arrowResolve@{arrowResolve}}
+\index{arrowResolve@{arrowResolve}!GameTransmitterObject@{GameTransmitterObject}}
+\doxysubsubsection{\texorpdfstring{arrowResolve}{arrowResolve}}
+{\footnotesize\ttfamily void Game\+Transmitter\+Object\+::arrow\+Resolve (\begin{DoxyParamCaption}\item[{int}]{order\+Index,  }\item[{int}]{rotate\+Cost }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+arrow\+Resolve Сигнал о том, что игроку нужно выбрать поворот стрелки (или отказаться от него). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em order\+Index} & Порядковый номер поля-\/стрелки. \\
+\hline
+{\em rotate\+Cost} & Цена поворота \char`\"{}стрелки\char`\"{}. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_transmitter_object_a4f1ad09d0d1d75368ffd1fb4d0665b21}\label{class_game_transmitter_object_a4f1ad09d0d1d75368ffd1fb4d0665b21}} 
+\index{GameTransmitterObject@{GameTransmitterObject}!deletePlayer@{deletePlayer}}
+\index{deletePlayer@{deletePlayer}!GameTransmitterObject@{GameTransmitterObject}}
+\doxysubsubsection{\texorpdfstring{deletePlayer}{deletePlayer}}
+{\footnotesize\ttfamily void Game\+Transmitter\+Object\+::delete\+Player (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{player\+Number }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+delete\+Player Сигнал удаления игрока. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player\+Number} & Номер игрока из перечисления. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_transmitter_object_ab693b34fc43de697d49cc0a5ede2fc0c}\label{class_game_transmitter_object_ab693b34fc43de697d49cc0a5ede2fc0c}} 
+\index{GameTransmitterObject@{GameTransmitterObject}!emitFieldUpdate@{emitFieldUpdate}}
+\index{emitFieldUpdate@{emitFieldUpdate}!GameTransmitterObject@{GameTransmitterObject}}
+\doxysubsubsection{\texorpdfstring{emitFieldUpdate()}{emitFieldUpdate()}}
+{\footnotesize\ttfamily void Game\+Transmitter\+Object\+::emit\+Field\+Update (\begin{DoxyParamCaption}\item[{int}]{index,  }\item[{\mbox{\hyperlink{struct_cell}{Cell}}}]{new\+Cell }\end{DoxyParamCaption})}
+
+
+
+emit\+Field\+Update Метод вызывает сигнал обновления игрового поля. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & Настоящий индекс поля на игровой сетке. \\
+\hline
+{\em new\+Cell} & Клетка с новыми значениями. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_transmitter_object_a1898370510984235faeb27fd763d17cc}\label{class_game_transmitter_object_a1898370510984235faeb27fd763d17cc}} 
+\index{GameTransmitterObject@{GameTransmitterObject}!fieldArrowDirectionUpdate@{fieldArrowDirectionUpdate}}
+\index{fieldArrowDirectionUpdate@{fieldArrowDirectionUpdate}!GameTransmitterObject@{GameTransmitterObject}}
+\doxysubsubsection{\texorpdfstring{fieldArrowDirectionUpdate}{fieldArrowDirectionUpdate}}
+{\footnotesize\ttfamily void Game\+Transmitter\+Object\+::field\+Arrow\+Direction\+Update (\begin{DoxyParamCaption}\item[{int}]{index,  }\item[{uint8\+\_\+t}]{new\+Direction }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+field\+Arrow\+Direction\+Update Сигнал обновления направления поля-\/стрелки. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & Настоящий индекс поля на сетке. \\
+\hline
+{\em new\+Direction} & Новое направление \char`\"{}стрелки\char`\"{} из перечисления. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_transmitter_object_abe9162f2ae59efc84e43be10c916f42a}\label{class_game_transmitter_object_abe9162f2ae59efc84e43be10c916f42a}} 
+\index{GameTransmitterObject@{GameTransmitterObject}!fieldBlankUntilStageUpdate@{fieldBlankUntilStageUpdate}}
+\index{fieldBlankUntilStageUpdate@{fieldBlankUntilStageUpdate}!GameTransmitterObject@{GameTransmitterObject}}
+\doxysubsubsection{\texorpdfstring{fieldBlankUntilStageUpdate}{fieldBlankUntilStageUpdate}}
+{\footnotesize\ttfamily void Game\+Transmitter\+Object\+::field\+Blank\+Until\+Stage\+Update (\begin{DoxyParamCaption}\item[{int}]{index,  }\item[{uint8\+\_\+t}]{new\+Blank\+Until\+Stage }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+field\+Blank\+Until\+Stage\+Update Сигнал обновления номера стадии, на которой открывается истинный тип поля. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & Настоящий индекс поля на сетке. \\
+\hline
+{\em new\+Blank\+Until\+Stage} & Новый номер стадии, на которой открывается истинный тип поля. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_transmitter_object_acadb6a99e256eeb7184ffe7d2c1e0d85}\label{class_game_transmitter_object_acadb6a99e256eeb7184ffe7d2c1e0d85}} 
+\index{GameTransmitterObject@{GameTransmitterObject}!fieldCostUpdate@{fieldCostUpdate}}
+\index{fieldCostUpdate@{fieldCostUpdate}!GameTransmitterObject@{GameTransmitterObject}}
+\doxysubsubsection{\texorpdfstring{fieldCostUpdate}{fieldCostUpdate}}
+{\footnotesize\ttfamily void Game\+Transmitter\+Object\+::field\+Cost\+Update (\begin{DoxyParamCaption}\item[{int}]{index,  }\item[{int}]{new\+Field\+Cost }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+field\+Cost\+Update Сигнал обновления цены поля. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & Настоящий индекс поля на сетке. \\
+\hline
+{\em new\+Field\+Cost} & Новая цена поля. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_transmitter_object_acd3839ca8ed7ccb11eaaff38c49e66df}\label{class_game_transmitter_object_acd3839ca8ed7ccb11eaaff38c49e66df}} 
+\index{GameTransmitterObject@{GameTransmitterObject}!fieldIncomeUpdate@{fieldIncomeUpdate}}
+\index{fieldIncomeUpdate@{fieldIncomeUpdate}!GameTransmitterObject@{GameTransmitterObject}}
+\doxysubsubsection{\texorpdfstring{fieldIncomeUpdate}{fieldIncomeUpdate}}
+{\footnotesize\ttfamily void Game\+Transmitter\+Object\+::field\+Income\+Update (\begin{DoxyParamCaption}\item[{int}]{index,  }\item[{int}]{new\+Field\+Income }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+field\+Income\+Update Сигнал обновления дохода поля. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & Настоящий индекс поля на сетке. \\
+\hline
+{\em new\+Field\+Income} & Новый доход поля. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_transmitter_object_a77d883b5cfb606f8f803f805ba01c9e3}\label{class_game_transmitter_object_a77d883b5cfb606f8f803f805ba01c9e3}} 
+\index{GameTransmitterObject@{GameTransmitterObject}!fieldOrderIndexUpdate@{fieldOrderIndexUpdate}}
+\index{fieldOrderIndexUpdate@{fieldOrderIndexUpdate}!GameTransmitterObject@{GameTransmitterObject}}
+\doxysubsubsection{\texorpdfstring{fieldOrderIndexUpdate}{fieldOrderIndexUpdate}}
+{\footnotesize\ttfamily void Game\+Transmitter\+Object\+::field\+Order\+Index\+Update (\begin{DoxyParamCaption}\item[{int}]{index,  }\item[{int}]{new\+Order\+Index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+field\+Order\+Index\+Update Сигнал изменения порядкового номера поля. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & Настоящий индекс поля на сетке. \\
+\hline
+{\em new\+Order\+Index} & Новый порядковый индекс. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_transmitter_object_a540198eba3b42ad0cdd41d6314b28f53}\label{class_game_transmitter_object_a540198eba3b42ad0cdd41d6314b28f53}} 
+\index{GameTransmitterObject@{GameTransmitterObject}!fieldPiecesMaskUpdate@{fieldPiecesMaskUpdate}}
+\index{fieldPiecesMaskUpdate@{fieldPiecesMaskUpdate}!GameTransmitterObject@{GameTransmitterObject}}
+\doxysubsubsection{\texorpdfstring{fieldPiecesMaskUpdate}{fieldPiecesMaskUpdate}}
+{\footnotesize\ttfamily void Game\+Transmitter\+Object\+::field\+Pieces\+Mask\+Update (\begin{DoxyParamCaption}\item[{int}]{index,  }\item[{uint8\+\_\+t}]{new\+Pieces\+On\+Cell\+Mask }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+field\+Pieces\+Mask\+Update Сигнал обновления маски расположения игровых фишек на поле. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & Настоящий индекс поля на сетке. \\
+\hline
+{\em new\+Pieces\+On\+Cell\+Mask} & Новая маска расположения игровых фишек на поле. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_transmitter_object_abe0075f304ae9fdeb1766fbb7ffb8aad}\label{class_game_transmitter_object_abe0075f304ae9fdeb1766fbb7ffb8aad}} 
+\index{GameTransmitterObject@{GameTransmitterObject}!fieldPlayerNumberOwnerUpdate@{fieldPlayerNumberOwnerUpdate}}
+\index{fieldPlayerNumberOwnerUpdate@{fieldPlayerNumberOwnerUpdate}!GameTransmitterObject@{GameTransmitterObject}}
+\doxysubsubsection{\texorpdfstring{fieldPlayerNumberOwnerUpdate}{fieldPlayerNumberOwnerUpdate}}
+{\footnotesize\ttfamily void Game\+Transmitter\+Object\+::field\+Player\+Number\+Owner\+Update (\begin{DoxyParamCaption}\item[{int}]{index,  }\item[{uint8\+\_\+t}]{new\+Player\+Number\+Owner }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+field\+Player\+Number\+Owner\+Update Сигнал обновления номера владельца поля. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & Настоящий индекс поля на сетке. \\
+\hline
+{\em new\+Player\+Number\+Owner} & Новый номер игрока из перечисления. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_transmitter_object_a6ad2b4f34aeb41d4ea98b699c837cc7c}\label{class_game_transmitter_object_a6ad2b4f34aeb41d4ea98b699c837cc7c}} 
+\index{GameTransmitterObject@{GameTransmitterObject}!fieldStageUpdate@{fieldStageUpdate}}
+\index{fieldStageUpdate@{fieldStageUpdate}!GameTransmitterObject@{GameTransmitterObject}}
+\doxysubsubsection{\texorpdfstring{fieldStageUpdate}{fieldStageUpdate}}
+{\footnotesize\ttfamily void Game\+Transmitter\+Object\+::field\+Stage\+Update (\begin{DoxyParamCaption}\item[{int}]{index,  }\item[{uint8\+\_\+t}]{new\+Stage }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+field\+Stage\+Update Сигнал обновления минимальной стадии поля. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & Настоящий индекс поля на сетке. \\
+\hline
+{\em new\+Stage} & Новый номер минимальной стадии, на которой физически появляется поле. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_transmitter_object_ad32b79ef0fc207208256bfeb567721e0}\label{class_game_transmitter_object_ad32b79ef0fc207208256bfeb567721e0}} 
+\index{GameTransmitterObject@{GameTransmitterObject}!fieldTypeUpdate@{fieldTypeUpdate}}
+\index{fieldTypeUpdate@{fieldTypeUpdate}!GameTransmitterObject@{GameTransmitterObject}}
+\doxysubsubsection{\texorpdfstring{fieldTypeUpdate}{fieldTypeUpdate}}
+{\footnotesize\ttfamily void Game\+Transmitter\+Object\+::field\+Type\+Update (\begin{DoxyParamCaption}\item[{int}]{index,  }\item[{uint8\+\_\+t}]{new\+Field\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+field\+Type\+Update Сигнал обновления типа поля. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & Настоящий индекс поля на сетке. \\
+\hline
+{\em new\+Field\+Type} & Новый тип поля из перечисления. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_transmitter_object_af579d9269af39d8a450b392d2e70a9d8}\label{class_game_transmitter_object_af579d9269af39d8a450b392d2e70a9d8}} 
+\index{GameTransmitterObject@{GameTransmitterObject}!hostIncomeUpdate@{hostIncomeUpdate}}
+\index{hostIncomeUpdate@{hostIncomeUpdate}!GameTransmitterObject@{GameTransmitterObject}}
+\doxysubsubsection{\texorpdfstring{hostIncomeUpdate}{hostIncomeUpdate}}
+{\footnotesize\ttfamily void Game\+Transmitter\+Object\+::host\+Income\+Update (\begin{DoxyParamCaption}\item[{int}]{new\+Host\+Income }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+host\+Income\+Update Сигнал обновления информации о доходе пользователя. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+Host\+Income} & Доход в млн. ЭК. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_transmitter_object_a3657646f9d73b182f32af977057f8deb}\label{class_game_transmitter_object_a3657646f9d73b182f32af977057f8deb}} 
+\index{GameTransmitterObject@{GameTransmitterObject}!hostOwningObjectsUpdate@{hostOwningObjectsUpdate}}
+\index{hostOwningObjectsUpdate@{hostOwningObjectsUpdate}!GameTransmitterObject@{GameTransmitterObject}}
+\doxysubsubsection{\texorpdfstring{hostOwningObjectsUpdate}{hostOwningObjectsUpdate}}
+{\footnotesize\ttfamily void Game\+Transmitter\+Object\+::host\+Owning\+Objects\+Update (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{owning\+Object\+Id,  }\item[{short}]{owning\+Objects\+Count }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+host\+Owning\+Objects\+Update Сигнал обновления данных пользователя о его владениях. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em owning\+Object\+Id} & Идентификатор владения из перечисления типов полей. \\
+\hline
+{\em owning\+Objects\+Count} & Количество объектов владения. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_transmitter_object_a408727415df251258256ca5d8b12aec1}\label{class_game_transmitter_object_a408727415df251258256ca5d8b12aec1}} 
+\index{GameTransmitterObject@{GameTransmitterObject}!manageActionMode@{manageActionMode}}
+\index{manageActionMode@{manageActionMode}!GameTransmitterObject@{GameTransmitterObject}}
+\doxysubsubsection{\texorpdfstring{manageActionMode}{manageActionMode}}
+{\footnotesize\ttfamily void Game\+Transmitter\+Object\+::manage\+Action\+Mode (\begin{DoxyParamCaption}\item[{bool}]{action\+Flag }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+manage\+Action\+Mode Сигнал разрешения выполнять действие над активируемым полем. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em action\+Flag} & Флаг, равный true, если разрешить, и false -\/ если нет. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_transmitter_object_a48f39af33a7e4d0b6e1bd603890e9fe6}\label{class_game_transmitter_object_a48f39af33a7e4d0b6e1bd603890e9fe6}} 
+\index{GameTransmitterObject@{GameTransmitterObject}!playerBalanceUpdate@{playerBalanceUpdate}}
+\index{playerBalanceUpdate@{playerBalanceUpdate}!GameTransmitterObject@{GameTransmitterObject}}
+\doxysubsubsection{\texorpdfstring{playerBalanceUpdate}{playerBalanceUpdate}}
+{\footnotesize\ttfamily void Game\+Transmitter\+Object\+::player\+Balance\+Update (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{player\+Number,  }\item[{int}]{new\+Balance }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+player\+Balance\+Update Сигнал обновления баланса игрока. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player\+Number} & Номер игрока из перечисления. \\
+\hline
+{\em new\+Balance} & Новый баланс в млн. ЭК. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_transmitter_object_a87ca3e9fe544c70682db807609b0d459}\label{class_game_transmitter_object_a87ca3e9fe544c70682db807609b0d459}} 
+\index{GameTransmitterObject@{GameTransmitterObject}!playerNicknameUpdate@{playerNicknameUpdate}}
+\index{playerNicknameUpdate@{playerNicknameUpdate}!GameTransmitterObject@{GameTransmitterObject}}
+\doxysubsubsection{\texorpdfstring{playerNicknameUpdate}{playerNicknameUpdate}}
+{\footnotesize\ttfamily void Game\+Transmitter\+Object\+::player\+Nickname\+Update (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{player\+Number,  }\item[{QString}]{new\+Nickname }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+player\+Nickname\+Update Сигнал обновления псевдонима игрока. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player\+Number} & Номер игрока из перечисления. \\
+\hline
+{\em new\+Nickname} & Новый псевдоним. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_transmitter_object_abd20d814134b70ce2a915b0c650556d3}\label{class_game_transmitter_object_abd20d814134b70ce2a915b0c650556d3}} 
+\index{GameTransmitterObject@{GameTransmitterObject}!playerPiecePositionUpdate@{playerPiecePositionUpdate}}
+\index{playerPiecePositionUpdate@{playerPiecePositionUpdate}!GameTransmitterObject@{GameTransmitterObject}}
+\doxysubsubsection{\texorpdfstring{playerPiecePositionUpdate}{playerPiecePositionUpdate}}
+{\footnotesize\ttfamily void Game\+Transmitter\+Object\+::player\+Piece\+Position\+Update (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{player\+Number,  }\item[{int}]{piece\+Position\+On\+Order\+Index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+player\+Piece\+Position\+Update Сигнал обновления позиции фишки игрока. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player\+Number} & Номер игрока из перечисления. \\
+\hline
+{\em piece\+Position\+On\+Order\+Index} & Порядковый номер клетки для расположения фишки. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_transmitter_object_ab73c62be411fe0a332c5d9bec27ea8ed}\label{class_game_transmitter_object_ab73c62be411fe0a332c5d9bec27ea8ed}} 
+\index{GameTransmitterObject@{GameTransmitterObject}!setCurrentGameStage@{setCurrentGameStage}}
+\index{setCurrentGameStage@{setCurrentGameStage}!GameTransmitterObject@{GameTransmitterObject}}
+\doxysubsubsection{\texorpdfstring{setCurrentGameStage}{setCurrentGameStage}}
+{\footnotesize\ttfamily void Game\+Transmitter\+Object\+::set\+Current\+Game\+Stage (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{stage\+Number,  }\item[{bool}]{with\+Animation = {\ttfamily true} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+set\+Current\+Game\+Stage Сигнал установки номера текущей стадии игры. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stage\+Number} & Номер стадии. \\
+\hline
+{\em with\+Animation} & Флаг \char`\"{}показывать анимацию или нет\char`\"{}. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_transmitter_object_a10a7b97c69bd77a00d3d0027961f7e53}\label{class_game_transmitter_object_a10a7b97c69bd77a00d3d0027961f7e53}} 
+\index{GameTransmitterObject@{GameTransmitterObject}!setHostPlayerNumber@{setHostPlayerNumber}}
+\index{setHostPlayerNumber@{setHostPlayerNumber}!GameTransmitterObject@{GameTransmitterObject}}
+\doxysubsubsection{\texorpdfstring{setHostPlayerNumber}{setHostPlayerNumber}}
+{\footnotesize\ttfamily void Game\+Transmitter\+Object\+::set\+Host\+Player\+Number (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{new\+Host\+Player\+Number }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+set\+Host\+Player\+Number Сигнал установки номера игрока для пользователя. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+Host\+Player\+Number} & Номер игрока из перечисления. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_transmitter_object_af40f1ca5dfc589088ef2c289607ebeff}\label{class_game_transmitter_object_af40f1ca5dfc589088ef2c289607ebeff}} 
+\index{GameTransmitterObject@{GameTransmitterObject}!startDiceDirectionalAnimation@{startDiceDirectionalAnimation}}
+\index{startDiceDirectionalAnimation@{startDiceDirectionalAnimation}!GameTransmitterObject@{GameTransmitterObject}}
+\doxysubsubsection{\texorpdfstring{startDiceDirectionalAnimation}{startDiceDirectionalAnimation}}
+{\footnotesize\ttfamily void Game\+Transmitter\+Object\+::start\+Dice\+Directional\+Animation (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{left\+Dice\+Value,  }\item[{uint8\+\_\+t}]{right\+Dice\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+
+
+start\+Dice\+Directional\+Animation Сигнал поворота игральных кубиков для отображения конкретных значений. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em left\+Dice\+Value} & Значение на левой игральной кости. \\
+\hline
+{\em right\+Dice\+Value} & Значение на правой игральной кости. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+game/gamehelpers/gametransmitterobject.\+h\item 
+game/gamehelpers/gametransmitterobject.\+cpp\end{DoxyCompactItemize}

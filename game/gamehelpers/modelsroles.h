@@ -4,6 +4,9 @@
 #include <QString>
 #include <QMap>
 
+/*!
+ * \brief MapModelCellRole Перечисление ролей для модели клетки игрового поля.
+ */
 enum MapModelCellRole
 {
     OrderIndex = Qt::UserRole,
@@ -18,6 +21,9 @@ enum MapModelCellRole
     AllowedDirectionsMask
 };
 
+/*!
+ * \brief PlayersModelInfoRole Перечисление ролей для модели игрока.
+ */
 enum PlayersModelInfoRole
 {
     PlayerNumber = Qt::UserRole,

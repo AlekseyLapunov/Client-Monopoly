@@ -1,0 +1,66 @@
+\hypertarget{filemanager_8h_source}{}\doxysection{filemanager.\+h}
+\label{filemanager_8h_source}\index{helpers/common/filemanager.h@{helpers/common/filemanager.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ FILEMANAGER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ FILEMANAGER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <QDebug>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <QDir>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <QFile>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <QFileDialog>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <QJsonObject>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <QJsonDocument>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <QJsonParseError>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <QString>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <QTextStream>}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}sourcestructs.h"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}sourcestrings.h"{}}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_file_manager}{FileManager}}}
+\DoxyCodeLine{00020\ \{}
+\DoxyCodeLine{00021\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ initLocalDirectory();}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ saveLastSettingsToLocal(\mbox{\hyperlink{struct_lobby_settings}{LobbySettings}}\ settingsToSave);}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ apply3dDiceStateToLocal(\textcolor{keywordtype}{bool}\ uses3dDice);}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ manageSettingsExport(\mbox{\hyperlink{struct_lobby_settings}{LobbySettings}}\ settingsToExport,\ QWidget\ *parent\ =\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{struct_lobby_settings}{LobbySettings}}\ manageSettingsImport(\textcolor{keywordtype}{bool}\ \&gotSettings,\ QWidget\ *parent\ =\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{struct_lobby_settings}{LobbySettings}}\ getRankedSettingsFromLocal();}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{struct_lobby_settings}{LobbySettings}}\ getLastSettingsFromLocal();}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{static}\ QString\ getUserMetaFromLocal(\textcolor{keywordtype}{short}\ dataUnitFlag);}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ checkLastSettingsIntegrity();}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ checkUserMetaIntegrity();}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{static}\ QString\ getPageAsCallbackText();}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ commitTokens(QByteArray\ data);}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ commitToken(uint8\_t\ tokenType,\ QString\ token);}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keyword}{static}\ QString\ getToken(uint8\_t\ tokenType);}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ commitHostData(\textcolor{keywordtype}{int}\ uniqueId,}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ QString\ nickname,}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ rpCount,}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ isGuest);}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ commitHostData(\textcolor{keywordtype}{int}\ hostUserId);}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keyword}{static}\ QString\ getHostUniqueId();}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ clearUserMetaForNewLogin();}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{enum}\ ResponseAboutDicePreference\ \{\ DicePrefFalse,\ DicePrefTrue,\ DicePrefNotStated\ \};}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keyword}{static}\ uint8\_t\ getUser3dDicePreference();}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ createUserMetaJson(\textcolor{keyword}{const}\ QString\ \&dir);}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ createRankedSettingsJson(\textcolor{keyword}{const}\ QString\ \&dir);}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ createLastSettingsJson(\textcolor{keyword}{const}\ QString\ \&dir);}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ writeFile(\textcolor{keyword}{const}\ QString\ \&path,\ \textcolor{keyword}{const}\ QString\ \&content);}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ writeFile(QFile\ \&file,\ \textcolor{keyword}{const}\ QString\ \&content);}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ isJsonFileIntegral(\textcolor{keyword}{const}\ QString\ \&path);}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ isJsonIntegral(\textcolor{keyword}{const}\ QString\ \&jsonString,\ \textcolor{keyword}{const}\ QString\ \&name\ =\ \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keyword}{static}\ QString\ readJsonToQString(\textcolor{keyword}{const}\ QString\ \&path);}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{struct_lobby_settings}{LobbySettings}}\ loadSettingsFromFile(\textcolor{keyword}{const}\ QString\ \&path);}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keyword}{static}\ QString\ defaultUserJson();}
+\DoxyCodeLine{00058\ \};}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ FILEMANAGER\_H}}
+
+\end{DoxyCode}

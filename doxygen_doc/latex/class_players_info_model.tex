@@ -1,0 +1,85 @@
+\hypertarget{class_players_info_model}{}\doxysection{Players\+Info\+Model Class Reference}
+\label{class_players_info_model}\index{PlayersInfoModel@{PlayersInfoModel}}
+
+
+\mbox{\hyperlink{class_players_info_model}{Players\+Info\+Model}} Класс модели игроков для взаимодействия с приложением QML.  
+
+
+
+
+{\ttfamily \#include $<$playersinfomodel.\+h$>$}
+
+Inheritance diagram for Players\+Info\+Model\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_players_info_model}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_players_info_model_a36138d9f6bbea7bc098767750def2f5f}\label{class_players_info_model_a36138d9f6bbea7bc098767750def2f5f}} 
+{\bfseries Players\+Info\+Model} (QObject $\ast$parent=nullptr)
+\item 
+\mbox{\hyperlink{class_player_game_info_list}{Player\+Game\+Info\+List}} $\ast$ \mbox{\hyperlink{class_players_info_model_ab89989aebc52f1a65696c5b17e651209}{list}} () const
+\begin{DoxyCompactList}\small\item\em list Метод возвращает указатель на используемый список игроков. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_players_info_model_aaa2f7f118cfb295c449a7622ae89b15c}{set\+List}} (\mbox{\hyperlink{class_player_game_info_list}{Player\+Game\+Info\+List}} $\ast$list)
+\begin{DoxyCompactList}\small\item\em set\+List Метод устанавливает список игроков. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_players_info_model_a83eecc16aeda338d685673eccd60e53f}\label{class_players_info_model_a83eecc16aeda338d685673eccd60e53f}} 
+int {\bfseries row\+Count} (const QModel\+Index \&parent=QModel\+Index\{\}) const override
+\item 
+\mbox{\Hypertarget{class_players_info_model_a1af739cfb8982b740d3d0368444e7d6f}\label{class_players_info_model_a1af739cfb8982b740d3d0368444e7d6f}} 
+QVariant {\bfseries data} (const QModel\+Index \&index, int role=Qt\+::\+Display\+Role) const override
+\item 
+\mbox{\Hypertarget{class_players_info_model_a375cfd5a516db21af2dc274a67404125}\label{class_players_info_model_a375cfd5a516db21af2dc274a67404125}} 
+bool {\bfseries set\+Data} (const QModel\+Index \&index, const QVariant \&value, int role=Qt\+::\+Display\+Role) override
+\item 
+\mbox{\Hypertarget{class_players_info_model_ae2f76cc60f761f00d00239862cb21306}\label{class_players_info_model_ae2f76cc60f761f00d00239862cb21306}} 
+virtual QHash$<$ int, QByte\+Array $>$ {\bfseries role\+Names} () const override
+\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_players_info_model_af560fcfb3657e9b772b534015e03a540}\label{class_players_info_model_af560fcfb3657e9b772b534015e03a540}} 
+\mbox{\hyperlink{class_player_game_info_list}{Player\+Game\+Info\+List}} $\ast$ {\bfseries list}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{class_players_info_model}{Players\+Info\+Model}} Класс модели игроков для взаимодействия с приложением QML. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_players_info_model_ab89989aebc52f1a65696c5b17e651209}\label{class_players_info_model_ab89989aebc52f1a65696c5b17e651209}} 
+\index{PlayersInfoModel@{PlayersInfoModel}!list@{list}}
+\index{list@{list}!PlayersInfoModel@{PlayersInfoModel}}
+\doxysubsubsection{\texorpdfstring{list()}{list()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_player_game_info_list}{Player\+Game\+Info\+List}} $\ast$ Players\+Info\+Model\+::list (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+list Метод возвращает указатель на используемый список игроков. 
+
+\begin{DoxyReturn}{Returns}
+Указатель на используемый список игроков. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_players_info_model_aaa2f7f118cfb295c449a7622ae89b15c}\label{class_players_info_model_aaa2f7f118cfb295c449a7622ae89b15c}} 
+\index{PlayersInfoModel@{PlayersInfoModel}!setList@{setList}}
+\index{setList@{setList}!PlayersInfoModel@{PlayersInfoModel}}
+\doxysubsubsection{\texorpdfstring{setList()}{setList()}}
+{\footnotesize\ttfamily void Players\+Info\+Model\+::set\+List (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_player_game_info_list}{Player\+Game\+Info\+List}} $\ast$}]{list }\end{DoxyParamCaption})}
+
+
+
+set\+List Метод устанавливает список игроков. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em list} & Указатель на список игроков. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+game/models/playersinfomodel.\+h\item 
+game/models/playersinfomodel.\+cpp\end{DoxyCompactItemize}

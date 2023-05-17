@@ -1,0 +1,135 @@
+\hypertarget{tst__filemanager_8h_source}{}\doxysection{tst\+\_\+filemanager.\+h}
+\label{tst__filemanager_8h_source}\index{Client-\/Monopoly-\/Test/tst\_modules/tst\_filemanager.h@{Client-\/Monopoly-\/Test/tst\_modules/tst\_filemanager.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ TST\_FILEMANAGER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ TST\_FILEMANAGER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <QtTest>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}../helpers/common/filemanager.h"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_file_manager_test}{FileManagerTest}}\ :\ \textcolor{keyword}{public}\ QObject}
+\DoxyCodeLine{00009\ \{}
+\DoxyCodeLine{00010\ \ \ \ \ Q\_OBJECT}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00013\ \ \ \ \ \mbox{\hyperlink{class_file_manager_test}{FileManagerTest}}()}
+\DoxyCodeLine{00014\ \ \ \ \ \{}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \ \ \}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{class_file_manager_test}{\string~FileManagerTest}}()}
+\DoxyCodeLine{00019\ \ \ \ \ \{}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{private}\ slots:}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{void}\ test\_initLocalDirectory()}
+\DoxyCodeLine{00025\ \ \ \ \ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ FileManager::initLocalDirectory();}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(!QFile::exists(ssLocalDirPath\ +\ ssUserMetaFileName)}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ||\ !QFile::exists(ssLocalDirPath\ +\ ssLastSettingsFileName)}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ||\ !QFile::exists(ssLocalDirPath\ +\ ssRankedSettingsFileName))}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ QFAIL(\textcolor{stringliteral}{"{}One\ or\ more\ files\ do\ not\ exist"{}});}
+\DoxyCodeLine{00032\ \ \ \ \ \}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{void}\ test\_saveGetLastSettingsToLocal()}
+\DoxyCodeLine{00035\ \ \ \ \ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_lobby_settings}{LobbySettings}}\ testLS\ =\ \{10,\ \textcolor{stringliteral}{"{}testLobby"{}},\ \textcolor{stringliteral}{"{}testPassword"{}},\ 5,\ 20,}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{false},\ \textcolor{stringliteral}{"{}"{}},\ 0,\ 15,\ 2000,\ \textcolor{keyword}{true},\ 72,\ \textcolor{keyword}{false},\ PRIVATE\};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ FileManager::saveLastSettingsToLocal(testLS);}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_lobby_settings}{LobbySettings}}\ getLS\ =\ FileManager::getLastSettingsFromLocal();}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(testLS\ !=\ getLS)}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ QFAIL(\textcolor{stringliteral}{"{}Saved\ settings\ not\ equal"{}});}
+\DoxyCodeLine{00045\ \ \ \ \ \}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{void}\ test\_applyGet3dDiceStateToLocal()}
+\DoxyCodeLine{00048\ \ \ \ \ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ FileManager::apply3dDiceStateToLocal(\textcolor{keyword}{true});}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ uint8\_t\ gotPref\ =\ FileManager::getUser3dDicePreference();}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(gotPref\ !=\ FileManager::DicePrefTrue)}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ QFAIL(\textcolor{stringliteral}{"{}Wrong\ got\ dice\ preference"{}});}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ FileManager::apply3dDiceStateToLocal(\textcolor{keyword}{false});}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ gotPref\ =\ FileManager::getUser3dDicePreference();}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(gotPref\ !=\ FileManager::DicePrefFalse)}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ QFAIL(\textcolor{stringliteral}{"{}Wrong\ got\ dice\ preference"{}});}
+\DoxyCodeLine{00062\ \ \ \ \ \}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{void}\ test\_commitGetTokens()}
+\DoxyCodeLine{00065\ \ \ \ \ \{}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ FileManager::commitTokens(\textcolor{stringliteral}{"{}\{\(\backslash\)"{}tokens\(\backslash\)"{}:\{\(\backslash\)"{}accessToken\(\backslash\)"{}:\(\backslash\)"{}testToken12345\(\backslash\)"{},"{}}}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\(\backslash\)"{}refreshToken\(\backslash\)"{}:\(\backslash\)"{}testToken54321\(\backslash\)"{}\}\}"{}});}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ QString\ accessToken\ =\ FileManager::getToken(AccessToken);}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(accessToken\ !=\ \textcolor{stringliteral}{"{}testToken12345"{}})}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ QFAIL(\textcolor{stringliteral}{"{}Wrong\ access\ token\ parse"{}});}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ QString\ refreshToken\ =\ FileManager::getToken(RefreshToken);}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(refreshToken\ !=\ \textcolor{stringliteral}{"{}testToken54321"{}})}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ QFAIL(\textcolor{stringliteral}{"{}Wrong\ refresh\ token\ parse"{}});}
+\DoxyCodeLine{00078\ \ \ \ \ \}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{void}\ test\_commitGetToken()}
+\DoxyCodeLine{00081\ \ \ \ \ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ FileManager::commitToken(AccessToken,\ \textcolor{stringliteral}{"{}testAccessToken12345"{}});}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ QString\ accessToken\ =\ FileManager::getToken(AccessToken);}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(accessToken\ !=\ \textcolor{stringliteral}{"{}testAccessToken12345"{}})}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ QFAIL(\textcolor{stringliteral}{"{}Wrong\ access\ token\ parse"{}});}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ FileManager::commitToken(RefreshToken,\ \textcolor{stringliteral}{"{}testRefreshToken54321"{}});}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ QString\ refreshToken\ =\ FileManager::getToken(RefreshToken);}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(refreshToken\ !=\ \textcolor{stringliteral}{"{}testRefreshToken54321"{}})}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ QFAIL(\textcolor{stringliteral}{"{}Wrong\ refresh\ token\ parse"{}});}
+\DoxyCodeLine{00095\ \ \ \ \ \}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{void}\ test\_commitGetHostUniqueId()}
+\DoxyCodeLine{00098\ \ \ \ \ \{}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ FileManager::commitHostData(123);}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ hostUniqueId\ =\ FileManager::getHostUniqueId().toInt();}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(hostUniqueId\ !=\ 123)}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ QFAIL(\textcolor{stringliteral}{"{}Wrong\ host\ unique\ id"{}});}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ FileManager::commitHostData(548128,\ \textcolor{stringliteral}{"{}testNickname"{}},\ 591923919,\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ QString\ hostUniqueIdString\ =\ FileManager::getHostUniqueId();}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(hostUniqueIdString\ !=\ \textcolor{stringliteral}{"{}548128"{}})}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ QFAIL(\textcolor{stringliteral}{"{}Wrong\ host\ unique\ id"{}});}
+\DoxyCodeLine{00112\ \ \ \ \ \}}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keywordtype}{void}\ test\_clearUserMeta()}
+\DoxyCodeLine{00115\ \ \ \ \ \{}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ FileManager::clearUserMetaForNewLogin();}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(!FileManager::getToken(AccessToken).isEmpty())}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ QFAIL(\textcolor{stringliteral}{"{}Access\ token\ is\ not\ empty"{}});}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(!FileManager::getToken(RefreshToken).isEmpty())}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ QFAIL(\textcolor{stringliteral}{"{}Refresh\ token\ is\ not\ empty"{}});}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(FileManager::getHostUniqueId().toInt()\ !=\ -\/1)}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ QFAIL(\textcolor{stringliteral}{"{}Host\ unique\ id\ is\ not\ equal\ -\/1"{}});}
+\DoxyCodeLine{00126\ \ \ \ \ \}}
+\DoxyCodeLine{00127\ \};}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

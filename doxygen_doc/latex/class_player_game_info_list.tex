@@ -1,0 +1,173 @@
+\hypertarget{class_player_game_info_list}{}\doxysection{Player\+Game\+Info\+List Class Reference}
+\label{class_player_game_info_list}\index{PlayerGameInfoList@{PlayerGameInfoList}}
+
+
+\mbox{\hyperlink{class_player_game_info_list}{Player\+Game\+Info\+List}} Класс списка игроков.  
+
+
+
+
+{\ttfamily \#include $<$playergameinfolist.\+h$>$}
+
+Inheritance diagram for Player\+Game\+Info\+List\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_player_game_info_list}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_player_game_info_list_af1749e2cf2d468c46c0d85ed08d3e5a7}\label{class_player_game_info_list_af1749e2cf2d468c46c0d85ed08d3e5a7}} 
+void {\bfseries append\+Item} (uint8\+\_\+t player\+Number, QString player\+Nickname, int player\+Balance, int piece\+On\+Order\+Position)
+\item 
+\mbox{\Hypertarget{class_player_game_info_list_a50b10c0103e4ea164a3cbd38b5ffe97a}\label{class_player_game_info_list_a50b10c0103e4ea164a3cbd38b5ffe97a}} 
+void {\bfseries remove\+Item} (uint8\+\_\+t player\+Number)
+\end{DoxyCompactItemize}
+\doxysubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_player_game_info_list_a7728880357f2c4232971567ff0960736}\label{class_player_game_info_list_a7728880357f2c4232971567ff0960736}} 
+void {\bfseries pre\+Item\+Appended} ()
+\item 
+\mbox{\Hypertarget{class_player_game_info_list_a0744611ae27b11b3699eb2334bf75188}\label{class_player_game_info_list_a0744611ae27b11b3699eb2334bf75188}} 
+void {\bfseries post\+Item\+Appended} ()
+\item 
+\mbox{\Hypertarget{class_player_game_info_list_ab06093da1eb44df9802192589660c2c5}\label{class_player_game_info_list_ab06093da1eb44df9802192589660c2c5}} 
+void {\bfseries pre\+Item\+Removed} (int index)
+\item 
+\mbox{\Hypertarget{class_player_game_info_list_ada63f32a1c1dc4145e18ba650f6e685e}\label{class_player_game_info_list_ada63f32a1c1dc4145e18ba650f6e685e}} 
+void {\bfseries post\+Item\+Removed} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_player_game_info_list_a1fe47daecbd1f9cbc894fc80ec5ae20e}\label{class_player_game_info_list_a1fe47daecbd1f9cbc894fc80ec5ae20e}} 
+{\bfseries Player\+Game\+Info\+List} (QObject $\ast$parent=nullptr)
+\item 
+void \mbox{\hyperlink{class_player_game_info_list_a16f372df89e97d2a86ebd0af94c9d615}{set\+Items}} (const std\+::vector$<$ \mbox{\hyperlink{struct_player_game_info}{Player\+Game\+Info}} $>$ \&new\+Items)
+\begin{DoxyCompactList}\small\item\em set\+Items Метод устанавливает список игроков. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_game_info_list_ae3c052f2e568725498b047f52b48afc9}{set\+Items}} (const \mbox{\hyperlink{class_player_game_info_list}{Player\+Game\+Info\+List}} \&new\+Items)
+\begin{DoxyCompactList}\small\item\em set\+Items Метод устанавливает список игроков. \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{struct_player_game_info}{Player\+Game\+Info}} $>$ \mbox{\hyperlink{class_player_game_info_list_a6da840c77dac7fbd271c80bb74363f68}{items}} () const
+\begin{DoxyCompactList}\small\item\em items Метод возвращает содержимое внутреннего контейнера. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_player_game_info}{Player\+Game\+Info}} \mbox{\hyperlink{class_player_game_info_list_a6a0920a55544819a399325487a50a814}{get\+Item\+At}} (int index)
+\begin{DoxyCompactList}\small\item\em get\+Item\+At Метод возвращает объект структуры игрока. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_game_info_list_a1c84b0a41c3775e2d882020c1384ff77}{set\+Item\+At}} (int index, const \mbox{\hyperlink{struct_player_game_info}{Player\+Game\+Info}} \&item)
+\begin{DoxyCompactList}\small\item\em set\+Item\+At Метод устанавливает объект структуры игрока. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_player_game_info_list_a0b27d04c4edbafb4b14ab42e124e0db8}\label{class_player_game_info_list_a0b27d04c4edbafb4b14ab42e124e0db8}} 
+void {\bfseries sort\+By\+Balance} ()
+\begin{DoxyCompactList}\small\item\em sort\+By\+Balance Метод выполняет сортировку внутреннего контейнера по балансу игроков в убывающем порядке. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_player_game_info_list_addbc09910504ce915f2933029a638045}{find\+Index\+By\+Player\+Number}} (uint8\+\_\+t input\+Player\+Number)
+\begin{DoxyCompactList}\small\item\em find\+Index\+By\+Order\+Index Метод возвращает индекс из списка по входящему номеру игрока. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{class_player_game_info_list}{Player\+Game\+Info\+List}} Класс списка игроков. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_player_game_info_list_addbc09910504ce915f2933029a638045}\label{class_player_game_info_list_addbc09910504ce915f2933029a638045}} 
+\index{PlayerGameInfoList@{PlayerGameInfoList}!findIndexByPlayerNumber@{findIndexByPlayerNumber}}
+\index{findIndexByPlayerNumber@{findIndexByPlayerNumber}!PlayerGameInfoList@{PlayerGameInfoList}}
+\doxysubsubsection{\texorpdfstring{findIndexByPlayerNumber()}{findIndexByPlayerNumber()}}
+{\footnotesize\ttfamily int Player\+Game\+Info\+List\+::find\+Index\+By\+Player\+Number (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{input\+Player\+Number }\end{DoxyParamCaption})}
+
+
+
+find\+Index\+By\+Order\+Index Метод возвращает индекс из списка по входящему номеру игрока. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em input\+Player\+Number} & Номер игрока. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Индекс из списка. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_player_game_info_list_a6a0920a55544819a399325487a50a814}\label{class_player_game_info_list_a6a0920a55544819a399325487a50a814}} 
+\index{PlayerGameInfoList@{PlayerGameInfoList}!getItemAt@{getItemAt}}
+\index{getItemAt@{getItemAt}!PlayerGameInfoList@{PlayerGameInfoList}}
+\doxysubsubsection{\texorpdfstring{getItemAt()}{getItemAt()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_player_game_info}{Player\+Game\+Info}} Player\+Game\+Info\+List\+::get\+Item\+At (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})}
+
+
+
+get\+Item\+At Метод возвращает объект структуры игрока. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & Индекс в списке. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Объект структуры игрока. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_player_game_info_list_a6da840c77dac7fbd271c80bb74363f68}\label{class_player_game_info_list_a6da840c77dac7fbd271c80bb74363f68}} 
+\index{PlayerGameInfoList@{PlayerGameInfoList}!items@{items}}
+\index{items@{items}!PlayerGameInfoList@{PlayerGameInfoList}}
+\doxysubsubsection{\texorpdfstring{items()}{items()}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{struct_player_game_info}{Player\+Game\+Info}} $>$ Player\+Game\+Info\+List\+::items (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+items Метод возвращает содержимое внутреннего контейнера. 
+
+\begin{DoxyReturn}{Returns}
+Содержимое внутреннего контейнера. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_player_game_info_list_a1c84b0a41c3775e2d882020c1384ff77}\label{class_player_game_info_list_a1c84b0a41c3775e2d882020c1384ff77}} 
+\index{PlayerGameInfoList@{PlayerGameInfoList}!setItemAt@{setItemAt}}
+\index{setItemAt@{setItemAt}!PlayerGameInfoList@{PlayerGameInfoList}}
+\doxysubsubsection{\texorpdfstring{setItemAt()}{setItemAt()}}
+{\footnotesize\ttfamily bool Player\+Game\+Info\+List\+::set\+Item\+At (\begin{DoxyParamCaption}\item[{int}]{index,  }\item[{const \mbox{\hyperlink{struct_player_game_info}{Player\+Game\+Info}} \&}]{item }\end{DoxyParamCaption})}
+
+
+
+set\+Item\+At Метод устанавливает объект структуры игрока. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & Индекс установки. \\
+\hline
+{\em item} & Объект структуры игрока для установки. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Флаг успеха. true, если установка прошла успешно, и false -\/ если нет. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_player_game_info_list_ae3c052f2e568725498b047f52b48afc9}\label{class_player_game_info_list_ae3c052f2e568725498b047f52b48afc9}} 
+\index{PlayerGameInfoList@{PlayerGameInfoList}!setItems@{setItems}}
+\index{setItems@{setItems}!PlayerGameInfoList@{PlayerGameInfoList}}
+\doxysubsubsection{\texorpdfstring{setItems()}{setItems()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Player\+Game\+Info\+List\+::set\+Items (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_player_game_info_list}{Player\+Game\+Info\+List}} \&}]{new\+Items }\end{DoxyParamCaption})}
+
+
+
+set\+Items Метод устанавливает список игроков. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+Items} & Список игроков. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_player_game_info_list_a16f372df89e97d2a86ebd0af94c9d615}\label{class_player_game_info_list_a16f372df89e97d2a86ebd0af94c9d615}} 
+\index{PlayerGameInfoList@{PlayerGameInfoList}!setItems@{setItems}}
+\index{setItems@{setItems}!PlayerGameInfoList@{PlayerGameInfoList}}
+\doxysubsubsection{\texorpdfstring{setItems()}{setItems()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Player\+Game\+Info\+List\+::set\+Items (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \mbox{\hyperlink{struct_player_game_info}{Player\+Game\+Info}} $>$ \&}]{new\+Items }\end{DoxyParamCaption})}
+
+
+
+set\+Items Метод устанавливает список игроков. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+Items} & Список игроков. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+game/models/lists/playergameinfolist.\+h\item 
+game/models/lists/playergameinfolist.\+cpp\end{DoxyCompactItemize}

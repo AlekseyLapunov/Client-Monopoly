@@ -13,6 +13,9 @@
 
 using std::vector;
 
+/*!
+ * \brief FieldsGridModel Класс модели игрового поля для взаимодействия с приложением QML.
+ */
 class FieldsGridModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -21,10 +24,21 @@ class FieldsGridModel : public QAbstractListModel
 public:
     explicit FieldsGridModel(QObject* parent = nullptr);
 
+    /*!
+     * \brief list Метод возвращает указатель на используемый список клеток игрового поля.
+     * \return Указатель на используемый список клеток игрового поля.
+     */
     CellsList *list() const;
+    /*!
+     * \brief setList Метод устанавливает список клеток игрового поля.
+     * \param list Указатель на список клеток игрового поля.
+     */
     void setList(CellsList *list);
 
 private:
+    /*!
+     * \brief m_cellsList Внутренний указатель на список клеток игрового поля.
+     */
     CellsList *m_cellsList;
 
     // QAbstractItemModel interface

@@ -1,0 +1,50 @@
+\hypertarget{playergameinfolist_8h_source}{}\doxysection{playergameinfolist.\+h}
+\label{playergameinfolist_8h_source}\index{game/models/lists/playergameinfolist.h@{game/models/lists/playergameinfolist.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PLAYERGAMEINFOLIST\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PLAYERGAMEINFOLIST\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <QObject>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}game/gamehelpers/gamestructs.h"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_player_game_info_list}{PlayerGameInfoList}}\ :\ \textcolor{keyword}{public}\ QObject}
+\DoxyCodeLine{00014\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ Q\_OBJECT}
+\DoxyCodeLine{00016\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_player_game_info_list}{PlayerGameInfoList}}(QObject\ *parent\ =\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_player_game_info_list_a16f372df89e97d2a86ebd0af94c9d615}{setItems}}(\textcolor{keyword}{const}\ std::vector<PlayerGameInfo>\ \&newItems);}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_player_game_info_list_a16f372df89e97d2a86ebd0af94c9d615}{setItems}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player_game_info_list}{PlayerGameInfoList}}\ \&newItems);}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00034\ \ \ \ \ std::vector<PlayerGameInfo>\ \mbox{\hyperlink{class_player_game_info_list_a6da840c77dac7fbd271c80bb74363f68}{items}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{struct_player_game_info}{PlayerGameInfo}}\ \mbox{\hyperlink{class_player_game_info_list_a6a0920a55544819a399325487a50a814}{getItemAt}}(\textcolor{keywordtype}{int}\ index);}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_player_game_info_list_a1c84b0a41c3775e2d882020c1384ff77}{setItemAt}}(\textcolor{keywordtype}{int}\ index,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_player_game_info}{PlayerGameInfo}}\ \&item);}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_player_game_info_list_a0b27d04c4edbafb4b14ab42e124e0db8}{sortByBalance}}();}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_player_game_info_list_addbc09910504ce915f2933029a638045}{findIndexByPlayerNumber}}(uint8\_t\ inputPlayerNumber);}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ signals:}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{void}\ preItemAppended();}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{void}\ postItemAppended();}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{void}\ preItemRemoved(\textcolor{keywordtype}{int}\ index);}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{void}\ postItemRemoved();}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \textcolor{keyword}{public}\ slots:}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{void}\ appendItem(uint8\_t\ playerNumber,\ QString\ playerNickname,}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ playerBalance,\ \textcolor{keywordtype}{int}\ pieceOnOrderPosition);}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{void}\ removeItem(uint8\_t\ playerNumber);}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00076\ \ \ \ \ std::vector<PlayerGameInfo>\ m\_items;}
+\DoxyCodeLine{00077\ \};}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ PLAYERGAMEINFOLIST\_H}}
+
+\end{DoxyCode}

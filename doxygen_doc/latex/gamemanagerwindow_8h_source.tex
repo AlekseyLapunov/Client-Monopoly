@@ -1,0 +1,133 @@
+\hypertarget{gamemanagerwindow_8h_source}{}\doxysection{gamemanagerwindow.\+h}
+\label{gamemanagerwindow_8h_source}\index{userinterface/subinterfaces/gamemanagerwindow.h@{userinterface/subinterfaces/gamemanagerwindow.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ GAMEMANAGERWINDOW\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ GAMEMANAGERWINDOW\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <QWidget>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <QGuiApplication>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <QQmlApplicationEngine>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <QQmlContext>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <QtQml>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}helpers/basewin.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}game/gamehelpers/gametransmitterobject.h"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}game/gamehelpers/gamealgo.h"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}game/models/fieldsgridmodel.h"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}game/models/playersinfomodel.h"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}game/models/lists/cellslist.h"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}game/models/lists/playergameinfolist.h"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}game/gamehelpers/gamestructs.h"{}}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#define\ DEBUG\_SHOW\_DEBUG\_PANEL}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#define\ QUIT\_APP\_ON\_QML\_CLOSURE\_IN\_N\_MS\ 1500}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{namespace\ }Ui\ \{}
+\DoxyCodeLine{00024\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_game_manager_window}{GameManagerWindow}};}
+\DoxyCodeLine{00025\ \}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_game_manager_window}{GameManagerWindow}}\ :\ \textcolor{keyword}{public}\ QWidget,\ \mbox{\hyperlink{class_base_win}{BaseWin}}}
+\DoxyCodeLine{00028\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ Q\_OBJECT}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_game_manager_window}{GameManagerWindow}}(unique\_ptr<ServerCommunicator>\ *newServerPtr,}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ unique\_ptr<UserMetaInfo>\ *newMetaInfoPtr,}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ QWidget\ *parent\ =\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00035\ \ \ \ \ \mbox{\hyperlink{class_game_manager_window}{\string~GameManagerWindow}}();}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{void}\ show();}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{void}\ closeEvent(QCloseEvent\ *event);}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{void}\ startQmlEngine();}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ signals:}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{void}\ goToMenuWindow();}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{keyword}{private}\ slots:}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{void}\ setStage();}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{void}\ changePlayerBalance();}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{void}\ changePlayerNickname();}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{void}\ rollDiceDirectional();}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{void}\ rollDiceInfinite();}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{void}\ addPlayer();}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{void}\ removePlayer();}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{void}\ placePlayerPieceOn();}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{void}\ endTheGame();}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{void}\ reactToPlayerNumberComboBoxChange();}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{void}\ allowAction(\textcolor{keywordtype}{bool}\ allowActionFlag);}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{void}\ showTraceAlgo();}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{void}\ makePlayerHost();}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{void}\ showArrowResolve();}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{keyword}{private}\ slots:}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{void}\ manageQmlWindowClosing();}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{void}\ manageBuyClicked();}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{void}\ manageSabotageResult(\textcolor{keywordtype}{int}\ chosenOrderIndex);}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{void}\ manageArrowResolveResult(\textcolor{keywordtype}{int}\ inputOrderIndex,}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ chosenRotation);}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{void}\ applyFirstGameContext(\textcolor{comment}{/*GameContext\&\ gameContext*/});}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{void}\ checkTimedOutCounter();}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{void}\ initializeHostOwningObjectCounts();}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{void}\ countHostOwningObjectsByMap();}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{void}\ resetHostOwningObjectCounts();}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{void}\ passOwningObjectsToQml();}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{bool}\ checkIfOrderIndexIsValid(\textcolor{keywordtype}{int}\ inputOrderIndex);}
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{void}\ changePiecesMaskByOrderIndex(\textcolor{keywordtype}{int}\ inputOrderIndex,}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ whatPlayerNumber,}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ addOrRemove);}
+\DoxyCodeLine{00079\ \ \ \ \ vector<int>\ getValuesFromPteAsRealIndexes();}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keyword}{enum}\ ChangingPiecesMask\ \{\ DeletePM,\ AddPM\ \};}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ Ui::GameManagerWindow\ *ui;}
+\DoxyCodeLine{00085\ \ \ \ \ QQmlApplicationEngine*\ qmlEngine;}
+\DoxyCodeLine{00086\ \ \ \ \ \mbox{\hyperlink{class_game_transmitter_object}{GameTransmitterObject}}*\ gameTransmitterObj;}
+\DoxyCodeLine{00087\ \ \ \ \ QObject*\ gameReceiverObj;}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ uint8\_t\ currentStage\ =\ 0;}
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{int}\ hostPlayerIncome\ =\ 0;}
+\DoxyCodeLine{00091\ \ \ \ \ uint8\_t\ hostPlayerNumber\ =\ PlayerNumber::Player2;\ \textcolor{comment}{//\ STUB}}
+\DoxyCodeLine{00092\ \ \ \ \ QMap<uint8\_t,\ short>\ hostOwningObjectsCounts;}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \ \ \ \ \mbox{\hyperlink{class_cells_list}{CellsList}}*\ m\_cellsList;}
+\DoxyCodeLine{00095\ \ \ \ \ \mbox{\hyperlink{class_player_game_info_list}{PlayerGameInfoList}}*\ m\_playersList;}
+\DoxyCodeLine{00096\ \};}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \textcolor{comment}{//\ DEBUG!}}
+\DoxyCodeLine{00100\ \textcolor{keyword}{static}\ \mbox{\hyperlink{struct_cell}{Cell}}\ debugCellsArray[]\ =}
+\DoxyCodeLine{00101\ \{}
+\DoxyCodeLine{00102\ \ \ \ \ \{9,\ Sawmill,\ Player2,\ 50,\ 5,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{10,\ Common,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{11,\ Sawmill,\ NoPlayer,\ 50,\ 5,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{12,\ CoalStation,\ Player1,\ 150,\ 20,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{13,\ Arrow,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ ArrowRight,\ 2,\ 0b1110\},\ \{14,\ Sawmill,\ Player2,\ 50,\ 5,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{15,\ Forest,\ NoPlayer,\ 100,\ 0,\ 0,\ 1,\ 0,\ 2,\ 0\},\ \{16,\ Sabotage,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 3,\ 0\},\ \{17,\ Sawmill,\ Player3,\ 50,\ 5,\ 0,\ 1,\ 0,\ 1,\ 0\},}
+\DoxyCodeLine{00103\ \ \ \ \ \{8,\ Forest,\ NoPlayer,\ 100,\ 0,\ 0,\ 1,\ 0,\ 2,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{33,\ Uranium,\ NoPlayer,\ 500,\ 0,\ 0,\ 2,\ 0,\ 3,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{18,\ Uranium,\ NoPlayer,\ 500,\ 0,\ 0,\ 1,\ 0,\ 3,\ 0\},}
+\DoxyCodeLine{00104\ \ \ \ \ \{7,\ Vacation,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{34,\ Coal,\ NoPlayer,\ 250,\ 0,\ 0,\ 2,\ 0,\ 2,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{19,\ Common,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},}
+\DoxyCodeLine{00105\ \ \ \ \ \{6,\ Common,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{35,\ Common,\ NoPlayer,\ 0,\ 0,\ 0,\ 2,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{20,\ Vacation,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},}
+\DoxyCodeLine{00106\ \ \ \ \ \{5,\ Arrow,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ ArrowUp,\ 3,\ 0b0111\},\ \{45,\ Sabotage,\ NoPlayer,\ 0,\ 0,\ 0,\ 3,\ 0,\ 3,\ 0\},\ \{44,\ Coal,\ NoPlayer,\ 250,\ 0,\ 0,\ 3,\ 0,\ 2,\ 0\},\ \{43,\ Common,\ NoPlayer,\ 0,\ 0,\ 0,\ 3,\ 0,\ 3,\ 0\},\ \{36,\ Arrow,\ NoPlayer,\ 0,\ 0,\ 0,\ 2,\ ArrowLeft,\ 3,\ 0b1111\},\ \{42,\ Sabotage,\ NoPlayer,\ 0,\ 0,\ 0,\ 3,\ 0,\ 3,\ 0\},\ \{41,\ Coal,\ NoPlayer,\ 250,\ 0,\ 0,\ 3,\ 0,\ 2,\ 0\},\ \{40,\ Common,\ NoPlayer,\ 0,\ 0,\ 0,\ 3,\ 0,\ 3,\ 0\},\ \{21,\ Arrow,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ ArrowDown,\ 3,\ 0b1101\},}
+\DoxyCodeLine{00107\ \ \ \ \ \{4,\ CoalStation,\ NoPlayer,\ 150,\ 20,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{37,\ Common,\ NoPlayer,\ 0,\ 0,\ 0,\ 2,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{22,\ AtomicStation,\ NoPlayer,\ 350,\ 50,\ 0,\ 1,\ 0,\ 3,\ 0\},}
+\DoxyCodeLine{00108\ \ \ \ \ \{3,\ Sawmill,\ NoPlayer,\ 50,\ 5,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{38,\ AtomicStation,\ NoPlayer,\ 350,\ 50,\ 0,\ 2,\ 0,\ 3,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{23,\ Sawmill,\ NoPlayer,\ 50,\ 5,\ 0,\ 1,\ 0,\ 1,\ 0\},}
+\DoxyCodeLine{00109\ \ \ \ \ \{2,\ Uranium,\ Player3,\ 500,\ 0,\ 0,\ 1,\ 0,\ 3,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{39,\ Common,\ NoPlayer,\ 0,\ 0,\ 0,\ 2,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{-\/1,\ Void,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{24,\ Common,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},}
+\DoxyCodeLine{00110\ \ \ \ \ \{1,\ Beginning,\ NoPlayer,\ 0,\ 0,\ 0b000011,\ 1,\ 0,\ 1,\ 0\},\ \{32,\ AtomicStation,\ Player3,\ 350,\ 50,\ 0,\ 1,\ 0,\ 3,\ 0\},\ \{31,\ Common,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{30,\ CoalStation,\ Player2,\ 150,\ 20,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{29,\ Arrow,\ NoPlayer,\ 0,\ 0,\ 0,\ 1,\ ArrowLeft,\ 2,\ 0b1011\},\ \{28,\ Sawmill,\ NoPlayer,\ 50,\ 5,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{27,\ Forest,\ NoPlayer,\ 100,\ 0,\ 0,\ 1,\ 0,\ 2,\ 0\},\ \{26,\ Sawmill,\ Player2,\ 50,\ 5,\ 0,\ 1,\ 0,\ 1,\ 0\},\ \{25,\ CoalStation,\ Player5,\ 150,\ 20,\ 0,\ 1,\ 0,\ 1,\ 0\}}
+\DoxyCodeLine{00111\ \};}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \textcolor{keyword}{static}\ \mbox{\hyperlink{class_cells_list}{CellsList}}\ debugMapContext;}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ fillDebugMapContext();}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \textcolor{keyword}{static}\ \mbox{\hyperlink{struct_player_game_info}{PlayerGameInfo}}\ debugPlayersArray[]\ =}
+\DoxyCodeLine{00118\ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \{\ PlayerNumber::Player1,\ \textcolor{stringliteral}{"{}Player1"{}},\ 200,\ 1\ \},}
+\DoxyCodeLine{00120\ \ \ \ \ \{\ PlayerNumber::Player2,\ \textcolor{stringliteral}{"{}Player2"{}},\ 210,\ 1\ \ \}}
+\DoxyCodeLine{00121\ \};}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \textcolor{keyword}{static}\ \mbox{\hyperlink{class_player_game_info_list}{PlayerGameInfoList}}\ debugPlayersContext;}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ fillDebugPlayersContext();}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GAMEMANAGERWINDOW\_H}}
+
+\end{DoxyCode}

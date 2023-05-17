@@ -1,0 +1,36 @@
+\hypertarget{usermetainfo_8h_source}{}\doxysection{usermetainfo.\+h}
+\label{usermetainfo_8h_source}\index{helpers/usermetainfo.h@{helpers/usermetainfo.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ USERMETAINFO\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ USERMETAINFO\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <QString>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}common/sourcestructs.h"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_user_meta_info}{UserMetaInfo}}}
+\DoxyCodeLine{00009\ \{}
+\DoxyCodeLine{00010\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{class_user_meta_info}{UserMetaInfo}}()\ \{\};}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ \mbox{\hyperlink{struct_host_user_data}{HostUserData}}\ getHostInfo()}
+\DoxyCodeLine{00014\ \ \ \ \ \{}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_hostInfo;}
+\DoxyCodeLine{00016\ \ \ \ \ \}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{void}\ setHostInfo(\mbox{\hyperlink{struct_host_user_data}{HostUserData}}\ newHostInfo)}
+\DoxyCodeLine{00019\ \ \ \ \ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ this-\/>m\_hostInfo.uniqueId\ =\ newHostInfo.uniqueId;}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ this-\/>m\_hostInfo.nickname\ =\ newHostInfo.nickname;}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ this-\/>m\_hostInfo.rpCount\ =\ newHostInfo.rpCount;}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ this-\/>m\_hostInfo.isGuest\ =\ newHostInfo.isGuest;}
+\DoxyCodeLine{00024\ \ \ \ \ \}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{struct_host_user_data}{HostUserData}}\ m\_hostInfo;}
+\DoxyCodeLine{00028\ \};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ USERMETAINFO\_H}}
+
+\end{DoxyCode}

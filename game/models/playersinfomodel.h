@@ -13,6 +13,9 @@
 
 using std::vector;
 
+/*!
+ * \brief PlayersInfoModel Класс модели игроков для взаимодействия с приложением QML.
+ */
 class PlayersInfoModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -21,10 +24,21 @@ class PlayersInfoModel : public QAbstractListModel
 public:
     explicit PlayersInfoModel(QObject* parent = nullptr);
 
+    /*!
+     * \brief list Метод возвращает указатель на используемый список игроков.
+     * \return Указатель на используемый список игроков.
+     */
     PlayerGameInfoList *list() const;
+    /*!
+     * \brief setList Метод устанавливает список игроков.
+     * \param list Указатель на список игроков.
+     */
     void setList(PlayerGameInfoList *list);
 
 private:
+    /*!
+     * \brief m_cellsList Внутренний указатель на список игроков.
+     */
     PlayerGameInfoList *m_playerGameInfoList;
 
     // QAbstractItemModel interface

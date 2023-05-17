@@ -1,0 +1,251 @@
+\hypertarget{gamealgo_8h_source}{}\doxysection{gamealgo.\+h}
+\label{gamealgo_8h_source}\index{game/gamehelpers/gamealgo.h@{game/gamehelpers/gamealgo.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ GAMEALGO\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ GAMEALGO\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <QDebug>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <QString>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}gamestructs.h"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{using\ }std::vector;}
+\DoxyCodeLine{00012\ \textcolor{keyword}{using\ }std::pair;}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_game_algorithm}{GameAlgorithm}}}
+\DoxyCodeLine{00022\ \{}
+\DoxyCodeLine{00023\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{static}\ vector<int>\ \mbox{\hyperlink{class_game_algorithm_a90e92c843b5eb22d3cfc5ddb60f6947d}{makeFullPath}}(vector<int>\ allPathPoints);}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keyword}{static}\ vector<int>\ makePath(pair<int,\ int>\ pathPair);}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_game_algorithm_1_1_point}{Point}}}
+\DoxyCodeLine{00047\ \ \ \ \ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ row;}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ col;}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ base;}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_game_algorithm_1_1_point}{Point}}(\textcolor{keywordtype}{int}\ index,\ \textcolor{keywordtype}{int}\ setBase\ =\ 9)}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ this-\/>row\ \ =\ index/setBase;}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ this-\/>col\ \ =\ index\%setBase;}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ this-\/>base\ =\ setBase;}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_game_algorithm_1_1_point_a5f3e3e18e6bfcb13d2ea6741e17e8949}{convertToIndex}}()}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ row*base\ +\ col;}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ operator==(\mbox{\hyperlink{struct_game_algorithm_1_1_point}{Point}}\&\ other)}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ((this-\/>row\ ==\ other.row)\&\&(this-\/>col\ ==\ other.col));}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ operator!=(Point\&\ other)}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !((*this)\ ==\ other);}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_game_algorithm_1_1_point_a29143883cefccc851d0b029470bdf329}{rowOnMinBound}}()}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (row\ ==\ 0);}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_game_algorithm_1_1_point_a26306dcdaf709506762c9da4c811613f}{rowOnMaxBound}}()}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (row\ ==\ (base\ -\/\ 1));}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_game_algorithm_1_1_point_afeea94a64652c77d7bdd373023c77e1a}{colOnMinBound}}()}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (col\ ==\ 0);}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_game_algorithm_1_1_point_ab29cebc04a49d010a930d5fac9a08f29}{colOnMaxBound}}()}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (col\ ==\ (base\ -\/\ 1));}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00113\ \ \ \ \ \};}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_game_algorithm_1_1_vertex}{Vertex}}}
+\DoxyCodeLine{00121\ \ \ \ \ \{}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_game_algorithm_1_1_point}{Point}}\ carrier;}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_game_algorithm_1_1_vertex}{Vertex}}\ *clockWiseLink;}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_game_algorithm_1_1_vertex}{Vertex}}\ *counterClockWiseLink;}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_game_algorithm_1_1_vertex}{Vertex}}(\mbox{\hyperlink{struct_game_algorithm_1_1_point}{Point}}\ inputCarrier):\ carrier(inputCarrier),\ clockWiseLink(\textcolor{keyword}{nullptr}),}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ counterClockWiseLink(\textcolor{keyword}{nullptr})\ \{\};}
+\DoxyCodeLine{00128\ \ \ \ \ \};}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00135\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_game_algorithm_1_1_graph}{Graph}}}
+\DoxyCodeLine{00136\ \ \ \ \ \{}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_game_algorithm_1_1_vertex}{Vertex}}\ *first\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{struct_game_algorithm_1_1_graph_a48c0c3590a4ede810a8477cc2bd19930}{formGraph}}()}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(first\ !=\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{struct_game_algorithm_1_1_graph_a2b5ad556ec376edef4cd5ab9d9968e59}{clearGraph}}();}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_game_algorithm_1_1_point}{Point}}\ pointIterator(0);}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_game_algorithm_1_1_vertex}{Vertex}}\ *firstVertex\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{struct_game_algorithm_1_1_vertex}{Vertex}}(pointIterator);}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ this-\/>first\ =\ firstVertex;}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ pointIterator.row\ =\ 1;}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ pointIterator.col\ =\ 0;}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_game_algorithm_1_1_vertex}{Vertex}}\ *lastVertex\ =\ firstVertex;}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum}\ MovingMode\ \{\ DecreasingRow,\ IncreasingRow,}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ DecreasingCol,\ IncreasingCol\ \};}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ movingMode\ =\ IncreasingRow;}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}((lastVertex-\/>carrier.row\ !=\ 0)\ ||\ (lastVertex-\/>carrier.col\ !=\ 1))}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_game_algorithm_1_1_vertex}{Vertex}}\ *vertex\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{struct_game_algorithm_1_1_vertex}{Vertex}}(pointIterator);}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertex-\/>clockWiseLink\ =\ lastVertex;}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lastVertex-\/>counterClockWiseLink\ =\ vertex;}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(vertex-\/>carrier.\mbox{\hyperlink{struct_game_algorithm_1_1_point_a29143883cefccc851d0b029470bdf329}{rowOnMinBound}}()\ \&\&\ vertex-\/>carrier.\mbox{\hyperlink{struct_game_algorithm_1_1_point_afeea94a64652c77d7bdd373023c77e1a}{colOnMinBound}}())}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ movingMode\ =\ IncreasingRow;}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (vertex-\/>carrier.\mbox{\hyperlink{struct_game_algorithm_1_1_point_a26306dcdaf709506762c9da4c811613f}{rowOnMaxBound}}()\ \&\&\ vertex-\/>carrier.\mbox{\hyperlink{struct_game_algorithm_1_1_point_afeea94a64652c77d7bdd373023c77e1a}{colOnMinBound}}())}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ movingMode\ =\ IncreasingCol;}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (vertex-\/>carrier.\mbox{\hyperlink{struct_game_algorithm_1_1_point_a26306dcdaf709506762c9da4c811613f}{rowOnMaxBound}}()\ \&\&\ vertex-\/>carrier.\mbox{\hyperlink{struct_game_algorithm_1_1_point_ab29cebc04a49d010a930d5fac9a08f29}{colOnMaxBound}}())}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ movingMode\ =\ DecreasingRow;}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (vertex-\/>carrier.\mbox{\hyperlink{struct_game_algorithm_1_1_point_a29143883cefccc851d0b029470bdf329}{rowOnMinBound}}()\ \&\&\ vertex-\/>carrier.\mbox{\hyperlink{struct_game_algorithm_1_1_point_ab29cebc04a49d010a930d5fac9a08f29}{colOnMaxBound}}())}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ movingMode\ =\ DecreasingCol;}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (movingMode)}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ IncreasingRow:}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pointIterator.row++;}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ IncreasingCol:}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pointIterator.col++;}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ DecreasingRow:}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pointIterator.row-\/-\/;}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ DecreasingCol:}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pointIterator.col-\/-\/;}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00194\ }
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lastVertex\ =\ vertex;}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ first-\/>clockWiseLink\ =\ lastVertex;}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ lastVertex-\/>counterClockWiseLink\ =\ first;}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ lastVertex\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{struct_game_algorithm_1_1_graph_a2b5ad556ec376edef4cd5ab9d9968e59}{clearGraph}}()}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_game_algorithm_1_1_vertex}{Vertex}}\ *cursor\ =\ this-\/>first;}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_game_algorithm_1_1_vertex}{Vertex}}\ *remember\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00211\ }
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ remember\ =\ cursor;}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cursor\ =\ cursor-\/>clockWiseLink;}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}\ remember;}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{while}(cursor\ !=\ first);}
+\DoxyCodeLine{00218\ }
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ this-\/>first\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00221\ }
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_game_algorithm_1_1_vertex}{Vertex}}*\ \mbox{\hyperlink{struct_game_algorithm_1_1_graph_a56012ef145f25c0c36d91798d20c5101}{setCursorOnPoint}}(\textcolor{keywordtype}{int}\ row,\ \textcolor{keywordtype}{int}\ col)}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_game_algorithm_1_1_vertex}{Vertex}}\ *cursor\ =\ this-\/>first;}
+\DoxyCodeLine{00232\ }
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}((cursor-\/>carrier.row\ ==\ row)\ \&\&\ (cursor-\/>carrier.col\ ==\ col))}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cursor;}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cursor\ =\ cursor-\/>clockWiseLink;}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{while}(cursor\ !=\ this-\/>first);}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00245\ }
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_game_algorithm_1_1_vertex}{Vertex}}*\ \mbox{\hyperlink{struct_game_algorithm_1_1_graph_a98e0c54b73f9db2106621419edb4dc2f}{find}}(\mbox{\hyperlink{struct_game_algorithm_1_1_point}{Point}}\ point)}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_game_algorithm_1_1_vertex}{Vertex}}\ *cursor\ =\ this-\/>first;}
+\DoxyCodeLine{00254\ }
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(cursor-\/>carrier\ ==\ point)}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cursor;}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00261\ }
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cursor\ =\ cursor-\/>clockWiseLink;}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{while}(cursor\ !=\ this-\/>first);}
+\DoxyCodeLine{00264\ }
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00267\ }
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{struct_game_algorithm_1_1_graph_acc212eaa7be9becd93cc3627f67ab492}{GraphWay}}\ \{\ WayUndefined,\ WayClockWise,\ WayCounterClockWise\ \};}
+\DoxyCodeLine{00272\ }
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_game_algorithm_1_1_graph_ad80f27f6a3c3f73bc439fecbf8a25ef2}{distanceToPoint}}(\mbox{\hyperlink{struct_game_algorithm_1_1_point}{Point}}\ point,\ \mbox{\hyperlink{struct_game_algorithm_1_1_vertex}{Vertex}}\ *startingAt,\ uint8\_t\ graphWayFlag\ =\ GraphWay::WayClockWise)}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ distance\ =\ 0;}
+\DoxyCodeLine{00283\ }
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_game_algorithm_1_1_vertex}{Vertex}}\ *cursor\ =\ startingAt;}
+\DoxyCodeLine{00285\ }
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(cursor-\/>carrier\ ==\ point)}
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ distance;}
+\DoxyCodeLine{00290\ }
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (graphWayFlag)}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GraphWay::WayClockWise:}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cursor\ =\ cursor-\/>clockWiseLink;}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GraphWay::WayCounterClockWise:}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cursor\ =\ cursor-\/>counterClockWiseLink;}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00302\ }
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ distance++;}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(cursor\ !=\ startingAt);}
+\DoxyCodeLine{00306\ }
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00309\ }
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_game_algorithm_1_1_graph_aa36032db01104c6ae6c61cd629b5fc32}{defineShortestWay}}(\mbox{\hyperlink{struct_game_algorithm_1_1_point}{Point}}\ point,\ \mbox{\hyperlink{struct_game_algorithm_1_1_vertex}{Vertex}}\ *startingAt)}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ clockWiseDistance\ \ \ \ \ \ \ \ =\ \mbox{\hyperlink{struct_game_algorithm_1_1_graph_ad80f27f6a3c3f73bc439fecbf8a25ef2}{distanceToPoint}}(point,\ startingAt,\ GraphWay::WayClockWise);}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ counterClockWiseDistance\ =\ \mbox{\hyperlink{struct_game_algorithm_1_1_graph_ad80f27f6a3c3f73bc439fecbf8a25ef2}{distanceToPoint}}(point,\ startingAt,\ GraphWay::WayCounterClockWise);}
+\DoxyCodeLine{00320\ }
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}((clockWiseDistance\ ==\ -\/1)\ ||\ (counterClockWiseDistance\ ==\ -\/1))}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ GraphWay::WayUndefined;}
+\DoxyCodeLine{00323\ }
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(clockWiseDistance\ <\ counterClockWiseDistance)}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ GraphWay::WayClockWise;}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ GraphWay::WayCounterClockWise;}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00329\ \ \ \ \ \};}
+\DoxyCodeLine{00330\ \};}
+\DoxyCodeLine{00331\ }
+\DoxyCodeLine{00332\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GAMEALGO\_H}}
+
+\end{DoxyCode}

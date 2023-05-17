@@ -1,0 +1,85 @@
+\hypertarget{class_fields_grid_model}{}\doxysection{Fields\+Grid\+Model Class Reference}
+\label{class_fields_grid_model}\index{FieldsGridModel@{FieldsGridModel}}
+
+
+\mbox{\hyperlink{class_fields_grid_model}{Fields\+Grid\+Model}} Класс модели игрового поля для взаимодействия с приложением QML.  
+
+
+
+
+{\ttfamily \#include $<$fieldsgridmodel.\+h$>$}
+
+Inheritance diagram for Fields\+Grid\+Model\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_fields_grid_model}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_fields_grid_model_a1d1e4f03b6e587b8531e6cdeaec03278}\label{class_fields_grid_model_a1d1e4f03b6e587b8531e6cdeaec03278}} 
+{\bfseries Fields\+Grid\+Model} (QObject $\ast$parent=nullptr)
+\item 
+\mbox{\hyperlink{class_cells_list}{Cells\+List}} $\ast$ \mbox{\hyperlink{class_fields_grid_model_ac19ec4d5b9ef861a52119302f81f9f46}{list}} () const
+\begin{DoxyCompactList}\small\item\em list Метод возвращает указатель на используемый список клеток игрового поля. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fields_grid_model_a5985e6dcd79f62fb15cc8472debed953}{set\+List}} (\mbox{\hyperlink{class_cells_list}{Cells\+List}} $\ast$list)
+\begin{DoxyCompactList}\small\item\em set\+List Метод устанавливает список клеток игрового поля. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_fields_grid_model_aac3a928ab3a0b321de1fd1465760abf2}\label{class_fields_grid_model_aac3a928ab3a0b321de1fd1465760abf2}} 
+int {\bfseries row\+Count} (const QModel\+Index \&parent=QModel\+Index\{\}) const override
+\item 
+\mbox{\Hypertarget{class_fields_grid_model_af9268aa1c88813457fa291658d1bbc44}\label{class_fields_grid_model_af9268aa1c88813457fa291658d1bbc44}} 
+QVariant {\bfseries data} (const QModel\+Index \&index, int role=Qt\+::\+Display\+Role) const override
+\item 
+\mbox{\Hypertarget{class_fields_grid_model_a877de8d5442fd95b84f2cdaf8deadcdd}\label{class_fields_grid_model_a877de8d5442fd95b84f2cdaf8deadcdd}} 
+bool {\bfseries set\+Data} (const QModel\+Index \&index, const QVariant \&value, int role=Qt\+::\+Display\+Role) override
+\item 
+\mbox{\Hypertarget{class_fields_grid_model_a5aaff5fa935af13bf2e98efc0dec742b}\label{class_fields_grid_model_a5aaff5fa935af13bf2e98efc0dec742b}} 
+virtual QHash$<$ int, QByte\+Array $>$ {\bfseries role\+Names} () const override
+\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_fields_grid_model_a675f02066cf0eb595e909092b1bd69c5}\label{class_fields_grid_model_a675f02066cf0eb595e909092b1bd69c5}} 
+\mbox{\hyperlink{class_cells_list}{Cells\+List}} $\ast$ {\bfseries list}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{class_fields_grid_model}{Fields\+Grid\+Model}} Класс модели игрового поля для взаимодействия с приложением QML. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_fields_grid_model_ac19ec4d5b9ef861a52119302f81f9f46}\label{class_fields_grid_model_ac19ec4d5b9ef861a52119302f81f9f46}} 
+\index{FieldsGridModel@{FieldsGridModel}!list@{list}}
+\index{list@{list}!FieldsGridModel@{FieldsGridModel}}
+\doxysubsubsection{\texorpdfstring{list()}{list()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_cells_list}{Cells\+List}} $\ast$ Fields\+Grid\+Model\+::list (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+list Метод возвращает указатель на используемый список клеток игрового поля. 
+
+\begin{DoxyReturn}{Returns}
+Указатель на используемый список клеток игрового поля. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_fields_grid_model_a5985e6dcd79f62fb15cc8472debed953}\label{class_fields_grid_model_a5985e6dcd79f62fb15cc8472debed953}} 
+\index{FieldsGridModel@{FieldsGridModel}!setList@{setList}}
+\index{setList@{setList}!FieldsGridModel@{FieldsGridModel}}
+\doxysubsubsection{\texorpdfstring{setList()}{setList()}}
+{\footnotesize\ttfamily void Fields\+Grid\+Model\+::set\+List (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_cells_list}{Cells\+List}} $\ast$}]{list }\end{DoxyParamCaption})}
+
+
+
+set\+List Метод устанавливает список клеток игрового поля. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em list} & Указатель на список клеток игрового поля. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+game/models/fieldsgridmodel.\+h\item 
+game/models/fieldsgridmodel.\+cpp\end{DoxyCompactItemize}

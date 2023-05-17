@@ -1,0 +1,122 @@
+\hypertarget{class_lobby_window}{}\doxysection{Lobby\+Window Class Reference}
+\label{class_lobby_window}\index{LobbyWindow@{LobbyWindow}}
+Inheritance diagram for Lobby\+Window\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_lobby_window}
+\end{center}
+\end{figure}
+\doxysubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_lobby_window_ab1955d775b402ac8be5791c6ce83b153}\label{class_lobby_window_ab1955d775b402ac8be5791c6ce83b153}} 
+void {\bfseries go\+To\+Menu\+Window} ()
+\item 
+\mbox{\Hypertarget{class_lobby_window_a96faf575822a8ccf42990e9c11029162}\label{class_lobby_window_a96faf575822a8ccf42990e9c11029162}} 
+void {\bfseries init\+Logout\+Chain} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_lobby_window_a06ec7c28e9bb733d1ffdf47fcad67833}\label{class_lobby_window_a06ec7c28e9bb733d1ffdf47fcad67833}} 
+{\bfseries Lobby\+Window} (unique\+\_\+ptr$<$ \mbox{\hyperlink{class_server_communicator}{Server\+Communicator}} $>$ $\ast$new\+Server\+Ptr, unique\+\_\+ptr$<$ \mbox{\hyperlink{class_user_meta_info}{User\+Meta\+Info}} $>$ $\ast$new\+Meta\+Info\+Ptr, unique\+\_\+ptr$<$ \mbox{\hyperlink{class_game_manager_window}{Game\+Manager\+Window}} $>$ \&new\+Game\+Manager\+Ptr, QWidget $\ast$parent=nullptr)
+\item 
+void \mbox{\hyperlink{class_lobby_window_ae0eb40383b5b6199a05064f93885554d}{window\+Data\+Refresh}} ()
+\item 
+\mbox{\Hypertarget{class_lobby_window_aa28d375be50af375c2944f17d48f9601}\label{class_lobby_window_aa28d375be50af375c2944f17d48f9601}} 
+void {\bfseries show} (const \mbox{\hyperlink{struct_lobby_full_info}{Lobby\+Full\+Info}} first\+Context=\{Default\+Lobby\+Settings, \{\}\})
+\item 
+\mbox{\Hypertarget{class_lobby_window_ac771a56d5a461ea92dee3e2c9f91aacf}\label{class_lobby_window_ac771a56d5a461ea92dee3e2c9f91aacf}} 
+void {\bfseries hide} ()
+\item 
+void \mbox{\hyperlink{class_lobby_window_a24a5ca670e21ecb87dda1a87aa1dbb9c}{quit\+App\+Dialog}} ()
+\end{DoxyCompactItemize}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_base_win_accdd952b555a194189fb56fff92bfb25}\label{class_base_win_accdd952b555a194189fb56fff92bfb25}} 
+virtual void {\bfseries window\+Data\+Refresh} ()
+\item 
+\mbox{\Hypertarget{class_base_win_ae3618b35b580d6bbf6471deda2b98af3}\label{class_base_win_ae3618b35b580d6bbf6471deda2b98af3}} 
+virtual void {\bfseries quit\+App\+Dialog} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+\doxysubsubsection*{Protected Types inherited from \mbox{\hyperlink{class_base_win}{Base\+Win}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_base_win_a79a90791aa7d4a0b3473458a65b13609}\label{class_base_win_a79a90791aa7d4a0b3473458a65b13609}} 
+enum {\bfseries Dialog\+Box\+Variations} \{ \newline
+{\bfseries Quit\+App}
+, {\bfseries Change\+Acc}
+, {\bfseries Join\+Lobby}
+, {\bfseries Leave\+Lobby}
+, \newline
+{\bfseries Restore\+Settings}
+, {\bfseries Start\+Game\+Not\+Ready}
+, {\bfseries Start\+Game\+Settings\+Not\+Applied}
+, {\bfseries Export\+Settings\+Not\+Applied}
+, \newline
+{\bfseries Action\+On\+Player\+Selected}
+, {\bfseries Player\+Promote\+Confirmation}
+, {\bfseries Player\+Kick\+Confirmation}
+, {\bfseries Delete\+Lobby}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions inherited from \mbox{\hyperlink{class_base_win}{Base\+Win}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_base_win_a3d46275d9339fc5c215ce6ecfefd5a07}\label{class_base_win_a3d46275d9339fc5c215ce6ecfefd5a07}} 
+void {\bfseries setup\+Pointers} (unique\+\_\+ptr$<$ \mbox{\hyperlink{class_server_communicator}{Server\+Communicator}} $>$ \&new\+Server\+Ptr, unique\+\_\+ptr$<$ \mbox{\hyperlink{class_user_meta_info}{User\+Meta\+Info}} $>$ \&new\+Meta\+Info\+Ptr)
+\item 
+\mbox{\Hypertarget{class_base_win_ad26549f29979a82eca1931546882ca20}\label{class_base_win_ad26549f29979a82eca1931546882ca20}} 
+unique\+\_\+ptr$<$ \mbox{\hyperlink{class_server_communicator}{Server\+Communicator}} $>$ $\ast$ {\bfseries p\+Server} ()
+\item 
+\mbox{\Hypertarget{class_base_win_a9d9937c926d12e919c11f28815baa618}\label{class_base_win_a9d9937c926d12e919c11f28815baa618}} 
+unique\+\_\+ptr$<$ \mbox{\hyperlink{class_user_meta_info}{User\+Meta\+Info}} $>$ $\ast$ {\bfseries p\+User\+Meta\+Info} ()
+\item 
+\mbox{\Hypertarget{class_base_win_a336aa3fa74affca708ac336b2d0074c4}\label{class_base_win_a336aa3fa74affca708ac336b2d0074c4}} 
+virtual void {\bfseries check\+Timed\+Out\+Counter} ()
+\item 
+\mbox{\Hypertarget{class_base_win_a7d1592206eb79115bc0884690a5a4290}\label{class_base_win_a7d1592206eb79115bc0884690a5a4290}} 
+int {\bfseries make\+Dialog} (dialog\+Box\+Role role, const QString \&carrier=\char`\"{}\char`\"{}, QWidget $\ast$parent=nullptr)
+\item 
+\mbox{\Hypertarget{class_base_win_af0a39856f2fbb81cc100d07c2f01331e}\label{class_base_win_af0a39856f2fbb81cc100d07c2f01331e}} 
+void {\bfseries exec\+Error\+Box} (QString body, QWidget $\ast$parent=nullptr)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes inherited from \mbox{\hyperlink{class_base_win}{Base\+Win}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_base_win_afbabe686388d8e13236b93adc0e04606}\label{class_base_win_afbabe686388d8e13236b93adc0e04606}} 
+QTimer {\bfseries refresh\+Data\+Timer}
+\item 
+\mbox{\Hypertarget{class_base_win_a7cc89a9be516adae89e5c31a41ee3442}\label{class_base_win_a7cc89a9be516adae89e5c31a41ee3442}} 
+uint8\+\_\+t {\bfseries timed\+Out\+Counter} = 0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_lobby_window_a24a5ca670e21ecb87dda1a87aa1dbb9c}\label{class_lobby_window_a24a5ca670e21ecb87dda1a87aa1dbb9c}} 
+\index{LobbyWindow@{LobbyWindow}!quitAppDialog@{quitAppDialog}}
+\index{quitAppDialog@{quitAppDialog}!LobbyWindow@{LobbyWindow}}
+\doxysubsubsection{\texorpdfstring{quitAppDialog()}{quitAppDialog()}}
+{\footnotesize\ttfamily void Lobby\+Window\+::quit\+App\+Dialog (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{class_base_win}{Base\+Win}}.
+
+\mbox{\Hypertarget{class_lobby_window_ae0eb40383b5b6199a05064f93885554d}\label{class_lobby_window_ae0eb40383b5b6199a05064f93885554d}} 
+\index{LobbyWindow@{LobbyWindow}!windowDataRefresh@{windowDataRefresh}}
+\index{windowDataRefresh@{windowDataRefresh}!LobbyWindow@{LobbyWindow}}
+\doxysubsubsection{\texorpdfstring{windowDataRefresh()}{windowDataRefresh()}}
+{\footnotesize\ttfamily void Lobby\+Window\+::window\+Data\+Refresh (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{class_base_win}{Base\+Win}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+userinterface/lobbywindow.\+h\item 
+userinterface/lobbywindow.\+cpp\end{DoxyCompactItemize}

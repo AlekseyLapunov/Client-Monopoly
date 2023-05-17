@@ -1,0 +1,234 @@
+\hypertarget{sourcestrings_8h_source}{}\doxysection{sourcestrings.\+h}
+\label{sourcestrings_8h_source}\index{helpers/common/sourcestrings.h@{helpers/common/sourcestrings.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SOURCESTRINGS\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ SOURCESTRINGS\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <QString>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <QStringList>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <QMap>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{using\ }std::string;}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ Regular\ expressions}}
+\DoxyCodeLine{00013\ \textcolor{keyword}{enum}\ RegExpFlags\ \{LobbyNameRegExp,\ NicknameRegExp,\ LobbyPasswordRegExp,\ LobbyUniqueIdRegExp\};}
+\DoxyCodeLine{00014\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QMap<uint8\_t,\ QString>\ ssRegExps\ =\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{LobbyNameRegExp,\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\string^((\(\backslash\)\(\backslash\)S+)(\(\backslash\)\(\backslash\)s?(\(\backslash\)\(\backslash\)S+))*)\$"{}}\},}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{NicknameRegExp,\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\string^((\(\backslash\)\(\backslash\)S+)(\(\backslash\)\(\backslash\)s?(\(\backslash\)\(\backslash\)S+))*)\$"{}}\},}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{LobbyPasswordRegExp,\ \ \ \textcolor{stringliteral}{"{}\string^(\(\backslash\)\(\backslash\)S|\(\backslash\)\(\backslash\)s)+\$"{}}\},}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{LobbyUniqueIdRegExp,\ \ \ \textcolor{stringliteral}{"{}\string^[0-\/9]*\$"{}}\}}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ QMessageBox}}
+\DoxyCodeLine{00022\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssErrorTitle\ \ \ \ \ \ \ =\ \textcolor{stringliteral}{"{}Ошибка"{}};}
+\DoxyCodeLine{00023\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssErrorBody\ \ \ \ \ \ \ \ =\ \textcolor{stringliteral}{"{}Возникла\ ошибка\ при\ выполнении\ действия"{}};}
+\DoxyCodeLine{00024\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssNothingEntered\ \ \ =\ \textcolor{stringliteral}{"{}Ничего\ не\ введено"{}};}
+\DoxyCodeLine{00025\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssLobbyNotSelected\ =\ \textcolor{stringliteral}{"{}Лобби\ не\ выбрано"{}};}
+\DoxyCodeLine{00026\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssNotEnoughPlayers\ =\ \textcolor{stringliteral}{"{}Недостаточно\ игроков\(\backslash\)nдля\ старта\ игры"{}};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{comment}{//\ MenuWindow}}
+\DoxyCodeLine{00029\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssMenuWindowTitle\ \ \ \ \ \ =\ \textcolor{stringliteral}{"{}Главное\ меню"{}};}
+\DoxyCodeLine{00030\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssPassColumnYes\ \ \ \ \ \ \ \ =\ \textcolor{stringliteral}{"{}Есть"{}};}
+\DoxyCodeLine{00031\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssPassColumnNo\ \ \ \ \ \ \ \ \ =\ \textcolor{stringliteral}{"{}Нет"{}};}
+\DoxyCodeLine{00032\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssPlayersColumnSlash\ \ \ =\ \textcolor{stringliteral}{"{}\ /\ "{}};}
+\DoxyCodeLine{00033\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssStatusBarSubMessage\ \ =\ \textcolor{stringliteral}{"{}\ |\ ID\ для\ подключения:\ "{}};}
+\DoxyCodeLine{00034\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssLobbiesInTotal\ \ \ \ \ \ \ =\ \textcolor{stringliteral}{"{}Всего\ лобби:\ "{}};}
+\DoxyCodeLine{00035\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssLobbiesNotPassworded\ =\ \textcolor{stringliteral}{"{}.\ Открытых\ комнат:\ "{}};}
+\DoxyCodeLine{00036\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssAboutTitle\ \ \ \ \ \ \ \ \ \ \ =\ \textcolor{stringliteral}{"{}О\ приложении"{}};}
+\DoxyCodeLine{00037\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssAboutBody\ \ \ \ \ \ \ \ \ \ \ \ =\ \textcolor{stringliteral}{"{}Приложение\ \(\backslash\)"{}Игра\ Монополия\(\backslash\)"{}\ разработано\(\backslash\)n"{}}}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}студентами\ ИКИТ\ СФУ\ Лапуновым\ А.Ю.\ и\ Звягиным\ С.А.\(\backslash\)n"{}}}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}в\ рамках\ выпускной\ квалификационной\ работы.\(\backslash\)n"{}}}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Клиентское\ приложение:\ Лапунов\ А.Ю.\(\backslash\)n"{}}}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Серверное\ приложение:\ Звягин\ С.А.\(\backslash\)n"{}}}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Руководитель\ ВКР:\ ст.\ преподаватель\ каф.\ ВТ\ ИКИТ\ СФУ\ Васильев\ В.С."{}};}
+\DoxyCodeLine{00043\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QStringList\ ssLobbyTableLabels\ \{\ \textcolor{stringliteral}{"{}Название"{}},}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Пароль"{}},}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Игроки"{}}\};}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{comment}{//\ LobbyWindow}}
+\DoxyCodeLine{00048\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssDeleteLobbyText\ \ \ \ \ \ =\ \textcolor{stringliteral}{"{}Удалить\ лобби"{}};}
+\DoxyCodeLine{00049\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssRankedLobby\ \ \ \ \ \ \ \ \ \ =\ \textcolor{stringliteral}{"{}Рейтинговое\ лобби"{}};}
+\DoxyCodeLine{00050\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssAverageRp\ \ \ \ \ \ \ \ \ \ \ \ =\ \textcolor{stringliteral}{"{}Среднее\ RP:\ "{}};}
+\DoxyCodeLine{00051\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QStringList\ ssUsersTableLabels\ \{\ \textcolor{stringliteral}{"{}Псевдоним"{}},}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}RP"{}},}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Готов"{}}\ \};}
+\DoxyCodeLine{00054\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssUserIsReady\ \ \ \ \ \ \ \ \ \ =\ \textcolor{stringliteral}{"{}Да"{}};}
+\DoxyCodeLine{00055\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssUserNotReady\ \ \ \ \ \ \ \ \ =\ \textcolor{stringliteral}{"{}Нет"{}};}
+\DoxyCodeLine{00056\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssLobbyOfPlayer\ \ \ \ \ \ \ \ =\ \textcolor{stringliteral}{"{}Лобби\ игрока\ "{}};}
+\DoxyCodeLine{00057\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssMyLobby\ \ \ \ \ \ \ \ \ \ \ \ \ \ =\ \textcolor{stringliteral}{"{}Своё\ лобби\ "{}};}
+\DoxyCodeLine{00058\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssLobbyIdPrefix\ \ \ \ \ \ \ \ =\ \textcolor{stringliteral}{"{}ID\ "{}};}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{comment}{//\ Sub-\/dialog\ strings}}
+\DoxyCodeLine{00061\ \textcolor{keyword}{enum}\ SdMode\ \ \{\ SdNickname,\ SdDirectJoin,\ SdPasswordJoin\ \};}
+\DoxyCodeLine{00062\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_sub_dialog_strings}{SubDialogStrings}}}
+\DoxyCodeLine{00063\ \{}
+\DoxyCodeLine{00064\ \ \ \ \ QString\ winTitle;}
+\DoxyCodeLine{00065\ \ \ \ \ QString\ applyButtonText;}
+\DoxyCodeLine{00066\ \ \ \ \ QString\ rejectButtonText;}
+\DoxyCodeLine{00067\ \ \ \ \ QString\ infoText;}
+\DoxyCodeLine{00068\ \ \ \ \ QString\ hintText;}
+\DoxyCodeLine{00069\ \};}
+\DoxyCodeLine{00071\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_sub_dialog_strings}{SubDialogStrings}}\ ssSubDialogChangeNickname\ =\ \{}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Сменить\ псевдоним"{}},}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Применить"{}},}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Отмена"{}},}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Введите\ новый\ псевдоним:"{}},}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Псевдоним"{}}}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00079\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_sub_dialog_strings}{SubDialogStrings}}\ ssSubDialogJoinById\ \ \ \ \ \ \ =\ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Подключение\ по\ ID"{}},}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Подключиться"{}},}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Отмена"{}},}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Введите\ ID\ комнаты:"{}},}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ID"{}}}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00087\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_sub_dialog_strings}{SubDialogStrings}}\ ssSubDialogPasswordedJoin\ =\ \{}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Ввод\ пароля\ к\ лобби"{}},}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Подключиться"{}},}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Отмена"{}},}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Введите\ пароль\ комнаты"{}},}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Пароль"{}}}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00094\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QMap<uint8\_t,\ SubDialogStrings>\ ssSdStrings\ \ =\ \{}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{SdNickname,\ ssSubDialogChangeNickname\},}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{SdDirectJoin,\ ssSubDialogJoinById\},}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{SdPasswordJoin,\ ssSubDialogPasswordedJoin\}}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \textcolor{comment}{//\ filemanager.h}}
+\DoxyCodeLine{00101\ \textcolor{keyword}{enum}\ TokenType\ \{\ Access,\ Refresh\ \};}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssLocalDirPath\ \ \ \ \ \ \ \ \ \ \ =\ \textcolor{stringliteral}{"{}local/"{}};}
+\DoxyCodeLine{00104\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssUserMetaFileName\ \ \ \ \ \ \ =\ \textcolor{stringliteral}{"{}usermeta.json"{}};}
+\DoxyCodeLine{00105\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssRankedSettingsFileName\ =\ \textcolor{stringliteral}{"{}default\_ranked\_settings.json"{}};}
+\DoxyCodeLine{00106\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssLastSettingsFileName\ \ \ =\ \textcolor{stringliteral}{"{}last\_settings.json"{}};}
+\DoxyCodeLine{00107\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssCaptionImportSettings\ \ =\ \textcolor{stringliteral}{"{}Импортировать\ настройки\ лобби"{}};}
+\DoxyCodeLine{00108\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssCaptionExportSettings\ \ =\ \textcolor{stringliteral}{"{}Экспортировать\ настройки\ лобби"{}};}
+\DoxyCodeLine{00109\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QString\ ssJsonFilter\ \ \ \ \ \ \ \ \ \ \ \ \ =\ \textcolor{stringliteral}{"{}JSON\ file\ (*.json)"{}};}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \textcolor{comment}{//\ JSON\ keys}}
+\DoxyCodeLine{00112\ \textcolor{keyword}{enum}\ JsonKeysLobbySettingsId\ \{\ UniqueId,\ LobbyName,\ LobbyPassword,\ MaxPlayersCount,\ OwnerUniqueId,\ IsTimerActive,}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SessionAddress,\ SessionPort,\ TurnTime,\ MaxMoney,\ IsMaxMoneyInfinite,\ MaxTurns,\ AreMaxTurnsInfinite,}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LobbyType\ \};}
+\DoxyCodeLine{00115\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QMap<uint8\_t,\ QString>\ ssJsonLobbySettings\ \ =\ \{}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{UniqueId,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}uniqueId"{}}\},}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{LobbyName,\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}lobbyName"{}}\},}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{LobbyPassword,\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}lobbyPassword"{}}\},}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{MaxPlayersCount,\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}maxPlayersCount"{}}\},}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{OwnerUniqueId,\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ownerUniqueId"{}}\},}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{IsTimerActive,\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}isTimerActive"{}}\},}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{SessionAddress,\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}sessionAddress"{}}\},}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{SessionPort,\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}sessionPort"{}}\},}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{TurnTime,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}turnTime"{}}\},}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{MaxMoney,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}maxMoney"{}}\},}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{IsMaxMoneyInfinite,\ \ \ \ \textcolor{stringliteral}{"{}isMaxMoneyInfinite"{}}\},}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{MaxTurns,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}maxTurns"{}}\},}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{AreMaxTurnsInfinite,\ \ \ \textcolor{stringliteral}{"{}areMaxTurnsInfinite"{}}\},}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{LobbyType,\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}type"{}}\}}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \textcolor{keyword}{enum}\ JsonKeysUserMeta\ \ \ \ \ \ \ \ \{\ AccessToken,\ RefreshToken,\ HostId,\ HostNickname,\ HostRpCount,\ HostIsGuest,\ Uses3dDice,}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ TokensObj,\ UserInfoObj\ \};}
+\DoxyCodeLine{00134\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QMap<uint8\_t,\ QString>\ ssJsonUserMeta\ \ \ \ \ \ \ =\ \{}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{AccessToken,\ \ \ \textcolor{stringliteral}{"{}accessToken"{}}\},}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{RefreshToken,\ \ \textcolor{stringliteral}{"{}refreshToken"{}}\},}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{HostId,\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ID"{}}\},}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{HostNickname,\ \ \textcolor{stringliteral}{"{}nickname"{}}\},}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{HostRpCount,\ \ \ \textcolor{stringliteral}{"{}rating"{}}\},}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{HostIsGuest,\ \ \ \textcolor{stringliteral}{"{}isGuest"{}}\},}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{Uses3dDice,\ \ \ \ \textcolor{stringliteral}{"{}uses3dDice"{}}\},}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{TokensObj,\ \ \ \ \ \textcolor{stringliteral}{"{}tokens"{}}\},}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{UserInfoObj,\ \ \ \textcolor{stringliteral}{"{}userInfo"{}}\}}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \textcolor{keyword}{enum}\ JsonKeysServerLobbies\ \ \ \ \ \ \ \ \ \{\ ServLobbiesListObj,\ ServLobbyID,\ ServLobbyName,\ ServLobbyIsPrivate,}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ServLobbyMaxPlayers,\ ServLobbyPlayersNow,\ ServLobbyInfoObj,}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ServOwnerID,\ ServSettingsObj,\ ServLobbyType,}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ServLobbyPassword,\ ServTimeForTurn,}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ServVictoryType,\ ServScoreVictoryValue,}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ServTurnVictoryValue,\ ServPlayersObj,}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ServUserEntityObj,\ ServUserID,\ ServUserNickname,}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ServUserIsGuest,\ ServUserRpCount,}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ServUserIsReady,\ ServLobbyTimerIsActivate,}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ServConnectionObj,\ ServSessionAddress,\ ServSessionPort\};}
+\DoxyCodeLine{00156\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QMap<uint8\_t,\ QString>\ ssJsonServerLobbiesKeys\ \ \ \ =\ \{}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServLobbiesListObj,\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}lobbies"{}}\},}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServLobbyID,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}lobbyID"{}}\},}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServLobbyName,\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}name"{}}\},}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServLobbyIsPrivate,\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}isPrivate"{}}\},}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServLobbyMaxPlayers,\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}maxPlayers"{}}\},}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServLobbyPlayersNow,\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}playersNow"{}}\},}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServLobbyInfoObj,\ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}lobbyInfo"{}}\},}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServOwnerID,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ownerID"{}}\},}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServSettingsObj,\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}settings"{}}\},}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServLobbyType,\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}type"{}}\},}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServLobbyPassword,\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}password"{}}\},}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServTimeForTurn,\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}timeForTurn"{}}\},}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServVictoryType,\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}victoryType"{}}\},}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServScoreVictoryValue,\ \ \ \ \ \textcolor{stringliteral}{"{}scoreVictoryValue"{}}\},}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServTurnVictoryValue,\ \ \ \ \ \ \textcolor{stringliteral}{"{}turnVictoryValue"{}}\},}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServPlayersObj,\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}players"{}}\},}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServUserEntityObj,\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}userEntity"{}}\},}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServUserID,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ID"{}}\},}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServUserNickname,\ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}nickname"{}}\},}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServUserIsGuest,\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}isGuest"{}}\},}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServUserRpCount,\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}rating"{}}\},}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServUserIsReady,\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}isReady"{}}\},}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServLobbyTimerIsActivate,\ \ \textcolor{stringliteral}{"{}timerIsActivate"{}}\},}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServConnectionObj,\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}connection"{}}\},}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServSessionAddress,\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}address"{}}\},}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServSessionPort,\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}port"{}}\}}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00186\ \textcolor{comment}{//\ Classes\ Names\ for\ the\ exception\ thrower\ specifying}}
+\DoxyCodeLine{00187\ \textcolor{keyword}{enum}\ ClassesNames\ \{\ LoginWindowCN,\ MenuWindowCN,\ LobbiesSubDialogCN,\ LobbyWindowCN,}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ServerCommCN,\ GameManagerCN,\ FileManagerCN\ \};}
+\DoxyCodeLine{00189\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QMap<uint8\_t,\ string>\ ssClassNames\ =\ \{}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{LoginWindowCN,\ \ \ \ \ \ \textcolor{stringliteral}{"{}LoginWindow:\ "{}}\},}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{MenuWindowCN,\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}MenuWindow:\ "{}}\},}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{LobbiesSubDialogCN,\ \textcolor{stringliteral}{"{}LobbiesSubDialog:\ "{}}\},}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{LobbyWindowCN,\ \ \ \ \ \ \textcolor{stringliteral}{"{}LobbyWindow:\ "{}}\},}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ServerCommCN,\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ServerCommunicator:\ "{}}\},}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{GameManagerCN,\ \ \ \ \ \ \textcolor{stringliteral}{"{}GameManagerWindow:\ "{}}\},}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{FileManagerCN,\ \ \ \ \ \ \textcolor{stringliteral}{"{}FileManager:\ "{}}\}}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00198\ }
+\DoxyCodeLine{00199\ \textcolor{comment}{//\ runtime\_error}}
+\DoxyCodeLine{00200\ \textcolor{keyword}{enum}\ RunTimeErrorId\ \{\ PtrLinkFail,\ LobbyConnectFail,\ GoogleAuthFail,\ VkAuthFail,\ GuestAuthFail,}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LobbyCreateFail,\ RankedSearchFail,\ ApplySettingsFail,}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ToggleReadyFail,\ StartGameFail,\ JsonParseError,\ KickPlayerFail,}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ PromotePlayerFail,\ LastSettingsFileDoesNotExist,\ GetHostInfoFail,}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GetLobbyInfoFail\ \};}
+\DoxyCodeLine{00205\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ QMap<uint8\_t,\ string>\ ssErrorsContent\ \ =\ \{}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{PtrLinkFail,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Проблема\ при\ передаче\ указателей"{}}\},}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{LobbyConnectFail,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Не\ удалось\ присоединиться\ к\ лобби.\(\backslash\)n"{}}}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Либо\ комната\ больше\ не\ доступна,"{}}}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\(\backslash\)nлибо\ введён\ неправильный\ пароль"{}}\ \},}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{GoogleAuthFail,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Не\ удалось\ войти\ через\ Google\ аккаунт"{}}\},}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{VkAuthFail,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Не\ удалось\ войти\ через\ VK\ аккаунт"{}}\},}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{GuestAuthFail,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Не\ удалось\ войти\ как\ гость"{}}\},}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{LobbyCreateFail,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Не\ удалось\ создать\ лобби"{}}\},}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{RankedSearchFail,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Не\ удалось\ выполнить\ поиск\ рейтинговой\ игры"{}}\},}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ApplySettingsFail,\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Не\ удалось\ применить\ настройки"{}}\},}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{ToggleReadyFail,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Не\ удалось\ переключить\ готовность"{}}\},}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{StartGameFail,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Не\ удалось\ запустить\ матч"{}}\},}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{JsonParseError,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Не\ удалось\ обработать\ JSON-\/файл"{}}\},}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{KickPlayerFail,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Не\ удалось\ исключить\ игрока"{}}\},}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{PromotePlayerFail,\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Не\ удалось\ сделать\ игрока\ владельцем"{}}\},}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{LastSettingsFileDoesNotExist,\ \ \textcolor{stringliteral}{"{}Файл\ с\ последними\ настройками\ не\ существует"{}}\},}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{GetHostInfoFail,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Не\ удалось\ обновить\ данные\ пользователя"{}}\},}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{GetLobbyInfoFail,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Не\ удалось\ получить\ информацию\ о\ лобби"{}}\}}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00225\ }
+\DoxyCodeLine{00226\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SOURCESTRINGS\_H}}
+\DoxyCodeLine{00227\ }
+\DoxyCodeLine{00228\ }
+\DoxyCodeLine{00229\ }
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00231\ }
+
+\end{DoxyCode}
