@@ -5,6 +5,7 @@
 #include <stdexcept>
 
 #include <QString>
+#include <QTcpSocket>
 #include <QNetworkAccessManager>
 #include <QOAuthHttpServerReplyHandler>
 #include <QOAuth2AuthorizationCodeFlow>
@@ -20,6 +21,7 @@
 #include "../helpers/common/sourcestructs.h"
 #include "../helpers/common/sourcestrings.h"
 #include "servercommhelper.h"
+#include "../protocol_buffers/protobuf_generated/MonopolyGameMessages.pb.h"
 
 class ServerCommunicator : public QObject
 {
@@ -134,6 +136,8 @@ private:
 
     bool globalLobbyIsPassworded = false;
     uint8_t globalAuthType = AuthType::VK;
+
+    QTcpSocket *socket;
 };
 
 #endif // SERVERCOMMUNICATOR_H

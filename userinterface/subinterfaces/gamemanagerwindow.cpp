@@ -183,7 +183,7 @@ void GameManagerWindow::removePlayer()
     m_playersList->sortByBalance();
 
     PlayerGameInfo playerToDelete = m_playersList->getItemAt(
-                m_playersList->findIndexByPlayerNumber(m_playersList->items().size())
+                m_playersList->findIndexByPlayerNumber(static_cast<uint8_t>(m_playersList->items().size()))
                 );
 
     if(checkIfOrderIndexIsValid(playerToDelete.piecePositionOnOrderIndex))
@@ -193,7 +193,7 @@ void GameManagerWindow::removePlayer()
                                      ChangingPiecesMask::DeletePM);
     }
 
-    emit gameTransmitterObj->deletePlayer(m_playersList->items().size());
+    emit gameTransmitterObj->deletePlayer(static_cast<uint8_t>(m_playersList->items().size()));
     reactToPlayerNumberComboBoxChange();
 }
 

@@ -1,0 +1,151 @@
+syntax = "proto3";
+
+package MonopolyGameMessages;
+
+option go_package = "./game_cs_pb";
+
+
+// Enumerations
+enum AwaitedMessage {
+		DICES_ARE_DRAWN = 0;
+		PIECE_MOVING_IS_DRAWN = 1;
+		TIME_FOR_RESOLVE_OUT = 2;
+		BUY_RESOLVE = 3;
+		DO_SABOTAGE_RESOLVE = 4;
+		BUY_ARROW_RESOLVE = 5;
+		TIME_FOR_WAIT_OUT = 6;
+}
+
+enum TileType {
+		VOID = 0;
+		COMMON = 1;
+		BEGINNING = 2;
+		SAWMILL = 3;
+		COAL_STATION = 4;
+		ATOMIC_STATION = 5;
+		FOREST = 6;
+		COAL = 7;
+		URANIUM = 8;
+		VACATION = 9;
+		SABOTAGE = 10;
+		ARROW = 11;
+}
+
+enum ArrowDirection {
+		UP = 0;
+		RIGHT = 1;
+		DOWN = 2;
+		LEFT = 3;
+}
+
+enum PlayerNumber {
+		NONE = 0;
+		PLAYER1	= 1;
+		PLAYER2 = 2;
+		PLAYER3 = 3;
+		PLAYER4 = 4;
+		PLAYER5 = 5;
+		PLAYER6 = 6;
+}
+
+enum State {
+		WAITING = 0;
+		RELAX = 1;
+		PLAYER_TURN = 2;
+		END = 3;
+}
+
+// Main messages
+message ClientHello {
+		uint32 id = 1;
+}
+
+message ServerHello {
+		uint32 lobbyID = 1;
+		string lobbyName = 2;
+		uint32 timeForResolve = 3;
+		repeated Player players = 4;
+		repeated TileStat baseCost = 5;
+		repeated TileStat baseIncome = 6;
+		GameState currentGameState = 7;
+}
+
+message StateRefresh {
+		GameState currentGameState = 1;
+		optional AwaitedResolve awaitedResolve = 2;
+		optional AwaitedMessage awaitedSignal = 3;
+}
+
+
+// Resolve messages
+message BuyResolve {
+		bool isBought = 1;	
+}
+
+message DoSabotageResolve {
+		bool isSabotaged = 1;
+		optional uint32 tileOrder = 2;
+}
+
+message BuyArrowResolve {
+		bool isBought = 1;
+		optional ArrowDirection newDirection = 2;
+}
+
+
+// Awaited signal messages 
+message DicesAreDrawn {}
+message PieceMovingIsDrawn {}
+message TimeForResolveOut {}
+message TimeForWaitOut {}
+
+
+// Additional messages
+message GameState {
+		State state = 1;
+		uint32 currentTurn = 2;
+		uint32 currentStage = 3;
+		optional PlayerNumber whoseTurn = 4;
+		repeated uint32 trace = 5;
+		Dices dices = 6;
+		repeated Tile map = 7;
+		repeated Player players = 8;
+}
+
+message AwaitedResolve {
+		AwaitedMessage await = 1;
+		Tile target = 2;
+}
+
+message TileStat {
+		TileType type = 1;
+		uint32 value = 2;
+}
+
+message Dices {
+		uint32 left = 1;
+		uint32 right = 2;
+}
+
+message Tile {
+		uint32 order = 1;
+		TileType type = 2;
+		PlayerNumber owner = 3;
+		uint32 minDisplayStage = 4;
+		uint32 minActivationStage = 5;
+		repeated PlayerNumber piecesOnPosition = 6;
+		uint32 costForYou = 7;
+		uint32 incomeForOwner = 8;
+		optional ArrowDirection direction = 9;
+		repeated ArrowDirection allowDirections = 10;
+}
+
+message Player {
+		uint32 userID = 1;
+		string nickname = 2;
+		PlayerNumber order = 3;
+		uint32 income = 4;
+		uint32 balance = 5;
+}
+
+

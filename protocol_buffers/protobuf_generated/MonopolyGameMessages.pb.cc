@@ -4,693 +4,558 @@
 #include "MonopolyGameMessages.pb.h"
 
 #include <algorithm>
-#include "google/protobuf/io/coded_stream.h"
-#include "google/protobuf/extension_set.h"
-#include "google/protobuf/wire_format_lite.h"
-#include "google/protobuf/descriptor.h"
-#include "google/protobuf/generated_message_reflection.h"
-#include "google/protobuf/reflection_ops.h"
-#include "google/protobuf/wire_format.h"
-// @@protoc_insertion_point(includes)
 
-// Must be included last.
-#include "google/protobuf/port_def.inc"
+#include <google/protobuf/io/coded_stream.h>
+#include <google/protobuf/extension_set.h>
+#include <google/protobuf/wire_format_lite.h>
+#include <google/protobuf/descriptor.h>
+#include <google/protobuf/generated_message_reflection.h>
+#include <google/protobuf/reflection_ops.h>
+#include <google/protobuf/wire_format.h>
+// @@protoc_insertion_point(includes)
+#include <google/protobuf/port_def.inc>
+
 PROTOBUF_PRAGMA_INIT_SEG
+
 namespace _pb = ::PROTOBUF_NAMESPACE_ID;
-namespace _pbi = ::PROTOBUF_NAMESPACE_ID::internal;
+namespace _pbi = _pb::internal;
+
 namespace MonopolyGameMessages {
-template <typename>
 PROTOBUF_CONSTEXPR ClientHello::ClientHello(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.id_)*/ 0u
-
+    /*decltype(_impl_.id_)*/0u
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct ClientHelloDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ClientHelloDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  PROTOBUF_CONSTEXPR ClientHelloDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
   ~ClientHelloDefaultTypeInternal() {}
   union {
     ClientHello _instance;
   };
 };
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ClientHelloDefaultTypeInternal _ClientHello_default_instance_;
-template <typename>
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ClientHelloDefaultTypeInternal _ClientHello_default_instance_;
 PROTOBUF_CONSTEXPR ServerHello::ServerHello(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_._has_bits_)*/{}
-  , /*decltype(_impl_._cached_size_)*/{}
-  , /*decltype(_impl_.players_)*/{}
+    /*decltype(_impl_.players_)*/{}
   , /*decltype(_impl_.basecost_)*/{}
   , /*decltype(_impl_.baseincome_)*/{}
-  , /*decltype(_impl_.lobbyname_)*/ {
-    &::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized {}
-  }
-
+  , /*decltype(_impl_.lobbyname_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.currentgamestate_)*/nullptr
-  , /*decltype(_impl_.lobbyid_)*/ 0u
-
-  , /*decltype(_impl_.timeforresolve_)*/ 0u
-} {}
+  , /*decltype(_impl_.lobbyid_)*/0u
+  , /*decltype(_impl_.timeforresolve_)*/0u
+  , /*decltype(_impl_._cached_size_)*/{}} {}
 struct ServerHelloDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ServerHelloDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  PROTOBUF_CONSTEXPR ServerHelloDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
   ~ServerHelloDefaultTypeInternal() {}
   union {
     ServerHello _instance;
   };
 };
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ServerHelloDefaultTypeInternal _ServerHello_default_instance_;
-template <typename>
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ServerHelloDefaultTypeInternal _ServerHello_default_instance_;
 PROTOBUF_CONSTEXPR StateRefresh::StateRefresh(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_._has_bits_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}
   , /*decltype(_impl_.currentgamestate_)*/nullptr
   , /*decltype(_impl_.awaitedresolve_)*/nullptr
-  , /*decltype(_impl_.awaitedsignal_)*/ 0
-} {}
+  , /*decltype(_impl_.awaitedsignal_)*/0} {}
 struct StateRefreshDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR StateRefreshDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  PROTOBUF_CONSTEXPR StateRefreshDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
   ~StateRefreshDefaultTypeInternal() {}
   union {
     StateRefresh _instance;
   };
 };
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 StateRefreshDefaultTypeInternal _StateRefresh_default_instance_;
-template <typename>
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 StateRefreshDefaultTypeInternal _StateRefresh_default_instance_;
 PROTOBUF_CONSTEXPR BuyResolve::BuyResolve(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.isbought_)*/ false
-
+    /*decltype(_impl_.isbought_)*/false
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct BuyResolveDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR BuyResolveDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  PROTOBUF_CONSTEXPR BuyResolveDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
   ~BuyResolveDefaultTypeInternal() {}
   union {
     BuyResolve _instance;
   };
 };
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 BuyResolveDefaultTypeInternal _BuyResolve_default_instance_;
-template <typename>
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 BuyResolveDefaultTypeInternal _BuyResolve_default_instance_;
 PROTOBUF_CONSTEXPR DoSabotageResolve::DoSabotageResolve(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_._has_bits_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}
-  , /*decltype(_impl_.issabotaged_)*/ false
-
-  , /*decltype(_impl_.tileorder_)*/ 0u
-} {}
+  , /*decltype(_impl_.issabotaged_)*/false
+  , /*decltype(_impl_.tileorder_)*/0u} {}
 struct DoSabotageResolveDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR DoSabotageResolveDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  PROTOBUF_CONSTEXPR DoSabotageResolveDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
   ~DoSabotageResolveDefaultTypeInternal() {}
   union {
     DoSabotageResolve _instance;
   };
 };
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 DoSabotageResolveDefaultTypeInternal _DoSabotageResolve_default_instance_;
-template <typename>
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 DoSabotageResolveDefaultTypeInternal _DoSabotageResolve_default_instance_;
 PROTOBUF_CONSTEXPR BuyArrowResolve::BuyArrowResolve(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_._has_bits_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}
-  , /*decltype(_impl_.isbought_)*/ false
-
-  , /*decltype(_impl_.newdirection_)*/ 0
-} {}
+  , /*decltype(_impl_.isbought_)*/false
+  , /*decltype(_impl_.newdirection_)*/0} {}
 struct BuyArrowResolveDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR BuyArrowResolveDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  PROTOBUF_CONSTEXPR BuyArrowResolveDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
   ~BuyArrowResolveDefaultTypeInternal() {}
   union {
     BuyArrowResolve _instance;
   };
 };
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 BuyArrowResolveDefaultTypeInternal _BuyArrowResolve_default_instance_;
-template <typename>
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 BuyArrowResolveDefaultTypeInternal _BuyArrowResolve_default_instance_;
 PROTOBUF_CONSTEXPR DicesAreDrawn::DicesAreDrawn(
     ::_pbi::ConstantInitialized) {}
 struct DicesAreDrawnDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR DicesAreDrawnDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  PROTOBUF_CONSTEXPR DicesAreDrawnDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
   ~DicesAreDrawnDefaultTypeInternal() {}
   union {
     DicesAreDrawn _instance;
   };
 };
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 DicesAreDrawnDefaultTypeInternal _DicesAreDrawn_default_instance_;
-template <typename>
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 DicesAreDrawnDefaultTypeInternal _DicesAreDrawn_default_instance_;
 PROTOBUF_CONSTEXPR PieceMovingIsDrawn::PieceMovingIsDrawn(
     ::_pbi::ConstantInitialized) {}
 struct PieceMovingIsDrawnDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR PieceMovingIsDrawnDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  PROTOBUF_CONSTEXPR PieceMovingIsDrawnDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
   ~PieceMovingIsDrawnDefaultTypeInternal() {}
   union {
     PieceMovingIsDrawn _instance;
   };
 };
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PieceMovingIsDrawnDefaultTypeInternal _PieceMovingIsDrawn_default_instance_;
-template <typename>
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PieceMovingIsDrawnDefaultTypeInternal _PieceMovingIsDrawn_default_instance_;
 PROTOBUF_CONSTEXPR TimeForResolveOut::TimeForResolveOut(
     ::_pbi::ConstantInitialized) {}
 struct TimeForResolveOutDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR TimeForResolveOutDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  PROTOBUF_CONSTEXPR TimeForResolveOutDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
   ~TimeForResolveOutDefaultTypeInternal() {}
   union {
     TimeForResolveOut _instance;
   };
 };
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TimeForResolveOutDefaultTypeInternal _TimeForResolveOut_default_instance_;
-template <typename>
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TimeForResolveOutDefaultTypeInternal _TimeForResolveOut_default_instance_;
 PROTOBUF_CONSTEXPR TimeForWaitOut::TimeForWaitOut(
     ::_pbi::ConstantInitialized) {}
 struct TimeForWaitOutDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR TimeForWaitOutDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  PROTOBUF_CONSTEXPR TimeForWaitOutDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
   ~TimeForWaitOutDefaultTypeInternal() {}
   union {
     TimeForWaitOut _instance;
   };
 };
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TimeForWaitOutDefaultTypeInternal _TimeForWaitOut_default_instance_;
-template <typename>
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TimeForWaitOutDefaultTypeInternal _TimeForWaitOut_default_instance_;
 PROTOBUF_CONSTEXPR GameState::GameState(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_._has_bits_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}
-  , /*decltype(_impl_.trace_)*/ {}
-  ,/* _impl_._trace_cached_byte_size_ = */ { 0 }
-
+  , /*decltype(_impl_.trace_)*/{}
+  , /*decltype(_impl_._trace_cached_byte_size_)*/{0}
   , /*decltype(_impl_.map_)*/{}
   , /*decltype(_impl_.players_)*/{}
   , /*decltype(_impl_.dices_)*/nullptr
-  , /*decltype(_impl_.state_)*/ 0
-
-  , /*decltype(_impl_.currentturn_)*/ 0u
-
-  , /*decltype(_impl_.currentstage_)*/ 0u
-
-  , /*decltype(_impl_.whoseturn_)*/ 0
-} {}
+  , /*decltype(_impl_.state_)*/0
+  , /*decltype(_impl_.currentturn_)*/0u
+  , /*decltype(_impl_.currentstage_)*/0u
+  , /*decltype(_impl_.whoseturn_)*/0} {}
 struct GameStateDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR GameStateDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  PROTOBUF_CONSTEXPR GameStateDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
   ~GameStateDefaultTypeInternal() {}
   union {
     GameState _instance;
   };
 };
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GameStateDefaultTypeInternal _GameState_default_instance_;
-template <typename>
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GameStateDefaultTypeInternal _GameState_default_instance_;
 PROTOBUF_CONSTEXPR AwaitedResolve::AwaitedResolve(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_._has_bits_)*/{}
-  , /*decltype(_impl_._cached_size_)*/{}
-  , /*decltype(_impl_.target_)*/nullptr
-  , /*decltype(_impl_.await_)*/ 0
-} {}
+    /*decltype(_impl_.target_)*/nullptr
+  , /*decltype(_impl_.await_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
 struct AwaitedResolveDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR AwaitedResolveDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  PROTOBUF_CONSTEXPR AwaitedResolveDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
   ~AwaitedResolveDefaultTypeInternal() {}
   union {
     AwaitedResolve _instance;
   };
 };
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 AwaitedResolveDefaultTypeInternal _AwaitedResolve_default_instance_;
-template <typename>
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 AwaitedResolveDefaultTypeInternal _AwaitedResolve_default_instance_;
 PROTOBUF_CONSTEXPR TileStat::TileStat(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.type_)*/ 0
-
-  , /*decltype(_impl_.value_)*/ 0u
-
+    /*decltype(_impl_.type_)*/0
+  , /*decltype(_impl_.value_)*/0u
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct TileStatDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR TileStatDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  PROTOBUF_CONSTEXPR TileStatDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
   ~TileStatDefaultTypeInternal() {}
   union {
     TileStat _instance;
   };
 };
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TileStatDefaultTypeInternal _TileStat_default_instance_;
-template <typename>
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TileStatDefaultTypeInternal _TileStat_default_instance_;
 PROTOBUF_CONSTEXPR Dices::Dices(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.left_)*/ 0u
-
-  , /*decltype(_impl_.right_)*/ 0u
-
+    /*decltype(_impl_.left_)*/0u
+  , /*decltype(_impl_.right_)*/0u
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct DicesDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR DicesDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  PROTOBUF_CONSTEXPR DicesDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
   ~DicesDefaultTypeInternal() {}
   union {
     Dices _instance;
   };
 };
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 DicesDefaultTypeInternal _Dices_default_instance_;
-template <typename>
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 DicesDefaultTypeInternal _Dices_default_instance_;
 PROTOBUF_CONSTEXPR Tile::Tile(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_._has_bits_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}
-  , /*decltype(_impl_.piecesonposition_)*/ {}
-  , /*decltype(_impl_._piecesonposition_cached_byte_size_)*/ { 0 }
-
-  , /*decltype(_impl_.allowdirections_)*/ {}
-  , /*decltype(_impl_._allowdirections_cached_byte_size_)*/ { 0 }
-
-  , /*decltype(_impl_.order_)*/ 0u
-
-  , /*decltype(_impl_.type_)*/ 0
-
-  , /*decltype(_impl_.owner_)*/ 0
-
-  , /*decltype(_impl_.mindisplaystage_)*/ 0u
-
-  , /*decltype(_impl_.minactivationstage_)*/ 0u
-
-  , /*decltype(_impl_.costforyou_)*/ 0u
-
-  , /*decltype(_impl_.incomeforowner_)*/ 0u
-
-  , /*decltype(_impl_.direction_)*/ 0
-} {}
+  , /*decltype(_impl_.piecesonposition_)*/{}
+  , /*decltype(_impl_._piecesonposition_cached_byte_size_)*/{0}
+  , /*decltype(_impl_.allowdirections_)*/{}
+  , /*decltype(_impl_._allowdirections_cached_byte_size_)*/{0}
+  , /*decltype(_impl_.order_)*/0u
+  , /*decltype(_impl_.type_)*/0
+  , /*decltype(_impl_.owner_)*/0
+  , /*decltype(_impl_.mindisplaystage_)*/0u
+  , /*decltype(_impl_.minactivationstage_)*/0u
+  , /*decltype(_impl_.costforyou_)*/0u
+  , /*decltype(_impl_.incomeforowner_)*/0u
+  , /*decltype(_impl_.direction_)*/0} {}
 struct TileDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR TileDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  PROTOBUF_CONSTEXPR TileDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
   ~TileDefaultTypeInternal() {}
   union {
     Tile _instance;
   };
 };
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TileDefaultTypeInternal _Tile_default_instance_;
-template <typename>
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TileDefaultTypeInternal _Tile_default_instance_;
 PROTOBUF_CONSTEXPR Player::Player(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.nickname_)*/ {
-    &::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized {}
-  }
-
-  , /*decltype(_impl_.userid_)*/ 0u
-
-  , /*decltype(_impl_.order_)*/ 0
-
-  , /*decltype(_impl_.income_)*/ 0u
-
-  , /*decltype(_impl_.balance_)*/ 0u
-
+    /*decltype(_impl_.nickname_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.userid_)*/0u
+  , /*decltype(_impl_.order_)*/0
+  , /*decltype(_impl_.income_)*/0u
+  , /*decltype(_impl_.balance_)*/0u
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct PlayerDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR PlayerDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  PROTOBUF_CONSTEXPR PlayerDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
   ~PlayerDefaultTypeInternal() {}
   union {
     Player _instance;
   };
 };
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerDefaultTypeInternal _Player_default_instance_;
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerDefaultTypeInternal _Player_default_instance_;
 }  // namespace MonopolyGameMessages
 static ::_pb::Metadata file_level_metadata_MonopolyGameMessages_2eproto[16];
 static const ::_pb::EnumDescriptor* file_level_enum_descriptors_MonopolyGameMessages_2eproto[5];
-static constexpr const ::_pb::ServiceDescriptor**
-    file_level_service_descriptors_MonopolyGameMessages_2eproto = nullptr;
-const ::uint32_t TableStruct_MonopolyGameMessages_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(
-    protodesc_cold) = {
-    ~0u,  // no _has_bits_
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::ClientHello, _internal_metadata_),
-    ~0u,  // no _extensions_
-    ~0u,  // no _oneof_case_
-    ~0u,  // no _weak_field_map_
-    ~0u,  // no _inlined_string_donated_
-    ~0u,  // no _split_
-    ~0u,  // no sizeof(Split)
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::ClientHello, _impl_.id_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::ServerHello, _impl_._has_bits_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::ServerHello, _internal_metadata_),
-    ~0u,  // no _extensions_
-    ~0u,  // no _oneof_case_
-    ~0u,  // no _weak_field_map_
-    ~0u,  // no _inlined_string_donated_
-    ~0u,  // no _split_
-    ~0u,  // no sizeof(Split)
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::ServerHello, _impl_.lobbyid_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::ServerHello, _impl_.lobbyname_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::ServerHello, _impl_.timeforresolve_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::ServerHello, _impl_.players_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::ServerHello, _impl_.basecost_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::ServerHello, _impl_.baseincome_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::ServerHello, _impl_.currentgamestate_),
-    ~0u,
-    ~0u,
-    ~0u,
-    ~0u,
-    ~0u,
-    ~0u,
-    0,
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::StateRefresh, _impl_._has_bits_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::StateRefresh, _internal_metadata_),
-    ~0u,  // no _extensions_
-    ~0u,  // no _oneof_case_
-    ~0u,  // no _weak_field_map_
-    ~0u,  // no _inlined_string_donated_
-    ~0u,  // no _split_
-    ~0u,  // no sizeof(Split)
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::StateRefresh, _impl_.currentgamestate_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::StateRefresh, _impl_.awaitedresolve_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::StateRefresh, _impl_.awaitedsignal_),
-    0,
-    1,
-    2,
-    ~0u,  // no _has_bits_
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::BuyResolve, _internal_metadata_),
-    ~0u,  // no _extensions_
-    ~0u,  // no _oneof_case_
-    ~0u,  // no _weak_field_map_
-    ~0u,  // no _inlined_string_donated_
-    ~0u,  // no _split_
-    ~0u,  // no sizeof(Split)
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::BuyResolve, _impl_.isbought_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::DoSabotageResolve, _impl_._has_bits_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::DoSabotageResolve, _internal_metadata_),
-    ~0u,  // no _extensions_
-    ~0u,  // no _oneof_case_
-    ~0u,  // no _weak_field_map_
-    ~0u,  // no _inlined_string_donated_
-    ~0u,  // no _split_
-    ~0u,  // no sizeof(Split)
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::DoSabotageResolve, _impl_.issabotaged_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::DoSabotageResolve, _impl_.tileorder_),
-    ~0u,
-    0,
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::BuyArrowResolve, _impl_._has_bits_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::BuyArrowResolve, _internal_metadata_),
-    ~0u,  // no _extensions_
-    ~0u,  // no _oneof_case_
-    ~0u,  // no _weak_field_map_
-    ~0u,  // no _inlined_string_donated_
-    ~0u,  // no _split_
-    ~0u,  // no sizeof(Split)
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::BuyArrowResolve, _impl_.isbought_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::BuyArrowResolve, _impl_.newdirection_),
-    ~0u,
-    0,
-    ~0u,  // no _has_bits_
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::DicesAreDrawn, _internal_metadata_),
-    ~0u,  // no _extensions_
-    ~0u,  // no _oneof_case_
-    ~0u,  // no _weak_field_map_
-    ~0u,  // no _inlined_string_donated_
-    ~0u,  // no _split_
-    ~0u,  // no sizeof(Split)
-    ~0u,  // no _has_bits_
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::PieceMovingIsDrawn, _internal_metadata_),
-    ~0u,  // no _extensions_
-    ~0u,  // no _oneof_case_
-    ~0u,  // no _weak_field_map_
-    ~0u,  // no _inlined_string_donated_
-    ~0u,  // no _split_
-    ~0u,  // no sizeof(Split)
-    ~0u,  // no _has_bits_
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::TimeForResolveOut, _internal_metadata_),
-    ~0u,  // no _extensions_
-    ~0u,  // no _oneof_case_
-    ~0u,  // no _weak_field_map_
-    ~0u,  // no _inlined_string_donated_
-    ~0u,  // no _split_
-    ~0u,  // no sizeof(Split)
-    ~0u,  // no _has_bits_
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::TimeForWaitOut, _internal_metadata_),
-    ~0u,  // no _extensions_
-    ~0u,  // no _oneof_case_
-    ~0u,  // no _weak_field_map_
-    ~0u,  // no _inlined_string_donated_
-    ~0u,  // no _split_
-    ~0u,  // no sizeof(Split)
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::GameState, _impl_._has_bits_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::GameState, _internal_metadata_),
-    ~0u,  // no _extensions_
-    ~0u,  // no _oneof_case_
-    ~0u,  // no _weak_field_map_
-    ~0u,  // no _inlined_string_donated_
-    ~0u,  // no _split_
-    ~0u,  // no sizeof(Split)
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::GameState, _impl_.state_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::GameState, _impl_.currentturn_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::GameState, _impl_.currentstage_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::GameState, _impl_.whoseturn_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::GameState, _impl_.trace_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::GameState, _impl_.dices_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::GameState, _impl_.map_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::GameState, _impl_.players_),
-    ~0u,
-    ~0u,
-    ~0u,
-    1,
-    ~0u,
-    0,
-    ~0u,
-    ~0u,
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::AwaitedResolve, _impl_._has_bits_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::AwaitedResolve, _internal_metadata_),
-    ~0u,  // no _extensions_
-    ~0u,  // no _oneof_case_
-    ~0u,  // no _weak_field_map_
-    ~0u,  // no _inlined_string_donated_
-    ~0u,  // no _split_
-    ~0u,  // no sizeof(Split)
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::AwaitedResolve, _impl_.await_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::AwaitedResolve, _impl_.target_),
-    ~0u,
-    0,
-    ~0u,  // no _has_bits_
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::TileStat, _internal_metadata_),
-    ~0u,  // no _extensions_
-    ~0u,  // no _oneof_case_
-    ~0u,  // no _weak_field_map_
-    ~0u,  // no _inlined_string_donated_
-    ~0u,  // no _split_
-    ~0u,  // no sizeof(Split)
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::TileStat, _impl_.type_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::TileStat, _impl_.value_),
-    ~0u,  // no _has_bits_
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Dices, _internal_metadata_),
-    ~0u,  // no _extensions_
-    ~0u,  // no _oneof_case_
-    ~0u,  // no _weak_field_map_
-    ~0u,  // no _inlined_string_donated_
-    ~0u,  // no _split_
-    ~0u,  // no sizeof(Split)
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Dices, _impl_.left_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Dices, _impl_.right_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Tile, _impl_._has_bits_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Tile, _internal_metadata_),
-    ~0u,  // no _extensions_
-    ~0u,  // no _oneof_case_
-    ~0u,  // no _weak_field_map_
-    ~0u,  // no _inlined_string_donated_
-    ~0u,  // no _split_
-    ~0u,  // no sizeof(Split)
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Tile, _impl_.order_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Tile, _impl_.type_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Tile, _impl_.owner_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Tile, _impl_.mindisplaystage_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Tile, _impl_.minactivationstage_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Tile, _impl_.piecesonposition_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Tile, _impl_.costforyou_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Tile, _impl_.incomeforowner_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Tile, _impl_.direction_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Tile, _impl_.allowdirections_),
-    ~0u,
-    ~0u,
-    ~0u,
-    ~0u,
-    ~0u,
-    ~0u,
-    ~0u,
-    ~0u,
-    0,
-    ~0u,
-    ~0u,  // no _has_bits_
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Player, _internal_metadata_),
-    ~0u,  // no _extensions_
-    ~0u,  // no _oneof_case_
-    ~0u,  // no _weak_field_map_
-    ~0u,  // no _inlined_string_donated_
-    ~0u,  // no _split_
-    ~0u,  // no sizeof(Split)
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Player, _impl_.userid_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Player, _impl_.nickname_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Player, _impl_.order_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Player, _impl_.income_),
-    PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Player, _impl_.balance_),
-};
+static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_MonopolyGameMessages_2eproto = nullptr;
 
-static const ::_pbi::MigrationSchema
-    schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-        { 0, -1, -1, sizeof(::MonopolyGameMessages::ClientHello)},
-        { 9, 24, -1, sizeof(::MonopolyGameMessages::ServerHello)},
-        { 31, 42, -1, sizeof(::MonopolyGameMessages::StateRefresh)},
-        { 45, -1, -1, sizeof(::MonopolyGameMessages::BuyResolve)},
-        { 54, 64, -1, sizeof(::MonopolyGameMessages::DoSabotageResolve)},
-        { 66, 76, -1, sizeof(::MonopolyGameMessages::BuyArrowResolve)},
-        { 78, -1, -1, sizeof(::MonopolyGameMessages::DicesAreDrawn)},
-        { 86, -1, -1, sizeof(::MonopolyGameMessages::PieceMovingIsDrawn)},
-        { 94, -1, -1, sizeof(::MonopolyGameMessages::TimeForResolveOut)},
-        { 102, -1, -1, sizeof(::MonopolyGameMessages::TimeForWaitOut)},
-        { 110, 126, -1, sizeof(::MonopolyGameMessages::GameState)},
-        { 134, 144, -1, sizeof(::MonopolyGameMessages::AwaitedResolve)},
-        { 146, -1, -1, sizeof(::MonopolyGameMessages::TileStat)},
-        { 156, -1, -1, sizeof(::MonopolyGameMessages::Dices)},
-        { 166, 184, -1, sizeof(::MonopolyGameMessages::Tile)},
-        { 194, -1, -1, sizeof(::MonopolyGameMessages::Player)},
+const uint32_t TableStruct_MonopolyGameMessages_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::ClientHello, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::ClientHello, _impl_.id_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::ServerHello, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::ServerHello, _impl_.lobbyid_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::ServerHello, _impl_.lobbyname_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::ServerHello, _impl_.timeforresolve_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::ServerHello, _impl_.players_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::ServerHello, _impl_.basecost_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::ServerHello, _impl_.baseincome_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::ServerHello, _impl_.currentgamestate_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::StateRefresh, _impl_._has_bits_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::StateRefresh, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::StateRefresh, _impl_.currentgamestate_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::StateRefresh, _impl_.awaitedresolve_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::StateRefresh, _impl_.awaitedsignal_),
+  ~0u,
+  0,
+  1,
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::BuyResolve, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::BuyResolve, _impl_.isbought_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::DoSabotageResolve, _impl_._has_bits_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::DoSabotageResolve, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::DoSabotageResolve, _impl_.issabotaged_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::DoSabotageResolve, _impl_.tileorder_),
+  ~0u,
+  0,
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::BuyArrowResolve, _impl_._has_bits_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::BuyArrowResolve, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::BuyArrowResolve, _impl_.isbought_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::BuyArrowResolve, _impl_.newdirection_),
+  ~0u,
+  0,
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::DicesAreDrawn, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::PieceMovingIsDrawn, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::TimeForResolveOut, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::TimeForWaitOut, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::GameState, _impl_._has_bits_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::GameState, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::GameState, _impl_.state_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::GameState, _impl_.currentturn_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::GameState, _impl_.currentstage_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::GameState, _impl_.whoseturn_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::GameState, _impl_.trace_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::GameState, _impl_.dices_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::GameState, _impl_.map_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::GameState, _impl_.players_),
+  ~0u,
+  ~0u,
+  ~0u,
+  0,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::AwaitedResolve, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::AwaitedResolve, _impl_.await_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::AwaitedResolve, _impl_.target_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::TileStat, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::TileStat, _impl_.type_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::TileStat, _impl_.value_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Dices, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Dices, _impl_.left_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Dices, _impl_.right_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Tile, _impl_._has_bits_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Tile, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Tile, _impl_.order_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Tile, _impl_.type_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Tile, _impl_.owner_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Tile, _impl_.mindisplaystage_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Tile, _impl_.minactivationstage_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Tile, _impl_.piecesonposition_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Tile, _impl_.costforyou_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Tile, _impl_.incomeforowner_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Tile, _impl_.direction_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Tile, _impl_.allowdirections_),
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  0,
+  ~0u,
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Player, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Player, _impl_.userid_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Player, _impl_.nickname_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Player, _impl_.order_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Player, _impl_.income_),
+  PROTOBUF_FIELD_OFFSET(::MonopolyGameMessages::Player, _impl_.balance_),
+};
+static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+  { 0, -1, -1, sizeof(::MonopolyGameMessages::ClientHello)},
+  { 7, -1, -1, sizeof(::MonopolyGameMessages::ServerHello)},
+  { 20, 29, -1, sizeof(::MonopolyGameMessages::StateRefresh)},
+  { 32, -1, -1, sizeof(::MonopolyGameMessages::BuyResolve)},
+  { 39, 47, -1, sizeof(::MonopolyGameMessages::DoSabotageResolve)},
+  { 49, 57, -1, sizeof(::MonopolyGameMessages::BuyArrowResolve)},
+  { 59, -1, -1, sizeof(::MonopolyGameMessages::DicesAreDrawn)},
+  { 65, -1, -1, sizeof(::MonopolyGameMessages::PieceMovingIsDrawn)},
+  { 71, -1, -1, sizeof(::MonopolyGameMessages::TimeForResolveOut)},
+  { 77, -1, -1, sizeof(::MonopolyGameMessages::TimeForWaitOut)},
+  { 83, 97, -1, sizeof(::MonopolyGameMessages::GameState)},
+  { 105, -1, -1, sizeof(::MonopolyGameMessages::AwaitedResolve)},
+  { 113, -1, -1, sizeof(::MonopolyGameMessages::TileStat)},
+  { 121, -1, -1, sizeof(::MonopolyGameMessages::Dices)},
+  { 129, 145, -1, sizeof(::MonopolyGameMessages::Tile)},
+  { 155, -1, -1, sizeof(::MonopolyGameMessages::Player)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
-    &::MonopolyGameMessages::_ClientHello_default_instance_._instance,
-    &::MonopolyGameMessages::_ServerHello_default_instance_._instance,
-    &::MonopolyGameMessages::_StateRefresh_default_instance_._instance,
-    &::MonopolyGameMessages::_BuyResolve_default_instance_._instance,
-    &::MonopolyGameMessages::_DoSabotageResolve_default_instance_._instance,
-    &::MonopolyGameMessages::_BuyArrowResolve_default_instance_._instance,
-    &::MonopolyGameMessages::_DicesAreDrawn_default_instance_._instance,
-    &::MonopolyGameMessages::_PieceMovingIsDrawn_default_instance_._instance,
-    &::MonopolyGameMessages::_TimeForResolveOut_default_instance_._instance,
-    &::MonopolyGameMessages::_TimeForWaitOut_default_instance_._instance,
-    &::MonopolyGameMessages::_GameState_default_instance_._instance,
-    &::MonopolyGameMessages::_AwaitedResolve_default_instance_._instance,
-    &::MonopolyGameMessages::_TileStat_default_instance_._instance,
-    &::MonopolyGameMessages::_Dices_default_instance_._instance,
-    &::MonopolyGameMessages::_Tile_default_instance_._instance,
-    &::MonopolyGameMessages::_Player_default_instance_._instance,
-};
-const char descriptor_table_protodef_MonopolyGameMessages_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-    "\n\032MonopolyGameMessages.proto\022\024MonopolyGa"
-    "meMessages\"\031\n\013ClientHello\022\n\n\002id\030\001 \001(\r\"\231\002"
-    "\n\013ServerHello\022\017\n\007lobbyID\030\001 \001(\r\022\021\n\tlobbyN"
-    "ame\030\002 \001(\t\022\026\n\016timeForResolve\030\003 \001(\r\022-\n\007pla"
-    "yers\030\004 \003(\0132\034.MonopolyGameMessages.Player"
-    "\0220\n\010baseCost\030\005 \003(\0132\036.MonopolyGameMessage"
-    "s.TileStat\0222\n\nbaseIncome\030\006 \003(\0132\036.Monopol"
-    "yGameMessages.TileStat\0229\n\020currentGameSta"
-    "te\030\007 \001(\0132\037.MonopolyGameMessages.GameStat"
-    "e\"\363\001\n\014StateRefresh\0229\n\020currentGameState\030\001"
-    " \001(\0132\037.MonopolyGameMessages.GameState\022A\n"
-    "\016awaitedResolve\030\002 \001(\0132$.MonopolyGameMess"
-    "ages.AwaitedResolveH\000\210\001\001\022@\n\rawaitedSigna"
-    "l\030\003 \001(\0162$.MonopolyGameMessages.AwaitedMe"
-    "ssageH\001\210\001\001B\021\n\017_awaitedResolveB\020\n\016_awaite"
-    "dSignal\"\036\n\nBuyResolve\022\020\n\010isBought\030\001 \001(\010\""
-    "N\n\021DoSabotageResolve\022\023\n\013isSabotaged\030\001 \001("
-    "\010\022\026\n\ttileOrder\030\002 \001(\rH\000\210\001\001B\014\n\n_tileOrder\""
-    "u\n\017BuyArrowResolve\022\020\n\010isBought\030\001 \001(\010\022\?\n\014"
-    "newDirection\030\002 \001(\0162$.MonopolyGameMessage"
-    "s.ArrowDirectionH\000\210\001\001B\017\n\r_newDirection\"\017"
-    "\n\rDicesAreDrawn\"\024\n\022PieceMovingIsDrawn\"\023\n"
-    "\021TimeForResolveOut\"\020\n\016TimeForWaitOut\"\277\002\n"
-    "\tGameState\022*\n\005state\030\001 \001(\0162\033.MonopolyGame"
-    "Messages.State\022\023\n\013currentTurn\030\002 \001(\r\022\024\n\014c"
-    "urrentStage\030\003 \001(\r\022:\n\twhoseTurn\030\004 \001(\0162\".M"
-    "onopolyGameMessages.PlayerNumberH\000\210\001\001\022\r\n"
-    "\005trace\030\005 \003(\r\022*\n\005dices\030\006 \001(\0132\033.MonopolyGa"
-    "meMessages.Dices\022\'\n\003map\030\007 \003(\0132\032.Monopoly"
-    "GameMessages.Tile\022-\n\007players\030\010 \003(\0132\034.Mon"
-    "opolyGameMessages.PlayerB\014\n\n_whoseTurn\"q"
-    "\n\016AwaitedResolve\0223\n\005await\030\001 \001(\0162$.Monopo"
-    "lyGameMessages.AwaitedMessage\022*\n\006target\030"
-    "\002 \001(\0132\032.MonopolyGameMessages.Tile\"G\n\010Til"
-    "eStat\022,\n\004type\030\001 \001(\0162\036.MonopolyGameMessag"
-    "es.TileType\022\r\n\005value\030\002 \001(\r\"$\n\005Dices\022\014\n\004l"
-    "eft\030\001 \001(\r\022\r\n\005right\030\002 \001(\r\"\240\003\n\004Tile\022\r\n\005ord"
-    "er\030\001 \001(\r\022,\n\004type\030\002 \001(\0162\036.MonopolyGameMes"
-    "sages.TileType\0221\n\005owner\030\003 \001(\0162\".Monopoly"
-    "GameMessages.PlayerNumber\022\027\n\017minDisplayS"
-    "tage\030\004 \001(\r\022\032\n\022minActivationStage\030\005 \001(\r\022<"
-    "\n\020piecesOnPosition\030\006 \003(\0162\".MonopolyGameM"
-    "essages.PlayerNumber\022\022\n\ncostForYou\030\007 \001(\r"
-    "\022\026\n\016incomeForOwner\030\010 \001(\r\022<\n\tdirection\030\t "
-    "\001(\0162$.MonopolyGameMessages.ArrowDirectio"
-    "nH\000\210\001\001\022=\n\017allowDirections\030\n \003(\0162$.Monopo"
-    "lyGameMessages.ArrowDirectionB\014\n\n_direct"
-    "ion\"~\n\006Player\022\016\n\006userID\030\001 \001(\r\022\020\n\010nicknam"
-    "e\030\002 \001(\t\0221\n\005order\030\003 \001(\0162\".MonopolyGameMes"
-    "sages.PlayerNumber\022\016\n\006income\030\004 \001(\r\022\017\n\007ba"
-    "lance\030\005 \001(\r*\262\001\n\016AwaitedMessage\022\023\n\017DICES_"
-    "ARE_DRAWN\020\000\022\031\n\025PIECE_MOVING_IS_DRAWN\020\001\022\030"
-    "\n\024TIME_FOR_RESOLVE_OUT\020\002\022\017\n\013BUY_RESOLVE\020"
-    "\003\022\027\n\023DO_SABOTAGE_RESOLVE\020\004\022\025\n\021BUY_ARROW_"
-    "RESOLVE\020\005\022\025\n\021TIME_FOR_WAIT_OUT\020\006*\254\001\n\010Til"
-    "eType\022\010\n\004VOID\020\000\022\n\n\006COMMON\020\001\022\r\n\tBEGINNING"
-    "\020\002\022\013\n\007SAWMILL\020\003\022\020\n\014COAL_STATION\020\004\022\022\n\016ATO"
-    "MIC_STATION\020\005\022\n\n\006FOREST\020\006\022\010\n\004COAL\020\007\022\013\n\007U"
-    "RANIUM\020\010\022\014\n\010VACATION\020\t\022\014\n\010SABOTAGE\020\n\022\t\n\005"
-    "ARROW\020\013*7\n\016ArrowDirection\022\006\n\002UP\020\000\022\t\n\005RIG"
-    "HT\020\001\022\010\n\004DOWN\020\002\022\010\n\004LEFT\020\003*f\n\014PlayerNumber"
-    "\022\010\n\004NONE\020\000\022\013\n\007PLAYER1\020\001\022\013\n\007PLAYER2\020\002\022\013\n\007"
-    "PLAYER3\020\003\022\013\n\007PLAYER4\020\004\022\013\n\007PLAYER5\020\005\022\013\n\007P"
-    "LAYER6\020\006*9\n\005State\022\013\n\007WAITING\020\000\022\t\n\005RELAX\020"
-    "\001\022\017\n\013PLAYER_TURN\020\002\022\007\n\003END\020\003B\016Z\014./game_cs"
-    "_pbb\006proto3"
-};
-static ::absl::once_flag descriptor_table_MonopolyGameMessages_2eproto_once;
-const ::_pbi::DescriptorTable descriptor_table_MonopolyGameMessages_2eproto = {
-    false,
-    false,
-    2611,
-    descriptor_table_protodef_MonopolyGameMessages_2eproto,
-    "MonopolyGameMessages.proto",
-    &descriptor_table_MonopolyGameMessages_2eproto_once,
-    nullptr,
-    0,
-    16,
-    schemas,
-    file_default_instances,
-    TableStruct_MonopolyGameMessages_2eproto::offsets,
-    file_level_metadata_MonopolyGameMessages_2eproto,
-    file_level_enum_descriptors_MonopolyGameMessages_2eproto,
-    file_level_service_descriptors_MonopolyGameMessages_2eproto,
+  &::MonopolyGameMessages::_ClientHello_default_instance_._instance,
+  &::MonopolyGameMessages::_ServerHello_default_instance_._instance,
+  &::MonopolyGameMessages::_StateRefresh_default_instance_._instance,
+  &::MonopolyGameMessages::_BuyResolve_default_instance_._instance,
+  &::MonopolyGameMessages::_DoSabotageResolve_default_instance_._instance,
+  &::MonopolyGameMessages::_BuyArrowResolve_default_instance_._instance,
+  &::MonopolyGameMessages::_DicesAreDrawn_default_instance_._instance,
+  &::MonopolyGameMessages::_PieceMovingIsDrawn_default_instance_._instance,
+  &::MonopolyGameMessages::_TimeForResolveOut_default_instance_._instance,
+  &::MonopolyGameMessages::_TimeForWaitOut_default_instance_._instance,
+  &::MonopolyGameMessages::_GameState_default_instance_._instance,
+  &::MonopolyGameMessages::_AwaitedResolve_default_instance_._instance,
+  &::MonopolyGameMessages::_TileStat_default_instance_._instance,
+  &::MonopolyGameMessages::_Dices_default_instance_._instance,
+  &::MonopolyGameMessages::_Tile_default_instance_._instance,
+  &::MonopolyGameMessages::_Player_default_instance_._instance,
 };
 
-// This function exists to be marked as weak.
-// It can significantly speed up compilation by breaking up LLVM's SCC
-// in the .pb.cc translation units. Large translation units see a
-// reduction of more than 35% of walltime for optimized builds. Without
-// the weak attribute all the messages in the file, including all the
-// vtables and everything they use become part of the same SCC through
-// a cycle like:
-// GetMetadata -> descriptor table -> default instances ->
-//   vtables -> GetMetadata
-// By adding a weak function here we break the connection from the
-// individual vtables back into the descriptor table.
+const char descriptor_table_protodef_MonopolyGameMessages_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
+  "\n\032MonopolyGameMessages.proto\022\024MonopolyGa"
+  "meMessages\"\031\n\013ClientHello\022\n\n\002id\030\001 \001(\r\"\231\002"
+  "\n\013ServerHello\022\017\n\007lobbyID\030\001 \001(\r\022\021\n\tlobbyN"
+  "ame\030\002 \001(\t\022\026\n\016timeForResolve\030\003 \001(\r\022-\n\007pla"
+  "yers\030\004 \003(\0132\034.MonopolyGameMessages.Player"
+  "\0220\n\010baseCost\030\005 \003(\0132\036.MonopolyGameMessage"
+  "s.TileStat\0222\n\nbaseIncome\030\006 \003(\0132\036.Monopol"
+  "yGameMessages.TileStat\0229\n\020currentGameSta"
+  "te\030\007 \001(\0132\037.MonopolyGameMessages.GameStat"
+  "e\"\363\001\n\014StateRefresh\0229\n\020currentGameState\030\001"
+  " \001(\0132\037.MonopolyGameMessages.GameState\022A\n"
+  "\016awaitedResolve\030\002 \001(\0132$.MonopolyGameMess"
+  "ages.AwaitedResolveH\000\210\001\001\022@\n\rawaitedSigna"
+  "l\030\003 \001(\0162$.MonopolyGameMessages.AwaitedMe"
+  "ssageH\001\210\001\001B\021\n\017_awaitedResolveB\020\n\016_awaite"
+  "dSignal\"\036\n\nBuyResolve\022\020\n\010isBought\030\001 \001(\010\""
+  "N\n\021DoSabotageResolve\022\023\n\013isSabotaged\030\001 \001("
+  "\010\022\026\n\ttileOrder\030\002 \001(\rH\000\210\001\001B\014\n\n_tileOrder\""
+  "u\n\017BuyArrowResolve\022\020\n\010isBought\030\001 \001(\010\022\?\n\014"
+  "newDirection\030\002 \001(\0162$.MonopolyGameMessage"
+  "s.ArrowDirectionH\000\210\001\001B\017\n\r_newDirection\"\017"
+  "\n\rDicesAreDrawn\"\024\n\022PieceMovingIsDrawn\"\023\n"
+  "\021TimeForResolveOut\"\020\n\016TimeForWaitOut\"\277\002\n"
+  "\tGameState\022*\n\005state\030\001 \001(\0162\033.MonopolyGame"
+  "Messages.State\022\023\n\013currentTurn\030\002 \001(\r\022\024\n\014c"
+  "urrentStage\030\003 \001(\r\022:\n\twhoseTurn\030\004 \001(\0162\".M"
+  "onopolyGameMessages.PlayerNumberH\000\210\001\001\022\r\n"
+  "\005trace\030\005 \003(\r\022*\n\005dices\030\006 \001(\0132\033.MonopolyGa"
+  "meMessages.Dices\022\'\n\003map\030\007 \003(\0132\032.Monopoly"
+  "GameMessages.Tile\022-\n\007players\030\010 \003(\0132\034.Mon"
+  "opolyGameMessages.PlayerB\014\n\n_whoseTurn\"q"
+  "\n\016AwaitedResolve\0223\n\005await\030\001 \001(\0162$.Monopo"
+  "lyGameMessages.AwaitedMessage\022*\n\006target\030"
+  "\002 \001(\0132\032.MonopolyGameMessages.Tile\"G\n\010Til"
+  "eStat\022,\n\004type\030\001 \001(\0162\036.MonopolyGameMessag"
+  "es.TileType\022\r\n\005value\030\002 \001(\r\"$\n\005Dices\022\014\n\004l"
+  "eft\030\001 \001(\r\022\r\n\005right\030\002 \001(\r\"\240\003\n\004Tile\022\r\n\005ord"
+  "er\030\001 \001(\r\022,\n\004type\030\002 \001(\0162\036.MonopolyGameMes"
+  "sages.TileType\0221\n\005owner\030\003 \001(\0162\".Monopoly"
+  "GameMessages.PlayerNumber\022\027\n\017minDisplayS"
+  "tage\030\004 \001(\r\022\032\n\022minActivationStage\030\005 \001(\r\022<"
+  "\n\020piecesOnPosition\030\006 \003(\0162\".MonopolyGameM"
+  "essages.PlayerNumber\022\022\n\ncostForYou\030\007 \001(\r"
+  "\022\026\n\016incomeForOwner\030\010 \001(\r\022<\n\tdirection\030\t "
+  "\001(\0162$.MonopolyGameMessages.ArrowDirectio"
+  "nH\000\210\001\001\022=\n\017allowDirections\030\n \003(\0162$.Monopo"
+  "lyGameMessages.ArrowDirectionB\014\n\n_direct"
+  "ion\"~\n\006Player\022\016\n\006userID\030\001 \001(\r\022\020\n\010nicknam"
+  "e\030\002 \001(\t\0221\n\005order\030\003 \001(\0162\".MonopolyGameMes"
+  "sages.PlayerNumber\022\016\n\006income\030\004 \001(\r\022\017\n\007ba"
+  "lance\030\005 \001(\r*\262\001\n\016AwaitedMessage\022\023\n\017DICES_"
+  "ARE_DRAWN\020\000\022\031\n\025PIECE_MOVING_IS_DRAWN\020\001\022\030"
+  "\n\024TIME_FOR_RESOLVE_OUT\020\002\022\017\n\013BUY_RESOLVE\020"
+  "\003\022\027\n\023DO_SABOTAGE_RESOLVE\020\004\022\025\n\021BUY_ARROW_"
+  "RESOLVE\020\005\022\025\n\021TIME_FOR_WAIT_OUT\020\006*\254\001\n\010Til"
+  "eType\022\010\n\004VOID\020\000\022\n\n\006COMMON\020\001\022\r\n\tBEGINNING"
+  "\020\002\022\013\n\007SAWMILL\020\003\022\020\n\014COAL_STATION\020\004\022\022\n\016ATO"
+  "MIC_STATION\020\005\022\n\n\006FOREST\020\006\022\010\n\004COAL\020\007\022\013\n\007U"
+  "RANIUM\020\010\022\014\n\010VACATION\020\t\022\014\n\010SABOTAGE\020\n\022\t\n\005"
+  "ARROW\020\013*7\n\016ArrowDirection\022\006\n\002UP\020\000\022\t\n\005RIG"
+  "HT\020\001\022\010\n\004DOWN\020\002\022\010\n\004LEFT\020\003*f\n\014PlayerNumber"
+  "\022\010\n\004NONE\020\000\022\013\n\007PLAYER1\020\001\022\013\n\007PLAYER2\020\002\022\013\n\007"
+  "PLAYER3\020\003\022\013\n\007PLAYER4\020\004\022\013\n\007PLAYER5\020\005\022\013\n\007P"
+  "LAYER6\020\006*9\n\005State\022\013\n\007WAITING\020\000\022\t\n\005RELAX\020"
+  "\001\022\017\n\013PLAYER_TURN\020\002\022\007\n\003END\020\003B\016Z\014./game_cs"
+  "_pbb\006proto3"
+  ;
+static ::_pbi::once_flag descriptor_table_MonopolyGameMessages_2eproto_once;
+const ::_pbi::DescriptorTable descriptor_table_MonopolyGameMessages_2eproto = {
+    false, false, 2611, descriptor_table_protodef_MonopolyGameMessages_2eproto,
+    "MonopolyGameMessages.proto",
+    &descriptor_table_MonopolyGameMessages_2eproto_once, nullptr, 0, 16,
+    schemas, file_default_instances, TableStruct_MonopolyGameMessages_2eproto::offsets,
+    file_level_metadata_MonopolyGameMessages_2eproto, file_level_enum_descriptors_MonopolyGameMessages_2eproto,
+    file_level_service_descriptors_MonopolyGameMessages_2eproto,
+};
 PROTOBUF_ATTRIBUTE_WEAK const ::_pbi::DescriptorTable* descriptor_table_MonopolyGameMessages_2eproto_getter() {
   return &descriptor_table_MonopolyGameMessages_2eproto;
 }
+
 // Force running AddDescriptors() at dynamic initialization time.
-PROTOBUF_ATTRIBUTE_INIT_PRIORITY2
-static ::_pbi::AddDescriptorsRunner dynamic_init_dummy_MonopolyGameMessages_2eproto(&descriptor_table_MonopolyGameMessages_2eproto);
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY2 static ::_pbi::AddDescriptorsRunner dynamic_init_dummy_MonopolyGameMessages_2eproto(&descriptor_table_MonopolyGameMessages_2eproto);
 namespace MonopolyGameMessages {
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* AwaitedMessage_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_MonopolyGameMessages_2eproto);
@@ -710,6 +575,7 @@ bool AwaitedMessage_IsValid(int value) {
       return false;
   }
 }
+
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* TileType_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_MonopolyGameMessages_2eproto);
   return file_level_enum_descriptors_MonopolyGameMessages_2eproto[1];
@@ -733,6 +599,7 @@ bool TileType_IsValid(int value) {
       return false;
   }
 }
+
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ArrowDirection_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_MonopolyGameMessages_2eproto);
   return file_level_enum_descriptors_MonopolyGameMessages_2eproto[2];
@@ -748,6 +615,7 @@ bool ArrowDirection_IsValid(int value) {
       return false;
   }
 }
+
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PlayerNumber_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_MonopolyGameMessages_2eproto);
   return file_level_enum_descriptors_MonopolyGameMessages_2eproto[3];
@@ -766,6 +634,7 @@ bool PlayerNumber_IsValid(int value) {
       return false;
   }
 }
+
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* State_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_MonopolyGameMessages_2eproto);
   return file_level_enum_descriptors_MonopolyGameMessages_2eproto[4];
@@ -781,29 +650,38 @@ bool State_IsValid(int value) {
       return false;
   }
 }
+
+
 // ===================================================================
 
 class ClientHello::_Internal {
  public:
 };
 
-ClientHello::ClientHello(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
-  SharedCtor(arena);
+ClientHello::ClientHello(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
   // @@protoc_insertion_point(arena_constructor:MonopolyGameMessages.ClientHello)
 }
 ClientHello::ClientHello(const ClientHello& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message(), _impl_(from._impl_) {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(
-      from._internal_metadata_);
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  ClientHello* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.id_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _this->_impl_.id_ = from._impl_.id_;
   // @@protoc_insertion_point(copy_constructor:MonopolyGameMessages.ClientHello)
 }
 
-inline void ClientHello::SharedCtor(::_pb::Arena* arena) {
+inline void ClientHello::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
+  (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.id_) { 0u }
-
+      decltype(_impl_.id_){0u}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -818,7 +696,7 @@ ClientHello::~ClientHello() {
 }
 
 inline void ClientHello::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
 }
 
 void ClientHello::SetCachedSize(int size) const {
@@ -827,7 +705,7 @@ void ClientHello::SetCachedSize(int size) const {
 
 void ClientHello::Clear() {
 // @@protoc_insertion_point(message_clear_start:MonopolyGameMessages.ClientHello)
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
@@ -838,17 +716,16 @@ void ClientHello::Clear() {
 const char* ClientHello::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
-    ::uint32_t tag;
+    uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
       // uint32 id = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 8)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           _impl_.id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       default:
         goto handle_unusual;
@@ -873,17 +750,16 @@ failure:
 #undef CHK_
 }
 
-::uint8_t* ClientHello::_InternalSerialize(
-    ::uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+uint8_t* ClientHello::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:MonopolyGameMessages.ClientHello)
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
   // uint32 id = 1;
   if (this->_internal_id() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
-        1, this->_internal_id(), target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(1, this->_internal_id(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -894,18 +770,17 @@ failure:
   return target;
 }
 
-::size_t ClientHello::ByteSizeLong() const {
+size_t ClientHello::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:MonopolyGameMessages.ClientHello)
-  ::size_t total_size = 0;
+  size_t total_size = 0;
 
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   // uint32 id = 1;
   if (this->_internal_id() != 0) {
-    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
-        this->_internal_id());
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_id());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -922,8 +797,8 @@ void ClientHello::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PR
   auto* const _this = static_cast<ClientHello*>(&to_msg);
   auto& from = static_cast<const ClientHello&>(from_msg);
   // @@protoc_insertion_point(class_specific_merge_from_start:MonopolyGameMessages.ClientHello)
-  ABSL_DCHECK_NE(&from, _this);
-  ::uint32_t cached_has_bits = 0;
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from._internal_id() != 0) {
@@ -946,7 +821,6 @@ bool ClientHello::IsInitialized() const {
 void ClientHello::InternalSwap(ClientHello* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-
   swap(_impl_.id_, other->_impl_.id_);
 }
 
@@ -955,82 +829,73 @@ void ClientHello::InternalSwap(ClientHello* other) {
       &descriptor_table_MonopolyGameMessages_2eproto_getter, &descriptor_table_MonopolyGameMessages_2eproto_once,
       file_level_metadata_MonopolyGameMessages_2eproto[0]);
 }
+
 // ===================================================================
 
 class ServerHello::_Internal {
  public:
-  using HasBits = decltype(std::declval<ServerHello>()._impl_._has_bits_);
-  static constexpr ::int32_t kHasBitsOffset =
-    8 * PROTOBUF_FIELD_OFFSET(ServerHello, _impl_._has_bits_);
   static const ::MonopolyGameMessages::GameState& currentgamestate(const ServerHello* msg);
-  static void set_has_currentgamestate(HasBits* has_bits) {
-    (*has_bits)[0] |= 1u;
-  }
 };
 
 const ::MonopolyGameMessages::GameState&
 ServerHello::_Internal::currentgamestate(const ServerHello* msg) {
   return *msg->_impl_.currentgamestate_;
 }
-ServerHello::ServerHello(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
-  SharedCtor(arena);
+ServerHello::ServerHello(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
   // @@protoc_insertion_point(arena_constructor:MonopolyGameMessages.ServerHello)
 }
 ServerHello::ServerHello(const ServerHello& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   ServerHello* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_}
-    , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.players_){from._impl_.players_}
+      decltype(_impl_.players_){from._impl_.players_}
     , decltype(_impl_.basecost_){from._impl_.basecost_}
     , decltype(_impl_.baseincome_){from._impl_.baseincome_}
-    , decltype(_impl_.lobbyname_) {}
-
+    , decltype(_impl_.lobbyname_){}
     , decltype(_impl_.currentgamestate_){nullptr}
-    , decltype(_impl_.lobbyid_) {}
-
-    , decltype(_impl_.timeforresolve_) {}
-  };
+    , decltype(_impl_.lobbyid_){}
+    , decltype(_impl_.timeforresolve_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   _impl_.lobbyname_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.lobbyname_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.lobbyname_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   if (!from._internal_lobbyname().empty()) {
-    _this->_impl_.lobbyname_.Set(from._internal_lobbyname(), _this->GetArenaForAllocation());
+    _this->_impl_.lobbyname_.Set(from._internal_lobbyname(), 
+      _this->GetArenaForAllocation());
   }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
+  if (from._internal_has_currentgamestate()) {
     _this->_impl_.currentgamestate_ = new ::MonopolyGameMessages::GameState(*from._impl_.currentgamestate_);
   }
   ::memcpy(&_impl_.lobbyid_, &from._impl_.lobbyid_,
-    static_cast<::size_t>(reinterpret_cast<char*>(&_impl_.timeforresolve_) -
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.timeforresolve_) -
     reinterpret_cast<char*>(&_impl_.lobbyid_)) + sizeof(_impl_.timeforresolve_));
   // @@protoc_insertion_point(copy_constructor:MonopolyGameMessages.ServerHello)
 }
 
-inline void ServerHello::SharedCtor(::_pb::Arena* arena) {
+inline void ServerHello::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
+  (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){}
-    , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.players_){arena}
+      decltype(_impl_.players_){arena}
     , decltype(_impl_.basecost_){arena}
     , decltype(_impl_.baseincome_){arena}
-    , decltype(_impl_.lobbyname_) {}
-
+    , decltype(_impl_.lobbyname_){}
     , decltype(_impl_.currentgamestate_){nullptr}
-    , decltype(_impl_.lobbyid_) { 0u }
-
-    , decltype(_impl_.timeforresolve_) { 0u }
-
+    , decltype(_impl_.lobbyid_){0u}
+    , decltype(_impl_.timeforresolve_){0u}
+    , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.lobbyname_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.lobbyname_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.lobbyname_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 ServerHello::~ServerHello() {
@@ -1043,10 +908,10 @@ ServerHello::~ServerHello() {
 }
 
 inline void ServerHello::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
-  _internal_mutable_players()->~RepeatedPtrField();
-  _internal_mutable_basecost()->~RepeatedPtrField();
-  _internal_mutable_baseincome()->~RepeatedPtrField();
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.players_.~RepeatedPtrField();
+  _impl_.basecost_.~RepeatedPtrField();
+  _impl_.baseincome_.~RepeatedPtrField();
   _impl_.lobbyname_.Destroy();
   if (this != internal_default_instance()) delete _impl_.currentgamestate_;
 }
@@ -1057,65 +922,59 @@ void ServerHello::SetCachedSize(int size) const {
 
 void ServerHello::Clear() {
 // @@protoc_insertion_point(message_clear_start:MonopolyGameMessages.ServerHello)
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _internal_mutable_players()->Clear();
-  _internal_mutable_basecost()->Clear();
-  _internal_mutable_baseincome()->Clear();
+  _impl_.players_.Clear();
+  _impl_.basecost_.Clear();
+  _impl_.baseincome_.Clear();
   _impl_.lobbyname_.ClearToEmpty();
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    ABSL_DCHECK(_impl_.currentgamestate_ != nullptr);
-    _impl_.currentgamestate_->Clear();
+  if (GetArenaForAllocation() == nullptr && _impl_.currentgamestate_ != nullptr) {
+    delete _impl_.currentgamestate_;
   }
-  ::memset(&_impl_.lobbyid_, 0, static_cast<::size_t>(
+  _impl_.currentgamestate_ = nullptr;
+  ::memset(&_impl_.lobbyid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.timeforresolve_) -
       reinterpret_cast<char*>(&_impl_.lobbyid_)) + sizeof(_impl_.timeforresolve_));
-  _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* ServerHello::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
-    ::uint32_t tag;
+    uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
       // uint32 lobbyID = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 8)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           _impl_.lobbyid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // string lobbyName = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 18)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
           auto str = _internal_mutable_lobbyname();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
           CHK_(::_pbi::VerifyUTF8(str, "MonopolyGameMessages.ServerHello.lobbyName"));
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // uint32 timeForResolve = 3;
       case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 24)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
           _impl_.timeforresolve_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // repeated .MonopolyGameMessages.Player players = 4;
       case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 34)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
           ptr -= 1;
           do {
             ptr += 1;
@@ -1123,13 +982,12 @@ const char* ServerHello::_InternalParse(const char* ptr, ::_pbi::ParseContext* c
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // repeated .MonopolyGameMessages.TileStat baseCost = 5;
       case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 42)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
           ptr -= 1;
           do {
             ptr += 1;
@@ -1137,13 +995,12 @@ const char* ServerHello::_InternalParse(const char* ptr, ::_pbi::ParseContext* c
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<42>(ptr));
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // repeated .MonopolyGameMessages.TileStat baseIncome = 6;
       case 6:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 50)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
           ptr -= 1;
           do {
             ptr += 1;
@@ -1151,18 +1008,16 @@ const char* ServerHello::_InternalParse(const char* ptr, ::_pbi::ParseContext* c
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<50>(ptr));
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // .MonopolyGameMessages.GameState currentGameState = 7;
       case 7:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 58)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 58)) {
           ptr = ctx->ParseMessage(_internal_mutable_currentgamestate(), ptr);
           CHK_(ptr);
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       default:
         goto handle_unusual;
@@ -1180,7 +1035,6 @@ const char* ServerHello::_InternalParse(const char* ptr, ::_pbi::ParseContext* c
     CHK_(ptr != nullptr);
   }  // while
 message_done:
-  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -1188,32 +1042,32 @@ failure:
 #undef CHK_
 }
 
-::uint8_t* ServerHello::_InternalSerialize(
-    ::uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+uint8_t* ServerHello::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:MonopolyGameMessages.ServerHello)
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
   // uint32 lobbyID = 1;
   if (this->_internal_lobbyid() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
-        1, this->_internal_lobbyid(), target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(1, this->_internal_lobbyid(), target);
   }
 
   // string lobbyName = 2;
   if (!this->_internal_lobbyname().empty()) {
-    const std::string& _s = this->_internal_lobbyname();
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-        _s.data(), static_cast<int>(_s.length()), ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE, "MonopolyGameMessages.ServerHello.lobbyName");
-    target = stream->WriteStringMaybeAliased(2, _s, target);
+      this->_internal_lobbyname().data(), static_cast<int>(this->_internal_lobbyname().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "MonopolyGameMessages.ServerHello.lobbyName");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_lobbyname(), target);
   }
 
   // uint32 timeForResolve = 3;
   if (this->_internal_timeforresolve() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
-        3, this->_internal_timeforresolve(), target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(3, this->_internal_timeforresolve(), target);
   }
 
   // repeated .MonopolyGameMessages.Player players = 4;
@@ -1240,9 +1094,8 @@ failure:
         InternalWriteMessage(6, repfield, repfield.GetCachedSize(), target, stream);
   }
 
-  cached_has_bits = _impl_._has_bits_[0];
   // .MonopolyGameMessages.GameState currentGameState = 7;
-  if (cached_has_bits & 0x00000001u) {
+  if (this->_internal_has_currentgamestate()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(7, _Internal::currentgamestate(this),
         _Internal::currentgamestate(this).GetCachedSize(), target, stream);
@@ -1256,44 +1109,44 @@ failure:
   return target;
 }
 
-::size_t ServerHello::ByteSizeLong() const {
+size_t ServerHello::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:MonopolyGameMessages.ServerHello)
-  ::size_t total_size = 0;
+  size_t total_size = 0;
 
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   // repeated .MonopolyGameMessages.Player players = 4;
   total_size += 1UL * this->_internal_players_size();
-  for (const auto& msg : this->_internal_players()) {
+  for (const auto& msg : this->_impl_.players_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
   // repeated .MonopolyGameMessages.TileStat baseCost = 5;
   total_size += 1UL * this->_internal_basecost_size();
-  for (const auto& msg : this->_internal_basecost()) {
+  for (const auto& msg : this->_impl_.basecost_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
   // repeated .MonopolyGameMessages.TileStat baseIncome = 6;
   total_size += 1UL * this->_internal_baseincome_size();
-  for (const auto& msg : this->_internal_baseincome()) {
+  for (const auto& msg : this->_impl_.baseincome_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
   // string lobbyName = 2;
   if (!this->_internal_lobbyname().empty()) {
-    total_size += 1 + ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-                                    this->_internal_lobbyname());
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_lobbyname());
   }
 
   // .MonopolyGameMessages.GameState currentGameState = 7;
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
+  if (this->_internal_has_currentgamestate()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *_impl_.currentgamestate_);
@@ -1301,14 +1154,12 @@ failure:
 
   // uint32 lobbyID = 1;
   if (this->_internal_lobbyid() != 0) {
-    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
-        this->_internal_lobbyid());
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_lobbyid());
   }
 
   // uint32 timeForResolve = 3;
   if (this->_internal_timeforresolve() != 0) {
-    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
-        this->_internal_timeforresolve());
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_timeforresolve());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -1325,17 +1176,17 @@ void ServerHello::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PR
   auto* const _this = static_cast<ServerHello*>(&to_msg);
   auto& from = static_cast<const ServerHello&>(from_msg);
   // @@protoc_insertion_point(class_specific_merge_from_start:MonopolyGameMessages.ServerHello)
-  ABSL_DCHECK_NE(&from, _this);
-  ::uint32_t cached_has_bits = 0;
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  _this->_internal_mutable_players()->MergeFrom(from._internal_players());
-  _this->_internal_mutable_basecost()->MergeFrom(from._internal_basecost());
-  _this->_internal_mutable_baseincome()->MergeFrom(from._internal_baseincome());
+  _this->_impl_.players_.MergeFrom(from._impl_.players_);
+  _this->_impl_.basecost_.MergeFrom(from._impl_.basecost_);
+  _this->_impl_.baseincome_.MergeFrom(from._impl_.baseincome_);
   if (!from._internal_lobbyname().empty()) {
     _this->_internal_set_lobbyname(from._internal_lobbyname());
   }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
+  if (from._internal_has_currentgamestate()) {
     _this->_internal_mutable_currentgamestate()->::MonopolyGameMessages::GameState::MergeFrom(
         from._internal_currentgamestate());
   }
@@ -1364,12 +1215,13 @@ void ServerHello::InternalSwap(ServerHello* other) {
   auto* lhs_arena = GetArenaForAllocation();
   auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  _internal_mutable_players()->InternalSwap(other->_internal_mutable_players());
-  _internal_mutable_basecost()->InternalSwap(other->_internal_mutable_basecost());
-  _internal_mutable_baseincome()->InternalSwap(other->_internal_mutable_baseincome());
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.lobbyname_, lhs_arena,
-                                       &other->_impl_.lobbyname_, rhs_arena);
+  _impl_.players_.InternalSwap(&other->_impl_.players_);
+  _impl_.basecost_.InternalSwap(&other->_impl_.basecost_);
+  _impl_.baseincome_.InternalSwap(&other->_impl_.baseincome_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.lobbyname_, lhs_arena,
+      &other->_impl_.lobbyname_, rhs_arena
+  );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(ServerHello, _impl_.timeforresolve_)
       + sizeof(ServerHello::_impl_.timeforresolve_)
@@ -1383,23 +1235,19 @@ void ServerHello::InternalSwap(ServerHello* other) {
       &descriptor_table_MonopolyGameMessages_2eproto_getter, &descriptor_table_MonopolyGameMessages_2eproto_once,
       file_level_metadata_MonopolyGameMessages_2eproto[1]);
 }
+
 // ===================================================================
 
 class StateRefresh::_Internal {
  public:
   using HasBits = decltype(std::declval<StateRefresh>()._impl_._has_bits_);
-  static constexpr ::int32_t kHasBitsOffset =
-    8 * PROTOBUF_FIELD_OFFSET(StateRefresh, _impl_._has_bits_);
   static const ::MonopolyGameMessages::GameState& currentgamestate(const StateRefresh* msg);
-  static void set_has_currentgamestate(HasBits* has_bits) {
-    (*has_bits)[0] |= 1u;
-  }
   static const ::MonopolyGameMessages::AwaitedResolve& awaitedresolve(const StateRefresh* msg);
   static void set_has_awaitedresolve(HasBits* has_bits) {
-    (*has_bits)[0] |= 2u;
+    (*has_bits)[0] |= 1u;
   }
   static void set_has_awaitedsignal(HasBits* has_bits) {
-    (*has_bits)[0] |= 4u;
+    (*has_bits)[0] |= 2u;
   }
 };
 
@@ -1411,9 +1259,10 @@ const ::MonopolyGameMessages::AwaitedResolve&
 StateRefresh::_Internal::awaitedresolve(const StateRefresh* msg) {
   return *msg->_impl_.awaitedresolve_;
 }
-StateRefresh::StateRefresh(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
-  SharedCtor(arena);
+StateRefresh::StateRefresh(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
   // @@protoc_insertion_point(arena_constructor:MonopolyGameMessages.StateRefresh)
 }
 StateRefresh::StateRefresh(const StateRefresh& from)
@@ -1424,29 +1273,29 @@ StateRefresh::StateRefresh(const StateRefresh& from)
     , /*decltype(_impl_._cached_size_)*/{}
     , decltype(_impl_.currentgamestate_){nullptr}
     , decltype(_impl_.awaitedresolve_){nullptr}
-    , decltype(_impl_.awaitedsignal_) {}
-  };
+    , decltype(_impl_.awaitedsignal_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
+  if (from._internal_has_currentgamestate()) {
     _this->_impl_.currentgamestate_ = new ::MonopolyGameMessages::GameState(*from._impl_.currentgamestate_);
   }
-  if ((from._impl_._has_bits_[0] & 0x00000002u) != 0) {
+  if (from._internal_has_awaitedresolve()) {
     _this->_impl_.awaitedresolve_ = new ::MonopolyGameMessages::AwaitedResolve(*from._impl_.awaitedresolve_);
   }
   _this->_impl_.awaitedsignal_ = from._impl_.awaitedsignal_;
   // @@protoc_insertion_point(copy_constructor:MonopolyGameMessages.StateRefresh)
 }
 
-inline void StateRefresh::SharedCtor(::_pb::Arena* arena) {
+inline void StateRefresh::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
+  (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
     , decltype(_impl_.currentgamestate_){nullptr}
     , decltype(_impl_.awaitedresolve_){nullptr}
-    , decltype(_impl_.awaitedsignal_) { 0 }
-
+    , decltype(_impl_.awaitedsignal_){0}
   };
 }
 
@@ -1460,7 +1309,7 @@ StateRefresh::~StateRefresh() {
 }
 
 inline void StateRefresh::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   if (this != internal_default_instance()) delete _impl_.currentgamestate_;
   if (this != internal_default_instance()) delete _impl_.awaitedresolve_;
 }
@@ -1471,20 +1320,18 @@ void StateRefresh::SetCachedSize(int size) const {
 
 void StateRefresh::Clear() {
 // @@protoc_insertion_point(message_clear_start:MonopolyGameMessages.StateRefresh)
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  if (GetArenaForAllocation() == nullptr && _impl_.currentgamestate_ != nullptr) {
+    delete _impl_.currentgamestate_;
+  }
+  _impl_.currentgamestate_ = nullptr;
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      ABSL_DCHECK(_impl_.currentgamestate_ != nullptr);
-      _impl_.currentgamestate_->Clear();
-    }
-    if (cached_has_bits & 0x00000002u) {
-      ABSL_DCHECK(_impl_.awaitedresolve_ != nullptr);
-      _impl_.awaitedresolve_->Clear();
-    }
+  if (cached_has_bits & 0x00000001u) {
+    GOOGLE_DCHECK(_impl_.awaitedresolve_ != nullptr);
+    _impl_.awaitedresolve_->Clear();
   }
   _impl_.awaitedsignal_ = 0;
   _impl_._has_bits_.Clear();
@@ -1495,36 +1342,33 @@ const char* StateRefresh::_InternalParse(const char* ptr, ::_pbi::ParseContext* 
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
-    ::uint32_t tag;
+    uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
       // .MonopolyGameMessages.GameState currentGameState = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 10)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
           ptr = ctx->ParseMessage(_internal_mutable_currentgamestate(), ptr);
           CHK_(ptr);
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // optional .MonopolyGameMessages.AwaitedResolve awaitedResolve = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 18)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
           ptr = ctx->ParseMessage(_internal_mutable_awaitedresolve(), ptr);
           CHK_(ptr);
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // optional .MonopolyGameMessages.AwaitedMessage awaitedSignal = 3;
       case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 24)) {
-          ::int32_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_set_awaitedsignal(static_cast<::MonopolyGameMessages::AwaitedMessage>(val));
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       default:
         goto handle_unusual;
@@ -1550,32 +1394,31 @@ failure:
 #undef CHK_
 }
 
-::uint8_t* StateRefresh::_InternalSerialize(
-    ::uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+uint8_t* StateRefresh::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:MonopolyGameMessages.StateRefresh)
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  cached_has_bits = _impl_._has_bits_[0];
   // .MonopolyGameMessages.GameState currentGameState = 1;
-  if (cached_has_bits & 0x00000001u) {
+  if (this->_internal_has_currentgamestate()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(1, _Internal::currentgamestate(this),
         _Internal::currentgamestate(this).GetCachedSize(), target, stream);
   }
 
   // optional .MonopolyGameMessages.AwaitedResolve awaitedResolve = 2;
-  if (cached_has_bits & 0x00000002u) {
+  if (_internal_has_awaitedresolve()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(2, _Internal::awaitedresolve(this),
         _Internal::awaitedresolve(this).GetCachedSize(), target, stream);
   }
 
   // optional .MonopolyGameMessages.AwaitedMessage awaitedSignal = 3;
-  if (cached_has_bits & 0x00000004u) {
+  if (_internal_has_awaitedsignal()) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteEnumToArray(
-        3, this->_internal_awaitedsignal(), target);
+      3, this->_internal_awaitedsignal(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1586,34 +1429,34 @@ failure:
   return target;
 }
 
-::size_t StateRefresh::ByteSizeLong() const {
+size_t StateRefresh::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:MonopolyGameMessages.StateRefresh)
-  ::size_t total_size = 0;
+  size_t total_size = 0;
 
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000007u) {
-    // .MonopolyGameMessages.GameState currentGameState = 1;
-    if (cached_has_bits & 0x00000001u) {
-      total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-          *_impl_.currentgamestate_);
-    }
+  // .MonopolyGameMessages.GameState currentGameState = 1;
+  if (this->_internal_has_currentgamestate()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.currentgamestate_);
+  }
 
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
     // optional .MonopolyGameMessages.AwaitedResolve awaitedResolve = 2;
-    if (cached_has_bits & 0x00000002u) {
+    if (cached_has_bits & 0x00000001u) {
       total_size += 1 +
         ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
           *_impl_.awaitedresolve_);
     }
 
     // optional .MonopolyGameMessages.AwaitedMessage awaitedSignal = 3;
-    if (cached_has_bits & 0x00000004u) {
+    if (cached_has_bits & 0x00000002u) {
       total_size += 1 +
-                    ::_pbi::WireFormatLite::EnumSize(this->_internal_awaitedsignal());
+        ::_pbi::WireFormatLite::EnumSize(this->_internal_awaitedsignal());
     }
 
   }
@@ -1631,21 +1474,21 @@ void StateRefresh::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::P
   auto* const _this = static_cast<StateRefresh*>(&to_msg);
   auto& from = static_cast<const StateRefresh&>(from_msg);
   // @@protoc_insertion_point(class_specific_merge_from_start:MonopolyGameMessages.StateRefresh)
-  ABSL_DCHECK_NE(&from, _this);
-  ::uint32_t cached_has_bits = 0;
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from._internal_has_currentgamestate()) {
+    _this->_internal_mutable_currentgamestate()->::MonopolyGameMessages::GameState::MergeFrom(
+        from._internal_currentgamestate());
+  }
   cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000007u) {
+  if (cached_has_bits & 0x00000003u) {
     if (cached_has_bits & 0x00000001u) {
-      _this->_internal_mutable_currentgamestate()->::MonopolyGameMessages::GameState::MergeFrom(
-          from._internal_currentgamestate());
-    }
-    if (cached_has_bits & 0x00000002u) {
       _this->_internal_mutable_awaitedresolve()->::MonopolyGameMessages::AwaitedResolve::MergeFrom(
           from._internal_awaitedresolve());
     }
-    if (cached_has_bits & 0x00000004u) {
+    if (cached_has_bits & 0x00000002u) {
       _this->_impl_.awaitedsignal_ = from._impl_.awaitedsignal_;
     }
     _this->_impl_._has_bits_[0] |= cached_has_bits;
@@ -1681,29 +1524,37 @@ void StateRefresh::InternalSwap(StateRefresh* other) {
       &descriptor_table_MonopolyGameMessages_2eproto_getter, &descriptor_table_MonopolyGameMessages_2eproto_once,
       file_level_metadata_MonopolyGameMessages_2eproto[2]);
 }
+
 // ===================================================================
 
 class BuyResolve::_Internal {
  public:
 };
 
-BuyResolve::BuyResolve(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
-  SharedCtor(arena);
+BuyResolve::BuyResolve(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
   // @@protoc_insertion_point(arena_constructor:MonopolyGameMessages.BuyResolve)
 }
 BuyResolve::BuyResolve(const BuyResolve& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message(), _impl_(from._impl_) {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(
-      from._internal_metadata_);
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  BuyResolve* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.isbought_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _this->_impl_.isbought_ = from._impl_.isbought_;
   // @@protoc_insertion_point(copy_constructor:MonopolyGameMessages.BuyResolve)
 }
 
-inline void BuyResolve::SharedCtor(::_pb::Arena* arena) {
+inline void BuyResolve::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
+  (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.isbought_) { false }
-
+      decltype(_impl_.isbought_){false}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -1718,7 +1569,7 @@ BuyResolve::~BuyResolve() {
 }
 
 inline void BuyResolve::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
 }
 
 void BuyResolve::SetCachedSize(int size) const {
@@ -1727,7 +1578,7 @@ void BuyResolve::SetCachedSize(int size) const {
 
 void BuyResolve::Clear() {
 // @@protoc_insertion_point(message_clear_start:MonopolyGameMessages.BuyResolve)
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
@@ -1738,17 +1589,16 @@ void BuyResolve::Clear() {
 const char* BuyResolve::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
-    ::uint32_t tag;
+    uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
       // bool isBought = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 8)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           _impl_.isbought_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       default:
         goto handle_unusual;
@@ -1773,17 +1623,16 @@ failure:
 #undef CHK_
 }
 
-::uint8_t* BuyResolve::_InternalSerialize(
-    ::uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+uint8_t* BuyResolve::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:MonopolyGameMessages.BuyResolve)
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
   // bool isBought = 1;
   if (this->_internal_isbought() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteBoolToArray(
-        1, this->_internal_isbought(), target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_isbought(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1794,17 +1643,17 @@ failure:
   return target;
 }
 
-::size_t BuyResolve::ByteSizeLong() const {
+size_t BuyResolve::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:MonopolyGameMessages.BuyResolve)
-  ::size_t total_size = 0;
+  size_t total_size = 0;
 
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   // bool isBought = 1;
   if (this->_internal_isbought() != 0) {
-    total_size += 2;
+    total_size += 1 + 1;
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -1821,8 +1670,8 @@ void BuyResolve::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PRO
   auto* const _this = static_cast<BuyResolve*>(&to_msg);
   auto& from = static_cast<const BuyResolve&>(from_msg);
   // @@protoc_insertion_point(class_specific_merge_from_start:MonopolyGameMessages.BuyResolve)
-  ABSL_DCHECK_NE(&from, _this);
-  ::uint32_t cached_has_bits = 0;
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from._internal_isbought() != 0) {
@@ -1845,7 +1694,6 @@ bool BuyResolve::IsInitialized() const {
 void BuyResolve::InternalSwap(BuyResolve* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-
   swap(_impl_.isbought_, other->_impl_.isbought_);
 }
 
@@ -1854,39 +1702,48 @@ void BuyResolve::InternalSwap(BuyResolve* other) {
       &descriptor_table_MonopolyGameMessages_2eproto_getter, &descriptor_table_MonopolyGameMessages_2eproto_once,
       file_level_metadata_MonopolyGameMessages_2eproto[3]);
 }
+
 // ===================================================================
 
 class DoSabotageResolve::_Internal {
  public:
   using HasBits = decltype(std::declval<DoSabotageResolve>()._impl_._has_bits_);
-  static constexpr ::int32_t kHasBitsOffset =
-    8 * PROTOBUF_FIELD_OFFSET(DoSabotageResolve, _impl_._has_bits_);
   static void set_has_tileorder(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
 };
 
-DoSabotageResolve::DoSabotageResolve(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
-  SharedCtor(arena);
+DoSabotageResolve::DoSabotageResolve(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
   // @@protoc_insertion_point(arena_constructor:MonopolyGameMessages.DoSabotageResolve)
 }
 DoSabotageResolve::DoSabotageResolve(const DoSabotageResolve& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message(), _impl_(from._impl_) {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(
-      from._internal_metadata_);
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  DoSabotageResolve* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.issabotaged_){}
+    , decltype(_impl_.tileorder_){}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&_impl_.issabotaged_, &from._impl_.issabotaged_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.tileorder_) -
+    reinterpret_cast<char*>(&_impl_.issabotaged_)) + sizeof(_impl_.tileorder_));
   // @@protoc_insertion_point(copy_constructor:MonopolyGameMessages.DoSabotageResolve)
 }
 
-inline void DoSabotageResolve::SharedCtor(::_pb::Arena* arena) {
+inline void DoSabotageResolve::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
+  (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.issabotaged_) { false }
-
-    , decltype(_impl_.tileorder_) { 0u }
-
+    , decltype(_impl_.issabotaged_){false}
+    , decltype(_impl_.tileorder_){0u}
   };
 }
 
@@ -1900,7 +1757,7 @@ DoSabotageResolve::~DoSabotageResolve() {
 }
 
 inline void DoSabotageResolve::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
 }
 
 void DoSabotageResolve::SetCachedSize(int size) const {
@@ -1909,7 +1766,7 @@ void DoSabotageResolve::SetCachedSize(int size) const {
 
 void DoSabotageResolve::Clear() {
 // @@protoc_insertion_point(message_clear_start:MonopolyGameMessages.DoSabotageResolve)
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
@@ -1923,27 +1780,25 @@ const char* DoSabotageResolve::_InternalParse(const char* ptr, ::_pbi::ParseCont
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
-    ::uint32_t tag;
+    uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
       // bool isSabotaged = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 8)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           _impl_.issabotaged_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // optional uint32 tileOrder = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 16)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
           _Internal::set_has_tileorder(&has_bits);
           _impl_.tileorder_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       default:
         goto handle_unusual;
@@ -1969,25 +1824,22 @@ failure:
 #undef CHK_
 }
 
-::uint8_t* DoSabotageResolve::_InternalSerialize(
-    ::uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+uint8_t* DoSabotageResolve::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:MonopolyGameMessages.DoSabotageResolve)
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
   // bool isSabotaged = 1;
   if (this->_internal_issabotaged() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteBoolToArray(
-        1, this->_internal_issabotaged(), target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_issabotaged(), target);
   }
 
-  cached_has_bits = _impl_._has_bits_[0];
   // optional uint32 tileOrder = 2;
-  if (cached_has_bits & 0x00000001u) {
+  if (_internal_has_tileorder()) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
-        2, this->_internal_tileorder(), target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(2, this->_internal_tileorder(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1998,24 +1850,23 @@ failure:
   return target;
 }
 
-::size_t DoSabotageResolve::ByteSizeLong() const {
+size_t DoSabotageResolve::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:MonopolyGameMessages.DoSabotageResolve)
-  ::size_t total_size = 0;
+  size_t total_size = 0;
 
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   // bool isSabotaged = 1;
   if (this->_internal_issabotaged() != 0) {
-    total_size += 2;
+    total_size += 1 + 1;
   }
 
   // optional uint32 tileOrder = 2;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
-        this->_internal_tileorder());
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_tileorder());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -2032,14 +1883,14 @@ void DoSabotageResolve::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, cons
   auto* const _this = static_cast<DoSabotageResolve*>(&to_msg);
   auto& from = static_cast<const DoSabotageResolve&>(from_msg);
   // @@protoc_insertion_point(class_specific_merge_from_start:MonopolyGameMessages.DoSabotageResolve)
-  ABSL_DCHECK_NE(&from, _this);
-  ::uint32_t cached_has_bits = 0;
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from._internal_issabotaged() != 0) {
     _this->_internal_set_issabotaged(from._internal_issabotaged());
   }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
+  if (from._internal_has_tileorder()) {
     _this->_internal_set_tileorder(from._internal_tileorder());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -2073,39 +1924,48 @@ void DoSabotageResolve::InternalSwap(DoSabotageResolve* other) {
       &descriptor_table_MonopolyGameMessages_2eproto_getter, &descriptor_table_MonopolyGameMessages_2eproto_once,
       file_level_metadata_MonopolyGameMessages_2eproto[4]);
 }
+
 // ===================================================================
 
 class BuyArrowResolve::_Internal {
  public:
   using HasBits = decltype(std::declval<BuyArrowResolve>()._impl_._has_bits_);
-  static constexpr ::int32_t kHasBitsOffset =
-    8 * PROTOBUF_FIELD_OFFSET(BuyArrowResolve, _impl_._has_bits_);
   static void set_has_newdirection(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
 };
 
-BuyArrowResolve::BuyArrowResolve(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
-  SharedCtor(arena);
+BuyArrowResolve::BuyArrowResolve(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
   // @@protoc_insertion_point(arena_constructor:MonopolyGameMessages.BuyArrowResolve)
 }
 BuyArrowResolve::BuyArrowResolve(const BuyArrowResolve& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message(), _impl_(from._impl_) {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(
-      from._internal_metadata_);
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  BuyArrowResolve* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.isbought_){}
+    , decltype(_impl_.newdirection_){}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&_impl_.isbought_, &from._impl_.isbought_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.newdirection_) -
+    reinterpret_cast<char*>(&_impl_.isbought_)) + sizeof(_impl_.newdirection_));
   // @@protoc_insertion_point(copy_constructor:MonopolyGameMessages.BuyArrowResolve)
 }
 
-inline void BuyArrowResolve::SharedCtor(::_pb::Arena* arena) {
+inline void BuyArrowResolve::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
+  (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.isbought_) { false }
-
-    , decltype(_impl_.newdirection_) { 0 }
-
+    , decltype(_impl_.isbought_){false}
+    , decltype(_impl_.newdirection_){0}
   };
 }
 
@@ -2119,7 +1979,7 @@ BuyArrowResolve::~BuyArrowResolve() {
 }
 
 inline void BuyArrowResolve::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
 }
 
 void BuyArrowResolve::SetCachedSize(int size) const {
@@ -2128,7 +1988,7 @@ void BuyArrowResolve::SetCachedSize(int size) const {
 
 void BuyArrowResolve::Clear() {
 // @@protoc_insertion_point(message_clear_start:MonopolyGameMessages.BuyArrowResolve)
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
@@ -2142,27 +2002,25 @@ const char* BuyArrowResolve::_InternalParse(const char* ptr, ::_pbi::ParseContex
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
-    ::uint32_t tag;
+    uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
       // bool isBought = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 8)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           _impl_.isbought_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // optional .MonopolyGameMessages.ArrowDirection newDirection = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 16)) {
-          ::int32_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_set_newdirection(static_cast<::MonopolyGameMessages::ArrowDirection>(val));
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       default:
         goto handle_unusual;
@@ -2188,25 +2046,23 @@ failure:
 #undef CHK_
 }
 
-::uint8_t* BuyArrowResolve::_InternalSerialize(
-    ::uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+uint8_t* BuyArrowResolve::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:MonopolyGameMessages.BuyArrowResolve)
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
   // bool isBought = 1;
   if (this->_internal_isbought() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteBoolToArray(
-        1, this->_internal_isbought(), target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_isbought(), target);
   }
 
-  cached_has_bits = _impl_._has_bits_[0];
   // optional .MonopolyGameMessages.ArrowDirection newDirection = 2;
-  if (cached_has_bits & 0x00000001u) {
+  if (_internal_has_newdirection()) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteEnumToArray(
-        2, this->_internal_newdirection(), target);
+      2, this->_internal_newdirection(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -2217,24 +2073,24 @@ failure:
   return target;
 }
 
-::size_t BuyArrowResolve::ByteSizeLong() const {
+size_t BuyArrowResolve::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:MonopolyGameMessages.BuyArrowResolve)
-  ::size_t total_size = 0;
+  size_t total_size = 0;
 
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   // bool isBought = 1;
   if (this->_internal_isbought() != 0) {
-    total_size += 2;
+    total_size += 1 + 1;
   }
 
   // optional .MonopolyGameMessages.ArrowDirection newDirection = 2;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
     total_size += 1 +
-                  ::_pbi::WireFormatLite::EnumSize(this->_internal_newdirection());
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_newdirection());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -2251,14 +2107,14 @@ void BuyArrowResolve::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const 
   auto* const _this = static_cast<BuyArrowResolve*>(&to_msg);
   auto& from = static_cast<const BuyArrowResolve&>(from_msg);
   // @@protoc_insertion_point(class_specific_merge_from_start:MonopolyGameMessages.BuyArrowResolve)
-  ABSL_DCHECK_NE(&from, _this);
-  ::uint32_t cached_has_bits = 0;
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from._internal_isbought() != 0) {
     _this->_internal_set_isbought(from._internal_isbought());
   }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
+  if (from._internal_has_newdirection()) {
     _this->_internal_set_newdirection(from._internal_newdirection());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -2292,14 +2148,16 @@ void BuyArrowResolve::InternalSwap(BuyArrowResolve* other) {
       &descriptor_table_MonopolyGameMessages_2eproto_getter, &descriptor_table_MonopolyGameMessages_2eproto_once,
       file_level_metadata_MonopolyGameMessages_2eproto[5]);
 }
+
 // ===================================================================
 
 class DicesAreDrawn::_Internal {
  public:
 };
 
-DicesAreDrawn::DicesAreDrawn(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena) {
+DicesAreDrawn::DicesAreDrawn(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
   // @@protoc_insertion_point(arena_constructor:MonopolyGameMessages.DicesAreDrawn)
 }
 DicesAreDrawn::DicesAreDrawn(const DicesAreDrawn& from)
@@ -2330,14 +2188,16 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*DicesAreDrawn::GetClassData() 
       &descriptor_table_MonopolyGameMessages_2eproto_getter, &descriptor_table_MonopolyGameMessages_2eproto_once,
       file_level_metadata_MonopolyGameMessages_2eproto[6]);
 }
+
 // ===================================================================
 
 class PieceMovingIsDrawn::_Internal {
  public:
 };
 
-PieceMovingIsDrawn::PieceMovingIsDrawn(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena) {
+PieceMovingIsDrawn::PieceMovingIsDrawn(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
   // @@protoc_insertion_point(arena_constructor:MonopolyGameMessages.PieceMovingIsDrawn)
 }
 PieceMovingIsDrawn::PieceMovingIsDrawn(const PieceMovingIsDrawn& from)
@@ -2368,14 +2228,16 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*PieceMovingIsDrawn::GetClassDa
       &descriptor_table_MonopolyGameMessages_2eproto_getter, &descriptor_table_MonopolyGameMessages_2eproto_once,
       file_level_metadata_MonopolyGameMessages_2eproto[7]);
 }
+
 // ===================================================================
 
 class TimeForResolveOut::_Internal {
  public:
 };
 
-TimeForResolveOut::TimeForResolveOut(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena) {
+TimeForResolveOut::TimeForResolveOut(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
   // @@protoc_insertion_point(arena_constructor:MonopolyGameMessages.TimeForResolveOut)
 }
 TimeForResolveOut::TimeForResolveOut(const TimeForResolveOut& from)
@@ -2406,14 +2268,16 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*TimeForResolveOut::GetClassDat
       &descriptor_table_MonopolyGameMessages_2eproto_getter, &descriptor_table_MonopolyGameMessages_2eproto_once,
       file_level_metadata_MonopolyGameMessages_2eproto[8]);
 }
+
 // ===================================================================
 
 class TimeForWaitOut::_Internal {
  public:
 };
 
-TimeForWaitOut::TimeForWaitOut(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena) {
+TimeForWaitOut::TimeForWaitOut(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
   // @@protoc_insertion_point(arena_constructor:MonopolyGameMessages.TimeForWaitOut)
 }
 TimeForWaitOut::TimeForWaitOut(const TimeForWaitOut& from)
@@ -2444,29 +2308,26 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*TimeForWaitOut::GetClassData()
       &descriptor_table_MonopolyGameMessages_2eproto_getter, &descriptor_table_MonopolyGameMessages_2eproto_once,
       file_level_metadata_MonopolyGameMessages_2eproto[9]);
 }
+
 // ===================================================================
 
 class GameState::_Internal {
  public:
   using HasBits = decltype(std::declval<GameState>()._impl_._has_bits_);
-  static constexpr ::int32_t kHasBitsOffset =
-    8 * PROTOBUF_FIELD_OFFSET(GameState, _impl_._has_bits_);
   static void set_has_whoseturn(HasBits* has_bits) {
-    (*has_bits)[0] |= 2u;
-  }
-  static const ::MonopolyGameMessages::Dices& dices(const GameState* msg);
-  static void set_has_dices(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
+  static const ::MonopolyGameMessages::Dices& dices(const GameState* msg);
 };
 
 const ::MonopolyGameMessages::Dices&
 GameState::_Internal::dices(const GameState* msg) {
   return *msg->_impl_.dices_;
 }
-GameState::GameState(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
-  SharedCtor(arena);
+GameState::GameState(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
   // @@protoc_insertion_point(arena_constructor:MonopolyGameMessages.GameState)
 }
 GameState::GameState(const GameState& from)
@@ -2475,50 +2336,42 @@ GameState::GameState(const GameState& from)
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){from._impl_._has_bits_}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.trace_) { from._impl_.trace_ }
-    ,/* _impl_._trace_cached_byte_size_ = */ { 0 }
-
+    , decltype(_impl_.trace_){from._impl_.trace_}
+    , /*decltype(_impl_._trace_cached_byte_size_)*/{0}
     , decltype(_impl_.map_){from._impl_.map_}
     , decltype(_impl_.players_){from._impl_.players_}
     , decltype(_impl_.dices_){nullptr}
-    , decltype(_impl_.state_) {}
-
-    , decltype(_impl_.currentturn_) {}
-
-    , decltype(_impl_.currentstage_) {}
-
-    , decltype(_impl_.whoseturn_) {}
-  };
+    , decltype(_impl_.state_){}
+    , decltype(_impl_.currentturn_){}
+    , decltype(_impl_.currentstage_){}
+    , decltype(_impl_.whoseturn_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
+  if (from._internal_has_dices()) {
     _this->_impl_.dices_ = new ::MonopolyGameMessages::Dices(*from._impl_.dices_);
   }
   ::memcpy(&_impl_.state_, &from._impl_.state_,
-    static_cast<::size_t>(reinterpret_cast<char*>(&_impl_.whoseturn_) -
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.whoseturn_) -
     reinterpret_cast<char*>(&_impl_.state_)) + sizeof(_impl_.whoseturn_));
   // @@protoc_insertion_point(copy_constructor:MonopolyGameMessages.GameState)
 }
 
-inline void GameState::SharedCtor(::_pb::Arena* arena) {
+inline void GameState::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
+  (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.trace_) { arena }
-    ,/* _impl_._trace_cached_byte_size_ = */ { 0 }
-
+    , decltype(_impl_.trace_){arena}
+    , /*decltype(_impl_._trace_cached_byte_size_)*/{0}
     , decltype(_impl_.map_){arena}
     , decltype(_impl_.players_){arena}
     , decltype(_impl_.dices_){nullptr}
-    , decltype(_impl_.state_) { 0 }
-
-    , decltype(_impl_.currentturn_) { 0u }
-
-    , decltype(_impl_.currentstage_) { 0u }
-
-    , decltype(_impl_.whoseturn_) { 0 }
-
+    , decltype(_impl_.state_){0}
+    , decltype(_impl_.currentturn_){0u}
+    , decltype(_impl_.currentstage_){0u}
+    , decltype(_impl_.whoseturn_){0}
   };
 }
 
@@ -2532,10 +2385,10 @@ GameState::~GameState() {
 }
 
 inline void GameState::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.trace_.~RepeatedField();
-  _internal_mutable_map()->~RepeatedPtrField();
-  _internal_mutable_players()->~RepeatedPtrField();
+  _impl_.map_.~RepeatedPtrField();
+  _impl_.players_.~RepeatedPtrField();
   if (this != internal_default_instance()) delete _impl_.dices_;
 }
 
@@ -2545,19 +2398,18 @@ void GameState::SetCachedSize(int size) const {
 
 void GameState::Clear() {
 // @@protoc_insertion_point(message_clear_start:MonopolyGameMessages.GameState)
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _internal_mutable_trace()->Clear();
-  _internal_mutable_map()->Clear();
-  _internal_mutable_players()->Clear();
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    ABSL_DCHECK(_impl_.dices_ != nullptr);
-    _impl_.dices_->Clear();
+  _impl_.trace_.Clear();
+  _impl_.map_.Clear();
+  _impl_.players_.Clear();
+  if (GetArenaForAllocation() == nullptr && _impl_.dices_ != nullptr) {
+    delete _impl_.dices_;
   }
-  ::memset(&_impl_.state_, 0, static_cast<::size_t>(
+  _impl_.dices_ = nullptr;
+  ::memset(&_impl_.state_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.currentstage_) -
       reinterpret_cast<char*>(&_impl_.state_)) + sizeof(_impl_.currentstage_));
   _impl_.whoseturn_ = 0;
@@ -2569,71 +2421,65 @@ const char* GameState::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
-    ::uint32_t tag;
+    uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
       // .MonopolyGameMessages.State state = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 8)) {
-          ::int32_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_set_state(static_cast<::MonopolyGameMessages::State>(val));
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // uint32 currentTurn = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 16)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
           _impl_.currentturn_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // uint32 currentStage = 3;
       case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 24)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
           _impl_.currentstage_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // optional .MonopolyGameMessages.PlayerNumber whoseTurn = 4;
       case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 32)) {
-          ::int32_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_set_whoseturn(static_cast<::MonopolyGameMessages::PlayerNumber>(val));
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // repeated uint32 trace = 5;
       case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 42)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedUInt32Parser(_internal_mutable_trace(), ptr, ctx);
           CHK_(ptr);
-        } else if (static_cast<::uint8_t>(tag) == 40) {
+        } else if (static_cast<uint8_t>(tag) == 40) {
           _internal_add_trace(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr));
           CHK_(ptr);
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // .MonopolyGameMessages.Dices dices = 6;
       case 6:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 50)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
           ptr = ctx->ParseMessage(_internal_mutable_dices(), ptr);
           CHK_(ptr);
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // repeated .MonopolyGameMessages.Tile map = 7;
       case 7:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 58)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 58)) {
           ptr -= 1;
           do {
             ptr += 1;
@@ -2641,13 +2487,12 @@ const char* GameState::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<58>(ptr));
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // repeated .MonopolyGameMessages.Player players = 8;
       case 8:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 66)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 66)) {
           ptr -= 1;
           do {
             ptr += 1;
@@ -2655,9 +2500,8 @@ const char* GameState::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<66>(ptr));
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       default:
         goto handle_unusual;
@@ -2683,52 +2527,49 @@ failure:
 #undef CHK_
 }
 
-::uint8_t* GameState::_InternalSerialize(
-    ::uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+uint8_t* GameState::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:MonopolyGameMessages.GameState)
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
   // .MonopolyGameMessages.State state = 1;
   if (this->_internal_state() != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteEnumToArray(
-        1, this->_internal_state(), target);
+      1, this->_internal_state(), target);
   }
 
   // uint32 currentTurn = 2;
   if (this->_internal_currentturn() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
-        2, this->_internal_currentturn(), target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(2, this->_internal_currentturn(), target);
   }
 
   // uint32 currentStage = 3;
   if (this->_internal_currentstage() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
-        3, this->_internal_currentstage(), target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(3, this->_internal_currentstage(), target);
   }
 
-  cached_has_bits = _impl_._has_bits_[0];
   // optional .MonopolyGameMessages.PlayerNumber whoseTurn = 4;
-  if (cached_has_bits & 0x00000002u) {
+  if (_internal_has_whoseturn()) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteEnumToArray(
-        4, this->_internal_whoseturn(), target);
+      4, this->_internal_whoseturn(), target);
   }
 
   // repeated uint32 trace = 5;
   {
-    int byte_size = _impl_._trace_cached_byte_size_.Get();
+    int byte_size = _impl_._trace_cached_byte_size_.load(std::memory_order_relaxed);
     if (byte_size > 0) {
-      target = stream->WriteUInt32Packed(5, _internal_trace(),
-                                                 byte_size, target);
+      target = stream->WriteUInt32Packed(
+          5, _internal_trace(), byte_size, target);
     }
   }
 
   // .MonopolyGameMessages.Dices dices = 6;
-  if (cached_has_bits & 0x00000001u) {
+  if (this->_internal_has_dices()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(6, _Internal::dices(this),
         _Internal::dices(this).GetCachedSize(), target, stream);
@@ -2758,45 +2599,44 @@ failure:
   return target;
 }
 
-::size_t GameState::ByteSizeLong() const {
+size_t GameState::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:MonopolyGameMessages.GameState)
-  ::size_t total_size = 0;
+  size_t total_size = 0;
 
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   // repeated uint32 trace = 5;
   {
-    std::size_t data_size = ::_pbi::WireFormatLite::UInt32Size(
-        this->_internal_trace())
-    ;
-    _impl_._trace_cached_byte_size_.Set(::_pbi::ToCachedSize(data_size));
-    std::size_t tag_size = data_size == 0
-        ? 0
-        : 1 + ::_pbi::WireFormatLite::Int32Size(
-                            static_cast<int32_t>(data_size))
-    ;
-    total_size += tag_size + data_size;
+    size_t data_size = ::_pbi::WireFormatLite::
+      UInt32Size(this->_impl_.trace_);
+    if (data_size > 0) {
+      total_size += 1 +
+        ::_pbi::WireFormatLite::Int32Size(static_cast<int32_t>(data_size));
+    }
+    int cached_size = ::_pbi::ToCachedSize(data_size);
+    _impl_._trace_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
+    total_size += data_size;
   }
 
   // repeated .MonopolyGameMessages.Tile map = 7;
   total_size += 1UL * this->_internal_map_size();
-  for (const auto& msg : this->_internal_map()) {
+  for (const auto& msg : this->_impl_.map_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
   // repeated .MonopolyGameMessages.Player players = 8;
   total_size += 1UL * this->_internal_players_size();
-  for (const auto& msg : this->_internal_players()) {
+  for (const auto& msg : this->_impl_.players_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
   // .MonopolyGameMessages.Dices dices = 6;
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
+  if (this->_internal_has_dices()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *_impl_.dices_);
@@ -2805,25 +2645,24 @@ failure:
   // .MonopolyGameMessages.State state = 1;
   if (this->_internal_state() != 0) {
     total_size += 1 +
-                  ::_pbi::WireFormatLite::EnumSize(this->_internal_state());
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_state());
   }
 
   // uint32 currentTurn = 2;
   if (this->_internal_currentturn() != 0) {
-    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
-        this->_internal_currentturn());
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_currentturn());
   }
 
   // uint32 currentStage = 3;
   if (this->_internal_currentstage() != 0) {
-    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
-        this->_internal_currentstage());
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_currentstage());
   }
 
   // optional .MonopolyGameMessages.PlayerNumber whoseTurn = 4;
-  if (cached_has_bits & 0x00000002u) {
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
     total_size += 1 +
-                  ::_pbi::WireFormatLite::EnumSize(this->_internal_whoseturn());
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_whoseturn());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -2840,14 +2679,14 @@ void GameState::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROT
   auto* const _this = static_cast<GameState*>(&to_msg);
   auto& from = static_cast<const GameState&>(from_msg);
   // @@protoc_insertion_point(class_specific_merge_from_start:MonopolyGameMessages.GameState)
-  ABSL_DCHECK_NE(&from, _this);
-  ::uint32_t cached_has_bits = 0;
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
   _this->_impl_.trace_.MergeFrom(from._impl_.trace_);
-  _this->_internal_mutable_map()->MergeFrom(from._internal_map());
-  _this->_internal_mutable_players()->MergeFrom(from._internal_players());
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
+  _this->_impl_.map_.MergeFrom(from._impl_.map_);
+  _this->_impl_.players_.MergeFrom(from._impl_.players_);
+  if (from._internal_has_dices()) {
     _this->_internal_mutable_dices()->::MonopolyGameMessages::Dices::MergeFrom(
         from._internal_dices());
   }
@@ -2860,7 +2699,7 @@ void GameState::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROT
   if (from._internal_currentstage() != 0) {
     _this->_internal_set_currentstage(from._internal_currentstage());
   }
-  if ((from._impl_._has_bits_[0] & 0x00000002u) != 0) {
+  if (from._internal_has_whoseturn()) {
     _this->_internal_set_whoseturn(from._internal_whoseturn());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -2882,8 +2721,8 @@ void GameState::InternalSwap(GameState* other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   _impl_.trace_.InternalSwap(&other->_impl_.trace_);
-  _internal_mutable_map()->InternalSwap(other->_internal_mutable_map());
-  _internal_mutable_players()->InternalSwap(other->_internal_mutable_players());
+  _impl_.map_.InternalSwap(&other->_impl_.map_);
+  _impl_.players_.InternalSwap(&other->_impl_.players_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(GameState, _impl_.whoseturn_)
       + sizeof(GameState::_impl_.whoseturn_)
@@ -2897,54 +2736,48 @@ void GameState::InternalSwap(GameState* other) {
       &descriptor_table_MonopolyGameMessages_2eproto_getter, &descriptor_table_MonopolyGameMessages_2eproto_once,
       file_level_metadata_MonopolyGameMessages_2eproto[10]);
 }
+
 // ===================================================================
 
 class AwaitedResolve::_Internal {
  public:
-  using HasBits = decltype(std::declval<AwaitedResolve>()._impl_._has_bits_);
-  static constexpr ::int32_t kHasBitsOffset =
-    8 * PROTOBUF_FIELD_OFFSET(AwaitedResolve, _impl_._has_bits_);
   static const ::MonopolyGameMessages::Tile& target(const AwaitedResolve* msg);
-  static void set_has_target(HasBits* has_bits) {
-    (*has_bits)[0] |= 1u;
-  }
 };
 
 const ::MonopolyGameMessages::Tile&
 AwaitedResolve::_Internal::target(const AwaitedResolve* msg) {
   return *msg->_impl_.target_;
 }
-AwaitedResolve::AwaitedResolve(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
-  SharedCtor(arena);
+AwaitedResolve::AwaitedResolve(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
   // @@protoc_insertion_point(arena_constructor:MonopolyGameMessages.AwaitedResolve)
 }
 AwaitedResolve::AwaitedResolve(const AwaitedResolve& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   AwaitedResolve* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_}
-    , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.target_){nullptr}
-    , decltype(_impl_.await_) {}
-  };
+      decltype(_impl_.target_){nullptr}
+    , decltype(_impl_.await_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
+  if (from._internal_has_target()) {
     _this->_impl_.target_ = new ::MonopolyGameMessages::Tile(*from._impl_.target_);
   }
   _this->_impl_.await_ = from._impl_.await_;
   // @@protoc_insertion_point(copy_constructor:MonopolyGameMessages.AwaitedResolve)
 }
 
-inline void AwaitedResolve::SharedCtor(::_pb::Arena* arena) {
+inline void AwaitedResolve::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
+  (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){}
+      decltype(_impl_.target_){nullptr}
+    , decltype(_impl_.await_){0}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.target_){nullptr}
-    , decltype(_impl_.await_) { 0 }
-
   };
 }
 
@@ -2958,7 +2791,7 @@ AwaitedResolve::~AwaitedResolve() {
 }
 
 inline void AwaitedResolve::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   if (this != internal_default_instance()) delete _impl_.target_;
 }
 
@@ -2968,45 +2801,40 @@ void AwaitedResolve::SetCachedSize(int size) const {
 
 void AwaitedResolve::Clear() {
 // @@protoc_insertion_point(message_clear_start:MonopolyGameMessages.AwaitedResolve)
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    ABSL_DCHECK(_impl_.target_ != nullptr);
-    _impl_.target_->Clear();
+  if (GetArenaForAllocation() == nullptr && _impl_.target_ != nullptr) {
+    delete _impl_.target_;
   }
+  _impl_.target_ = nullptr;
   _impl_.await_ = 0;
-  _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* AwaitedResolve::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
-    ::uint32_t tag;
+    uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
       // .MonopolyGameMessages.AwaitedMessage await = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 8)) {
-          ::int32_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_set_await(static_cast<::MonopolyGameMessages::AwaitedMessage>(val));
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // .MonopolyGameMessages.Tile target = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 18)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
           ptr = ctx->ParseMessage(_internal_mutable_target(), ptr);
           CHK_(ptr);
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       default:
         goto handle_unusual;
@@ -3024,7 +2852,6 @@ const char* AwaitedResolve::_InternalParse(const char* ptr, ::_pbi::ParseContext
     CHK_(ptr != nullptr);
   }  // while
 message_done:
-  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -3032,22 +2859,21 @@ failure:
 #undef CHK_
 }
 
-::uint8_t* AwaitedResolve::_InternalSerialize(
-    ::uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+uint8_t* AwaitedResolve::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:MonopolyGameMessages.AwaitedResolve)
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
   // .MonopolyGameMessages.AwaitedMessage await = 1;
   if (this->_internal_await() != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteEnumToArray(
-        1, this->_internal_await(), target);
+      1, this->_internal_await(), target);
   }
 
-  cached_has_bits = _impl_._has_bits_[0];
   // .MonopolyGameMessages.Tile target = 2;
-  if (cached_has_bits & 0x00000001u) {
+  if (this->_internal_has_target()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(2, _Internal::target(this),
         _Internal::target(this).GetCachedSize(), target, stream);
@@ -3061,17 +2887,16 @@ failure:
   return target;
 }
 
-::size_t AwaitedResolve::ByteSizeLong() const {
+size_t AwaitedResolve::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:MonopolyGameMessages.AwaitedResolve)
-  ::size_t total_size = 0;
+  size_t total_size = 0;
 
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   // .MonopolyGameMessages.Tile target = 2;
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
+  if (this->_internal_has_target()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *_impl_.target_);
@@ -3080,7 +2905,7 @@ failure:
   // .MonopolyGameMessages.AwaitedMessage await = 1;
   if (this->_internal_await() != 0) {
     total_size += 1 +
-                  ::_pbi::WireFormatLite::EnumSize(this->_internal_await());
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_await());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -3097,11 +2922,11 @@ void AwaitedResolve::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const :
   auto* const _this = static_cast<AwaitedResolve*>(&to_msg);
   auto& from = static_cast<const AwaitedResolve&>(from_msg);
   // @@protoc_insertion_point(class_specific_merge_from_start:MonopolyGameMessages.AwaitedResolve)
-  ABSL_DCHECK_NE(&from, _this);
-  ::uint32_t cached_has_bits = 0;
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
+  if (from._internal_has_target()) {
     _this->_internal_mutable_target()->::MonopolyGameMessages::Tile::MergeFrom(
         from._internal_target());
   }
@@ -3125,7 +2950,6 @@ bool AwaitedResolve::IsInitialized() const {
 void AwaitedResolve::InternalSwap(AwaitedResolve* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(AwaitedResolve, _impl_.await_)
       + sizeof(AwaitedResolve::_impl_.await_)
@@ -3139,31 +2963,41 @@ void AwaitedResolve::InternalSwap(AwaitedResolve* other) {
       &descriptor_table_MonopolyGameMessages_2eproto_getter, &descriptor_table_MonopolyGameMessages_2eproto_once,
       file_level_metadata_MonopolyGameMessages_2eproto[11]);
 }
+
 // ===================================================================
 
 class TileStat::_Internal {
  public:
 };
 
-TileStat::TileStat(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
-  SharedCtor(arena);
+TileStat::TileStat(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
   // @@protoc_insertion_point(arena_constructor:MonopolyGameMessages.TileStat)
 }
 TileStat::TileStat(const TileStat& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message(), _impl_(from._impl_) {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(
-      from._internal_metadata_);
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  TileStat* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.type_){}
+    , decltype(_impl_.value_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&_impl_.type_, &from._impl_.type_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.value_) -
+    reinterpret_cast<char*>(&_impl_.type_)) + sizeof(_impl_.value_));
   // @@protoc_insertion_point(copy_constructor:MonopolyGameMessages.TileStat)
 }
 
-inline void TileStat::SharedCtor(::_pb::Arena* arena) {
+inline void TileStat::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
+  (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.type_) { 0 }
-
-    , decltype(_impl_.value_) { 0u }
-
+      decltype(_impl_.type_){0}
+    , decltype(_impl_.value_){0u}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -3178,7 +3012,7 @@ TileStat::~TileStat() {
 }
 
 inline void TileStat::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
 }
 
 void TileStat::SetCachedSize(int size) const {
@@ -3187,11 +3021,11 @@ void TileStat::SetCachedSize(int size) const {
 
 void TileStat::Clear() {
 // @@protoc_insertion_point(message_clear_start:MonopolyGameMessages.TileStat)
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&_impl_.type_, 0, static_cast<::size_t>(
+  ::memset(&_impl_.type_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.value_) -
       reinterpret_cast<char*>(&_impl_.type_)) + sizeof(_impl_.value_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
@@ -3200,27 +3034,25 @@ void TileStat::Clear() {
 const char* TileStat::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
-    ::uint32_t tag;
+    uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
       // .MonopolyGameMessages.TileType type = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 8)) {
-          ::int32_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_set_type(static_cast<::MonopolyGameMessages::TileType>(val));
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // uint32 value = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 16)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
           _impl_.value_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       default:
         goto handle_unusual;
@@ -3245,24 +3077,23 @@ failure:
 #undef CHK_
 }
 
-::uint8_t* TileStat::_InternalSerialize(
-    ::uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+uint8_t* TileStat::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:MonopolyGameMessages.TileStat)
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
   // .MonopolyGameMessages.TileType type = 1;
   if (this->_internal_type() != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteEnumToArray(
-        1, this->_internal_type(), target);
+      1, this->_internal_type(), target);
   }
 
   // uint32 value = 2;
   if (this->_internal_value() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
-        2, this->_internal_value(), target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(2, this->_internal_value(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -3273,24 +3104,23 @@ failure:
   return target;
 }
 
-::size_t TileStat::ByteSizeLong() const {
+size_t TileStat::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:MonopolyGameMessages.TileStat)
-  ::size_t total_size = 0;
+  size_t total_size = 0;
 
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   // .MonopolyGameMessages.TileType type = 1;
   if (this->_internal_type() != 0) {
     total_size += 1 +
-                  ::_pbi::WireFormatLite::EnumSize(this->_internal_type());
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_type());
   }
 
   // uint32 value = 2;
   if (this->_internal_value() != 0) {
-    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
-        this->_internal_value());
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_value());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -3307,8 +3137,8 @@ void TileStat::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTO
   auto* const _this = static_cast<TileStat*>(&to_msg);
   auto& from = static_cast<const TileStat&>(from_msg);
   // @@protoc_insertion_point(class_specific_merge_from_start:MonopolyGameMessages.TileStat)
-  ABSL_DCHECK_NE(&from, _this);
-  ::uint32_t cached_has_bits = 0;
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from._internal_type() != 0) {
@@ -3347,31 +3177,41 @@ void TileStat::InternalSwap(TileStat* other) {
       &descriptor_table_MonopolyGameMessages_2eproto_getter, &descriptor_table_MonopolyGameMessages_2eproto_once,
       file_level_metadata_MonopolyGameMessages_2eproto[12]);
 }
+
 // ===================================================================
 
 class Dices::_Internal {
  public:
 };
 
-Dices::Dices(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
-  SharedCtor(arena);
+Dices::Dices(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
   // @@protoc_insertion_point(arena_constructor:MonopolyGameMessages.Dices)
 }
 Dices::Dices(const Dices& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message(), _impl_(from._impl_) {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(
-      from._internal_metadata_);
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  Dices* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.left_){}
+    , decltype(_impl_.right_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&_impl_.left_, &from._impl_.left_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.right_) -
+    reinterpret_cast<char*>(&_impl_.left_)) + sizeof(_impl_.right_));
   // @@protoc_insertion_point(copy_constructor:MonopolyGameMessages.Dices)
 }
 
-inline void Dices::SharedCtor(::_pb::Arena* arena) {
+inline void Dices::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
+  (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.left_) { 0u }
-
-    , decltype(_impl_.right_) { 0u }
-
+      decltype(_impl_.left_){0u}
+    , decltype(_impl_.right_){0u}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -3386,7 +3226,7 @@ Dices::~Dices() {
 }
 
 inline void Dices::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
 }
 
 void Dices::SetCachedSize(int size) const {
@@ -3395,11 +3235,11 @@ void Dices::SetCachedSize(int size) const {
 
 void Dices::Clear() {
 // @@protoc_insertion_point(message_clear_start:MonopolyGameMessages.Dices)
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&_impl_.left_, 0, static_cast<::size_t>(
+  ::memset(&_impl_.left_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.right_) -
       reinterpret_cast<char*>(&_impl_.left_)) + sizeof(_impl_.right_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
@@ -3408,26 +3248,24 @@ void Dices::Clear() {
 const char* Dices::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
-    ::uint32_t tag;
+    uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
       // uint32 left = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 8)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           _impl_.left_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // uint32 right = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 16)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
           _impl_.right_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       default:
         goto handle_unusual;
@@ -3452,24 +3290,22 @@ failure:
 #undef CHK_
 }
 
-::uint8_t* Dices::_InternalSerialize(
-    ::uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+uint8_t* Dices::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:MonopolyGameMessages.Dices)
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
   // uint32 left = 1;
   if (this->_internal_left() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
-        1, this->_internal_left(), target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(1, this->_internal_left(), target);
   }
 
   // uint32 right = 2;
   if (this->_internal_right() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
-        2, this->_internal_right(), target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(2, this->_internal_right(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -3480,24 +3316,22 @@ failure:
   return target;
 }
 
-::size_t Dices::ByteSizeLong() const {
+size_t Dices::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:MonopolyGameMessages.Dices)
-  ::size_t total_size = 0;
+  size_t total_size = 0;
 
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   // uint32 left = 1;
   if (this->_internal_left() != 0) {
-    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
-        this->_internal_left());
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_left());
   }
 
   // uint32 right = 2;
   if (this->_internal_right() != 0) {
-    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
-        this->_internal_right());
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_right());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -3514,8 +3348,8 @@ void Dices::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF
   auto* const _this = static_cast<Dices*>(&to_msg);
   auto& from = static_cast<const Dices&>(from_msg);
   // @@protoc_insertion_point(class_specific_merge_from_start:MonopolyGameMessages.Dices)
-  ABSL_DCHECK_NE(&from, _this);
-  ::uint32_t cached_has_bits = 0;
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from._internal_left() != 0) {
@@ -3554,21 +3388,21 @@ void Dices::InternalSwap(Dices* other) {
       &descriptor_table_MonopolyGameMessages_2eproto_getter, &descriptor_table_MonopolyGameMessages_2eproto_once,
       file_level_metadata_MonopolyGameMessages_2eproto[13]);
 }
+
 // ===================================================================
 
 class Tile::_Internal {
  public:
   using HasBits = decltype(std::declval<Tile>()._impl_._has_bits_);
-  static constexpr ::int32_t kHasBitsOffset =
-    8 * PROTOBUF_FIELD_OFFSET(Tile, _impl_._has_bits_);
   static void set_has_direction(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
 };
 
-Tile::Tile(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
-  SharedCtor(arena);
+Tile::Tile(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
   // @@protoc_insertion_point(arena_constructor:MonopolyGameMessages.Tile)
 }
 Tile::Tile(const Tile& from)
@@ -3577,63 +3411,45 @@ Tile::Tile(const Tile& from)
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){from._impl_._has_bits_}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.piecesonposition_) { from._internal_piecesonposition() }
-    , /*decltype(_impl_._piecesonposition_cached_byte_size_)*/ { 0 }
-
-    , decltype(_impl_.allowdirections_) { from._internal_allowdirections() }
-    , /*decltype(_impl_._allowdirections_cached_byte_size_)*/ { 0 }
-
-    , decltype(_impl_.order_) {}
-
-    , decltype(_impl_.type_) {}
-
-    , decltype(_impl_.owner_) {}
-
-    , decltype(_impl_.mindisplaystage_) {}
-
-    , decltype(_impl_.minactivationstage_) {}
-
-    , decltype(_impl_.costforyou_) {}
-
-    , decltype(_impl_.incomeforowner_) {}
-
-    , decltype(_impl_.direction_) {}
-  };
+    , decltype(_impl_.piecesonposition_){from._impl_.piecesonposition_}
+    , /*decltype(_impl_._piecesonposition_cached_byte_size_)*/{0}
+    , decltype(_impl_.allowdirections_){from._impl_.allowdirections_}
+    , /*decltype(_impl_._allowdirections_cached_byte_size_)*/{0}
+    , decltype(_impl_.order_){}
+    , decltype(_impl_.type_){}
+    , decltype(_impl_.owner_){}
+    , decltype(_impl_.mindisplaystage_){}
+    , decltype(_impl_.minactivationstage_){}
+    , decltype(_impl_.costforyou_){}
+    , decltype(_impl_.incomeforowner_){}
+    , decltype(_impl_.direction_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&_impl_.order_, &from._impl_.order_,
-    static_cast<::size_t>(reinterpret_cast<char*>(&_impl_.direction_) -
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.direction_) -
     reinterpret_cast<char*>(&_impl_.order_)) + sizeof(_impl_.direction_));
   // @@protoc_insertion_point(copy_constructor:MonopolyGameMessages.Tile)
 }
 
-inline void Tile::SharedCtor(::_pb::Arena* arena) {
+inline void Tile::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
+  (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.piecesonposition_) { arena }
-    , /*decltype(_impl_._piecesonposition_cached_byte_size_)*/ { 0 }
-
-    , decltype(_impl_.allowdirections_) { arena }
-    , /*decltype(_impl_._allowdirections_cached_byte_size_)*/ { 0 }
-
-    , decltype(_impl_.order_) { 0u }
-
-    , decltype(_impl_.type_) { 0 }
-
-    , decltype(_impl_.owner_) { 0 }
-
-    , decltype(_impl_.mindisplaystage_) { 0u }
-
-    , decltype(_impl_.minactivationstage_) { 0u }
-
-    , decltype(_impl_.costforyou_) { 0u }
-
-    , decltype(_impl_.incomeforowner_) { 0u }
-
-    , decltype(_impl_.direction_) { 0 }
-
+    , decltype(_impl_.piecesonposition_){arena}
+    , /*decltype(_impl_._piecesonposition_cached_byte_size_)*/{0}
+    , decltype(_impl_.allowdirections_){arena}
+    , /*decltype(_impl_._allowdirections_cached_byte_size_)*/{0}
+    , decltype(_impl_.order_){0u}
+    , decltype(_impl_.type_){0}
+    , decltype(_impl_.owner_){0}
+    , decltype(_impl_.mindisplaystage_){0u}
+    , decltype(_impl_.minactivationstage_){0u}
+    , decltype(_impl_.costforyou_){0u}
+    , decltype(_impl_.incomeforowner_){0u}
+    , decltype(_impl_.direction_){0}
   };
 }
 
@@ -3647,9 +3463,9 @@ Tile::~Tile() {
 }
 
 inline void Tile::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
-  _internal_mutable_piecesonposition()->~RepeatedField();
-  _internal_mutable_allowdirections()->~RepeatedField();
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.piecesonposition_.~RepeatedField();
+  _impl_.allowdirections_.~RepeatedField();
 }
 
 void Tile::SetCachedSize(int size) const {
@@ -3658,13 +3474,13 @@ void Tile::SetCachedSize(int size) const {
 
 void Tile::Clear() {
 // @@protoc_insertion_point(message_clear_start:MonopolyGameMessages.Tile)
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _internal_mutable_piecesonposition()->Clear();
-  _internal_mutable_allowdirections()->Clear();
-  ::memset(&_impl_.order_, 0, static_cast<::size_t>(
+  _impl_.piecesonposition_.Clear();
+  _impl_.allowdirections_.Clear();
+  ::memset(&_impl_.order_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.incomeforowner_) -
       reinterpret_cast<char*>(&_impl_.order_)) + sizeof(_impl_.incomeforowner_));
   _impl_.direction_ = 0;
@@ -3676,109 +3492,99 @@ const char* Tile::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
-    ::uint32_t tag;
+    uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
       // uint32 order = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 8)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           _impl_.order_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // .MonopolyGameMessages.TileType type = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 16)) {
-          ::int32_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_set_type(static_cast<::MonopolyGameMessages::TileType>(val));
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // .MonopolyGameMessages.PlayerNumber owner = 3;
       case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 24)) {
-          ::int32_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_set_owner(static_cast<::MonopolyGameMessages::PlayerNumber>(val));
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // uint32 minDisplayStage = 4;
       case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 32)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
           _impl_.mindisplaystage_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // uint32 minActivationStage = 5;
       case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 40)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
           _impl_.minactivationstage_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // repeated .MonopolyGameMessages.PlayerNumber piecesOnPosition = 6;
       case 6:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 50)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedEnumParser(_internal_mutable_piecesonposition(), ptr, ctx);
           CHK_(ptr);
-        } else if (static_cast<::uint8_t>(tag) == 48) {
-          ::int32_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+        } else if (static_cast<uint8_t>(tag) == 48) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_add_piecesonposition(static_cast<::MonopolyGameMessages::PlayerNumber>(val));
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // uint32 costForYou = 7;
       case 7:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 56)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
           _impl_.costforyou_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // uint32 incomeForOwner = 8;
       case 8:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 64)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 64)) {
           _impl_.incomeforowner_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // optional .MonopolyGameMessages.ArrowDirection direction = 9;
       case 9:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 72)) {
-          ::int32_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 72)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_set_direction(static_cast<::MonopolyGameMessages::ArrowDirection>(val));
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // repeated .MonopolyGameMessages.ArrowDirection allowDirections = 10;
       case 10:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 82)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 82)) {
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedEnumParser(_internal_mutable_allowdirections(), ptr, ctx);
           CHK_(ptr);
-        } else if (static_cast<::uint8_t>(tag) == 80) {
-          ::int32_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+        } else if (static_cast<uint8_t>(tag) == 80) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_add_allowdirections(static_cast<::MonopolyGameMessages::ArrowDirection>(val));
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       default:
         goto handle_unusual;
@@ -3804,84 +3610,78 @@ failure:
 #undef CHK_
 }
 
-::uint8_t* Tile::_InternalSerialize(
-    ::uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+uint8_t* Tile::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:MonopolyGameMessages.Tile)
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
   // uint32 order = 1;
   if (this->_internal_order() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
-        1, this->_internal_order(), target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(1, this->_internal_order(), target);
   }
 
   // .MonopolyGameMessages.TileType type = 2;
   if (this->_internal_type() != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteEnumToArray(
-        2, this->_internal_type(), target);
+      2, this->_internal_type(), target);
   }
 
   // .MonopolyGameMessages.PlayerNumber owner = 3;
   if (this->_internal_owner() != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteEnumToArray(
-        3, this->_internal_owner(), target);
+      3, this->_internal_owner(), target);
   }
 
   // uint32 minDisplayStage = 4;
   if (this->_internal_mindisplaystage() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
-        4, this->_internal_mindisplaystage(), target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(4, this->_internal_mindisplaystage(), target);
   }
 
   // uint32 minActivationStage = 5;
   if (this->_internal_minactivationstage() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
-        5, this->_internal_minactivationstage(), target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(5, this->_internal_minactivationstage(), target);
   }
 
   // repeated .MonopolyGameMessages.PlayerNumber piecesOnPosition = 6;
   {
-    int byte_size = _impl_._piecesonposition_cached_byte_size_.Get();
+    int byte_size = _impl_._piecesonposition_cached_byte_size_.load(std::memory_order_relaxed);
     if (byte_size > 0) {
-      target = stream->WriteEnumPacked(6, _internal_piecesonposition(),
-                                       byte_size, target);
+      target = stream->WriteEnumPacked(
+          6, _impl_.piecesonposition_, byte_size, target);
     }
   }
 
   // uint32 costForYou = 7;
   if (this->_internal_costforyou() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
-        7, this->_internal_costforyou(), target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(7, this->_internal_costforyou(), target);
   }
 
   // uint32 incomeForOwner = 8;
   if (this->_internal_incomeforowner() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
-        8, this->_internal_incomeforowner(), target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(8, this->_internal_incomeforowner(), target);
   }
 
-  cached_has_bits = _impl_._has_bits_[0];
   // optional .MonopolyGameMessages.ArrowDirection direction = 9;
-  if (cached_has_bits & 0x00000001u) {
+  if (_internal_has_direction()) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteEnumToArray(
-        9, this->_internal_direction(), target);
+      9, this->_internal_direction(), target);
   }
 
   // repeated .MonopolyGameMessages.ArrowDirection allowDirections = 10;
   {
-    int byte_size = _impl_._allowdirections_cached_byte_size_.Get();
+    int byte_size = _impl_._allowdirections_cached_byte_size_.load(std::memory_order_relaxed);
     if (byte_size > 0) {
-      target = stream->WriteEnumPacked(10, _internal_allowdirections(),
-                                       byte_size, target);
+      target = stream->WriteEnumPacked(
+          10, _impl_.allowdirections_, byte_size, target);
     }
   }
 
@@ -3893,97 +3693,90 @@ failure:
   return target;
 }
 
-::size_t Tile::ByteSizeLong() const {
+size_t Tile::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:MonopolyGameMessages.Tile)
-  ::size_t total_size = 0;
+  size_t total_size = 0;
 
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   // repeated .MonopolyGameMessages.PlayerNumber piecesOnPosition = 6;
   {
-    std::size_t data_size = 0;
-    auto count = static_cast<std::size_t>(this->_internal_piecesonposition_size());
-
-    for (std::size_t i = 0; i < count; ++i) {
+    size_t data_size = 0;
+    unsigned int count = static_cast<unsigned int>(this->_internal_piecesonposition_size());for (unsigned int i = 0; i < count; i++) {
       data_size += ::_pbi::WireFormatLite::EnumSize(
-          this->_internal_piecesonposition(static_cast<int>(i)));
+        this->_internal_piecesonposition(static_cast<int>(i)));
     }
-    total_size += data_size;
     if (data_size > 0) {
-      total_size += 1;
-      total_size += ::_pbi::WireFormatLite::Int32Size(
-          static_cast<int32_t>(data_size));
+      total_size += 1 +
+        ::_pbi::WireFormatLite::Int32Size(static_cast<int32_t>(data_size));
     }
-    _impl_._piecesonposition_cached_byte_size_.Set(::_pbi::ToCachedSize(data_size));
+    int cached_size = ::_pbi::ToCachedSize(data_size);
+    _impl_._piecesonposition_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
+    total_size += data_size;
   }
 
   // repeated .MonopolyGameMessages.ArrowDirection allowDirections = 10;
   {
-    std::size_t data_size = 0;
-    auto count = static_cast<std::size_t>(this->_internal_allowdirections_size());
-
-    for (std::size_t i = 0; i < count; ++i) {
+    size_t data_size = 0;
+    unsigned int count = static_cast<unsigned int>(this->_internal_allowdirections_size());for (unsigned int i = 0; i < count; i++) {
       data_size += ::_pbi::WireFormatLite::EnumSize(
-          this->_internal_allowdirections(static_cast<int>(i)));
+        this->_internal_allowdirections(static_cast<int>(i)));
     }
-    total_size += data_size;
     if (data_size > 0) {
-      total_size += 1;
-      total_size += ::_pbi::WireFormatLite::Int32Size(
-          static_cast<int32_t>(data_size));
+      total_size += 1 +
+        ::_pbi::WireFormatLite::Int32Size(static_cast<int32_t>(data_size));
     }
-    _impl_._allowdirections_cached_byte_size_.Set(::_pbi::ToCachedSize(data_size));
+    int cached_size = ::_pbi::ToCachedSize(data_size);
+    _impl_._allowdirections_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
+    total_size += data_size;
   }
 
   // uint32 order = 1;
   if (this->_internal_order() != 0) {
-    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
-        this->_internal_order());
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_order());
   }
 
   // .MonopolyGameMessages.TileType type = 2;
   if (this->_internal_type() != 0) {
     total_size += 1 +
-                  ::_pbi::WireFormatLite::EnumSize(this->_internal_type());
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_type());
   }
 
   // .MonopolyGameMessages.PlayerNumber owner = 3;
   if (this->_internal_owner() != 0) {
     total_size += 1 +
-                  ::_pbi::WireFormatLite::EnumSize(this->_internal_owner());
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_owner());
   }
 
   // uint32 minDisplayStage = 4;
   if (this->_internal_mindisplaystage() != 0) {
-    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
-        this->_internal_mindisplaystage());
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_mindisplaystage());
   }
 
   // uint32 minActivationStage = 5;
   if (this->_internal_minactivationstage() != 0) {
-    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
-        this->_internal_minactivationstage());
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_minactivationstage());
   }
 
   // uint32 costForYou = 7;
   if (this->_internal_costforyou() != 0) {
-    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
-        this->_internal_costforyou());
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_costforyou());
   }
 
   // uint32 incomeForOwner = 8;
   if (this->_internal_incomeforowner() != 0) {
-    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
-        this->_internal_incomeforowner());
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_incomeforowner());
   }
 
   // optional .MonopolyGameMessages.ArrowDirection direction = 9;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
     total_size += 1 +
-                  ::_pbi::WireFormatLite::EnumSize(this->_internal_direction());
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_direction());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -4000,12 +3793,12 @@ void Tile::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_
   auto* const _this = static_cast<Tile*>(&to_msg);
   auto& from = static_cast<const Tile&>(from_msg);
   // @@protoc_insertion_point(class_specific_merge_from_start:MonopolyGameMessages.Tile)
-  ABSL_DCHECK_NE(&from, _this);
-  ::uint32_t cached_has_bits = 0;
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  _this->_internal_mutable_piecesonposition()->MergeFrom(from._internal_piecesonposition());
-  _this->_internal_mutable_allowdirections()->MergeFrom(from._internal_allowdirections());
+  _this->_impl_.piecesonposition_.MergeFrom(from._impl_.piecesonposition_);
+  _this->_impl_.allowdirections_.MergeFrom(from._impl_.allowdirections_);
   if (from._internal_order() != 0) {
     _this->_internal_set_order(from._internal_order());
   }
@@ -4027,7 +3820,7 @@ void Tile::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_
   if (from._internal_incomeforowner() != 0) {
     _this->_internal_set_incomeforowner(from._internal_incomeforowner());
   }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
+  if (from._internal_has_direction()) {
     _this->_internal_set_direction(from._internal_direction());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -4048,10 +3841,8 @@ void Tile::InternalSwap(Tile* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  _internal_mutable_piecesonposition()->InternalSwap(
-      other->_internal_mutable_piecesonposition());
-  _internal_mutable_allowdirections()->InternalSwap(
-      other->_internal_mutable_allowdirections());
+  _impl_.piecesonposition_.InternalSwap(&other->_impl_.piecesonposition_);
+  _impl_.allowdirections_.InternalSwap(&other->_impl_.allowdirections_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(Tile, _impl_.direction_)
       + sizeof(Tile::_impl_.direction_)
@@ -4065,66 +3856,61 @@ void Tile::InternalSwap(Tile* other) {
       &descriptor_table_MonopolyGameMessages_2eproto_getter, &descriptor_table_MonopolyGameMessages_2eproto_once,
       file_level_metadata_MonopolyGameMessages_2eproto[14]);
 }
+
 // ===================================================================
 
 class Player::_Internal {
  public:
 };
 
-Player::Player(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
-  SharedCtor(arena);
+Player::Player(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
   // @@protoc_insertion_point(arena_constructor:MonopolyGameMessages.Player)
 }
 Player::Player(const Player& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   Player* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.nickname_) {}
-
-    , decltype(_impl_.userid_) {}
-
-    , decltype(_impl_.order_) {}
-
-    , decltype(_impl_.income_) {}
-
-    , decltype(_impl_.balance_) {}
-
+      decltype(_impl_.nickname_){}
+    , decltype(_impl_.userid_){}
+    , decltype(_impl_.order_){}
+    , decltype(_impl_.income_){}
+    , decltype(_impl_.balance_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   _impl_.nickname_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.nickname_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.nickname_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   if (!from._internal_nickname().empty()) {
-    _this->_impl_.nickname_.Set(from._internal_nickname(), _this->GetArenaForAllocation());
+    _this->_impl_.nickname_.Set(from._internal_nickname(), 
+      _this->GetArenaForAllocation());
   }
   ::memcpy(&_impl_.userid_, &from._impl_.userid_,
-    static_cast<::size_t>(reinterpret_cast<char*>(&_impl_.balance_) -
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.balance_) -
     reinterpret_cast<char*>(&_impl_.userid_)) + sizeof(_impl_.balance_));
   // @@protoc_insertion_point(copy_constructor:MonopolyGameMessages.Player)
 }
 
-inline void Player::SharedCtor(::_pb::Arena* arena) {
+inline void Player::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
+  (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.nickname_) {}
-
-    , decltype(_impl_.userid_) { 0u }
-
-    , decltype(_impl_.order_) { 0 }
-
-    , decltype(_impl_.income_) { 0u }
-
-    , decltype(_impl_.balance_) { 0u }
-
+      decltype(_impl_.nickname_){}
+    , decltype(_impl_.userid_){0u}
+    , decltype(_impl_.order_){0}
+    , decltype(_impl_.income_){0u}
+    , decltype(_impl_.balance_){0u}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.nickname_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.nickname_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.nickname_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 Player::~Player() {
@@ -4137,7 +3923,7 @@ Player::~Player() {
 }
 
 inline void Player::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.nickname_.Destroy();
 }
 
@@ -4147,12 +3933,12 @@ void Player::SetCachedSize(int size) const {
 
 void Player::Clear() {
 // @@protoc_insertion_point(message_clear_start:MonopolyGameMessages.Player)
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   _impl_.nickname_.ClearToEmpty();
-  ::memset(&_impl_.userid_, 0, static_cast<::size_t>(
+  ::memset(&_impl_.userid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.balance_) -
       reinterpret_cast<char*>(&_impl_.userid_)) + sizeof(_impl_.balance_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
@@ -4161,56 +3947,51 @@ void Player::Clear() {
 const char* Player::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
-    ::uint32_t tag;
+    uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
       // uint32 userID = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 8)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           _impl_.userid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // string nickname = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 18)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
           auto str = _internal_mutable_nickname();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
           CHK_(::_pbi::VerifyUTF8(str, "MonopolyGameMessages.Player.nickname"));
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // .MonopolyGameMessages.PlayerNumber order = 3;
       case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 24)) {
-          ::int32_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_set_order(static_cast<::MonopolyGameMessages::PlayerNumber>(val));
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // uint32 income = 4;
       case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 32)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
           _impl_.income_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       // uint32 balance = 5;
       case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::uint8_t>(tag) == 40)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
           _impl_.balance_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
-        } else {
+        } else
           goto handle_unusual;
-        }
         continue;
       default:
         goto handle_unusual;
@@ -4235,46 +4016,45 @@ failure:
 #undef CHK_
 }
 
-::uint8_t* Player::_InternalSerialize(
-    ::uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+uint8_t* Player::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:MonopolyGameMessages.Player)
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
   // uint32 userID = 1;
   if (this->_internal_userid() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
-        1, this->_internal_userid(), target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(1, this->_internal_userid(), target);
   }
 
   // string nickname = 2;
   if (!this->_internal_nickname().empty()) {
-    const std::string& _s = this->_internal_nickname();
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-        _s.data(), static_cast<int>(_s.length()), ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE, "MonopolyGameMessages.Player.nickname");
-    target = stream->WriteStringMaybeAliased(2, _s, target);
+      this->_internal_nickname().data(), static_cast<int>(this->_internal_nickname().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "MonopolyGameMessages.Player.nickname");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_nickname(), target);
   }
 
   // .MonopolyGameMessages.PlayerNumber order = 3;
   if (this->_internal_order() != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteEnumToArray(
-        3, this->_internal_order(), target);
+      3, this->_internal_order(), target);
   }
 
   // uint32 income = 4;
   if (this->_internal_income() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
-        4, this->_internal_income(), target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(4, this->_internal_income(), target);
   }
 
   // uint32 balance = 5;
   if (this->_internal_balance() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
-        5, this->_internal_balance(), target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(5, this->_internal_balance(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -4285,42 +4065,40 @@ failure:
   return target;
 }
 
-::size_t Player::ByteSizeLong() const {
+size_t Player::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:MonopolyGameMessages.Player)
-  ::size_t total_size = 0;
+  size_t total_size = 0;
 
-  ::uint32_t cached_has_bits = 0;
+  uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   // string nickname = 2;
   if (!this->_internal_nickname().empty()) {
-    total_size += 1 + ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-                                    this->_internal_nickname());
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_nickname());
   }
 
   // uint32 userID = 1;
   if (this->_internal_userid() != 0) {
-    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
-        this->_internal_userid());
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_userid());
   }
 
   // .MonopolyGameMessages.PlayerNumber order = 3;
   if (this->_internal_order() != 0) {
     total_size += 1 +
-                  ::_pbi::WireFormatLite::EnumSize(this->_internal_order());
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_order());
   }
 
   // uint32 income = 4;
   if (this->_internal_income() != 0) {
-    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
-        this->_internal_income());
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_income());
   }
 
   // uint32 balance = 5;
   if (this->_internal_balance() != 0) {
-    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
-        this->_internal_balance());
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_balance());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -4337,8 +4115,8 @@ void Player::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBU
   auto* const _this = static_cast<Player*>(&to_msg);
   auto& from = static_cast<const Player&>(from_msg);
   // @@protoc_insertion_point(class_specific_merge_from_start:MonopolyGameMessages.Player)
-  ABSL_DCHECK_NE(&from, _this);
-  ::uint32_t cached_has_bits = 0;
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (!from._internal_nickname().empty()) {
@@ -4375,8 +4153,10 @@ void Player::InternalSwap(Player* other) {
   auto* lhs_arena = GetArenaForAllocation();
   auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.nickname_, lhs_arena,
-                                       &other->_impl_.nickname_, rhs_arena);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.nickname_, lhs_arena,
+      &other->_impl_.nickname_, rhs_arena
+  );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(Player, _impl_.balance_)
       + sizeof(Player::_impl_.balance_)
@@ -4390,6 +4170,7 @@ void Player::InternalSwap(Player* other) {
       &descriptor_table_MonopolyGameMessages_2eproto_getter, &descriptor_table_MonopolyGameMessages_2eproto_once,
       file_level_metadata_MonopolyGameMessages_2eproto[15]);
 }
+
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace MonopolyGameMessages
 PROTOBUF_NAMESPACE_OPEN
@@ -4458,5 +4239,6 @@ Arena::CreateMaybeMessage< ::MonopolyGameMessages::Player >(Arena* arena) {
   return Arena::CreateMessageInternal< ::MonopolyGameMessages::Player >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
+
 // @@protoc_insertion_point(global_scope)
-#include "google/protobuf/port_undef.inc"
+#include <google/protobuf/port_undef.inc>

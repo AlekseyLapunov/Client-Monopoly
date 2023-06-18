@@ -1,4 +1,10 @@
-QT       += core gui quick networkauth
+QT       += core gui quick network networkauth
+
+LIBS += -L"../Client-Monopoly/protocol_buffers/protobuf_essentials/libs"
+
+INCLUDEPATH  += "../Client-Monopoly/protocol_buffers/protobuf_essentials/include"
+
+LIBS += -llibprotobuf -llibprotoc
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -23,7 +29,8 @@ SOURCES += \
     userinterface/loginwindow.cpp \
     userinterface/menuwindow.cpp \
     userinterface/subinterfaces/gamemanagerwindow.cpp \
-    userinterface/subinterfaces/menusubdialog.cpp
+    userinterface/subinterfaces/menusubdialog.cpp \
+    protocol_buffers/protobuf_generated/MonopolyGameMessages.pb.cc
 
 HEADERS += \
     game/gamehelpers/gamealgo.h \
@@ -45,7 +52,8 @@ HEADERS += \
     servercomm/servercommunicator.h \
     userinterface/menuwindow.h \
     userinterface/subinterfaces/gamemanagerwindow.h \
-    userinterface/subinterfaces/menusubdialog.h
+    userinterface/subinterfaces/menusubdialog.h \
+    protocol_buffers/protobuf_generated/MonopolyGameMessages.pb.h
 
 FORMS += \
     userinterface/lobbywindow.ui \

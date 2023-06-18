@@ -260,10 +260,7 @@ Window
 
             onVisibleChanged:
             {
-                if(_gameEndedDialog.visible === false)
-                    _clickBlocker.visible = false
-                else
-                    _clickBlocker.visible = true
+                _clickBlocker.visible = _gameEndedDialog.visible;
             }
         }
 
@@ -276,13 +273,10 @@ Window
 
             onVisibleChanged:
             {
-                if(_arrowResolveDialog.visible === false)
-                {
-                    _clickBlocker.visible = false;
+                if(!_arrowResolveDialog.visible)
                     _map.resetMapStates();
-                }
-                else
-                    _clickBlocker.visible = true;
+
+                _clickBlocker.visible = _arrowResolveDialog.visible;
             }
         }
 

@@ -16,7 +16,7 @@
 #include "game/models/lists/playergameinfolist.h"
 #include "game/gamehelpers/gamestructs.h"
 
-#define DEBUG_SHOW_DEBUG_PANEL
+//#define DEBUG_SHOW_DEBUG_PANEL
 
 #define QUIT_APP_ON_QML_CLOSURE_IN_N_MS 1500
 

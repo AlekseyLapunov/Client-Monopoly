@@ -255,7 +255,7 @@ void LobbyWindow::setUpUsersInTable(QTableWidget& table, std::vector<UserShortIn
     tableClear(table);
 
     const uint8_t tCols = USERS_TABLE_COLS;
-    const int tRows = usiContextVec.size();
+    const int tRows = static_cast<int>(usiContextVec.size());
 
     table.setColumnCount(tCols);
     table.setRowCount(tRows);
@@ -494,7 +494,7 @@ bool LobbyWindow::checkIfEveryoneReady()
 
 void LobbyWindow::checkMaxPlayers()
 {
-    int playersCount = m_context.usersInLobby.size();
+    int playersCount = static_cast<int>(m_context.usersInLobby.size());
     if(ui->sbMaxPlayers->value() < playersCount)
         ui->sbMaxPlayers->setValue(playersCount);
 }
