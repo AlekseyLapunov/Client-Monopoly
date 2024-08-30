@@ -1,10 +1,10 @@
 ## Server application microservices scheme
 
-
+![server.png](https://github.com/AlekseyLapunov/Client-Monopoly/blob/master/readme_images/server.png "Server application scheme")
 
 ## Client application class scheme
 
-
+![client.png](https://github.com/AlekseyLapunov/Client-Monopoly/blob/master/readme_images/client.png)
 
 ## Demonstration videos (YouTube)
 ### Client
